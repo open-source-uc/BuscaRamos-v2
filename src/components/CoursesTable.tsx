@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-
 const ITEMS_PER_PAGE = 20;
 
 export default function CoursesTable() {

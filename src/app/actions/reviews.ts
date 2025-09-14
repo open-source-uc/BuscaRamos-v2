@@ -3,7 +3,7 @@ import { CourseReview } from '@/types/types';
 import { getRequestContext } from '@cloudflare/next-on-pages'
 
 export const getCourseReviews = async (sigle: string, limit: number = 40) => {
-    const s = getRequestContext()
+  const s = getRequestContext()
 	const result = await s.env.DB.prepare(
 		`
     SELECT 

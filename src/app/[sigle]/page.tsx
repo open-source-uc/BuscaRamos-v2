@@ -32,6 +32,7 @@ export default async function CatalogPage({
             {reviews.map((review) => (
               <li key={review.id} className="border p-4 rounded-lg shadow-sm">
                 <p className="mt-2">{review.user_id}</p>
+                <p>{review.comment_path}</p>
               </li>
             ))}
           </ul>
