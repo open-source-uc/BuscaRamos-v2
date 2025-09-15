@@ -1,7 +1,7 @@
 import FormReview from "@/components/reviews/FormReview";
 import Trash from "@/components/reviews/Trash";
 import { authenticateUser } from "@/lib/auth/auth";
-import courseDescriptions from "@/lib/courseDescriptions";
+import courseDescriptions from "@/lib/CoursesData";
 import { getReviewBySigleAndUserId, getReviewContent } from "@/lib/reviews";
 import { CourseReview } from "@/types/types";
 

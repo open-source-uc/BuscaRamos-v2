@@ -1,4 +1,4 @@
-import courseDescriptions from "@/lib/courseDescriptions";
+import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import z from "zod";
 
