@@ -12,8 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
-const ITEMS_PER_PAGE = 20;
+import { useRouter } from "next/navigation";
+const ITEMS_PER_PAGE = 15;
 
 export default function CoursesTable() {
   const { data, loading, error } = useNDJSONStream<CourseScore>(
@@ -21,6 +21,7 @@ export default function CoursesTable() {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -31,7 +32,7 @@ export default function CoursesTable() {
     currentPage * ITEMS_PER_PAGE
   );
 
-  return (
+return (
     <div className="rounded-2xl border shadow-sm overflow-hidden w-full max-w-4xl mx-auto">
       {/* Tabla */}
       <Table className="w-full table-fixed">
@@ -47,8 +48,11 @@ export default function CoursesTable() {
         </TableHeader>
         <TableBody>
           {currentData.map((course) => (
-        <Link href={`/${course.sigle}`} key={course.id}>
-            <TableRow key={course.id}>
+            <TableRow 
+              key={course.id}
+              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              onClick={() => router.push(`/${course.sigle}`)}
+            >
               <TableCell className="font-medium w-20 truncate">{course.sigle}</TableCell>
               <TableCell className="w-auto truncate" title={course.name}>{course.name}</TableCell>
               <TableCell className="text-right w-20">{course.credits}</TableCell>
@@ -56,7 +60,6 @@ export default function CoursesTable() {
               <TableCell className="text-center w-16">{course.likes}</TableCell>
               <TableCell className="text-center w-16">{course.dislikes}</TableCell>
             </TableRow>
-        </Link>
           ))}
         </TableBody>
       </Table>
@@ -68,5 +71,6 @@ export default function CoursesTable() {
         onPageChange={setCurrentPage}
       />
     </div>
-  );
+  )
 }
+

@@ -8,7 +8,7 @@ export default async function CatalogPage({
 }: {
   params: Promise<{ sigle: string }>;
 }) {
-  const resolvedParams = await params; // ⚡ esto es lo nuevo en Next 15
+  const resolvedParams = await params;
   const course = courseDescriptions[resolvedParams.sigle];
 
   if (!course) {
@@ -18,24 +18,35 @@ export default async function CatalogPage({
   const reviews = await getCourseReviews(resolvedParams.sigle, 100);
 
   return (
-    <main className="flex justify-center items-start p-8 min-h-screen">
-      <div className="max-w-3xl w-full flex flex-col space-y-6">
+    <main className="max-w-4xl mx-auto p-8 space-y-8">
+      {/* Información del curso */}
+      <div className="space-y-4">
         <h1 className="text-4xl font-bold">{course.sigle}</h1>
-        <p className="text-lg leading-relaxed">{course.description}</p>
+        <p className="text-lg leading-relaxed text-gray-700">{course.description}</p>
       </div>
-      <div className="max-w-3xl w-full flex flex-col space-y-4 mt-10">
-        <h2 className="text-2xl font-semibold">Reseñas</h2>
+
+      {/* Reseñas */}
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold">Reseñas ({reviews.length})</h2>
+        
         {reviews.length === 0 ? (
-          <p>No hay reseñas para este curso.</p>
+          <p className="text-gray-500">No hay reseñas para este curso.</p>
         ) : (
-          <ul className="space-y-4">
+          <div className="space-y-4">
             {reviews.map((review) => (
-              <li key={review.id} className="border p-4 rounded-lg shadow-sm">
-                <p className="mt-2">{review.user_id}</p>
-                <p>{review.comment_path}</p>
-              </li>
+              <div key={review.id} className="border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <div className="text-sm text-gray-600 mb-2">
+                  Usuario: {review.user_id}
+                </div>
+                <p className="text-gray-800">{review.comment_path}</p>
+                {review.votes && (
+                  <div className="mt-2 text-xs text-gray-500">
+                    👍 {review.votes} votos
+                  </div>
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </main>

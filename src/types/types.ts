@@ -30,7 +30,7 @@ export type CourseScore = {
 
 export interface CourseReview {
 	id: number
-	user_id: number
+	user_id: string
 	course_sigle: string
 	like_dislike: number // 0: dislike, 1: like, 2: superlike
 	workload_vote: number // 0: low, 1: medium, 2: high
@@ -38,7 +38,7 @@ export interface CourseReview {
 	weekly_hours: number
 	year_taken: number
 	semester_taken: number // 1 or 2
-	comment_path: string
+	comment_path: string | null
 	status: number // 0: pending, 1: approved, 2: reported, 3: hidden
 	created_at: string
 	updated_at: string

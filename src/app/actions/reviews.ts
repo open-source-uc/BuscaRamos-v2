@@ -1,33 +1,36 @@
 "use server";
-import { CourseReview } from '@/types/types';
-import { getRequestContext } from '@cloudflare/next-on-pages'
+import { getCourseReviewById, updateStatusReview } from '@/lib/reviews';
+import * as reviews from '@/lib/reviews'
 
 export const getCourseReviews = async (sigle: string, limit: number = 40) => {
-  const s = getRequestContext()
-	const result = await s.env.DB.prepare(
-		`
-    SELECT 
-      id,
-      user_id,
-      course_sigle,
-      like_dislike,
-      workload_vote,
-      attendance_type,
-      weekly_hours,
-      year_taken,
-      semester_taken,
-      comment_path,
-      created_at,
-      updated_at,
-			votes
-    FROM course_reviews 
-    WHERE course_sigle = ? AND status != 3
-    ORDER BY votes DESC, created_at DESC
-    LIMIT ?
-  `
-	)
-		.bind(sigle, limit)
-		.all<CourseReview>()
+	const result = await reviews.getCourseReviews(sigle, limit)
 
-	return result.results
+  return result
+}
+
+export const reportCourseReview = async (reviewId: number) => {
+  const review = await getCourseReviewById(reviewId);
+  if (!review) {
+    return {
+      message: 'La reseña no existe',
+    }
+  }
+
+  if (review.status === 2) {
+    return {
+      message: 'Reseña reportada con éxito',
+    }
+  }
+
+  if (review.status === 3) {
+    return {
+      message: 'La reseña ya ha sido ocultada',
+    }
+  }
+
+  await updateStatusReview(reviewId, 2);
+
+  return {
+    message: 'Reseña reportada con éxito',
+  }
 }

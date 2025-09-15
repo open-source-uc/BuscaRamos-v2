@@ -14,7 +14,7 @@ interface AuthUserData {
     organizations: Organization[];
 }
 
-interface AuthenticatedUser {
+export interface AuthenticatedUser {
     isAuthenticated: true;
     userId: string;
     permissions: string[];
@@ -59,9 +59,5 @@ export async function authenticateUser(): Promise<AuthenticatedUser | null> {
         console.error('Authentication error:', error);
         return null;
     }
-}
-
-export async function hasPermission(user: AuthenticatedUser ,permission: string): Promise<boolean> {
-    return user?.permissions?.includes(permission) || false;
 }
 
