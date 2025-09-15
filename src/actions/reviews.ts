@@ -4,8 +4,14 @@ import * as reviews from '@/lib/reviews'
 
 export const getCourseReviews = async (sigle: string, limit: number = 40) => {
 	const result = await reviews.getCourseReviews(sigle, limit)
-
-  return result
+  const markdowns = result.map(async (review) => {
+    const content = await reviews.getReviewContent(review.comment_path)
+    return {
+      comment: content,
+      ...review
+    }
+  })
+  return Promise.all(markdowns)
 }
 
 export const reportCourseReview = async (reviewId: number) => {

@@ -51,7 +51,7 @@ const courseReviewSchema = z.object({
 	comment: z.string().max(10000, 'El comentario no puede exceder 10,000 caracteres').optional(),
 })
 
-export const createCourseReview = async (initialState: unknown, formData: FormData) => {
+export const createCourseReview = async (formData: FormData) => {
     const min_year = new Date().getFullYear() - 6
     const max_year = new Date().getFullYear()
 
@@ -67,7 +67,9 @@ export const createCourseReview = async (initialState: unknown, formData: FormDa
     })
 
     if (validate.error) {
-        return null
+        return {
+            message: validate.error.message,
+        }
     }
 
     const data = validate.data
@@ -86,7 +88,7 @@ export const createCourseReview = async (initialState: unknown, formData: FormDa
             message: 'Debes iniciar sesión para reseñar un curso',
         }
     
-    if (hasPermission(user, OsucPermissions.userCanEditAndCreateReview))
+    if (!hasPermission(user, OsucPermissions.userCanEditAndCreateReview))
         return {
             message: 'No tienes permiso para reseñar cursos o editar reseñas',
         }
@@ -98,11 +100,10 @@ export const createCourseReview = async (initialState: unknown, formData: FormDa
             message: 'El curso no existe',
         }
     }
-
-    const review = await reviews.getReviewBySigleAndUserId(user.userId, course.sigle)
-
+    const review = await reviews.getReviewBySigleAndUserId(course.sigle, user.userId)
     if (review && review.comment_path) {
         await R2.delete(review.comment_path.toString())
+        await reviews.deleteCourseReview(review.id)
     }
 
     await reviews.createCourseReview({
