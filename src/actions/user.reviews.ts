@@ -8,7 +8,7 @@ import * as reviews from "@/lib/reviews"
 import { getRequestContext } from "@cloudflare/next-on-pages"
 import z from "zod"
 
-const R2 = getRequestContext().env.R2
+const R2 = () => getRequestContext().env.R2
 
 const courseReviewSchema = z.object({
 	course_sigle: z
@@ -103,7 +103,7 @@ export const createCourseReview = async (formData: FormData) => {
     const review = await reviews.getReviewBySigleAndUserId(course.sigle, user.userId)
     if (review) {
         if (review.comment_path) 
-            await R2.delete(review.comment_path.toString())
+            await R2().delete(review.comment_path.toString())
         
         await reviews.updateCourseReview(review.id, {
             user_id: user.userId,
@@ -307,7 +307,7 @@ export const updateCourseReview = async (reviewId: number, formData: FormData) =
     }
 
     if (review.comment_path) 
-        await R2.delete(review.comment_path.toString())
+        await R2().delete(review.comment_path.toString())
     
     await reviews.updateCourseReview(review.id, {
         user_id: user.userId,

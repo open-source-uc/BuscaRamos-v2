@@ -3,8 +3,6 @@ import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import z from "zod";
 
-export const runtime = "edge";
-
 const paramsSchema = z.object({
   reviewId: z
     .string()
@@ -45,3 +43,5 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
     </main>
   );
 }
+
+export const runtime = "edge";

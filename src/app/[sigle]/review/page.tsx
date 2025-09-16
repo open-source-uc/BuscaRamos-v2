@@ -8,7 +8,7 @@ import { CourseReview } from "@/types/types";
 
 export const runtime = "edge";
 
-export default async function CatalogPage({ params }: { params: Promise<{ sigle: string }> }) {
+export default async function WriteReview({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
   const course = courseDescriptions[resolvedParams.sigle];
 
