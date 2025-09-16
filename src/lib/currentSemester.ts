@@ -100,3 +100,4 @@ export function getAllowedSemestersForYear(year: number): number[] {
 	// Si es un año futuro, no permitir ningún semestre
 	return []
 }
+

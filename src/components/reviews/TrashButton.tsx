@@ -4,7 +4,7 @@ import { CourseReview } from "@/types/types";
 import { Button } from "../ui/button";
 import { TrashIcon } from "lucide-react";
 import { deleteCourseReview } from "@/actions/user.reviews";
-import { parse } from "path";
+import { toast } from "sonner";
 
 interface TrashProps {
   review: CourseReview;
@@ -20,11 +20,17 @@ export default function Trash({ review }: TrashProps) {
       return;
     }
     const res = await deleteCourseReview(review.id);
-    console.log(res);
+    toast.warning(res.message);
   }
 
   return (
-    <Button onClick={() => handleDelete()} variant="destructive">
+    <Button
+      onClick={(e) => {
+        e.preventDefault();
+        handleDelete();
+      }}
+      variant="destructive"
+    >
       <TrashIcon />
     </Button>
   );

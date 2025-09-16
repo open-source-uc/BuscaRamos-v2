@@ -3,19 +3,22 @@
 import { Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { reportCourseReview } from "@/actions/reviews";
+import { toast } from "sonner";
 
 interface ReportButtonProps {
   reviewId: number;
 }
 
 export default function ReportButton({ reviewId }: ReportButtonProps) {
-  const handleReport = async () => {
+  const handleReport = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     await reportCourseReview(reviewId);
+    toast.success("Reseña reportada. Gracias por tu ayuda.");
   };
 
   return (
     <Button
-      onClick={handleReport}
+      onClick={(e) => handleReport(e)}
       variant="outline"
       size="default"
       className="flex items-center gap-2"

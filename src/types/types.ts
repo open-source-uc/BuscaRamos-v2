@@ -44,3 +44,5 @@ export interface CourseReview {
 	updated_at: string
 	votes: number
 }
+
+export const NULL_STRING = "IHHUQWUPIQWEEWHPQEPIUEWUJWQEPQPWJP"

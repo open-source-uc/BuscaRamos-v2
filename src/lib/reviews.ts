@@ -245,7 +245,7 @@ export async function dislikeReview(reviewId: number, userId: string) {
     }
 }
 
-export async function getVoteReviewByUser(reviewId: number, userId: string) {
+export async function getVoteOnReviewByUserId(reviewId: number, userId: string) {
     const result = await DB().prepare(
         'SELECT vote FROM user_vote_review WHERE review_id = ? AND user_id = ?'
     )
@@ -257,6 +257,26 @@ export async function getVoteReviewByUser(reviewId: number, userId: string) {
     if (!result) return null
 
     return result.vote
+}
+
+
+export async function getVotesOnReviewsInCourseByUserID(sigle: string, userId: string) {
+    const result = await DB().prepare(
+        'SELECT user_vote_review.review_id AS review_id, vote FROM user_vote_review, course_reviews WHERE user_vote_review.review_id = course_reviews.id AND course_reviews.course_sigle = ? AND user_vote_review.user_id = ?'
+    )
+    .bind(sigle, userId)
+    .all<{
+        review_id: number,
+        vote: 1 | -1
+    }>()
+
+    if (!result) return {}
+
+    // Transformar el resultado a Record<id_review, voto>
+    return result.results.reduce((acc, item) => {
+        acc[item.review_id] = item.vote
+        return acc
+    }, {} as Record<number, 1 | -1>)
 }
 
 export async function getUserReviews(userId: string, limit: number = 40) {

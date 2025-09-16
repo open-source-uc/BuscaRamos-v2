@@ -15,6 +15,7 @@ import {
 import PrerequisitesSection from "@/components/courses/PrerequisitesSection";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
+import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 
 export const runtime = "edge";
 
@@ -41,6 +42,8 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   const weeklyHoursLabel = c ? formatWeeklyHours(c.avg_weekly_hours) : "Sin datos";
   const totalReviews = c ? c.likes + c.superlikes + c.dislikes : 0;
   const prerequisites = await getPrerequisitesWithNames(course.req);
+
+  const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
@@ -126,7 +129,11 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
           ) : (
             <div className="space-y-4">
               {reviews.map((review) => (
-                <Review key={review.id} review={review} />
+                <Review
+                  key={review.id}
+                  review={review}
+                  initialVote={userVotes[review.id] || null}
+                />
               ))}
             </div>
           )}

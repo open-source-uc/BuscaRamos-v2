@@ -1,3 +1,5 @@
+"use client";
+
 import { formatWeeklyHours } from "@/lib/courseStats";
 import {
   AttendanceIcon,
@@ -17,18 +19,29 @@ import { MarkdownReviewView } from "../markdown/MarkdownReviewView";
 import EditableButton from "./EditableButton";
 import { CourseData } from "@/lib/CoursesData";
 import TrashButton from "./TrashButton";
+import { AuthContext } from "@/context/authCtx";
+import { use } from "react";
 
 export default function Review({
   review,
   status = false,
-  editable = false,
+  initialVote = null,
+  hideLike = false,
+  editable,
   course,
 }: {
   review: CourseReview;
+  initialVote?: -1 | 1 | null;
   status?: boolean;
   editable?: boolean;
   course?: CourseData;
+  hideLike?: boolean;
 }) {
+  if (editable === undefined) {
+    const { user } = use(AuthContext);
+    editable = user?.userId === review.user_id;
+  }
+
   return (
     <div className="relative bg-background border border-border flex flex-col gap-4 rounded-sm p-5 overflow-hidden w-full">
       {/* Header con sentimiento y votos */}
@@ -66,9 +79,15 @@ export default function Review({
         </div>
 
         {/* Botón de voto */}
-        <div className="flex-shrink-0">
-          <VoteButton initialVotes={review.votes} reviewId={review.id} />
-        </div>
+        {hideLike || (
+          <div className="flex-shrink-0">
+            <VoteButton
+              initialVotes={review.votes}
+              reviewId={review.id}
+              initialVote={initialVote}
+            />
+          </div>
+        )}
       </div>
 
       {review.comment_path && (

@@ -4,6 +4,7 @@ import Review from "@/components/reviews/Review";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";
 import CoursesData from "@/lib/CoursesData";
+import Link from "next/link";
 
 export default async function Profile() {
   const user = await authenticateUser();
@@ -16,6 +17,11 @@ export default async function Profile() {
 
   return (
     <main className="max-w-6xl mx-auto p-8 space-y-8">
+      <div>
+        <Link href="https://auth.osuc.dev/" className="underline">
+          Ir a configuración de usuario
+        </Link>
+      </div>
       {reviews.length === 0 ? (
         <p className="text-gray-500">No hay reseñas para este curso.</p>
       ) : (
@@ -27,6 +33,7 @@ export default async function Profile() {
               status
               editable
               course={CoursesData[review.course_sigle]}
+              hideLike
             />
           ))}
         </div>

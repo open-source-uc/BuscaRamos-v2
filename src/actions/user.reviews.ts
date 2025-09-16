@@ -51,6 +51,119 @@ const courseReviewSchema = z.object({
 	comment: z.string().max(10000, 'El comentario no puede exceder 10,000 caracteres').optional(),
 })
 
+
+export const deleteCourseReview = async (reviewId: number) => {
+    const user = await authenticateUser()
+    if (!user)
+        return {
+            message: 'Debes iniciar sesión para eliminar una reseña',
+        }
+    
+    const review = await reviews.getCourseReviewById(reviewId)
+    console.log(review)
+    if (!review) {
+        return {
+            message: 'La reseña no existe',
+        }
+    }
+
+    if (review.user_id !== user.userId && !hasPermission(user, OsucPermissions.userIsRoot)) {
+        return {
+            message: 'La reseña no te pertenece',
+        }
+    }
+
+    if (!review) {
+        return {
+            message: 'La reseña no existe o no te pertenece',
+        }
+    }
+
+    const res = await reviews.deleteCourseReview(review)
+    return {
+        message: 'Reseña eliminada con éxito',
+        success: res
+    }
+}
+
+export const interactWithCourseReview = async (action: 'up' | 'down', reviewId: number) => {
+
+    const user = await authenticateUser()
+    if (!user)
+        throw new Error('Debes iniciar sesión para votar una reseña')
+    
+
+    if (action == 'up') {
+        const res = await reviews.likeReview(reviewId, user.userId)
+        const count = await reviews.getVoteCountByReviewId(reviewId)
+        return {
+            message: 'Reseña votada positivamente',
+            count: count,
+            userVote: res.userVote
+        }
+    }
+    
+    if (action == 'down') {
+        const res = await reviews.dislikeReview(reviewId, user.userId)
+        const count = await reviews.getVoteCountByReviewId(reviewId)
+
+        return {
+            message: 'Reseña votada negativamente',
+            count: count,
+            userVote: res.userVote
+
+        }
+    }
+    
+    return {
+        message: 'Acción no válida',
+        count: null,
+        userVote: null
+    }
+
+}
+
+export const getVotesOnReviewsInCourseByUserID = async (sigle: string) => {
+
+    const user = await authenticateUser()
+    if (!user) {
+        return []
+    }
+
+    const res = await reviews.getVotesOnReviewsInCourseByUserID(sigle, user.userId)
+
+    return res
+}
+
+
+export const getVoteOnReviewByUserId = async (reviewId: number) => {
+
+    const user = await authenticateUser()
+    if (!user) {
+        return null
+    }
+
+    const res = await reviews.getVoteOnReviewByUserId(reviewId, user.userId)
+
+    return res
+}
+
+
+export const getUserReviews = async (limit: number = 40) => {
+    const user = await authenticateUser()
+    if (!user) {
+        return {
+            message: 'Debes iniciar sesión para ver tus reseñas',
+        }
+    }
+
+    const result = await reviews.getUserReviews(user.userId, limit)
+
+    return {
+        reviews: result,
+    }
+}
+
 export const createCourseReview = async (formData: FormData) => {
     const min_year = new Date().getFullYear() - 6
     const max_year = new Date().getFullYear()
@@ -138,110 +251,6 @@ export const createCourseReview = async (formData: FormData) => {
         success: true
     }
     
-}
-
-export const deleteCourseReview = async (reviewId: number) => {
-    const user = await authenticateUser()
-    if (!user)
-        return {
-            message: 'Debes iniciar sesión para eliminar una reseña',
-        }
-    
-    const review = await reviews.getCourseReviewById(reviewId)
-    console.log(review)
-    if (!review) {
-        return {
-            message: 'La reseña no existe',
-        }
-    }
-
-    if (review.user_id !== user.userId && !hasPermission(user, OsucPermissions.userIsRoot)) {
-        return {
-            message: 'La reseña no te pertenece',
-        }
-    }
-
-    if (!review) {
-        return {
-            message: 'La reseña no existe o no te pertenece',
-        }
-    }
-
-    const res = await reviews.deleteCourseReview(review)
-    console.log(res)
-    return {
-        message: 'Reseña eliminada con éxito',
-        done: res
-    }
-}
-
-export const interactWithCourseReview = async (action: 'up' | 'down', reviewId: number) => {
-
-    const user = await authenticateUser()
-    if (!user)
-        throw new Error('Debes iniciar sesión para votar una reseña')
-    
-
-    if (action == 'up') {
-        const res = await reviews.likeReview(reviewId, user.userId)
-        const count = await reviews.getVoteCountByReviewId(reviewId)
-        return {
-            message: 'Reseña votada positivamente',
-            count: count,
-            userVote: res.userVote
-        }
-    }
-    
-    if (action == 'down') {
-        const res = await reviews.dislikeReview(reviewId, user.userId)
-        const count = await reviews.getVoteCountByReviewId(reviewId)
-
-        return {
-            message: 'Reseña votada negativamente',
-            count: count,
-            userVote: res.userVote
-
-        }
-    }
-    
-    return {
-        message: 'Acción no válida',
-        count: null,
-        userVote: null
-    }
-
-}
-
-export const getVoteOnCourseReview = async (reviewId: number) => {
-
-    const user = await authenticateUser()
-    if (!user) {
-        return {
-            vote: null,
-        }
-    }
-
-    const vote = await reviews.getVoteReviewByUser(reviewId, user.userId)
-
-    return {
-        vote: vote,
-    }
-
-}
-
-export const getUserReviews = async (limit: number = 40) => {
-    const user = await authenticateUser()
-    if (!user) {
-        return {
-            message: 'Debes iniciar sesión para ver tus reseñas',
-        }
-    }
-
-    const result = await reviews.getUserReviews(user.userId, limit)
-
-    return {
-        reviews: result,
-    }
 }
 
 export const updateCourseReview = async (reviewId: number, formData: FormData) => {

@@ -1,7 +1,8 @@
+import { getVoteOnReviewByUserId } from "@/actions/user.reviews";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
 import courseDescriptions from "@/lib/CoursesData";
-import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
+import { getCourseReviewById } from "@/lib/reviews";
 import z from "zod";
 
 export const runtime = "edge";
@@ -36,10 +37,12 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
 
   course.name = "Reseña de: " + course.name;
 
+  const vote = await getVoteOnReviewByUserId(review.id);
+
   return (
     <main className="p-4 space-y-6">
       <CourseInformation course={course} information />
-      <Review review={review} />
+      <Review review={review} initialVote={vote} />
     </main>
   );
 }
