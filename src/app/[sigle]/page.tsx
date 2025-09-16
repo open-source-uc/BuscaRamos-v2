@@ -2,20 +2,12 @@ import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviews } from "../../actions/reviews";
 import { Button } from "@/components/ui/button"; // 👈 import del botón de shadcn/ui
 import Link from "next/link";
-import { Pill } from "@/components/ui/pill";
 import {
-  AreaIcon,
   AttendanceIcon,
-  BuildingIcon,
-  CheckIcon,
-  CloseIcon,
-  HourglassIcon,
-  LanguageIcon,
   Sentiment,
   ThumbUpIcon,
   WorkloadIcon,
 } from "@/components/icons";
-import CourseCampuses from "@/components/courses/CourseCampuses";
 import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
 import {
   calculatePositivePercentage,
@@ -27,6 +19,7 @@ import {
 } from "@/lib/courseStats";
 import PrerequisitesSection from "@/components/courses/PrerequisitesSection";
 import Review from "@/components/reviews/Review";
+import CourseInformation from "@/components/ui/CourseInformation";
 
 export const runtime = "edge";
 
@@ -57,55 +50,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
       {/* Información del curso */}
-      <section className="border border-border rounded-md bg-accent px-6 py-8">
-        <p className="text-sm">{course.sigle}</p>
-
-        <div className="pt-2 flex items-center justify-between">
-          <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
-          <Pill
-            variant="green"
-            size="xl"
-            icon={HourglassIcon}
-            className="hidden desktop:flex text-nowrap"
-          >
-            {course.credits} Créditos
-          </Pill>
-        </div>
-        <div>
-          <p className="text-sm text-accent-foreground max-w-[75%]">{course.description}</p>
-        </div>
-        <div className="flex items-center flex-wrap gap-2 mt-8">
-          <CourseCampuses campus={course.campus} lastSemester={course.last_semester} />
-          <Pill variant="green" icon={HourglassIcon} className="desktop:hidden">
-            {course.credits} Créditos
-          </Pill>
-          {course.school && course.school !== "" && (
-            <Pill variant="orange" icon={BuildingIcon}>
-              <span>{course.school}</span>
-            </Pill>
-          )}
-          {course.area && course.area !== "" && (
-            <Pill variant="pink" icon={AreaIcon}>
-              {course.area}
-            </Pill>
-          )}
-          {course.is_removable && course.is_removable.length > 0 && (
-            <Pill
-              variant={course.is_removable.some((removable) => removable) ? "green" : "red"}
-              icon={course.is_removable.some((removable) => removable) ? CheckIcon : CloseIcon}
-            >
-              {course.is_removable.some((removable) => removable) ? "Retirable" : "No retirable"}
-            </Pill>
-          )}
-          {course.is_english &&
-            course.is_english.length > 0 &&
-            course.is_english.some((english) => english) && (
-              <Pill variant="purple" icon={LanguageIcon}>
-                Se dicta en Inglés
-              </Pill>
-            )}
-        </div>
-      </section>
+      <CourseInformation course={course} description information />
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">

@@ -15,44 +15,53 @@ import ReportButton from "./ReportButton";
 import VoteButton from "./VoteButton";
 import { MarkdownReviewView } from "../markdown/MarkdownReviewView";
 import EditableButton from "./EditableButton";
+import { CourseData } from "@/lib/CoursesData";
 
 export default function Review({
   review,
   status = false,
   editable = false,
+  course,
 }: {
   review: CourseReview;
   status?: boolean;
   editable?: boolean;
+  course?: CourseData;
 }) {
   return (
     <div className="relative bg-background border border-border flex flex-col gap-4 rounded-sm p-5 overflow-hidden w-full">
       {/* Header con sentimiento y votos */}
       <div className="flex justify-between items-start gap-4 w-full">
         {/* Sentimiento */}
-        <div
-          className={`flex gap-2 items-center p-2 border rounded-lg max-w-full ${
-            review.like_dislike === 2
-              ? "bg-green-light text-green border-green/20"
-              : review.like_dislike === 1
-                ? "bg-blue-light text-blue border-blue/20"
-                : "bg-red-light text-red border-red/20"
-          }`}
-        >
-          {review.like_dislike === 2 ? (
-            <StarIcon className="h-5 w-5 fill-current" />
-          ) : review.like_dislike === 1 ? (
-            <ThumbUpIcon className="h-5 w-5 fill-current" />
-          ) : (
-            <ThumbDownIcon className="h-5 w-5 fill-current" />
-          )}
-          <span className="text-sm font-semibold whitespace-nowrap">
-            {review.like_dislike === 2
-              ? "Lo super recomiendo"
-              : review.like_dislike === 1
-                ? "Lo recomiendo"
-                : "No lo recomiendo"}
-          </span>
+        <div className="flex flex-col items-start gap-2">
+          {/* Pill */}
+          {course && <h1 className="text-xl font-bold w-max">{course.name}</h1>}
+          <div
+            className={`flex gap-2 items-center p-2 border rounded-lg w-max ${
+              review.like_dislike === 2
+                ? "bg-green-light text-green border-green/20"
+                : review.like_dislike === 1
+                  ? "bg-blue-light text-blue border-blue/20"
+                  : "bg-red-light text-red border-red/20"
+            }`}
+          >
+            {review.like_dislike === 2 ? (
+              <StarIcon className="h-5 w-5 fill-current" />
+            ) : review.like_dislike === 1 ? (
+              <ThumbUpIcon className="h-5 w-5 fill-current" />
+            ) : (
+              <ThumbDownIcon className="h-5 w-5 fill-current" />
+            )}
+            <span className="text-sm font-semibold whitespace-nowrap">
+              {review.like_dislike === 2
+                ? "Lo super recomiendo"
+                : review.like_dislike === 1
+                  ? "Lo recomiendo"
+                  : "No lo recomiendo"}
+            </span>
+          </div>
+
+          {/* Nombre del curso */}
         </div>
 
         {/* Botón de voto */}

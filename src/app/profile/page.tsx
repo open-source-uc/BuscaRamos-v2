@@ -2,7 +2,8 @@ export const runtime = "edge";
 
 import Review from "@/components/reviews/Review";
 import { authenticateUser } from "@/lib/auth/auth";
-import { getReviewContent, getUserReviews } from "@/lib/reviews";
+import { getUserReviews } from "@/lib/reviews";
+import CoursesData from "@/lib/CoursesData";
 
 export default async function Profile() {
   const user = await authenticateUser();
@@ -20,7 +21,13 @@ export default async function Profile() {
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <Review key={review.id} review={review} status editable />
+            <Review
+              key={review.id}
+              review={review}
+              status
+              editable
+              course={CoursesData[review.course_sigle]}
+            />
           ))}
         </div>
       )}

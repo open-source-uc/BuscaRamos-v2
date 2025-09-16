@@ -1,3 +1,5 @@
+import Review from "@/components/reviews/Review";
+import CourseInformation from "@/components/ui/CourseInformation";
 import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import z from "zod";
@@ -26,30 +28,18 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
     return <p>Reseña no encontrada</p>;
   }
 
-  const comment = await getReviewContent(review.comment_path);
   const course = courseDescriptions[review.course_sigle];
 
   if (!course) {
     return <p>Curso no encontrado</p>;
   }
 
+  course.name = "Reseña de: " + course.name;
+
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Reseña #{review.id}</h1>
-      <p>
-        <strong>Curso:</strong> {course.name}
-      </p>
-      <p>
-        <strong>Estado:</strong>{" "}
-        {review.status === 1 ? "Visible" : review.status === 2 ? "Reportada" : "Oculta"}
-      </p>
-      <p>
-        <strong>Sigla:</strong> {review.course_sigle}
-      </p>
-      <div className="mt-4">
-        <h2 className="text-xl font-semibold mb-2">Comentario:</h2>
-        <div className="prose max-w-none">{comment ? comment : <p>No hay comentario.</p>}</div>
-      </div>
+    <main className="p-4 space-y-6">
+      <CourseInformation course={course} information />
+      <Review review={review} status />
     </main>
   );
 }

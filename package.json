@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"lint:fix": "npx eslint . --ext .js,.ts,.jsx,.tsx",
+		"lint:fix": "npx eslint . --ext .js,.ts,.jsx,.tsx --fix",
 		"pages:build": "npx @cloudflare/next-on-pages",
 		"preview": "npm run pages:build && wrangler pages dev",
 		"deploy": "npm run pages:build && wrangler pages deploy",
