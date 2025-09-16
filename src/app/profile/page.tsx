@@ -11,16 +11,7 @@ export default async function Profile() {
     return <p className="text-center">Debes iniciar sesión para ver tu perfil.</p>;
   }
 
-  const r = await getUserReviews(user.userId, 10);
-  const reviews = await Promise.all(
-    r.map(async (review) => {
-      const comment = (await getReviewContent(review.comment_path)) ?? undefined;
-      return {
-        ...review,
-        comment,
-      };
-    })
-  );
+  const reviews = await getUserReviews(user.userId, 10);
 
   return (
     <main className="max-w-6xl mx-auto p-8 space-y-8">
