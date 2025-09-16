@@ -117,7 +117,9 @@ export async function updateStatusReview(reviewId: number, status: number) {
 
 export async function likeReview(reviewId: number, userId: string) {
     const review = await getCourseReviewById(reviewId)
-    if (!review) return
+    if (!review) return {
+        userVote: null
+    }
 
     // verificar si el usuario ya ha votado
     const existingVote = await DB().prepare(
@@ -148,7 +150,9 @@ export async function likeReview(reviewId: number, userId: string) {
                     WHERE id = ?
                 `).bind(voteDifference, reviewId)
             ]);
-            return;
+            return {
+                userVote: null
+            };
         } else {
             // Si es un voto diferente, calculamos la diferencia
             voteDifference = newVote - existingVote.vote
@@ -172,11 +176,17 @@ export async function likeReview(reviewId: number, userId: string) {
             WHERE id = ?
         `).bind(voteDifference, reviewId)
     ]);
+
+    return {
+        userVote: 1
+    }
 }
 
 export async function dislikeReview(reviewId: number, userId: string) {
     const review = await getCourseReviewById(reviewId)
-    if (!review) return
+    if (!review) return {
+        userVote: null
+    }
 
     // verificar si el usuario ya ha votado
     const existingVote = await DB().prepare(
@@ -207,7 +217,9 @@ export async function dislikeReview(reviewId: number, userId: string) {
                     WHERE id = ?
                 `).bind(voteDifference, reviewId)
             ]);
-            return;
+            return {
+                userVote: null
+            };
         } else {
             // Si es un voto diferente, calculamos la diferencia
             voteDifference = newVote - existingVote.vote
@@ -231,6 +243,9 @@ export async function dislikeReview(reviewId: number, userId: string) {
             WHERE id = ?
         `).bind(voteDifference, reviewId)
     ]);   
+    return {
+        userVote: -1
+    }
 }
 
 export async function getVoteReviewByUser(reviewId: number, userId: string) {
@@ -299,4 +314,65 @@ export async function getReviewContent(filePath: string | null) {
         console.error('Error al obtener el archivo de R2():', error)
         return null
     }
+}
+
+export async function updateCourseReview(
+  reviewId: number,
+  review: Omit<CourseReview, 'id' | 'created_at' | 'updated_at' | 'comment_path' | 'status' | 'votes'>,
+  comment: string | null
+) {
+  let filePath: string | null = null;
+
+  if (comment && comment.length > 0) {
+    filePath = await generateReviewPath(review.course_sigle);
+    const uploadSuccess = await uploadMarkdownToR2(comment, filePath);
+    if (!uploadSuccess) {
+      return {
+        message: "Error al subir el comentario. Intenta nuevamente más tarde.",
+      };
+    }
+  }
+
+  const result = await DB()
+    .prepare(
+      `UPDATE course_reviews
+       SET 
+         course_sigle = ?,
+         like_dislike = ?,
+         workload_vote = ?,
+         attendance_type = ?,
+         weekly_hours = ?,
+         year_taken = ?,
+         semester_taken = ?,
+         comment_path = ?
+       WHERE id = ?`
+    )
+    .bind(
+      review.course_sigle.toUpperCase(),
+      review.like_dislike,
+      review.workload_vote,
+      review.attendance_type,
+      review.weekly_hours,
+      review.year_taken,
+      review.semester_taken,
+      filePath, // si es null, lo pone en NULL en la DB
+      reviewId
+    )
+    .run();
+
+  return result;
+}
+
+
+export async function getVoteCountByReviewId(reviewId: number) {
+    const result = await DB().prepare(
+        'SELECT votes as count FROM course_reviews WHERE id = ?'
+    )
+    .bind(reviewId)
+    .first<{
+        count: number
+    }>()
+
+    if (!result) return 0  
+    return result.count
 }

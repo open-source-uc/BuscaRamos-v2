@@ -30,7 +30,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen`}
       >
         <header>
-          <Link href="/profile"><User></User></Link>
+          <Link href="/profile">
+            <User></User>
+          </Link>
         </header>
         {children}
       </body>

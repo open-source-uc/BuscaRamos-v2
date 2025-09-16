@@ -13,9 +13,5 @@ export default function CoursesTable() {
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-
-return (
-				<DataTable data={data} />
-        )
+  return <DataTable data={data} />;
 }
-

@@ -10,14 +10,14 @@ interface ReportButtonProps {
 
 export default function ReportButton({ reviewId }: ReportButtonProps) {
   const handleReport = async () => {
-      await reportCourseReview(reviewId);
+    await reportCourseReview(reviewId);
   };
 
   return (
     <Button
       onClick={handleReport}
       variant="outline"
-      size="default"      
+      size="default"
       className="flex items-center gap-2"
     >
       <Flag className="h-4 w-4" />

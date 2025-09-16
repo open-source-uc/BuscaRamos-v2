@@ -19,13 +19,13 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       >
         ← Anterior
       </Button>
-      
+
       <div className="w-32 flex-shrink-0">
         <span className="text-sm text-muted-foreground font-mono text-center block">
           Página {currentPage} de {totalPages}
         </span>
       </div>
-      
+
       <Button
         variant="outline"
         disabled={currentPage === totalPages}
