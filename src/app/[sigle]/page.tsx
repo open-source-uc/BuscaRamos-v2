@@ -2,12 +2,7 @@ import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviews } from "../../actions/reviews";
 import { Button } from "@/components/ui/button"; // 👈 import del botón de shadcn/ui
 import Link from "next/link";
-import {
-  AttendanceIcon,
-  Sentiment,
-  ThumbUpIcon,
-  WorkloadIcon,
-} from "@/components/icons";
+import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
 import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
 import {
   calculatePositivePercentage,

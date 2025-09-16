@@ -1,6 +1,5 @@
 import { createCourseReview } from "@/actions/user.reviews";
 import FormReview from "@/components/reviews/FormReview";
-import Trash from "@/components/reviews/TrashButton";
 import { authenticateUser } from "@/lib/auth/auth";
 import courseDescriptions from "@/lib/CoursesData";
 import { getReviewBySigleAndUserId, getReviewContent } from "@/lib/reviews";
@@ -31,7 +30,6 @@ export default async function WriteReview({ params }: { params: Promise<{ sigle:
 
   return (
     <main>
-      <Trash review={review} />
       <FormReview sigle={course.sigle} initialValues={review} onSubmit={createCourseReview} />
     </main>
   );

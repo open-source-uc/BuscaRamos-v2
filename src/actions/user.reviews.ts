@@ -148,13 +148,14 @@ export const deleteCourseReview = async (reviewId: number) => {
         }
     
     const review = await reviews.getCourseReviewById(reviewId)
+    console.log(review)
     if (!review) {
         return {
             message: 'La reseña no existe',
         }
     }
 
-    if (review.user_id !== user.userId) {
+    if (review.user_id !== user.userId && !hasPermission(user, OsucPermissions.userIsRoot)) {
         return {
             message: 'La reseña no te pertenece',
         }
@@ -166,10 +167,11 @@ export const deleteCourseReview = async (reviewId: number) => {
         }
     }
 
-    await reviews.deleteCourseReview(review.id)
-
+    const res = await reviews.deleteCourseReview(review)
+    console.log(res)
     return {
         message: 'Reseña eliminada con éxito',
+        done: res
     }
 }
 

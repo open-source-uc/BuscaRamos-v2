@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { VoteArrow } from "../icons/icons";
 import { getVoteOnCourseReview, interactWithCourseReview } from "@/actions/user.reviews";
 
@@ -13,15 +13,37 @@ export default function VoteButtons({
 }) {
   const [votes, setVotes] = useState(initialVotes);
   const [userVote, setUserVote] = useState<"up" | "down" | null>(null);
-
-  const fn = async () => {
-    const res = await getVoteOnCourseReview(parseInt(reviewId.toString()));
-    res.vote ? setUserVote(res.vote === 1 ? "up" : "down") : setUserVote(null);
-  };
+  const [hasBeenVisible, setHasBeenVisible] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasBeenVisible) {
+            setHasBeenVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 } // dispara cuando al menos 10% del componente está visible
+    );
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, [hasBeenVisible]);
+
+  useEffect(() => {
+    if (!hasBeenVisible) return;
+
+    const fn = async () => {
+      const res = await getVoteOnCourseReview(parseInt(reviewId.toString()));
+      setUserVote(res.vote === 1 ? "up" : res.vote === -1 ? "down" : null);
+    };
     fn();
-  }, []);
+  }, [hasBeenVisible, reviewId]);
 
   const getVoteCountColor = () => {
     if (votes > 0) return "text-green";
@@ -30,7 +52,10 @@ export default function VoteButtons({
   };
 
   return (
-    <div className="bg-card/90 border-border flex flex-col items-center rounded-lg border p-1 shadow-sm backdrop-blur-sm">
+    <div
+      ref={ref}
+      className="bg-card/90 border-border flex flex-col items-center rounded-lg border p-1 shadow-sm backdrop-blur-sm"
+    >
       <button
         className={`hover:bg-muted rounded-md p-1.5 transition-all duration-150 ${
           userVote === "up" ? "text-green bg-green-light" : "text-muted-foreground hover:text-green"

@@ -39,7 +39,7 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
   return (
     <main className="p-4 space-y-6">
       <CourseInformation course={course} information />
-      <Review review={review} status />
+      <Review review={review} />
     </main>
   );
 }

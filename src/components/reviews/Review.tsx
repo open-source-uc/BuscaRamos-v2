@@ -16,6 +16,7 @@ import VoteButton from "./VoteButton";
 import { MarkdownReviewView } from "../markdown/MarkdownReviewView";
 import EditableButton from "./EditableButton";
 import { CourseData } from "@/lib/CoursesData";
+import TrashButton from "./TrashButton";
 
 export default function Review({
   review,
@@ -110,9 +111,14 @@ export default function Review({
 
         {/* Botones de acción */}
         <div className="flex flex-wrap items-center gap-2 max-w-full">
+          {editable && (
+            <>
+              <TrashButton review={review}></TrashButton>
+              <EditableButton reviewId={review.id}></EditableButton>
+            </>
+          )}
           <ShareButton path={`/review/${review.id}`}></ShareButton>
           <ReportButton reviewId={review.id}></ReportButton>
-          {editable && <EditableButton reviewId={review.id}></EditableButton>}
         </div>
       </div>
     </div>

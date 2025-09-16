@@ -99,15 +99,12 @@ export async function getCourseReviewById(reviewId: number) {
     return result
 }
 
-export async function deleteCourseReview(reviewId: number) {
-    const review = await getCourseReviewById(reviewId)
-    if (!review)
-        return
+export async function deleteCourseReview(review: CourseReview) {
     if (review.comment_path) {
         await R2().delete(review.comment_path.toString())
     }
-    await DB().prepare('DELETE FROM course_reviews WHERE id = ?').bind(reviewId).run()
-    return
+    await DB().prepare('DELETE FROM course_reviews WHERE id = ?').bind(review.id).run()
+    return true
 
 }
 

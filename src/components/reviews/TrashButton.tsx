@@ -4,23 +4,27 @@ import { CourseReview } from "@/types/types";
 import { Button } from "../ui/button";
 import { TrashIcon } from "lucide-react";
 import { deleteCourseReview } from "@/actions/user.reviews";
-import { useRouter } from "next/navigation";
+import { parse } from "path";
 
 interface TrashProps {
-  review?: CourseReview;
+  review: CourseReview;
 }
 
 export default function Trash({ review }: TrashProps) {
-  const router = useRouter();
-  if (!review) return null;
+  async function handleDelete() {
+    if (
+      !confirm(
+        "¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer."
+      )
+    ) {
+      return;
+    }
+    const res = await deleteCourseReview(review.id);
+    console.log(res);
+  }
 
   return (
-    <Button
-      onClick={async () => {
-        await deleteCourseReview(review.id);
-        router.push("/" + review.course_sigle);
-      }}
-    >
+    <Button onClick={() => handleDelete()} variant="destructive">
       <TrashIcon />
     </Button>
   );
