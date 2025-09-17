@@ -4,20 +4,22 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/context/authCtx";
 import { use, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function MakeReviewButton({ sigle }: { sigle: string }) {
+  const router = useRouter();
   const { user } = use(AuthContext);
-  const [url, setUrl] = useState("");
 
-  useEffect(() => {
-    setUrl(window.location.href);
-  }, []);
-
+  const handleGoToProfile = () => {
+    if (!user) {
+      router.push("https://auth.osuc.dev?ref=" + window.location.href);
+      return;
+    }
+    router.push(`/${sigle}/review`);
+  };
   return (
-    <Button asChild>
-      <Link href={user ? `/${sigle}/review` : `https://auth.osuc.dev/?href=${url}`}>
-        Reseñar curso
-      </Link>
-    </Button>
+      <Button size="sm" onClick={handleGoToProfile}>
+        Deja una reseña
+      </Button>
   );
 }
