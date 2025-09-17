@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/context/authCtx";
-import { use, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { use } from "react";
+import { useRouter } from "next/navigation";
 
 export default function MakeReviewButton({ sigle }: { sigle: string }) {
   const router = useRouter();
@@ -12,14 +11,14 @@ export default function MakeReviewButton({ sigle }: { sigle: string }) {
 
   const handleGoToProfile = () => {
     if (!user) {
-      router.push("https://auth.osuc.dev?ref=" + window.location.href);
+      router.push("https://auth.osuc.dev?ref=" + window.location.origin + `/${sigle}`);
       return;
     }
     router.push(`/${sigle}/review`);
   };
   return (
-      <Button size="sm" onClick={handleGoToProfile}>
-        Deja una reseña
-      </Button>
+    <Button size="sm" onClick={handleGoToProfile}>
+      Deja una reseña
+    </Button>
   );
 }

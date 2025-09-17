@@ -32,16 +32,15 @@ export default function VoteButtons({
           userVote === "up" ? "text-green bg-green-light" : "text-muted-foreground hover:text-green"
         }`}
         onClick={() => {
-          interactWithCourseReview("up", parseInt(reviewId.toString()))
-            .then((res) => {
-              if (!res.success) {
-                toast.error(res.message);
-                return;
-              }
-              setVotes(res.count ?? 0);
-              setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
-              toast.success("Voto registrado");
-            })
+          interactWithCourseReview("up", parseInt(reviewId.toString())).then((res) => {
+            if (!res.success) {
+              toast.error(res.message);
+              return;
+            }
+            setVotes(res.count ?? 0);
+            setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
+            toast.success("Voto registrado");
+          });
         }}
         title="Upvote"
       >
@@ -59,16 +58,15 @@ export default function VoteButtons({
           userVote === "down" ? "text-red bg-red-light" : "text-muted-foreground hover:text-red"
         }`}
         onClick={() => {
-          interactWithCourseReview("down", parseInt(reviewId.toString()))
-            .then((res) => {
-              if (!res.success) {
-                toast.error(res.message);
-                return;
-              }
-              setVotes(res.count ?? 0);
-              setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
-              toast.success("Voto registrado");
-            })
+          interactWithCourseReview("down", parseInt(reviewId.toString())).then((res) => {
+            if (!res.success) {
+              toast.error(res.message);
+              return;
+            }
+            setVotes(res.count ?? 0);
+            setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
+            toast.success("Voto registrado");
+          });
         }}
         title="Downvote"
       >
