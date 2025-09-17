@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { VoteArrow } from "../icons/icons";
 import { interactWithCourseReview } from "@/actions/user.reviews";
+import { toast } from "sonner";
 
 export default function VoteButtons({
   initialVotes = 0,
@@ -31,10 +32,13 @@ export default function VoteButtons({
           userVote === "up" ? "text-green bg-green-light" : "text-muted-foreground hover:text-green"
         }`}
         onClick={() => {
-          interactWithCourseReview("up", parseInt(reviewId.toString())).then((res) => {
-            setVotes(res.count ?? 0);
-            setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
-          });
+          interactWithCourseReview("up", parseInt(reviewId.toString()))
+            .then((res) => {
+              setVotes(res.count ?? 0);
+              setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
+              toast.success("Voto registrado");
+            })
+            .catch((res) => toast.error(res.message || "Error al registrar el voto"));
         }}
         title="Upvote"
       >
@@ -52,10 +56,13 @@ export default function VoteButtons({
           userVote === "down" ? "text-red bg-red-light" : "text-muted-foreground hover:text-red"
         }`}
         onClick={() => {
-          interactWithCourseReview("down", parseInt(reviewId.toString())).then((res) => {
-            setVotes(res.count ?? 0);
-            setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
-          });
+          interactWithCourseReview("down", parseInt(reviewId.toString()))
+            .then((res) => {
+              setVotes(res.count ?? 0);
+              setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
+              toast.success("Voto registrado");
+            })
+            .catch((res) => toast.error(res.message || "Error al registrar el voto"));
         }}
         title="Downvote"
       >

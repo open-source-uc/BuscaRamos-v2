@@ -99,7 +99,8 @@ export const interactWithCourseReview = async (action: 'up' | 'down', reviewId: 
         return {
             message: 'Reseña votada positivamente',
             count: count,
-            userVote: res.userVote
+            userVote: res.userVote,
+            success: true
         }
     }
     
@@ -110,8 +111,8 @@ export const interactWithCourseReview = async (action: 'up' | 'down', reviewId: 
         return {
             message: 'Reseña votada negativamente',
             count: count,
-            userVote: res.userVote
-
+            userVote: res.userVote,
+            success: true
         }
     }
     

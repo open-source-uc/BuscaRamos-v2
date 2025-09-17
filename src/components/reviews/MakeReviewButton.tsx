@@ -3,23 +3,19 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/context/authCtx";
-import { use, useMemo } from "react";
+import { use, useEffect, useState } from "react";
 
 export default function MakeReviewButton({ sigle }: { sigle: string }) {
   const { user } = use(AuthContext);
-  const url = useMemo(() => window.location.href, []);
+  const [url, setUrl] = useState("");
 
-  // Construir la URL completa
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
 
   return (
     <Button asChild>
-      <Link
-        href={
-          user
-            ? `/${sigle}/review`
-            : `https://auth.osuc.dev/?href=${encodeURIComponent(url)}`
-        }
-      >
+      <Link href={user ? `/${sigle}/review` : `https://auth.osuc.dev/?href=${url}`}>
         Reseñar curso
       </Link>
     </Button>
