@@ -1,4 +1,4 @@
-import { CourseData } from "@/lib/CoursesData";
+import { CourseStaticData } from "@/lib/CoursesData";
 import CourseCampuses from "../courses/CourseCampuses";
 import {
   AreaIcon,
@@ -16,7 +16,7 @@ export default function CourseInformation({
   description = false,
   information = false,
 }: {
-  course: CourseData;
+  course: CourseStaticData;
   description?: boolean;
   information?: boolean;
 }) {

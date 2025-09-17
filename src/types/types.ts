@@ -1,16 +1,18 @@
-export type CourseScore = {
-  id: number;
-  sigle: string;
-  superlikes: number;
-  likes: number;
-  dislikes: number;
-  votes_low_workload: number;
-  votes_medium_workload: number;
-  votes_high_workload: number;
-  votes_mandatory_attendance: number;
-  votes_optional_attendance: number;
-  avg_weekly_hours: number;
-  sort_index: number;
+export type CourseDB = {
+    id: number
+    sigle: string
+    likes: number
+    dislikes: number
+    superlikes: number
+    votes_low_workload: number
+    votes_medium_workload: number
+    votes_high_workload: number
+    votes_mandatory_attendance: number
+    votes_optional_attendance: number
+    avg_weekly_hours: number
+    sort_index: number
+}
+export type CourseScore = CourseDB & {
   name: string;
   credits: number;
   req: string;

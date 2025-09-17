@@ -35,11 +35,7 @@ export async function generateMetadata({
   }
 
   const stats = await getCourseStats(resolvedParams.sigle);
-  const reviews = await getCourseReviews(resolvedParams.sigle, 10);
 
-  const sentiment = stats
-    ? calculateSentiment(stats.likes, stats.superlikes, stats.dislikes)
-    : "question";
   const positivePercentage = stats
     ? calculatePositivePercentage(stats.likes, stats.superlikes, stats.dislikes)
     : 0;

@@ -3,6 +3,7 @@
 import { getRequestContext } from "@cloudflare/next-on-pages"
 import { parsePrerequisites, PrerequisiteGroup } from "./courseReq"
 import CoursesData from "./CoursesData"
+import { CourseDB } from "@/types/types"
 
 const DB = () => getRequestContext().env.DB
 
@@ -41,20 +42,7 @@ export async function getCourseStats(sigle: string) {
   `
     )
         .bind(sigle.toUpperCase())
-        .first<{
-            id: number
-            sigle: string
-            likes: number
-            dislikes: number
-            superlikes: number
-            votes_low_workload: number
-            votes_medium_workload: number
-            votes_high_workload: number
-            votes_mandatory_attendance: number
-            votes_optional_attendance: number
-            avg_weekly_hours: number
-            sort_index: number
-        }>()
+        .first<CourseDB>()
 
     return result
 } 

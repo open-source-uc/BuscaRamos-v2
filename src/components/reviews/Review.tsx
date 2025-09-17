@@ -17,7 +17,7 @@ import ReportButton from "./ReportButton";
 import VoteButton from "./VoteButton";
 import { MarkdownReviewView } from "../markdown/MarkdownReviewView";
 import EditableButton from "./EditableButton";
-import { CourseData } from "@/lib/CoursesData";
+import { CourseStaticData } from "@/lib/CoursesData";
 import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";
@@ -35,7 +35,7 @@ export default function Review({
   initialVote?: -1 | 1 | null;
   status?: boolean;
   editable?: boolean;
-  course?: CourseData;
+  course?: CourseStaticData;
   hideLike?: boolean;
 }) {
   if (editable === undefined) {
