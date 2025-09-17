@@ -20,7 +20,7 @@ export default function ShareButton({ path, title, text }: ShareButtonProps) {
       try {
         await navigator.share({
           title: title ?? document.title,
-          text: text ?? "Mira esto:",
+          text: shareUrl,
           url: shareUrl,
         });
       } catch (err) {
