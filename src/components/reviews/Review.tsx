@@ -39,8 +39,8 @@ export default function Review({
   hideLike?: boolean;
 }) {
   if (editable === undefined) {
-    const { user } = use(AuthContext);
-    editable = user?.userId === review.user_id;
+    const { user, isRoot } = use(AuthContext);
+    editable = isRoot || user?.userId === review.user_id;
   }
 
   return (
