@@ -5,7 +5,6 @@ import { columns } from "./columns";
 import Fuse from "fuse.js";
 
 import {
-  flexRender,
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
@@ -16,6 +15,8 @@ import {
 import { CourseScore } from "@/types/types";
 import MovilTable from "./MovilTable";
 import DesktopTable from "./DesktopTable";
+import { CourseFilters } from "../ui/CourseFilters";
+import { Search } from "../search/SearchInput";
 
 interface DataTableProps {
   data: CourseScore[];
@@ -24,33 +25,113 @@ interface DataTableProps {
 
 export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState(externalSearchValue);
 
-  // Create Fuse instance with configuration for fuzzy searching
-  const fuse = useMemo(() => {
-    return new Fuse(data, {
-      keys: ["name", "sigle"],
-      threshold: 0.3,
-      ignoreLocation: true,
-      includeScore: true,
-      minMatchCharLength: 2,
-    });
-  }, [data]);
+  // Search and filter states
+  const [searchValue, setSearchValue] = useState(externalSearchValue);
+  const [selectedArea, setSelectedArea] = useState<string>("all");
+  const [selectedSchool, setSelectedSchool] = useState<string>("all");
+  const [selectedCampus, setSelectedCampus] = useState<string>("all");
+  const [selectedFormat, setSelectedFormat] = useState<string>("all");
+  const [selectedSemester, setSelectedSemester] = useState<string>("all");
+  const [showRetirableOnly, setShowRetirableOnly] = useState(false);
+  const [showEnglishOnly, setShowEnglishOnly] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
-  // Filter data using Fuse.js before passing to table
+  // Update internal search when external search value changes
+  useEffect(() => {
+    setSearchValue(externalSearchValue);
+  }, [externalSearchValue]);
+
+  // Add debounced search effect
+  useEffect(() => {
+    if (searchValue !== externalSearchValue) {
+      setIsSearching(true);
+      const timer = setTimeout(() => {
+        setIsSearching(false);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchValue, externalSearchValue]);
+
+  // Combined filtering: first apply filters, then search
   const filteredData = useMemo(() => {
-    if (!globalFilter || globalFilter.trim() === "") {
-      return data;
+    let filtered = data;
+
+    // Apply category filters first
+    if (selectedArea === "formacion-general") {
+      filtered = filtered.filter((course) => course.area && course.area !== "Ninguna");
+    } else if (selectedArea !== "all") {
+      filtered = filtered.filter((course) => course.area === selectedArea);
     }
 
-    const searchResults = fuse.search(globalFilter);
-    return searchResults.map((result) => result.item);
-  }, [data, globalFilter, fuse]);
+    if (selectedCampus !== "all") {
+      filtered = filtered.filter((course) => {
+        const campusArray = course.campus || [];
+        return campusArray.includes(selectedCampus);
+      });
+    }
 
-  // Update internal filter when external search value changes
-  useEffect(() => {
-    setGlobalFilter(externalSearchValue);
-  }, [externalSearchValue]);
+    if (selectedSchool !== "all") {
+      filtered = filtered.filter((course) => course.school === selectedSchool);
+    }
+
+    if (selectedFormat !== "all") {
+      filtered = filtered.filter((course) => {
+        if (Array.isArray(course.format)) {
+          return course.format.includes(selectedFormat);
+        }
+        return course.format === selectedFormat;
+      });
+    }
+
+    if (showRetirableOnly) {
+      filtered = filtered.filter((course) => {
+        const retirableArray = course.is_removable || [];
+        return retirableArray.some((removable) => removable === true);
+      });
+    }
+
+    if (showEnglishOnly) {
+      filtered = filtered.filter((course) => {
+        if (Array.isArray(course.is_english)) {
+          return course.is_english.some((isEnglish) => isEnglish === true);
+        }
+        return course.is_english === true;
+      });
+    }
+
+    if (selectedSemester !== "all") {
+      filtered = filtered.filter((course) => course.last_semester === selectedSemester);
+    }
+
+    // Then apply search filter if there's a search term
+    if (searchValue && searchValue.trim() !== "") {
+      const fuseForFiltered = new Fuse(filtered, {
+        keys: ["name", "sigle"],
+        threshold: 0.3,
+        ignoreLocation: true,
+        includeScore: true,
+        minMatchCharLength: 2,
+      });
+
+      const searchResults = fuseForFiltered.search(searchValue);
+      return searchResults.map((result) => result.item);
+    }
+
+    return filtered;
+  }, [
+    data,
+    searchValue,
+    selectedArea,
+    selectedCampus,
+    selectedSchool,
+    selectedFormat,
+    selectedSemester,
+    showRetirableOnly,
+    showEnglishOnly,
+  ]);
 
   const table = useReactTable({
     data: filteredData,
@@ -64,10 +145,70 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     },
   });
 
+  const handleSearch = (normalizedValue: string) => {
+    setSearchValue(normalizedValue);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedArea("all");
+    setSelectedCampus("all");
+    setSelectedSchool("all");
+    setSelectedFormat("all");
+    setSelectedSemester("all");
+    setShowRetirableOnly(false);
+    setShowEnglishOnly(false);
+    setSearchValue("");
+  };
+
   return (
-    <>
-      <DesktopTable table={table} />
-      <MovilTable table={table} />
-    </>
+    <div className="space-y-6">
+      {/* Search Section */}
+      <div className="flex flex-col gap-4">
+        <div className="w-full">
+          <Search
+            onSearch={handleSearch}
+            placeholder="Buscar por nombre o sigla..."
+            className="w-full"
+            initialValue={externalSearchValue}
+            isSearching={isSearching}
+          />
+        </div>
+
+        {/* Results counter */}
+        <div className="text-sm text-gray-600">
+          Mostrando {filteredData.length} de {data.length} cursos
+        </div>
+        <div className="w-full">
+          <CourseFilters
+            courses={data} // Pass original data for filter options
+            selectedArea={selectedArea}
+            selectedSchool={selectedSchool}
+            selectedCampus={selectedCampus}
+            selectedFormat={selectedFormat}
+            selectedSemester={selectedSemester}
+            showRetirableOnly={showRetirableOnly}
+            showEnglishOnly={showEnglishOnly}
+            filtersOpen={filtersOpen}
+            onAreaChange={setSelectedArea}
+            onSchoolChange={setSelectedSchool}
+            onCampusChange={setSelectedCampus}
+            onFormatChange={setSelectedFormat}
+            onSemesterChange={setSelectedSemester}
+            onRetirableToggle={setShowRetirableOnly}
+            onEnglishToggle={setShowEnglishOnly}
+            onFiltersOpenChange={setFiltersOpen}
+            onClearFilters={handleClearFilters}
+          />
+        </div>
+      </div>
+
+      {/* Course Filters Section */}
+
+      {/* Tables Section */}
+      <div className="w-full">
+        <DesktopTable table={table} />
+        <MovilTable table={table} />
+      </div>
+    </div>
   );
 }

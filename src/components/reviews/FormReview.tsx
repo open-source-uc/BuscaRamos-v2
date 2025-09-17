@@ -302,18 +302,13 @@ export default function FormReview({
                     id: "semester_taken",
                     name: "semester_taken",
                     required: true,
+                    defaultValue: initialValues?.semester_taken.toString() ?? "",
                   }}
                 >
                   <option value="">Seleccionar semestre</option>
-                  <option value="1" selected={initialValues?.semester_taken === 1}>
-                    1° Semestre
-                  </option>
-                  <option value="2" selected={initialValues?.semester_taken === 2}>
-                    2° Semestre
-                  </option>
-                  <option value="3" selected={initialValues?.semester_taken === 3}>
-                    TAV (Temporada Académica de Verano)
-                  </option>
+                  <option value="1">1° Semestre</option>
+                  <option value="2">2° Semestre</option>
+                  <option value="3">TAV (Temporada Académica de Verano)</option>
                 </SelectInput>
               </div>
             </div>

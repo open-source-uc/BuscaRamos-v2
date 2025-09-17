@@ -1,7 +1,5 @@
 import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviews } from "../../actions/reviews";
-import { Button } from "@/components/ui/button"; // 👈 import del botón de shadcn/ui
-import Link from "next/link";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
 import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
 import {
@@ -16,6 +14,7 @@ import PrerequisitesSection from "@/components/courses/PrerequisitesSection";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
+import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 
 export const runtime = "edge";
 
@@ -119,9 +118,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
           {/* 👇 Título + botón alineados con flex */}
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold">Reseñas ({reviews.length})</h2>
-            <Button asChild>
-              <Link href={`/${course.sigle}/review`}>Reseñar curso</Link>
-            </Button>
+            <MakeReviewButton sigle={course.sigle}></MakeReviewButton>
           </div>
 
           {reviews.length === 0 ? (

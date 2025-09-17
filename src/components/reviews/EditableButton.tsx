@@ -10,9 +10,9 @@ interface EditReviewLinkProps {
 
 export default function EditableButton({ reviewId }: EditReviewLinkProps) {
   return (
-    <Button asChild size="default" className="flex items-center gap-2">
+    <Button asChild variant="ghost_blue">
       <Link href={`/review/${reviewId}/edit`}>
-        <EditIcon className="h-4 w-4" />
+        <EditIcon />
       </Link>
     </Button>
   );

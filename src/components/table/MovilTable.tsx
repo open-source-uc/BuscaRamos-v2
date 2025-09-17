@@ -1,4 +1,3 @@
-import { CourseData } from "@/lib/CoursesData";
 import { calculatePositivePercentage, calculateSentiment } from "@/lib/courseStats";
 import { CourseScore } from "@/types/types";
 import { Table } from "@tanstack/react-table";
