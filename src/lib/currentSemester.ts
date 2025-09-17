@@ -10,7 +10,7 @@ export const CURRENT_SEMESTER = '2025-2'
  * @returns verdadero si es el semestre actual, falso en caso contrario
  */
 export function isCurrentSemester(semester: string): boolean {
-	return semester === CURRENT_SEMESTER
+			return semester === CURRENT_SEMESTER
 }
 
 /**
@@ -100,3 +100,4 @@ export function getAllowedSemestersForYear(year: number): number[] {
 	// Si es un año futuro, no permitir ningún semestre
 	return []
 }
+

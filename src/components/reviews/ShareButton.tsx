@@ -39,13 +39,8 @@ export default function ShareButton({ path, title, text }: ShareButtonProps) {
   }
 
   return (
-    <Button
-      variant="outline"
-      onClick={handleShare}
-      className="flex items-center gap-2"
-    >
+    <Button variant="outline" onClick={handleShare} className="flex items-center gap-2">
       {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
-      {copied ? "¡Copiado!" : "Compartir"}
     </Button>
   );
 }

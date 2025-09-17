@@ -1,6 +1,6 @@
 import json from "@/data/cursos-simplificado.json" assert { type: "json" };
 
-interface Course {
+export interface CourseData {
   sigle: string;
   name: string;
   credits: number;
@@ -20,8 +20,8 @@ interface Course {
   last_semester: string;
 }
 
-interface CoursesData {
-  [key: string]: Course;
+interface CoursesDataJSON {
+  [key: string]: CourseData;
 }
 
-export default json as CoursesData;
+export default json as CoursesDataJSON;

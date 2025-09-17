@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/global.css";
-import { User } from "lucide-react";
-import Link from "next/link";
+import HeaderPage from "@/components/header/HeaderPage";
+import { AuthProvider } from "@/context/authCtx";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,12 +28,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen`}
       >
-        <header>
-          <Link href="/profile"><User></User></Link>
-        </header>
-        {children}
+        <AuthProvider>
+          <HeaderPage />
+          {children}
+          <Toaster
+            position="top-center" // Cambié a top-center para arriba al medio
+            expand={true}
+            richColors={true}
+            closeButton={true}
+            duration={4000}
+          />
+        </AuthProvider>
       </body>
     </html>
   );
