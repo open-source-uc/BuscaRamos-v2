@@ -46,3 +46,14 @@ export interface CourseReview {
 }
 
 export const NULL_STRING = "IHHUQWUPIQWEEWHPQEPIUEWUJWQEPQPWJP"
+
+export interface PrerequisiteCourse {
+  sigle: string;
+  name: string;
+}
+
+export interface PrerequisiteGroup {
+  type: 'AND' | 'OR';
+  courses: PrerequisiteCourse[];
+  groups?: PrerequisiteGroup[];
+}

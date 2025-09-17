@@ -17,6 +17,8 @@ const buttonInputVariants = cva(
           "border border-border rounded-md hover:border-orange has-[:checked]:border-orange has-[:checked]:bg-orange-light has-[:checked]:text-orange",
         purple:
           "border border-border rounded-md hover:border-purple has-[:checked]:border-purple has-[:checked]:bg-purple-light has-[:checked]:text-purple",
+        yellow:
+          "border border-border rounded-md hover:border-yellow has-[:checked]:border-yellow has-[:checked]:bg-yellow-light has-[:checked]:text-yellow",
       },
       size: {
         default: "p-4",
@@ -45,6 +47,8 @@ const iconContainerVariants = cva("rounded-lg flex items-center justify-center b
         "bg-transparent text-orange-600 border-orange/20 group-has-[:checked]:bg-orange group-has-[:checked]:text-white",
       purple:
         "bg-transparent text-purple-600 border-purple/20 group-has-[:checked]:bg-purple group-has-[:checked]:text-white",
+      yellow:
+        "bg-transparent text-yellow-600 border-yellow/20 group-has-[:checked]:bg-yellow group-has-[:checked]:text-white",
     },
     size: {
       default: "p-2",
