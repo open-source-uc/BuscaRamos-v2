@@ -18,10 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     template: "%s | BuscaRamos",
-    default: "BuscaRamos - Catálogo de Cursos UC",
+    default: "BuscaRamos - Catálogo Cursos",
   },
-  description: "BuscaRamos - Encuentra y comparte opiniones sobre cursos universitarios de la Universidad Católica de Chile",
-  keywords: "cursos UC, Universidad Católica, ramos, catálogo académico, reseñas estudiantes",
+  description:
+    "BuscaRamos - Encuentra y comparte opiniones sobre cursos universitarios.",
+  keywords: "ramos, catálogo académico, reseñas estudiantes",
   authors: [{ name: "BuscaRamos Team" }],
   creator: "BuscaRamos",
   publisher: "BuscaRamos",
@@ -40,7 +41,8 @@ export const metadata: Metadata = {
     url: "https://buscaramos.osuc.dev",
     siteName: "BuscaRamos",
     title: "BuscaRamos - Catálogo de Cursos",
-    description: "Encuentra y comparte opiniones sobre cursos universitarios de la Universidad Católica de Chile",
+    description:
+      "Encuentra y comparte opiniones sobre cursos universitarios.",
     images: [
       {
         url: "/images/opengraph.png",
@@ -53,7 +55,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BuscaRamos - Catálogo de Cursos",
-    description: "Encuentra y comparte opiniones sobre cursos universitarios de la Universidad Católica de Chile",
+    description:
+      "Encuentra y comparte opiniones sobre cursos universitarios",
     images: ["/images/opengraph.png"],
   },
   robots: {
@@ -68,12 +71,10 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     shortcut: "/favicon.svg",
     apple: "/favicon.svg",
-  }
+  },
 };
 
 export default function RootLayout({

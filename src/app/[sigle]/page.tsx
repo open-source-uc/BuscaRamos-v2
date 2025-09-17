@@ -19,14 +19,14 @@ import type { Metadata } from "next";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ sigle: string }> 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ sigle: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const course = courseDescriptions[resolvedParams.sigle];
-  
+
   if (!course) {
     return {
       title: "Curso no encontrado - BuscaRamos",
@@ -36,13 +36,17 @@ export async function generateMetadata({
 
   const stats = await getCourseStats(resolvedParams.sigle);
   const reviews = await getCourseReviews(resolvedParams.sigle, 10);
-  
-  const sentiment = stats ? calculateSentiment(stats.likes, stats.superlikes, stats.dislikes) : "question";
-  const positivePercentage = stats ? calculatePositivePercentage(stats.likes, stats.superlikes, stats.dislikes) : 0;
+
+  const sentiment = stats
+    ? calculateSentiment(stats.likes, stats.superlikes, stats.dislikes)
+    : "question";
+  const positivePercentage = stats
+    ? calculatePositivePercentage(stats.likes, stats.superlikes, stats.dislikes)
+    : 0;
   const totalReviews = stats ? stats.likes + stats.superlikes + stats.dislikes : 0;
-  
+
   const title = `${course.sigle} - ${course.name} | BuscaRamos`;
-  const description = `${course.name} (${course.sigle}) - ${course.description ? course.description.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación | Universidad Católica de Chile`;
+  const description = `${course.name} (${course.sigle}) - ${course.description ? course.description.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
 
   return {
     title,
@@ -115,46 +119,6 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Course",
-            "name": course.name,
-            "courseCode": course.sigle,
-            "description": course.description || `Curso ${course.name} (${course.sigle}) de la Universidad Católica de Chile`,
-            "provider": {
-              "@type": "Organization",
-              "name": "Universidad Católica de Chile",
-              "url": "https://www.uc.cl"
-            },
-            "hasCourseInstance": {
-              "@type": "CourseInstance",
-              "courseMode": "onsite",
-              "location": {
-                "@type": "Place",
-                "name": "Universidad Católica de Chile",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressCountry": "CL",
-                  "addressLocality": "Santiago"
-                }
-              }
-            },
-            "aggregateRating": totalReviews > 0 ? {
-              "@type": "AggregateRating",
-              "ratingValue": positivePercentage / 20, // Convert percentage to 1-5 scale
-              "reviewCount": totalReviews,
-              "bestRating": "5",
-              "worstRating": "1"
-            } : undefined,
-            "url": `https://buscaramos.osuc.dev/${course.sigle}`,
-            "educationalLevel": "university",
-            "inLanguage": "es"
-          })
-        }}
-      />
       {/* Información del curso */}
       <CourseInformation course={course} description information />
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">

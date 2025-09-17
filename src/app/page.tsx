@@ -5,11 +5,13 @@ export const runtime = "edge";
 
 export const metadata: Metadata = {
   title: "BuscaRamos - Catálogo Cursos",
-  description: "Encuentra información detallada, reseñas de estudiantes y requisitos para cada ramo.",
+  description:
+    "Encuentra información detallada, reseñas de estudiantes y requisitos para cada ramo.",
   keywords: "cursos, ramos, catálogo académico, reseñas estudiantes, requisitos",
   openGraph: {
     title: "BuscaRamos - Catálogo Cursos",
-    description: "Explora todos los cursos. Encuentra información detallada, reseñas de estudiantes y requisitos para cada ramo.",
+    description:
+      "Explora todos los cursos. Encuentra información detallada, reseñas de estudiantes y requisitos para cada ramo.",
     type: "website",
     url: "https://buscaramos.osuc.dev",
     siteName: "BuscaRamos",
@@ -26,7 +28,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BuscaRamos - Catálogo Cursos",
-    description: "Explora todos los cursos. Encuentra información detallada, reseñas de estudiantes y requisitos para cada ramo.",
+    description:
+      "Explora todos los cursos. Encuentra información detallada, reseñas de estudiantes y requisitos para cada ramo.",
     images: ["/images/opengraph.png"],
   },
   robots: {

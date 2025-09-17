@@ -51,16 +51,16 @@ export default function Review({
         {/* Sentimiento */}
         <div className="flex flex-col items-start gap-2">
           {/* Pill */}
-          {course && 
-              <section>
-                <Link href={`/${course.sigle}`}>
-                  <p className="text-sm underline">{course.sigle}</p>
-                </Link>
-                <div className="flex items-center justify-between">
-                  <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
-                </div>
-              </section>
-          }
+          {course && (
+            <section>
+              <Link href={`/${course.sigle}`}>
+                <p className="text-sm underline">{course.sigle}</p>
+              </Link>
+              <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
+              </div>
+            </section>
+          )}
           <div
             className={`flex gap-2 items-center p-2 border rounded-lg w-max ${
               review.like_dislike === 2
