@@ -134,8 +134,6 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
     notFound();
   }
 
-  course.name = "Reseña de: " + course.name;
-
   const vote = await getVoteOnReviewByUserId(review.id);
 
   return (

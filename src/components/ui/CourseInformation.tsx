@@ -43,7 +43,7 @@ export default function CourseInformation({
         </div>
       )}
       {information && (
-        <div className="flex items-center flex-wrap gap-2 mt-8">
+        <div className={`flex items-center flex-wrap gap-2 ${description ? "mt-4" : ""}`}>
           <CourseCampuses campus={course.campus} lastSemester={course.last_semester} />
           <Pill variant="green" icon={HourglassIcon} className="desktop:hidden">
             {course.credits} Créditos
