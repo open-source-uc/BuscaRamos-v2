@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getRequestContext } from '@cloudflare/next-on-pages'
 import { CourseDB } from '@/types/types'
+import { R2, R2PUBLIC } from '@/lib/utils'
 export const runtime = 'edge'
 
 export function createCoursesNDJSON_v1(
@@ -43,7 +44,14 @@ export async function GET(request: NextRequest) {
 		const courses = await getCourseSummaries()
 		const ndjson = createCoursesNDJSON_v1(courses)
 
-		return new Response(ndjson, {
+		await R2PUBLIC().put("courses-score.ndjson", ndjson, {
+			httpMetadata: {
+				contentType: 'application/x-ndjson; charset=utf-8',
+			}
+		})
+		
+
+		return new Response("Updated", {
 			status: 200,
 			headers: {
 				'Content-Type': 'application/x-ndjson; charset=utf-8',
