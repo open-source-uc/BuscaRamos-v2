@@ -34,11 +34,14 @@ export default function VoteButtons({
         onClick={() => {
           interactWithCourseReview("up", parseInt(reviewId.toString()))
             .then((res) => {
+              if (!res.success) {
+                toast.error(res.message);
+                return;
+              }
               setVotes(res.count ?? 0);
               setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
               toast.success("Voto registrado");
             })
-            .catch((res) => toast.error(res.message || "Error al registrar el voto"));
         }}
         title="Upvote"
       >
@@ -58,11 +61,14 @@ export default function VoteButtons({
         onClick={() => {
           interactWithCourseReview("down", parseInt(reviewId.toString()))
             .then((res) => {
+              if (!res.success) {
+                toast.error(res.message);
+                return;
+              }
               setVotes(res.count ?? 0);
               setUserVote(res.userVote === 1 ? "up" : res.userVote === -1 ? "down" : null);
               toast.success("Voto registrado");
             })
-            .catch((res) => toast.error(res.message || "Error al registrar el voto"));
         }}
         title="Downvote"
       >

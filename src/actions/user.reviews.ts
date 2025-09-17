@@ -90,7 +90,9 @@ export const interactWithCourseReview = async (action: 'up' | 'down', reviewId: 
 
     const user = await authenticateUser()
     if (!user)
-        throw new Error('Debes iniciar sesión para votar una reseña')
+       return {
+            message: 'Debes iniciar sesión para votar una reseña'
+        }
     
 
     if (action == 'up') {
