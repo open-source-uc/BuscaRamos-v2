@@ -4,6 +4,28 @@ import { getRequestContext } from '@cloudflare/next-on-pages'
 import { CourseDB } from '@/types/types'
 export const runtime = 'edge'
 
+export function createCoursesNDJSON_v1(
+	courses: CourseDB[], 
+	staticInfo: Record<string, CourseStaticData>
+): string {
+	let result = ''
+	let first = true
+
+	for (const course of courses) {
+		const courseData = staticInfo[course.sigle]
+		
+		if (!courseData) continue
+
+		if (!first) result += '\n'
+		result += JSON.stringify({ ...course, ...courseData })
+		first = false
+	}
+
+	return result
+}
+
+
+
 export async function GET(request: NextRequest) {
 	const API_SECRET = process.env.API_SECRET
 	
@@ -24,45 +46,10 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		// Necesitarás adaptar esto a tu configuración de base de datos
-		// Ejemplo usando tu ORM/cliente de DB preferido
-		const result = await getCourseSummaries() // Implementa esta función
+		const courses = await getCourseSummaries()
+		const ndjson = createCoursesNDJSON_v1(courses, CourseStaticInfo)
 
-		async function* generateCourses() {
-			for (const course of result) {
-				// Reemplaza getEntry con tu método para obtener datos estáticos
-				const courseData =  CourseStaticInfo[course.sigle] 
-				
-				if (!courseData) {
-					continue
-				}
-
-				const staticInfo: CourseDB & CourseStaticData = {
-                    ...course,
-                    ...courseData   
-                }
-
-				yield JSON.stringify(staticInfo) + '\n'
-			}
-		}
-
-		const encoder = new TextEncoder()
-		
-		const stream = new ReadableStream({
-			async start(controller) {
-				try {
-					for await (const line of generateCourses()) {
-						controller.enqueue(encoder.encode(line))
-					}
-					controller.close()
-				} catch (error) {
-					console.error('Error in stream:', error)
-					controller.error(error)
-				}
-			},
-		})
-
-		return new Response(stream, {
+		return new Response(ndjson, {
 			status: 200,
 			headers: {
 				'Content-Type': 'application/x-ndjson; charset=utf-8',
@@ -77,7 +64,6 @@ export async function GET(request: NextRequest) {
 	}
 }
 
-// Funciones auxiliares que necesitarás implementar según tu setup
 async function getCourseSummaries(): Promise<CourseDB[]> {
 	const DB = getRequestContext().env.DB
     const result = await DB.prepare(
