@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getRequestContext } from '@cloudflare/next-on-pages'
 import { CourseDB } from '@/types/types'
-import { R2, R2PUBLIC } from '@/lib/utils'
+import { R2PUBLIC } from '@/lib/binding'
 export const runtime = 'edge'
 
 export function createCoursesNDJSON_v1(
