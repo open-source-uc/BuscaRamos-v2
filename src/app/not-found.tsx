@@ -1,58 +1,137 @@
+import { AreaIcon, BuildingIcon, HourglassIcon, LinkIcon } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Pill } from "@/components/ui/pill";
+import Link from "next/link";
+
 export const runtime = "edge";
 
 export default function NotFound() {
   return (
-    <>
-      <title>404: This page could not be found.</title>
-      <div style={styles.error}>
+    <div className="mx-auto max-w-6xl px-4 py-8">
+      <section className="border-border rounded-md border px-6 py-8">
+        <p className="text-sm">ERR404</p>
+
+        <div className="flex items-center justify-between pt-2">
+          <h1 className="mb-2 text-3xl font-bold">Introducción a las Páginas No Encontradas</h1>
+          <Pill variant="red" size="xl" icon={HourglassIcon} className="desktop:flex hidden">
+            Error 404
+          </Pill>
+        </div>
         <div>
-          <style
-            dangerouslySetInnerHTML={{
-              __html: `body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}`,
-            }}
-          />
-          <h1 className="next-error-h1" style={styles.h1}>
-            404
-          </h1>
-          <div style={styles.desc}>
-            <h2 style={styles.h2}>This page could not be found.</h2>
+          <p className="max-w-[75%] text-sm opacity-60">
+            Ese curso introduce a la temática de las páginas no encontradas. Aquí aprenderás sobre
+            los errores 404, cómo afectan la experiencia del usuario y las mejores prácticas para
+            manejarlos. Aunque no se trata de un curso tradicional, es esencial para entender la
+            navegación web y la importancia de una buena experiencia de usuario.
+          </p>
+        </div>
+        <div className="mt-8 flex flex-wrap items-center gap-2">
+          <Pill variant="red" icon={HourglassIcon} className="desktop:hidden">
+            {" "}
+            404 Error{" "}
+          </Pill>
+          <Pill variant="blue" icon={BuildingIcon}>
+            {" "}
+            Open Source eUC{" "}
+          </Pill>
+          <Pill variant="pink" icon={AreaIcon}>
+            {" "}
+            Sistemas de Ayuda{" "}
+          </Pill>
+        </div>
+      </section>
+
+      <section className="mt-8">
+        <div className="border-border overflow-hidden rounded-md border">
+          <div className="border-border border-b px-6 py-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-foreground text-2xl font-semibold">¿Necesitas Ayuda?</h2>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  Explora estas opciones para encontrar lo que buscas.
+                </p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="hidden items-center gap-2 rounded-lg border px-3 py-2 text-sm md:flex">
+                  <span className="text-muted-foreground font-medium"> 2 </span>
+                  <span className="text-muted-foreground"> opciones disponibles </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="space-y-6">
+              <div className="bg-background border-border relative flex flex-col gap-4 rounded-sm border p-5">
+                <div className="bg-muted text-muted-foreground absolute top-3 right-3 flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium opacity-50">
+                  1
+                </div>
+
+                <div className="items-start justify-between gap-2 pr-8">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2">
+                      <HourglassIcon className="h-5 w-5 fill-current" />
+                    </div>
+                    <Link href="/">
+                      <span className="text-md text-foreground font-medium underline">
+                        {" "}
+                        Catálogo de Cursos{" "}
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+
+                <p className="text-muted-foreground text-sm">
+                  Explora todos los cursos disponibles, encuentra información detallada sobre cada
+                  uno y lee reseñas de otros estudiantes.
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  <Pill variant="ghost_blue" size="sm" icon={BuildingIcon}>
+                    {" "}
+                    Open Source eUC{" "}
+                  </Pill>
+                  <Pill variant="ghost_blue" size="sm" icon={AreaIcon}>
+                    {" "}
+                    Búsqueda Avanzada{" "}
+                  </Pill>
+                </div>
+              </div>
+
+              {/* <div
+							className="bg-background border-border relative flex flex-col gap-4 rounded-sm border p-5"
+						>
+							<div
+								className="bg-muted text-muted-foreground absolute top-3 right-3 flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium opacity-50"
+							>
+								2
+							</div>
+
+							<div className="items-start justify-between gap-2 pr-8">
+								<div className="flex items-center gap-2">
+									<div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-2">
+										<LinkIcon className="h-5 w-5 fill-current" />
+									</div>
+									<span className="text-md text-foreground font-medium"> Recomendaciones y Guías </span>
+								</div>
+							</div>
+
+							<p className="text-muted-foreground text-sm">
+								Descubre consejos útiles, guías de estudio y recomendaciones de la comunidad
+								estudiantil.
+							</p>
+
+							<div className="flex flex-wrap gap-2">
+								<Pill variant="ghost_pink" size="sm" icon={BuildingIcon}>
+									Comunidad Estudiantil
+								</Pill>
+								<Pill variant="ghost_pink" size="sm" icon={AreaIcon}> Recursos Útiles </Pill>
+							</div>
+						</div> */}
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+    </div>
   );
 }
-
-const styles = {
-  error: {
-    fontFamily:
-      'system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
-    height: "100vh",
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  desc: {
-    display: "inline-block",
-  },
-
-  h1: {
-    display: "inline-block",
-    margin: "0 20px 0 0",
-    padding: "0 23px 0 0",
-    fontSize: 24,
-    fontWeight: 500,
-    verticalAlign: "top",
-    lineHeight: "49px",
-  },
-
-  h2: {
-    fontSize: 14,
-    fontWeight: 400,
-    lineHeight: "49px",
-    margin: 0,
-  },
-} as const;

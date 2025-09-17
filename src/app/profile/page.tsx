@@ -3,7 +3,7 @@ export const runtime = "edge";
 import Review from "@/components/reviews/Review";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";
-import {coursesStaticData} from "@/lib/coursesStaticData";
+import { coursesStaticData } from "@/lib/coursesStaticData";
 import Link from "next/link";
 
 export default async function Profile() {
