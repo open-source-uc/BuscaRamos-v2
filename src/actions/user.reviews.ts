@@ -237,17 +237,22 @@ export const createCourseReview = async (formData: FormData) => {
             success: true
         }
     }
-
-    await reviews.createCourseReview({
-        user_id: user.userId,
-        course_sigle: course.sigle,
-        like_dislike: data.like_dislike,
-        workload_vote: data.workload_vote,
-        attendance_type: data.attendance_type,
-        weekly_hours: data.weekly_hours,
-        year_taken: data.year_taken,
-        semester_taken: data.semester_taken,
-    }, data.comment?.trim() || null)
+    try {
+        await reviews.createCourseReview({
+            user_id: user.userId,
+            course_sigle: course.sigle,
+            like_dislike: data.like_dislike,
+            workload_vote: data.workload_vote,
+            attendance_type: data.attendance_type,
+            weekly_hours: data.weekly_hours,
+            year_taken: data.year_taken,
+            semester_taken: data.semester_taken,
+        }, data.comment?.trim() || null)
+    } catch {
+        return {
+            message: 'Error al crear la reseña',
+        }
+    }
     
     return {
         message: review ? 'Reseña actualizada con éxito' : 'Reseña creada con éxito',
