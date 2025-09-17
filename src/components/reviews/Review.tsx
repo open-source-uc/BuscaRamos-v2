@@ -5,6 +5,7 @@ import {
   AttendanceIcon,
   CalendarIcon,
   ClockIcon,
+  HourglassIcon,
   StarIcon,
   ThumbDownIcon,
   ThumbUpIcon,
@@ -21,6 +22,7 @@ import { CourseData } from "@/lib/CoursesData";
 import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";
+import Link from "next/link";
 
 export default function Review({
   review,
@@ -49,7 +51,16 @@ export default function Review({
         {/* Sentimiento */}
         <div className="flex flex-col items-start gap-2">
           {/* Pill */}
-          {course && <h1 className="text-xl font-bold w-max">{course.name}</h1>}
+          {course && 
+              <section>
+                <Link href={`/${course.sigle}`}>
+                  <p className="text-sm underline">{course.sigle}</p>
+                </Link>
+                <div className="flex items-center justify-between">
+                  <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
+                </div>
+              </section>
+          }
           <div
             className={`flex gap-2 items-center p-2 border rounded-lg w-max ${
               review.like_dislike === 2

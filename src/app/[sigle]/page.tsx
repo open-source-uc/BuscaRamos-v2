@@ -15,8 +15,77 @@ import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 import MakeReviewButton from "@/components/reviews/MakeReviewButton";
+import type { Metadata } from "next";
 
 export const runtime = "edge";
+
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ sigle: string }> 
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const course = courseDescriptions[resolvedParams.sigle];
+  
+  if (!course) {
+    return {
+      title: "Curso no encontrado - BuscaRamos",
+      description: "El curso solicitado no se encuentra en nuestro catálogo.",
+    };
+  }
+
+  const stats = await getCourseStats(resolvedParams.sigle);
+  const reviews = await getCourseReviews(resolvedParams.sigle, 10);
+  
+  const sentiment = stats ? calculateSentiment(stats.likes, stats.superlikes, stats.dislikes) : "question";
+  const positivePercentage = stats ? calculatePositivePercentage(stats.likes, stats.superlikes, stats.dislikes) : 0;
+  const totalReviews = stats ? stats.likes + stats.superlikes + stats.dislikes : 0;
+  
+  const title = `${course.sigle} - ${course.name} | BuscaRamos`;
+  const description = `${course.name} (${course.sigle}) - ${course.description ? course.description.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación | Universidad Católica de Chile`;
+
+  return {
+    title,
+    description,
+    keywords: `${course.sigle}, ${course.name},curso, ramo, reseñas`,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `https://buscaramos.osuc.dev/${course.sigle}`,
+      siteName: "BuscaRamos",
+      images: [
+        {
+          url: "/images/opengraph.png",
+          width: 1200,
+          height: 630,
+          alt: `${course.sigle} - ${course.name}`,
+        },
+      ],
+      locale: "es_CL",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/images/opengraph.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    alternates: {
+      canonical: `https://buscaramos.osuc.dev/${course.sigle}`,
+    },
+  };
+}
 
 export default async function CatalogPage({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
@@ -46,6 +115,46 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": course.name,
+            "courseCode": course.sigle,
+            "description": course.description || `Curso ${course.name} (${course.sigle}) de la Universidad Católica de Chile`,
+            "provider": {
+              "@type": "Organization",
+              "name": "Universidad Católica de Chile",
+              "url": "https://www.uc.cl"
+            },
+            "hasCourseInstance": {
+              "@type": "CourseInstance",
+              "courseMode": "onsite",
+              "location": {
+                "@type": "Place",
+                "name": "Universidad Católica de Chile",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressCountry": "CL",
+                  "addressLocality": "Santiago"
+                }
+              }
+            },
+            "aggregateRating": totalReviews > 0 ? {
+              "@type": "AggregateRating",
+              "ratingValue": positivePercentage / 20, // Convert percentage to 1-5 scale
+              "reviewCount": totalReviews,
+              "bestRating": "5",
+              "worstRating": "1"
+            } : undefined,
+            "url": `https://buscaramos.osuc.dev/${course.sigle}`,
+            "educationalLevel": "university",
+            "inLanguage": "es"
+          })
+        }}
+      />
       {/* Información del curso */}
       <CourseInformation course={course} description information />
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
