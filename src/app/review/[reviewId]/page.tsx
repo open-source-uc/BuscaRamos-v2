@@ -1,7 +1,7 @@
 import { getVoteOnReviewByUserId } from "@/actions/user.reviews";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
-import courseDescriptions from "@/lib/coursesStaticData";
+import {coursesStaticData} from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import type { Metadata } from "next";
 import z from "zod";
@@ -41,7 +41,7 @@ export async function generateMetadata({
     };
   }
 
-  const course = courseDescriptions[review.course_sigle];
+  const course = coursesStaticData()[review.course_sigle];
 
   if (!course) {
     return {
@@ -127,7 +127,7 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
     return <p>Reseña no encontrada</p>;
   }
 
-  const course = courseDescriptions[review.course_sigle];
+  const course = coursesStaticData()[review.course_sigle];
 
   if (!course) {
     return <p>Curso no encontrado</p>;

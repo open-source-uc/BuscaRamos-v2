@@ -13,11 +13,11 @@ import Link from "next/link";
 
 export default function CourseInformation({
   course,
-  description = false,
+  description,
   information = false,
 }: {
   course: CourseStaticData;
-  description?: boolean;
+  description?: string;
   information?: boolean;
 }) {
   return (
@@ -39,7 +39,7 @@ export default function CourseInformation({
       </div>
       {description && (
         <div>
-          <p className="text-sm text-accent-foreground max-w-[75%]">{course.description}</p>
+          <p className="text-sm text-accent-foreground max-w-[75%]">{description}</p>
         </div>
       )}
       {information && (

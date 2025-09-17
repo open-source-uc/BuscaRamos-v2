@@ -1,7 +1,7 @@
 import { createCourseReview } from "@/actions/user.reviews";
 import FormReview from "@/components/reviews/FormReview";
 import { authenticateUser } from "@/lib/auth/auth";
-import courseDescriptions from "@/lib/coursesStaticData";
+import {coursesStaticData} from "@/lib/coursesStaticData";
 import { getReviewBySigleAndUserId, getReviewContent } from "@/lib/reviews";
 import { CourseReview } from "@/types/types";
 
@@ -9,7 +9,7 @@ export const runtime = "edge";
 
 export default async function WriteReview({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
-  const course = courseDescriptions[resolvedParams.sigle];
+  const course = coursesStaticData()[resolvedParams.sigle];
 
   if (!course) {
     return <p>Curso no encontrado</p>;

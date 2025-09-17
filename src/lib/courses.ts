@@ -3,7 +3,7 @@
 import { getRequestContext } from "@cloudflare/next-on-pages"
 import { parsePrerequisites, PrerequisiteGroup } from "./courseReq"
 import { CourseDB } from "@/types/types"
-import coursesStaticData from "./coursesStaticData"
+import {coursesStaticData} from "./coursesStaticData"
 
 const DB = () => getRequestContext().env.DB
 

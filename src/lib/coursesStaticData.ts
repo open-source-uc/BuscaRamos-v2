@@ -1,4 +1,5 @@
-import json from "@/data/cursos-simplificado.json" assert { type: "json" };
+import json1 from "@/../data/cursos-simplificado.json" assert { type: "json" };
+import json2 from "@/../data/cursos-descripciones.json" assert { type: "json" };
 
 export interface CourseStaticData {
   sigle: string;
@@ -16,14 +17,18 @@ export interface CourseStaticData {
   is_removable: boolean[];
   is_special: boolean[];
   is_english: boolean[];
-  description: string;
   last_semester: string;
 }
+
 
 interface CourseStaticDataJSON {
   [key: string]: CourseStaticData;
 }
 
-export default function coursesStaticData(): CourseStaticDataJSON {
-  return json as CourseStaticDataJSON;
+export const coursesStaticData = () => {
+  return json1 as CourseStaticDataJSON;
+}
+
+export const courseDescriptions = () => {
+  return json2 as { [key: string]: string };
 }
