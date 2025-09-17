@@ -3,7 +3,7 @@ export const runtime = "edge";
 import Review from "@/components/reviews/Review";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";
-import CoursesData from "@/lib/CoursesData";
+import CoursesData from "@/lib/coursesStaticData";
 import Link from "next/link";
 
 export default async function Profile() {
@@ -32,7 +32,7 @@ export default async function Profile() {
               review={review}
               status
               editable
-              course={CoursesData[review.course_sigle]}
+              course={CoursesData()[review.course_sigle]}
               hideLike
             />
           ))}

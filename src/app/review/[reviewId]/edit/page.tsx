@@ -1,5 +1,5 @@
 import FormReviewUpdate from "@/components/reviews/FormReviewUpdate";
-import courseDescriptions from "@/lib/CoursesData";
+import courseDescriptions from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import z from "zod";
 

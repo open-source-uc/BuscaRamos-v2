@@ -1,7 +1,7 @@
 import { createCourseReview } from "@/actions/user.reviews";
 import FormReview from "@/components/reviews/FormReview";
 import { authenticateUser } from "@/lib/auth/auth";
-import courseDescriptions from "@/lib/CoursesData";
+import courseDescriptions from "@/lib/coursesStaticData";
 import { getReviewBySigleAndUserId, getReviewContent } from "@/lib/reviews";
 import { CourseReview } from "@/types/types";
 

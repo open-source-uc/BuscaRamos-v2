@@ -2,8 +2,8 @@
 
 import { getRequestContext } from "@cloudflare/next-on-pages"
 import { parsePrerequisites, PrerequisiteGroup } from "./courseReq"
-import CoursesData from "./CoursesData"
 import { CourseDB } from "@/types/types"
+import coursesStaticData from "./coursesStaticData"
 
 const DB = () => getRequestContext().env.DB
 
@@ -72,7 +72,7 @@ const getCourseNames = (sigles: string[]) => {
   const courseMap: Map<string, string> = new Map();
 
   sigles.forEach((sigle) => {
-    courseMap.set(sigle, CoursesData[sigle]?.name || sigle);
+    courseMap.set(sigle, coursesStaticData()[sigle]?.name || sigle);
   });
 
   return courseMap;

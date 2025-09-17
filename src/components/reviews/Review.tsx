@@ -17,7 +17,7 @@ import ReportButton from "./ReportButton";
 import VoteButton from "./VoteButton";
 import { MarkdownReviewView } from "../markdown/MarkdownReviewView";
 import EditableButton from "./EditableButton";
-import { CourseStaticData } from "@/lib/CoursesData";
+import { CourseStaticData } from "@/lib/coursesStaticData";
 import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";

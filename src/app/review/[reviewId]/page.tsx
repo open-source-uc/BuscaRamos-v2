@@ -1,7 +1,7 @@
 import { getVoteOnReviewByUserId } from "@/actions/user.reviews";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
-import courseDescriptions from "@/lib/CoursesData";
+import courseDescriptions from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import type { Metadata } from "next";
 import z from "zod";

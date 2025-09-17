@@ -24,4 +24,6 @@ interface CourseStaticDataJSON {
   [key: string]: CourseStaticData;
 }
 
-export default json as CourseStaticDataJSON;
+export default function coursesStaticData(): CourseStaticDataJSON {
+  return json as CourseStaticDataJSON;
+}

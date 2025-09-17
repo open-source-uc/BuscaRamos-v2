@@ -1,4 +1,4 @@
-import { CourseStaticData } from "@/lib/CoursesData";
+import { CourseStaticData } from "@/lib/coursesStaticData";
 import CourseCampuses from "../courses/CourseCampuses";
 import {
   AreaIcon,

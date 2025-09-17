@@ -1,4 +1,4 @@
-import courseDescriptions from "@/lib/CoursesData";
+import courseDescriptions from "@/lib/coursesStaticData";
 import { getCourseReviews } from "../../actions/reviews";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
 import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
