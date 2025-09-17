@@ -50,6 +50,7 @@ export const NULL_STRING = "IHHUQWUPIQWEEWHPQEPIUEWUJWQEPQPWJP"
 export interface PrerequisiteCourse {
   sigle: string;
   name: string;
+  isCoreq?: boolean;
 }
 
 export interface PrerequisiteGroup {
