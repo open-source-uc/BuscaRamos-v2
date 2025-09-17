@@ -5,7 +5,6 @@ import {
   AttendanceIcon,
   CalendarIcon,
   ClockIcon,
-  HourglassIcon,
   StarIcon,
   ThumbDownIcon,
   ThumbUpIcon,

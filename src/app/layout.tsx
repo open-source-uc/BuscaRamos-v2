@@ -20,8 +20,7 @@ export const metadata: Metadata = {
     template: "%s | BuscaRamos",
     default: "BuscaRamos - Catálogo Cursos",
   },
-  description:
-    "BuscaRamos - Encuentra y comparte opiniones sobre cursos universitarios.",
+  description: "BuscaRamos - Encuentra y comparte opiniones sobre cursos universitarios.",
   keywords: "ramos, catálogo académico, reseñas estudiantes",
   authors: [{ name: "BuscaRamos Team" }],
   creator: "BuscaRamos",
@@ -41,8 +40,7 @@ export const metadata: Metadata = {
     url: "https://buscaramos.osuc.dev",
     siteName: "BuscaRamos",
     title: "BuscaRamos - Catálogo de Cursos",
-    description:
-      "Encuentra y comparte opiniones sobre cursos universitarios.",
+    description: "Encuentra y comparte opiniones sobre cursos universitarios.",
     images: [
       {
         url: "/images/opengraph.png",
@@ -55,8 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BuscaRamos - Catálogo de Cursos",
-    description:
-      "Encuentra y comparte opiniones sobre cursos universitarios",
+    description: "Encuentra y comparte opiniones sobre cursos universitarios",
     images: ["/images/opengraph.png"],
   },
   robots: {

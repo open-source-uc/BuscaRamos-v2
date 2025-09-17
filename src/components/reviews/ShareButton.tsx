@@ -7,10 +7,9 @@ import { Share2, Check } from "lucide-react";
 interface ShareButtonProps {
   path?: string; // opcional, si no se pasa usa window.location.href
   title?: string;
-  text?: string;
 }
 
-export default function ShareButton({ path, title, text }: ShareButtonProps) {
+export default function ShareButton({ path, title }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
