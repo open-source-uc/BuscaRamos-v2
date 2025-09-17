@@ -2,7 +2,7 @@
 // import CourseStaticInfo, { CourseStaticData } from '@/lib/CoursesData'
 // import { getRequestContext } from '@cloudflare/next-on-pages'
 // import { CourseDB } from '@/types/types'
-// export const runtime = 'edge'
+export const runtime = 'edge'
 
 // export function createCoursesNDJSON_v1(
 // 	courses: CourseDB[], 
