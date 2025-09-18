@@ -345,3 +345,49 @@ export const updateCourseReview = async (reviewId: number, formData: FormData) =
     }
 
 }
+
+const statusSchema = z.object({
+    review_id: z.number().int(),
+    status: z.number().int().min(1).max(3),
+})
+
+export const changeStatusReview = async (formData: FormData) => {
+
+    const validate = statusSchema.safeParse({
+        review_id: Number(formData.get('review_id')),
+        status: Number(formData.get('status')),
+    })
+
+    if (validate.error) {
+        return {
+            message: validate.error.message,
+        }
+    }
+
+    const data = validate.data
+
+    const user = await authenticateUser()
+    if (!user)
+        return {
+            message: 'Debes iniciar sesión para cambiar el estado de una reseña',
+        }
+    
+    if (!hasPermission(user, OsucPermissions.userIsRoot))
+        return {
+            message: 'No tienes permiso para cambiar el estado de una reseña',
+        }
+    const review = await reviews.getCourseReviewById(data.review_id)
+
+    if (!review) {
+        return {
+            message: 'La reseña no existe',
+        }
+    }
+
+    await reviews.changeStatusReview(data.status as 0 | 1 | 2 | 3, data.review_id)
+
+    return {
+        message: 'Estado de la reseña actualizado con éxito',
+        success: true
+    }
+} 

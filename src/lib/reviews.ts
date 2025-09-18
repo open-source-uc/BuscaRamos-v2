@@ -388,7 +388,6 @@ export async function updateCourseReview(
   return result;
 }
 
-
 export async function getVoteCountByReviewId(reviewId: number) {
     const result = await DB().prepare(
         'SELECT votes as count FROM course_reviews WHERE id = ?'
@@ -400,4 +399,23 @@ export async function getVoteCountByReviewId(reviewId: number) {
 
     if (!result) return 0  
     return result.count
+}
+
+export async function getReviewsByStatus(status: 0 | 1 | 2 | 3, limit: number = 40) {
+    const result = await DB().prepare(
+        'SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews WHERE status = ? ORDER BY created_at DESC LIMIT ?'
+    )
+    .bind(status, limit)
+    .all<CourseReview>()
+
+    return result.results
+}
+    
+
+export async function changeStatusReview(status: 0 | 1 | 2 | 3, reviewId: number) {
+    await DB().prepare(`
+        UPDATE course_reviews
+        SET status = ?
+        WHERE id = ?
+    `).bind(status, reviewId).run() 
 }
