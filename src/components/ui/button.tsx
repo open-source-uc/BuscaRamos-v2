@@ -59,11 +59,6 @@ export interface ButtonProps
   icon?: React.ComponentType<{ className?: string }>;
 }
 
-// Tipos para las referencias
-type ButtonRef = React.ForwardedRef<HTMLButtonElement>;
-type AnchorRef = React.ForwardedRef<HTMLAnchorElement>;
-type CombinedRef = ButtonRef | AnchorRef;
-
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
     {
@@ -81,12 +76,12 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       icon: Icon,
       ...props
     },
-    ref: CombinedRef
+    ref
   ) => {
     const isLink = Boolean(href);
     const isDisabled = disabled || loading;
 
-    // Common props for both button and link
+    // Common props for both button and link (sin ref)
     const commonProps = {
       className: cn(
         buttonVariants({ variant, size, className }),
@@ -163,7 +158,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       return (
         <a
           {...commonProps}
-          ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+          ref={ref as React.Ref<HTMLAnchorElement>}
           href={isDisabled ? undefined : href}
           target={target}
           rel={target === "_blank" ? "noopener noreferrer" : rel}
@@ -173,7 +168,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           onClick={
             isDisabled
               ? (e: React.MouseEvent<HTMLAnchorElement>) => e.preventDefault()
-              : (onClick as React.MouseEventHandler<HTMLAnchorElement>)
+              : (onClick as React.MouseEventHandler<HTMLAnchorElement> | undefined)
           }
           {...(restProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
@@ -185,7 +180,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     return (
       <button
         {...commonProps}
-        ref={ref as React.ForwardedRef<HTMLButtonElement>}
+        ref={ref as React.Ref<HTMLButtonElement>}
         disabled={isDisabled}
         aria-disabled={isDisabled}
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
