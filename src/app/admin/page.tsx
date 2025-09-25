@@ -7,27 +7,29 @@ export default async function AdminPage() {
   // Aqui no hay proteccion de login pues esta en el middleware
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
+      {/* Cabecera */}
       <section className="border-border mb-8 rounded-md border px-6 py-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
           <div>
             <h1 className="mb-2 text-3xl font-bold">Panel de Administración</h1>
             <p className="text-muted-foreground">
               Gestiona reseñas, monitorea la actividad del sistema y revisa métricas importantes
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <Pill variant="blue" icon={UsersIcon}>
-              {" "}
-              Administrador{" "}
+              Administrador
             </Pill>
           </div>
         </div>
       </section>
+
+      {/* Actividad Reciente */}
       <section className="border-border rounded-md border">
         <div className="border-border border-b px-6 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
             <h2 className="text-xl font-semibold">Actividad Reciente</h2>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Button variant="outline" href="/admin/reviews-pending" size="sm">
                 Ver Pendientes
               </Button>
@@ -35,8 +37,7 @@ export default async function AdminPage() {
                 Ver Reportadas
               </Button>
               <Button variant="outline" href="/admin/reviews-hidden" size="sm">
-                {" "}
-                Ver Ocultas{" "}
+                Ver Ocultas
               </Button>
             </div>
           </div>

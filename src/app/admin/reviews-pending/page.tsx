@@ -43,8 +43,8 @@ export default async function PendingPage() {
           <p className="text-center text-muted-foreground">No hay reseñas por ver.</p>
         ) : (
           reviews.map((review) => (
-            <div className="space-y-4 border-2 rounded-sm" key={review.id}>
-              <ChangeStatusForm review_id={review.id} />
+            <div key={review.id} className="flex flex-col gap-4 bg-yellow-50 p-4">
+              <ChangeStatusForm review={review} />
               <Review
                 key={review.id}
                 review={review}
