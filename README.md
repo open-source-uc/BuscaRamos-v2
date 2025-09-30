@@ -214,7 +214,7 @@ npm run lint:fix
 
 ## 📄 Licencia
 
-Este proyecto está bajo la licencia MIT. Ver `LICENSE.md` para más detalles.
+Este proyecto está bajo la licencia AGPL-V3. Ver `LICENSE.md` para más detalles.
 
 ## 🆘 Soporte
 
