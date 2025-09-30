@@ -46,8 +46,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -1067,8 +1067,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -1098,8 +1098,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -1129,8 +1129,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -1160,8 +1160,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -1191,8 +1191,8 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       false
@@ -1222,8 +1222,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -1343,8 +1343,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -9657,9 +9657,9 @@
       "Presencial"
     ],
     "campus": [
+      "San Joaquín",
       "Oriente",
-      "Casa Central",
-      "San Joaquín"
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -11037,8 +11037,8 @@
       ""
     ],
     "format": [
-      "Remoto con Act.P",
-      "Presencial"
+      "Presencial",
+      "Remoto con Act.P"
     ],
     "campus": [
       "San Joaquín"
@@ -11401,8 +11401,8 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       false,
@@ -13421,8 +13421,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       false
@@ -13572,8 +13572,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -14413,8 +14413,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -14474,8 +14474,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -18836,8 +18836,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -18897,8 +18897,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -18955,8 +18955,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -18989,8 +18989,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -19020,8 +19020,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -19051,8 +19051,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -20006,8 +20006,8 @@
     "school": "Comunicaciones",
     "area": "",
     "categories": [
-      "Aprendizaje Servicio",
-      ""
+      "",
+      "Aprendizaje Servicio"
     ],
     "format": [
       "Presencial"
@@ -20973,8 +20973,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -24304,8 +24304,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -24455,8 +24455,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -26946,8 +26946,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "Campus Externo"
+      "Campus Externo",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -33038,8 +33038,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       false
@@ -33069,8 +33069,8 @@
       "Presencial y Onl"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -33100,8 +33100,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       true
@@ -34085,8 +34085,8 @@
     "school": "Economía Y Administración",
     "area": "",
     "categories": [
-      "Aprendizaje Servicio",
-      ""
+      "",
+      "Aprendizaje Servicio"
     ],
     "format": [
       "Presencial"
@@ -34506,8 +34506,8 @@
     "school": "Economía Y Administración",
     "area": "",
     "categories": [
-      "Aprendizaje Servicio",
-      ""
+      "",
+      "Aprendizaje Servicio"
     ],
     "format": [
       "Presencial"
@@ -35803,8 +35803,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -38142,8 +38142,8 @@
       ""
     ],
     "format": [
-      "Híbrido",
-      "Presencial"
+      "Presencial",
+      "Híbrido"
     ],
     "campus": [
       "Campus Externo"
@@ -38293,8 +38293,8 @@
       ""
     ],
     "format": [
-      "Híbrido",
-      "Remoto"
+      "Remoto",
+      "Híbrido"
     ],
     "campus": [
       "Campus Externo"
@@ -38354,8 +38354,8 @@
       ""
     ],
     "format": [
-      "Híbrido",
-      "Presencial"
+      "Presencial",
+      "Híbrido"
     ],
     "campus": [
       "Campus Externo"
@@ -40220,8 +40220,8 @@
     "school": "Educación",
     "area": "",
     "categories": [
-      "Aprendizaje Servicio",
-      ""
+      "",
+      "Aprendizaje Servicio"
     ],
     "format": [
       "Presencial"
@@ -42746,8 +42746,8 @@
     "school": "Educación",
     "area": "",
     "categories": [
-      "Aprendizaje Servicio",
-      ""
+      "",
+      "Aprendizaje Servicio"
     ],
     "format": [
       "Presencial"
@@ -43289,8 +43289,8 @@
     "school": "Educación",
     "area": "",
     "categories": [
-      "Aprendizaje Servicio",
-      ""
+      "",
+      "Aprendizaje Servicio"
     ],
     "format": [
       "Presencial"
@@ -49508,8 +49508,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -49539,10 +49539,10 @@
       "Presencial"
     ],
     "campus": [
+      "San Joaquín",
       "Oriente",
       "Villarrica",
-      "Casa Central",
-      "San Joaquín"
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -49572,9 +49572,9 @@
       "Presencial"
     ],
     "campus": [
+      "San Joaquín",
       "Oriente",
-      "Casa Central",
-      "San Joaquín"
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -49604,10 +49604,10 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "Casa Central",
       "San Joaquín",
-      "Lo Contador"
+      "Oriente",
+      "Lo Contador",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -49637,9 +49637,9 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
       "San Joaquín",
-      "Lo Contador"
+      "Lo Contador",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -49789,8 +49789,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -49970,9 +49970,9 @@
       "Presencial"
     ],
     "campus": [
+      "San Joaquín",
       "Oriente",
-      "Casa Central",
-      "San Joaquín"
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -51117,8 +51117,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       true
@@ -55171,9 +55171,9 @@
     "campus": [
       "Villarrica",
       "Casa Central",
-      "Oriente",
       "Lo Contador",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       false
@@ -64688,8 +64688,8 @@
     "school": "Ingeniería",
     "area": "",
     "categories": [
-      "Metodología Aprendizaje Activo",
-      ""
+      "",
+      "Metodología Aprendizaje Activo"
     ],
     "format": [
       "Presencial"
@@ -69073,8 +69073,8 @@
       ""
     ],
     "format": [
-      "Remoto con Act.P",
-      "Presencial"
+      "Presencial",
+      "Remoto con Act.P"
     ],
     "campus": [
       "San Joaquín"
@@ -69587,8 +69587,8 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       false
@@ -71779,8 +71779,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       true
@@ -72020,8 +72020,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -78318,8 +78318,8 @@
       ""
     ],
     "format": [
-      "Remoto con Act.P",
-      "Presencial"
+      "Presencial",
+      "Remoto con Act.P"
     ],
     "campus": [
       "San Joaquín",
@@ -80388,8 +80388,8 @@
     "school": "Ingeniería",
     "area": "",
     "categories": [
-      "Cursos orientados a la Investi",
-      ""
+      "",
+      "Cursos orientados a la Investi"
     ],
     "format": [
       "Presencial"
@@ -80419,8 +80419,8 @@
     "school": "Ingeniería",
     "area": "",
     "categories": [
-      "Cursos orientados a la Investi",
-      ""
+      "",
+      "Cursos orientados a la Investi"
     ],
     "format": [
       "Presencial"
@@ -83096,8 +83096,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       true
@@ -86397,8 +86397,8 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       true
@@ -93058,8 +93058,8 @@
       "Remoto con Act.P"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -98578,8 +98578,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -98730,8 +98730,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -98821,8 +98821,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -98882,8 +98882,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -98974,8 +98974,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -99277,8 +99277,8 @@
       ""
     ],
     "format": [
-      "Presencial y Onl",
-      "Presencial"
+      "Presencial",
+      "Presencial y Onl"
     ],
     "campus": [
       "Casa Central"
@@ -101652,9 +101652,9 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
       "San Joaquín",
-      "Lo Contador"
+      "Lo Contador",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -107354,9 +107354,9 @@
       "Presencial"
     ],
     "campus": [
+      "San Joaquín",
       "Villarrica",
-      "Casa Central",
-      "San Joaquín"
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -118939,9 +118939,9 @@
       "Presencial"
     ],
     "campus": [
+      "San Joaquín",
       "Oriente",
-      "Villarrica",
-      "San Joaquín"
+      "Villarrica"
     ],
     "is_removable": [
       false
@@ -121489,8 +121489,8 @@
       ""
     ],
     "format": [
-      "Híbrido",
-      "Presencial"
+      "Presencial",
+      "Híbrido"
     ],
     "campus": [
       "San Joaquín"
@@ -122634,8 +122634,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -123236,8 +123236,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -126808,8 +126808,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -127199,8 +127199,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -127380,8 +127380,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -127442,8 +127442,8 @@
       "Online Sincrónic"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -127505,8 +127505,8 @@
       "Online Sincrónic"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -127568,8 +127568,8 @@
       "Online Sincrónic"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -127631,8 +127631,8 @@
       "Online Sincrónic"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -129917,8 +129917,8 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       true
@@ -134600,8 +134600,8 @@
       "Presencial"
     ],
     "campus": [
-      "Oriente",
-      "San Joaquín"
+      "San Joaquín",
+      "Oriente"
     ],
     "is_removable": [
       false
@@ -135681,8 +135681,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false
@@ -136553,8 +136553,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       false
@@ -151262,8 +151262,8 @@
       "Remoto con Act.P"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       false,
@@ -155167,8 +155167,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       true
@@ -168343,8 +168343,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       true
@@ -171736,8 +171736,8 @@
       "Presencial"
     ],
     "campus": [
-      "Villarrica",
-      "San Joaquín"
+      "San Joaquín",
+      "Villarrica"
     ],
     "is_removable": [
       false
@@ -195680,8 +195680,8 @@
       "Presencial"
     ],
     "campus": [
-      "Casa Central",
-      "San Joaquín"
+      "San Joaquín",
+      "Casa Central"
     ],
     "is_removable": [
       true
@@ -197388,8 +197388,8 @@
       ""
     ],
     "format": [
-      "Híbrido",
-      "Presencial"
+      "Presencial",
+      "Híbrido"
     ],
     "campus": [
       "San Joaquín"
@@ -201968,36 +201968,6 @@
     ],
     "last_semester": "2025-2"
   },
-  "AGR3022": {
-    "sigle": "AGR3022",
-    "name": "Tesis",
-    "credits": 50,
-    "req": "No tiene",
-    "conn": "No tiene",
-    "restr": " (Programa = Mag Rec Naturales)",
-    "equiv": "No tiene",
-    "school": "Agronomía Y Sistemas Naturales",
-    "area": "",
-    "categories": [
-      ""
-    ],
-    "format": [
-      "Presencial"
-    ],
-    "campus": [
-      "San Joaquín"
-    ],
-    "is_removable": [
-      true
-    ],
-    "is_special": [
-      false
-    ],
-    "is_english": [
-      false
-    ],
-    "last_semester": "2025-2"
-  },
   "AGP3141": {
     "sigle": "AGP3141",
     "name": "Visualización y Análisis de Datos Medioambientales",
@@ -202126,6 +202096,36 @@
     "conn": "No tiene",
     "restr": " (Programa = Dt Cs Agric y Natur)",
     "equiv": "(AGP4019)",
+    "school": "Agronomía Y Sistemas Naturales",
+    "area": "",
+    "categories": [
+      ""
+    ],
+    "format": [
+      "Presencial"
+    ],
+    "campus": [
+      "San Joaquín"
+    ],
+    "is_removable": [
+      true
+    ],
+    "is_special": [
+      false
+    ],
+    "is_english": [
+      false
+    ],
+    "last_semester": "2025-2"
+  },
+  "AGR3022": {
+    "sigle": "AGR3022",
+    "name": "Tesis",
+    "credits": 50,
+    "req": "No tiene",
+    "conn": "No tiene",
+    "restr": " (Programa = Mag Rec Naturales)",
+    "equiv": "No tiene",
     "school": "Agronomía Y Sistemas Naturales",
     "area": "",
     "categories": [
@@ -206872,8 +206872,8 @@
       ""
     ],
     "format": [
-      "Híbrido",
-      "Presencial"
+      "Presencial",
+      "Híbrido"
     ],
     "campus": [
       "Campus Externo"
