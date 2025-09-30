@@ -34,7 +34,7 @@ export default function CourseInformation({
           icon={HourglassIcon}
           className="hidden desktop:flex text-nowrap"
         >
-          {course.credits} Créditos
+          {course.credits}
         </Pill>
       </div>
       {description && (
@@ -73,6 +73,11 @@ export default function CourseInformation({
                 Se dicta en Inglés
               </Pill>
             )}
+            {course.categories.length > 0 && <span>
+                <Pill variant="orange" className="capitalize">
+                  Caregoria 1
+                </Pill>
+              </span>}
         </div>
       )}
     </section>
