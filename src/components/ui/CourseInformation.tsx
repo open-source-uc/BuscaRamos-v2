@@ -7,6 +7,7 @@ import {
   CloseIcon,
   HourglassIcon,
   LanguageIcon,
+  CategoryIcon,
 } from "../icons";
 import { Pill } from "./pill";
 import Link from "next/link";
@@ -52,7 +53,15 @@ export default function CourseInformation({
             <Pill variant="orange" icon={BuildingIcon}>
               <span>{course.school}</span>
             </Pill>
+          )} 
+
+          {course.categories && course.categories.length > 0 && course.categories[0] !== "" && (
+            <Pill variant="purple" icon={CategoryIcon}>
+              <span>{course.categories}</span>
+            </Pill>
           )}
+        
+
           {course.area && course.area !== "" && (
             <Pill variant="pink" icon={AreaIcon}>
               {course.area}
