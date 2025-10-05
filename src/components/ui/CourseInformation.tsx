@@ -55,7 +55,7 @@ export default function CourseInformation({
             </Pill>
           )} 
 
-          {course.categories && course.categories.length > 0 && course.categories[0] !== "" && (
+          {course.categories  && course.categories[0] !== "" && (
             <Pill variant="purple" icon={CategoryIcon}>
               <span>{course.categories}</span>
             </Pill>
