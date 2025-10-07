@@ -55,11 +55,12 @@ export default function CourseInformation({
             </Pill>
           )} 
 
-          {course.categories  && course.categories[0] !== "" && (
-            <Pill variant="purple" icon={CategoryIcon}>
-              <span>{course.categories}</span>
-            </Pill>
-          )}
+          {Array.isArray(course.categories) && course.categories.some(c => c.trim() !== "") && (
+          <Pill variant="purple" icon={CategoryIcon}>
+            <span>{course.categories.filter(c => c.trim() !== "").join(", ")}</span>
+          </Pill>
+)}
+
         
 
           {course.area && course.area !== "" && (
