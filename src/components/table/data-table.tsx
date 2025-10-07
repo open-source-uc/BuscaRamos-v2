@@ -33,6 +33,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
   const [selectedCampus, setSelectedCampus] = useState<string>("all");
   const [selectedFormat, setSelectedFormat] = useState<string>("all");
   const [selectedSemester, setSelectedSemester] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [showRetirableOnly, setShowRetirableOnly] = useState(false);
   const [showEnglishOnly, setShowEnglishOnly] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -106,6 +107,15 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       filtered = filtered.filter((course) => course.last_semester === selectedSemester);
     }
 
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter((course) => {
+        if (Array.isArray(course.categories)) {
+          return course.categories.includes(selectedCategory);
+        }
+        return false;
+      });
+    }
+
     // Then apply search filter if there's a search term
     if (searchValue && searchValue.trim() !== "") {
       const fuseForFiltered = new Fuse(filtered, {
@@ -129,6 +139,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     selectedSchool,
     selectedFormat,
     selectedSemester,
+    selectedCategory,
     showRetirableOnly,
     showEnglishOnly,
   ]);
@@ -188,6 +199,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
             selectedSemester={selectedSemester}
             showRetirableOnly={showRetirableOnly}
             showEnglishOnly={showEnglishOnly}
+            selectedCategory={selectedCategory}
             filtersOpen={filtersOpen}
             onAreaChange={setSelectedArea}
             onSchoolChange={setSelectedSchool}
@@ -197,6 +209,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
             onRetirableToggle={setShowRetirableOnly}
             onEnglishToggle={setShowEnglishOnly}
             onFiltersOpenChange={setFiltersOpen}
+            onCategoryChange={setSelectedCategory}
             onClearFilters={handleClearFilters}
           />
         </div>

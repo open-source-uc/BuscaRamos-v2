@@ -19,6 +19,7 @@ interface CourseFiltersProps {
   selectedSemester: string;
   showRetirableOnly: boolean;
   showEnglishOnly: boolean;
+  selectedCategory: string;
   filtersOpen: boolean;
   onAreaChange: (value: string) => void;
   onSchoolChange: (value: string) => void;
@@ -28,6 +29,7 @@ interface CourseFiltersProps {
   onRetirableToggle: (checked: boolean) => void;
   onEnglishToggle: (checked: boolean) => void;
   onFiltersOpenChange: (open: boolean) => void;
+  onCategoryChange: (value: string) => void;
   onClearFilters: () => void;
 }
 
@@ -40,6 +42,7 @@ export function CourseFilters({
   selectedSemester,
   showRetirableOnly,
   showEnglishOnly,
+  selectedCategory,
   filtersOpen,
   onAreaChange,
   onSchoolChange,
@@ -50,6 +53,7 @@ export function CourseFilters({
   onEnglishToggle,
   onFiltersOpenChange,
   onClearFilters,
+  onCategoryChange,
 }: CourseFiltersProps) {
   // Get unique areas from the data
   const uniqueAreas = useMemo(() => {
@@ -118,6 +122,18 @@ export function CourseFilters({
     return options;
   }, [uniqueAreas]);
 
+  // Convert unique categories to combobox options
+  const uniqueCategories = useMemo(() => {
+    const allCategories = courses
+      .flatMap((course) =>
+        Array.isArray(course.categories) ? course.categories : []
+      )
+      .filter((cat) => cat && cat.trim() !== ""); // eliminar vacíos
+
+    return Array.from(new Set(allCategories)).sort();
+  }, [courses]);
+
+
   // Convert unique schools to combobox options
   const schoolOptions = useMemo((): ComboboxOption[] => {
     const options: ComboboxOption[] = [{ value: "all", label: "Todas las unidades académicas" }];
@@ -164,6 +180,17 @@ export function CourseFilters({
     return options;
   }, [uniqueSemesters]);
 
+  // Convert unique categories to combobox options
+  const categoryOptions = useMemo((): ComboboxOption[] => {
+    const options: ComboboxOption[] = [{ value: "all", label: "Todas las categorías" }];
+
+    uniqueCategories.forEach((cat) => {
+      options.push({ value: cat, label: cat });
+    });
+
+    return options;
+  }, [uniqueCategories]);
+
   // Count active filters
   const activeFiltersCount = useMemo(() => {
     let count = 0;
@@ -174,6 +201,7 @@ export function CourseFilters({
     if (selectedSemester !== "all") count++;
     if (showRetirableOnly) count++;
     if (showEnglishOnly) count++;
+    if (selectedCategory !== "all") count++;
     return count;
   }, [
     selectedArea,
@@ -306,6 +334,25 @@ export function CourseFilters({
                       "bg-primary-foreground text-primary border border-primary"
                   )}
                   aria-label="Filtrar por Último Semestre"
+                />
+              </div>
+
+              {/* Category Filter */}
+              <div className="space-y-2">
+                <label className="text-foreground text-sm font-medium">Categoría</label>
+                <Combobox
+                  options={categoryOptions}
+                  value={selectedCategory}
+                  onValueChange={onCategoryChange}
+                  placeholder="Seleccionar categoría"
+                  searchPlaceholder="Buscar categoría..."
+                  emptyMessage="No se encontraron categorías."
+                  className="w-full"
+                  buttonClassName={cn(
+                    selectedCategory !== "all" &&
+                      "bg-primary-foreground text-primary border border-primary"
+                  )}
+                  aria-label="Filtrar por Categoría"
                 />
               </div>
             </div>
