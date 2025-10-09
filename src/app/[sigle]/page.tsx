@@ -1,4 +1,3 @@
-import courseDescriptions from "@/lib/CoursesData";
 import { getCourseReviews } from "../../actions/reviews";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
 import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
@@ -16,6 +15,9 @@ import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 import type { Metadata } from "next";
+import { courseDescriptions, coursesStaticData } from "@/lib/coursesStaticData";
+import { notFound } from "next/navigation";
+import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
 
 export const runtime = "edge";
 
@@ -25,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ sigle: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
-  const course = courseDescriptions[resolvedParams.sigle];
+  const course = coursesStaticData()[resolvedParams.sigle];
 
   if (!course) {
     return {
@@ -35,18 +37,15 @@ export async function generateMetadata({
   }
 
   const stats = await getCourseStats(resolvedParams.sigle);
-  const reviews = await getCourseReviews(resolvedParams.sigle, 10);
 
-  const sentiment = stats
-    ? calculateSentiment(stats.likes, stats.superlikes, stats.dislikes)
-    : "question";
   const positivePercentage = stats
     ? calculatePositivePercentage(stats.likes, stats.superlikes, stats.dislikes)
     : 0;
   const totalReviews = stats ? stats.likes + stats.superlikes + stats.dislikes : 0;
 
   const title = `${course.sigle} - ${course.name} | BuscaRamos`;
-  const description = `${course.name} (${course.sigle}) - ${course.description ? course.description.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
+  const coursesDescription = courseDescriptions()[course.sigle];
+  const description = `${course.name} (${course.sigle}) - ${coursesDescription ? coursesDescription.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
 
   return {
     title,
@@ -93,10 +92,10 @@ export async function generateMetadata({
 
 export default async function CatalogPage({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
-  const course = courseDescriptions[resolvedParams.sigle];
+  const course = coursesStaticData()[resolvedParams.sigle];
 
   if (!course) {
-    return <p>Curso no encontrado</p>;
+    notFound();
   }
 
   const c = await getCourseStats(resolvedParams.sigle);
@@ -120,7 +119,11 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
       {/* Información del curso */}
-      <CourseInformation course={course} description information />
+      <CourseInformation
+        course={course}
+        description={courseDescriptions()[course.sigle]}
+        information
+      />
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
@@ -186,6 +189,10 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
         </div>
       </section>
       <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
+      <SectionsCollapsible
+        className="mt-8"
+        courseSigle={course.sigle}
+      />
       <section>
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}

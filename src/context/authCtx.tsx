@@ -2,6 +2,7 @@
 "use client";
 
 import { AuthenticatedUser, authenticateUser } from "@/lib/auth/auth";
+import { hasPermission, OsucPermissions } from "@/lib/auth/permissions";
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 
 interface AuthContextType {
@@ -9,6 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   refreshAuth: () => Promise<void>;
+  isRoot: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,6 +18,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   isAuthenticated: false,
   refreshAuth: async () => {},
+  isRoot: false,
 });
 
 interface AuthProviderProps {
@@ -26,11 +29,15 @@ interface AuthProviderProps {
 export function AuthProvider({ children, initialUser = null }: AuthProviderProps) {
   const [user, setUser] = useState<AuthenticatedUser | null>(initialUser);
   const [isLoading, setIsLoading] = useState(!initialUser);
-
+  const [isRoot, setIsRoot] = useState(false);
   const refreshAuth = async () => {
     try {
       setIsLoading(true);
       const authenticatedUser = await authenticateUser();
+      if (authenticatedUser && hasPermission(authenticatedUser, OsucPermissions.userIsRoot)) {
+        setIsRoot(true);
+      }
+
       setUser(authenticatedUser);
     } catch (error) {
       console.error("Error refreshing auth:", error);
@@ -51,6 +58,7 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
     user,
     isLoading,
     isAuthenticated: !!user,
+    isRoot: isRoot,
     refreshAuth,
   };
 
