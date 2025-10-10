@@ -1,6 +1,6 @@
 import { Pill } from "@/components/ui/pill";
 import { DocsIcon, DeceasedIcon, TextureIcon, OpenInFullIcon } from "@/components/icons/icons";
-import { PrerequisiteCourse, PrerequisiteGroup } from "@/types/types";
+import { PrerequisiteCourse, PrerequisiteGroup } from "@/lib/courseReq";
 
 interface PrerequisitesDisplayProps {
   prerequisites: PrerequisiteGroup;

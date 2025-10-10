@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNDJSONStream } from '@/hooks/useNDJSONStream'
 import {
@@ -39,7 +41,7 @@ import { cn } from '@/lib/utils'
 import { getClassTypeLong, getClassTypeColor } from '@/components/courses/schedules/ScheduleLegend'
 import generateICSFromSchedule from '@/lib/generateICSFromSchedule'
 import { Search } from '@/components/search/SearchInput'
-import { useFuseSearch } from '@/hooks/useFuseSearch'
+import { useCourseSearchWorker } from '@/hooks/useCourseSearchWorker'
 import {
 	Command,
 	CommandEmpty,
@@ -102,14 +104,12 @@ function CourseSearch({
 	const [searchTerm, setSearchTerm] = useState('')
 	const [isOpen, setIsOpen] = useState(false)
 
-	const fuseSearch = useFuseSearch({
-		data: courseOptions,
-		keys: ['id', 'nombre', 'sigle'],
-		threshold: 0.3,
-		minMatchCharLength: 1,
-	})
+    const worker = useCourseSearchWorker<CourseOption>({
+        data: courseOptions,
+        query: searchTerm,
+    })
 
-	const filteredOptions = fuseSearch(searchTerm)
+	const filteredOptions: CourseOption[] = searchTerm ? (worker.results as CourseOption[]) : courseOptions
 
 	const handleSelect = (courseId: string) => {
 		if (!selectedCourses.includes(courseId)) {
@@ -131,6 +131,7 @@ function CourseSearch({
 				placeholder="Buscar curso (ej: IIC2214, Matemáticas)"
 				initialValue={searchTerm}
 				useFuzzySearch={true}
+				isSearching={worker.isSearching}
 			/>
 
 			{isLoading ? (

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { columns } from "./columns";
-import Fuse from "fuse.js";
+import { useCourseSearchWorker } from "@/hooks/useCourseSearchWorker";
 
 import {
   getCoreRowModel,
@@ -36,27 +36,14 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
   const [showRetirableOnly, setShowRetirableOnly] = useState(false);
   const [showEnglishOnly, setShowEnglishOnly] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
 
   // Update internal search when external search value changes
   useEffect(() => {
     setSearchValue(externalSearchValue);
   }, [externalSearchValue]);
 
-  // Add debounced search effect
-  useEffect(() => {
-    if (searchValue !== externalSearchValue) {
-      setIsSearching(true);
-      const timer = setTimeout(() => {
-        setIsSearching(false);
-      }, 300);
-
-      return () => clearTimeout(timer);
-    }
-  }, [searchValue, externalSearchValue]);
-
-  // Combined filtering: first apply filters, then search
-  const filteredData = useMemo(() => {
+  // Apply filters first (no search here)
+  const filteredWithoutSearch = useMemo(() => {
     let filtered = data;
 
     // Apply category filters first
@@ -106,24 +93,9 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       filtered = filtered.filter((course) => course.last_semester === selectedSemester);
     }
 
-    // Then apply search filter if there's a search term
-    if (searchValue && searchValue.trim() !== "") {
-      const fuseForFiltered = new Fuse(filtered, {
-        keys: ["name", "sigle"],
-        threshold: 0.3,
-        ignoreLocation: true,
-        includeScore: true,
-        minMatchCharLength: 2,
-      });
-
-      const searchResults = fuseForFiltered.search(searchValue);
-      return searchResults.map((result) => result.item);
-    }
-
     return filtered;
   }, [
     data,
-    searchValue,
     selectedArea,
     selectedCampus,
     selectedSchool,
@@ -132,6 +104,17 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     showRetirableOnly,
     showEnglishOnly,
   ]);
+
+  // Worker-based Fuse search on the filtered dataset, with course defaults
+  const workerSearch = useCourseSearchWorker({ data: filteredWithoutSearch, query: searchValue });
+
+  // Final data: if there is a search term, use worker results; else, just filtered data
+  const filteredData = useMemo(() => {
+    if (searchValue && searchValue.trim() !== "") {
+      return workerSearch.results;
+    }
+    return filteredWithoutSearch;
+  }, [searchValue, workerSearch.results, filteredWithoutSearch]);
 
   const table = useReactTable({
     data: filteredData,
@@ -158,6 +141,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     setShowRetirableOnly(false);
     setShowEnglishOnly(false);
     setSearchValue("");
+    workerSearch.setQuery("");
   };
 
   return (
@@ -170,7 +154,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
             placeholder="Buscar por nombre o sigla..."
             className="w-full"
             initialValue={externalSearchValue}
-            isSearching={isSearching}
+            isSearching={workerSearch.isSearching}
           />
         </div>
 
