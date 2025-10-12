@@ -41,7 +41,7 @@ import { cn } from '@/lib/utils'
 import { getClassTypeLong, getClassTypeColor } from '@/components/courses/schedules/ScheduleLegend'
 import generateICSFromSchedule from '@/lib/generateICSFromSchedule'
 import { Search } from '@/components/search/SearchInput'
-import { useCourseSearchWorker } from '@/hooks/useCourseSearchWorker'
+import { useFuse } from '@/hooks/useFuse'
 import {
 	Command,
 	CommandEmpty,
@@ -104,7 +104,7 @@ function CourseSearch({
 	const [searchTerm, setSearchTerm] = useState('')
 	const [isOpen, setIsOpen] = useState(false)
 
-    const worker = useCourseSearchWorker<CourseOption>({
+    const worker = useFuse<CourseOption>({
         data: courseOptions,
         query: searchTerm,
     })

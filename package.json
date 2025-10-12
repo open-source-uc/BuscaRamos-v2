@@ -3,12 +3,13 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbopack",
-		"build": "next build",
+		"dev": "npm run prebuild:workers && next dev --turbopack",
+		"prebuild:workers": "esbuild src/workers/fuse.worker.ts --bundle --format=esm --platform=browser --target=es2020 --outfile=public/workers/fuse.worker.js",
+		"build": "npm run prebuild:workers && next build",
 		"start": "next start",
 		"lint": "next lint",
 		"lint:fix": "npx eslint . --ext .js,.ts,.jsx,.tsx --fix",
-		"pages:build": "npx @cloudflare/next-on-pages",
+		"pages:build": "npm run prebuild:workers && npx @cloudflare/next-on-pages",
 		"preview": "npm run pages:build && wrangler pages dev",
 		"deploy": "npm run pages:build && wrangler pages deploy",
 		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./env.d.ts"
@@ -40,6 +41,7 @@
 		"zod": "^4.1.8"
 	},
 	"devDependencies": {
+		"esbuild": "^0.24.0",
 		"@cloudflare/next-on-pages": "1.13.16",
 		"@eslint/eslintrc": "3",
 		"@tailwindcss/postcss": "4",

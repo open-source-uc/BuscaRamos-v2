@@ -18,7 +18,7 @@ export function createFuseWorkerClient<T>(init: FuseWorkerInit<T>): FuseWorkerCl
     throw new Error("createFuseWorkerClient must be called in a browser environment");
   }
 
-  let worker = new Worker("/workers/fuse.worker.js");
+  let worker = new Worker("/workers/fuse.worker.js", { type: "module", name: "fuse-worker" });
   let nextRequestId = 1;
   const pending = new Map<number, (value: T[] | PromiseLike<T[]>) => void>();
 

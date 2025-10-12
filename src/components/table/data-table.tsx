@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { columns } from "./columns";
-import { useCourseSearchWorker } from "@/hooks/useCourseSearchWorker";
+import { useFuse } from "@/hooks/useFuse";
 
 import {
   getCoreRowModel,
@@ -105,16 +105,16 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     showEnglishOnly,
   ]);
 
-  // Worker-based Fuse search on the filtered dataset, with course defaults
-  const workerSearch = useCourseSearchWorker({ data: filteredWithoutSearch, query: searchValue });
+  // Fuse search on the filtered dataset (worker mode by default)
+  const fuseSearch = useFuse({ data: filteredWithoutSearch, query: searchValue });
 
   // Final data: if there is a search term, use worker results; else, just filtered data
   const filteredData = useMemo(() => {
     if (searchValue && searchValue.trim() !== "") {
-      return workerSearch.results;
+      return fuseSearch.results;
     }
     return filteredWithoutSearch;
-  }, [searchValue, workerSearch.results, filteredWithoutSearch]);
+  }, [searchValue, fuseSearch.results, filteredWithoutSearch]);
 
   const table = useReactTable({
     data: filteredData,
@@ -141,7 +141,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     setShowRetirableOnly(false);
     setShowEnglishOnly(false);
     setSearchValue("");
-    workerSearch.setQuery("");
+    fuseSearch.setQuery("");
   };
 
   return (
@@ -154,7 +154,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
             placeholder="Buscar por nombre o sigla..."
             className="w-full"
             initialValue={externalSearchValue}
-            isSearching={workerSearch.isSearching}
+            isSearching={fuseSearch.isSearching}
           />
         </div>
 

@@ -2,6 +2,8 @@ import { AreaIcon, BuildingIcon, HourglassIcon } from "@/components/icons";
 import { Pill } from "@/components/ui/pill";
 import Link from "next/link";
 
+export const runtime = "edge";
+
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
