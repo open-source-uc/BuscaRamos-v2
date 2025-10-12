@@ -11,6 +11,7 @@ import {
   getWorkloadLabel,
 } from "@/lib/courseStats";
 import PrerequisitesSection from "@/components/courses/PrerequisitesSection";
+import EquivCourses from "@/components/courses/EquivCourses";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
@@ -121,6 +122,8 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
       {/* Información del curso */}
       <CourseInformation course={course} description information />
+      
+      {/* Estadísticas del curso */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
@@ -184,9 +187,16 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
             </div>
           )}
         </div>
-      </section>
-      <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
-      <section>
+        {/* Seccion de pre requisitos */}
+        </section>
+        <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
+        <section>
+
+        {/* Seccion de cursos relacionados */}
+        </section>
+          <EquivCourses prerequisites={prerequisites} className="mt-8" />
+        <section>
+
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}
           <div className="flex items-center justify-between">

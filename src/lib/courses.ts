@@ -122,3 +122,4 @@ export const getPrerequisitesWithNames = async (req: string) => {
 		structure: structureWithNames,
 	}
 }
+
