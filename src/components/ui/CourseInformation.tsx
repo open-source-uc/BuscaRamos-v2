@@ -8,6 +8,7 @@ import {
   HourglassIcon,
   LanguageIcon,
   CategoryIcon,
+  SwapIcon,
 } from "../icons";
 import { Pill } from "./pill";
 import Link from "next/link";
@@ -59,7 +60,13 @@ export default function CourseInformation({
           <Pill variant="purple" icon={CategoryIcon}>
             <span>{course.categories.filter(c => c.trim() !== "").join(", ")}</span>
           </Pill>
-)}
+          )}
+
+          {Array.isArray(course.format) && course.format.some(f => f.trim() !== "") && (
+          <Pill variant="yellow" icon={SwapIcon}>
+            <span>{course.format.filter(f => f.trim() !== "").join(", ")}</span>
+          </Pill>
+          )}
 
         
 
