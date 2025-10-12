@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo, lazy, Suspense } from 'react'
+import { useState, useEffect, useMemo, lazy, Suspense, useRef } from 'react'
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useNDJSONStream } from '@/hooks/useNDJSONStream'
 import {
 	createScheduleMatrix,
@@ -103,6 +104,8 @@ function CourseSearch({
 }) {
 	const [searchTerm, setSearchTerm] = useState('')
 	const [isOpen, setIsOpen] = useState(false)
+	const [activeIndex, setActiveIndex] = useState(0)
+	const itemRefs = useRef<Array<HTMLDivElement | null>>([])
 
     const worker = useFuse<CourseOption>({
         data: courseOptions,
@@ -111,11 +114,16 @@ function CourseSearch({
 
 	const filteredOptions: CourseOption[] = searchTerm ? (worker.results as CourseOption[]) : courseOptions
 
+	useEffect(() => {
+		setActiveIndex(0)
+	}, [searchTerm, isOpen])
+
 	const handleSelect = (courseId: string) => {
 		if (!selectedCourses.includes(courseId)) {
 			onCourseSelect(courseId)
 			setSearchTerm('')
 			setIsOpen(false)
+			setActiveIndex(0)
 		}
 	}
 
@@ -124,14 +132,40 @@ function CourseSearch({
 		setIsOpen(value.length > 0)
 	}
 
+	const handleKeyDown = (e: ReactKeyboardEvent<HTMLInputElement>) => {
+		if (!isOpen) return
+		const max = Math.min(filteredOptions.length, 100)
+		if (max === 0) return
+		if (e.key === 'ArrowDown') {
+			e.preventDefault()
+			setActiveIndex((prev) => (prev + 1) % max)
+		}
+		if (e.key === 'ArrowUp') {
+			e.preventDefault()
+			setActiveIndex((prev) => (prev - 1 + max) % max)
+		}
+		if (e.key === 'Enter') {
+			e.preventDefault()
+			const option = filteredOptions.slice(0, 100)[activeIndex]
+			if (option) handleSelect(option.id)
+		}
+	}
+
+	useEffect(() => {
+		const el = itemRefs.current[activeIndex]
+		if (el) el.scrollIntoView({ block: 'nearest' })
+	}, [activeIndex])
+
 	return (
 		<div className="relative">
 			<Search
 				onSearch={handleSearch}
 				placeholder="Buscar curso (ej: IIC2214, Matemáticas)"
 				initialValue={searchTerm}
+				value={searchTerm}
 				useFuzzySearch={true}
 				isSearching={worker.isSearching}
+				onKeyDown={handleKeyDown}
 			/>
 
 			{isLoading ? (
@@ -152,16 +186,18 @@ function CourseSearch({
 									</CommandEmpty>
 									<CommandGroup>
 										{/* el curso con más secciones tiene 55 xd */}
-										{filteredOptions.slice(0, 100).map((option) => (
+								{filteredOptions.slice(0, 100).map((option, index) => (
 											<CommandItem
 												key={option.id}
 												value={option.id}
 												onSelect={() => handleSelect(option.id)}
 												disabled={selectedCourses.includes(option.id)}
+									ref={(el) => { itemRefs.current[index] = el }}
 												className={cn(
-													'flex cursor-pointer items-center gap-2 px-4 py-3',
+											'flex cursor-pointer items-center gap-2 px-4 py-3',
 													'hover:bg-muted transition-colors',
-													'disabled:cursor-not-allowed disabled:opacity-50'
+											'disabled:cursor-not-allowed disabled:opacity-50',
+											index === activeIndex ? 'bg-muted' : ''
 												)}
 											>
 												<CheckIcon
