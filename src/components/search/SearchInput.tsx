@@ -42,7 +42,7 @@ export function Search({
   const displayValue = isControlled ? (value as string) : searchTerm;
 
   const handleSearch = (value: string) => {
-    setSearchTerm(value);
+    if (!isControlled) setSearchTerm(value);
 
     // If using fuzzy search, pass the original value (Fuse.js handles normalization)
     // Otherwise, use the existing normalization logic
@@ -70,11 +70,19 @@ export function Search({
           )}
         </div>
         <Input
-          type="search"
-          inputMode="search"
           autoComplete="off"
+          type="search"
+          name="search"
+          enterKeyHint="search"
+          inputMode="search"
           autoCorrect="off"
           autoCapitalize="none"
+
+          data-lpignore="true"
+          data-1p-ignore="true"
+          data-bw-ignore="true"
+          data-dashlane-ignore="true"
+
           spellCheck={false}
           placeholder={placeholder}
           value={displayValue}
