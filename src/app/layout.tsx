@@ -4,6 +4,7 @@ import "@/styles/global.css";
 import HeaderPage from "@/components/header/HeaderPage";
 import { AuthProvider } from "@/context/authCtx";
 import { Toaster } from "sonner";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,6 +82,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-CL">
+    <head>
+      {/* <!-- Cloudflare Web Analytics --> */}
+      <Script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7874d2302e154e14ab08e25ea85909f9"}'></Script>
+      {/* <!-- End Cloudflare Web Analytics --> */}
+    </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen`}
       >
