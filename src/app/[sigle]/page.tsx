@@ -188,6 +188,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
             </div>
           )}
         </div>
+
       </section>
       <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
       <SectionsCollapsible
@@ -195,6 +196,12 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
         courseSigle={course.sigle}
       />
       <section>
+
+      {/* Seccion de cursos equivalentes */}
+        </section>
+          <EquivCourses prerequisites={prerequisites} className="mt-8" />
+        <section>
+
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}
           <div className="flex items-center justify-between">
