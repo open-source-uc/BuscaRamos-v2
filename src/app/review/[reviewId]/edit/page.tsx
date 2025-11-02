@@ -1,6 +1,7 @@
 import FormReviewUpdate from "@/components/reviews/FormReviewUpdate";
-import courseDescriptions from "@/lib/CoursesData";
+import { coursesStaticData } from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
+import { notFound } from "next/navigation";
 import z from "zod";
 
 const paramsSchema = z.object({
@@ -16,18 +17,18 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
   const resolvedParams = await params;
   const data = paramsSchema.safeParse(resolvedParams);
   if (!data.success) {
-    return <p>ID de reseña inválido {data.error.message}</p>;
+    notFound();
   }
 
   const review = await getCourseReviewById(data.data.reviewId);
   if (!review) {
-    return <p>Reseña no encontrada</p>;
+    notFound();
   }
 
   const comment = await getReviewContent(review.comment_path);
-  const course = courseDescriptions[review.course_sigle];
+  const course = coursesStaticData()[review.course_sigle];
   if (!course) {
-    return <p>Curso no encontrado</p>;
+    notFound();
   }
 
   return (

@@ -68,7 +68,7 @@ export async function createCourseReview(
     }
     
     const result = await DB().prepare(
-        `INSERT OR REPLACE INTO course_reviews 
+        `INSERT INTO course_reviews 
         (user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
         .bind(
@@ -83,7 +83,7 @@ export async function createCourseReview(
             filePath
         )
         .run()
-
+    console.info('Created review with ID:', result.meta)
     return result
 }
 
@@ -103,6 +103,7 @@ export async function deleteCourseReview(review: CourseReview) {
     if (review.comment_path) {
         await R2().delete(review.comment_path.toString())
     }
+    await DB().prepare('DELETE FROM user_vote_review WHERE review_id = ?').bind(review.id).run()
     await DB().prepare('DELETE FROM course_reviews WHERE id = ?').bind(review.id).run()
     return true
 
@@ -352,17 +353,22 @@ export async function updateCourseReview(
 
   const result = await DB()
     .prepare(
-      `UPDATE course_reviews
-       SET 
-         course_sigle = ?,
-         like_dislike = ?,
-         workload_vote = ?,
-         attendance_type = ?,
-         weekly_hours = ?,
-         year_taken = ?,
-         semester_taken = ?,
-         comment_path = ?
-       WHERE id = ?`
+    `UPDATE course_reviews
+        SET 
+        course_sigle = ?,
+        like_dislike = ?,
+        workload_vote = ?,
+        attendance_type = ?,
+        weekly_hours = ?,
+        year_taken = ?,
+        semester_taken = ?,
+        comment_path = ?,
+        updated_at = CURRENT_TIMESTAMP,
+        status = CASE 
+            WHEN status = 1 THEN 0  -- Si estaba aprobado, vuelve a pending
+            ELSE status             -- Mantiene el status actual
+        END
+    WHERE id = ?`
     )
     .bind(
       review.course_sigle.toUpperCase(),
@@ -377,9 +383,10 @@ export async function updateCourseReview(
     )
     .run();
 
+    console.log('Updated review with ID:',reviewId, result.meta);
+
   return result;
 }
-
 
 export async function getVoteCountByReviewId(reviewId: number) {
     const result = await DB().prepare(
@@ -392,4 +399,23 @@ export async function getVoteCountByReviewId(reviewId: number) {
 
     if (!result) return 0  
     return result.count
+}
+
+export async function getReviewsByStatus(status: 0 | 1 | 2 | 3, limit: number = 40) {
+    const result = await DB().prepare(
+        'SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews WHERE status = ? ORDER BY created_at DESC LIMIT ?'
+    )
+    .bind(status, limit)
+    .all<CourseReview>()
+
+    return result.results
+}
+    
+
+export async function changeStatusReview(status: 0 | 1 | 2 | 3, reviewId: number) {
+    await DB().prepare(`
+        UPDATE course_reviews
+        SET status = ?
+        WHERE id = ?
+    `).bind(status, reviewId).run() 
 }

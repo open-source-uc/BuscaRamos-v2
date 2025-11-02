@@ -25,6 +25,10 @@
 			"binding": "R2",
 			"bucket_name": "v2-ramos",
 		},
+		{
+			"binding": "R2PUBLIC",
+			"bucket_name": "ousc-public",
+		}
 	],
 	/**
 	 * Smart Placement

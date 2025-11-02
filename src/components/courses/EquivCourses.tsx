@@ -2,6 +2,7 @@ import { DocsIcon, ChevronDownIcon, ShuffleIcon } from "@/components/icons/icons
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ParsedPrerequisites } from "@/lib/courseReq";
 import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
+import { EquivCoursesDisplay } from "./EquivCoursesDisplay";
 
 interface Props {
   prerequisites: ParsedPrerequisites;
@@ -33,7 +34,7 @@ export default function PrerequisitesSection({ prerequisites, className = "" }: 
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-pink-light text-pink border-purple/20 flex-shrink-0 rounded-lg border p-2">
+              <div className="bg-blue-light text-blue border-purple/20 flex-shrink-0 rounded-lg border p-2">
                 <ShuffleIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0 flex-1">
@@ -51,7 +52,7 @@ export default function PrerequisitesSection({ prerequisites, className = "" }: 
 
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
             <div className="w-full overflow-hidden">
-              <PrerequisitesDisplay prerequisites={prerequisites.structure} />
+              <EquivCoursesDisplay prerequisites={prerequisites.structure} />
             </div>
 
           </CollapsibleContent>

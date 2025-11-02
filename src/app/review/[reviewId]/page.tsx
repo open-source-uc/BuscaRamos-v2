@@ -1,9 +1,10 @@
 import { getVoteOnReviewByUserId } from "@/actions/user.reviews";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
-import courseDescriptions from "@/lib/CoursesData";
+import { coursesStaticData } from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import z from "zod";
 
 export const runtime = "edge";
@@ -41,7 +42,7 @@ export async function generateMetadata({
     };
   }
 
-  const course = courseDescriptions[review.course_sigle];
+  const course = coursesStaticData()[review.course_sigle];
 
   if (!course) {
     return {
@@ -118,73 +119,25 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
   const resolvedParams = await params;
   const data = paramsSchema.safeParse(resolvedParams);
   if (!data.success) {
-    return <p>ID de reseña inválido {data.error.message}</p>;
+    notFound();
   }
 
   const review = await getCourseReviewById(data.data.reviewId);
 
   if (!review) {
-    return <p>Reseña no encontrada</p>;
+    notFound();
   }
 
-  const course = courseDescriptions[review.course_sigle];
+  const course = coursesStaticData()[review.course_sigle];
 
   if (!course) {
-    return <p>Curso no encontrado</p>;
+    notFound();
   }
-
-  course.name = "Reseña de: " + course.name;
 
   const vote = await getVoteOnReviewByUserId(review.id);
 
   return (
     <main className="p-4 space-y-6">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Review",
-            itemReviewed: {
-              "@type": "Course",
-              name: course.name.replace("Reseña de: ", ""),
-              courseCode: course.sigle,
-              provider: {
-                "@type": "Organization",
-                name: "UC",
-                url: "https://www.uc.cl",
-              },
-            },
-            reviewRating: {
-              "@type": "Rating",
-              ratingValue: review.like_dislike === 2 ? "5" : review.like_dislike === 1 ? "4" : "2",
-              bestRating: "5",
-              worstRating: "1",
-            },
-            author: {
-              "@type": "Person",
-              name: "Estudiante UC",
-            },
-            datePublished: review.created_at,
-            reviewBody: `Reseña de ${course.name.replace("Reseña de: ", "")} por estudiante de UC. Carga de trabajo: ${
-              review.workload_vote === 0 ? "Baja" : review.workload_vote === 1 ? "Media" : "Alta"
-            }. Horas semanales: ${review.weekly_hours}. Asistencia: ${
-              review.attendance_type === 0
-                ? "Obligatoria"
-                : review.attendance_type === 1
-                  ? "Opcional"
-                  : "Sin asistencia"
-            }.`,
-            publisher: {
-              "@type": "Organization",
-              name: "BuscaRamos",
-              url: "https://buscaramos.com",
-            },
-            url: `https://buscaramos.com/review/${review.id}`,
-            inLanguage: "es",
-          }),
-        }}
-      />
       <CourseInformation course={course} information />
       <Review review={review} initialVote={vote} />
     </main>

@@ -1,4 +1,4 @@
-import { CourseData } from "@/lib/CoursesData";
+import { CourseStaticData } from "@/lib/coursesStaticData";
 import CourseCampuses from "../courses/CourseCampuses";
 import {
   AreaIcon,
@@ -15,11 +15,11 @@ import Link from "next/link";
 
 export default function CourseInformation({
   course,
-  description = false,
+  description,
   information = false,
 }: {
-  course: CourseData;
-  description?: boolean;
+  course: CourseStaticData;
+  description?: string;
   information?: boolean;
 }) {
   return (
@@ -36,16 +36,16 @@ export default function CourseInformation({
           icon={HourglassIcon}
           className="hidden desktop:flex text-nowrap"
         >
-          {course.credits} Créditos
+          {course.credits}
         </Pill>
       </div>
       {description && (
         <div>
-          <p className="text-sm text-accent-foreground max-w-[75%]">{course.description}</p>
+          <p className="text-sm text-accent-foreground max-w-[75%]">{description}</p>
         </div>
       )}
       {information && (
-        <div className="flex items-center flex-wrap gap-2 mt-8">
+        <div className={`flex items-center flex-wrap gap-2 ${description ? "mt-4" : ""}`}>
           <CourseCampuses campus={course.campus} lastSemester={course.last_semester} />
           <Pill variant="green" icon={HourglassIcon} className="desktop:hidden">
             {course.credits} Créditos
@@ -90,6 +90,11 @@ export default function CourseInformation({
                 Se dicta en Inglés
               </Pill>
             )}
+            {course.categories.length > 0 && <span>
+                <Pill variant="orange" className="capitalize">
+                  Caregoria 1
+                </Pill>
+              </span>}
         </div>
       )}
     </section>

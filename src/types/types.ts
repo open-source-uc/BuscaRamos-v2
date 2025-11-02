@@ -1,16 +1,18 @@
-export type CourseScore = {
-  id: number;
-  sigle: string;
-  superlikes: number;
-  likes: number;
-  dislikes: number;
-  votes_low_workload: number;
-  votes_medium_workload: number;
-  votes_high_workload: number;
-  votes_mandatory_attendance: number;
-  votes_optional_attendance: number;
-  avg_weekly_hours: number;
-  sort_index: number;
+export type CourseDB = {
+    id: number
+    sigle: string
+    likes: number
+    dislikes: number
+    superlikes: number
+    votes_low_workload: number
+    votes_medium_workload: number
+    votes_high_workload: number
+    votes_mandatory_attendance: number
+    votes_optional_attendance: number
+    avg_weekly_hours: number
+    sort_index: number
+}
+export type CourseScore = CourseDB & {
   name: string;
   credits: number;
   req: string;
@@ -46,3 +48,37 @@ export interface CourseReview {
 }
 
 export const NULL_STRING = "IHHUQWUPIQWEEWHPQEPIUEWUJWQEPQPWJP"
+
+
+// Tipos para matriz de horarios
+export interface ScheduleBlock {
+	type: string // Tipo de clase (CLAS, LAB, AYUD)
+	classroom: string // Ubicación del aula
+	courseId: string // Identificador del curso
+	courseName?: string // Nombre del curso
+	section: string // Identificador de la sección
+	campus?: string // Campus de la sección
+}
+
+export interface CourseSection {
+	schedule: Record<string, [string, string]> // código de bloque -> [tipo, aula]
+	nrc?: string
+	section?: number
+	format?: string
+	campus?: string
+	is_english?: boolean
+	is_removable?: boolean
+	is_special?: boolean
+	total_quota?: number
+	quota?: Record<string, number>
+	name?: string // Course name for display purposes
+}
+
+export interface CourseSections {
+	[courseId: string]: {
+		[sectionId: string]: CourseSection
+	}
+}
+
+export type ScheduleMatrix = ScheduleBlock[][][] // [franjaHoraria][diaSemana][clases]
+
