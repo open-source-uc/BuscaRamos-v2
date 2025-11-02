@@ -94,6 +94,16 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       filtered = filtered.filter((course) => course.last_semester === selectedSemester);
     }
 
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter((course) => {
+        if (Array.isArray(course.categories)) {
+          return course.categories.includes(selectedCategory);
+        }
+        return false;
+      });
+    }
+
+
     return filtered;
   }, [
     data,
@@ -189,6 +199,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
           />
         </div>
       </div>
+      
 
       {/* Course Filters Section */}
 

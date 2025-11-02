@@ -90,11 +90,6 @@ export default function CourseInformation({
                 Se dicta en Inglés
               </Pill>
             )}
-            {course.categories.length > 0 && <span>
-                <Pill variant="orange" className="capitalize">
-                  Caregoria 1
-                </Pill>
-              </span>}
         </div>
       )}
     </section>
