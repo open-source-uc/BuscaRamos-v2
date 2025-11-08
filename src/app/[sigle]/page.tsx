@@ -10,6 +10,7 @@ import {
   getWorkloadLabel,
 } from "@/lib/courseStats";
 import PrerequisitesSection from "@/components/courses/PrerequisitesSection";
+import EquivCourses from "@/components/courses/EquivCourses";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
@@ -17,6 +18,7 @@ import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 import type { Metadata } from "next";
 import { courseDescriptions, coursesStaticData } from "@/lib/coursesStaticData";
 import { notFound } from "next/navigation";
+import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
 
 export const runtime = "edge";
 
@@ -112,7 +114,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   const weeklyHoursLabel = c ? formatWeeklyHours(c.avg_weekly_hours) : "Sin datos";
   const totalReviews = c ? c.likes + c.superlikes + c.dislikes : 0;
   const prerequisites = await getPrerequisitesWithNames(course.req);
-
+  const equivalents = await getPrerequisitesWithNames(course.equiv);
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
   return (
@@ -186,9 +188,20 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
             </div>
           )}
         </div>
+
       </section>
       <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
+      <SectionsCollapsible
+        className="mt-8"
+        courseSigle={course.sigle}
+      />
       <section>
+
+      {/* Seccion de cursos equivalentes */}
+        </section>
+          <EquivCourses equivalents={equivalents} className="mt-8" />
+        <section>
+
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}
           <div className="flex items-center justify-between">

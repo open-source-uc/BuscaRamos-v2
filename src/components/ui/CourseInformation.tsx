@@ -7,6 +7,8 @@ import {
   CloseIcon,
   HourglassIcon,
   LanguageIcon,
+  CategoryIcon,
+  SwapIcon,
 } from "../icons";
 import { Pill } from "./pill";
 import Link from "next/link";
@@ -52,7 +54,22 @@ export default function CourseInformation({
             <Pill variant="orange" icon={BuildingIcon}>
               <span>{course.school}</span>
             </Pill>
+          )} 
+
+          {Array.isArray(course.categories) && course.categories.some(c => c.trim() !== "") && (
+          <Pill variant="purple" icon={CategoryIcon}>
+            <span>{course.categories.filter(c => c.trim() !== "").join(", ")}</span>
+          </Pill>
           )}
+
+          {Array.isArray(course.format) && course.format.some(f => f.trim() !== "") && (
+          <Pill variant="yellow" icon={SwapIcon}>
+            <span>{course.format.filter(f => f.trim() !== "").join(", ")}</span>
+          </Pill>
+          )}
+
+        
+
           {course.area && course.area !== "" && (
             <Pill variant="pink" icon={AreaIcon}>
               {course.area}
@@ -73,11 +90,6 @@ export default function CourseInformation({
                 Se dicta en Inglés
               </Pill>
             )}
-            {course.categories.length > 0 && <span>
-                <Pill variant="orange" className="capitalize">
-                  Caregoria 1
-                </Pill>
-              </span>}
         </div>
       )}
     </section>
