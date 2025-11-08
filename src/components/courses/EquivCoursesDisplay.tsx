@@ -7,6 +7,7 @@ interface EquivalentsDisplayProps {
   className?: string;
 }
 
+
 export const EquivCoursesDisplay = ({
   equivalents,
   className = "",

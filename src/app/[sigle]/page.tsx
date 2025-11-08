@@ -114,7 +114,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   const weeklyHoursLabel = c ? formatWeeklyHours(c.avg_weekly_hours) : "Sin datos";
   const totalReviews = c ? c.likes + c.superlikes + c.dislikes : 0;
   const prerequisites = await getPrerequisitesWithNames(course.req);
-
+  const equivalents = await getPrerequisitesWithNames(course.equiv);
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
   return (
@@ -199,7 +199,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
 
       {/* Seccion de cursos equivalentes */}
         </section>
-          <EquivCourses prerequisites={prerequisites} className="mt-8" />
+          <EquivCourses equivalents={equivalents} className="mt-8" />
         <section>
 
         <div className="space-y-6">

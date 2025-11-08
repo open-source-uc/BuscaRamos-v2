@@ -1,16 +1,15 @@
 import { DocsIcon, ChevronDownIcon, ShuffleIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ParsedPrerequisites } from "@/lib/courseReq";
-import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
 import { EquivCoursesDisplay } from "./EquivCoursesDisplay";
 
 interface Props {
-  prerequisites: ParsedPrerequisites;
+  equivalents: ParsedPrerequisites;
   className?: string;
 }
 
-export default function PrerequisitesSection({ prerequisites, className = "" }: Props) {
-  if (!prerequisites.hasPrerequisites || !prerequisites.structure) {
+export default function PrerequisitesSection({equivalents, className = "" }: Props) {
+  if (!equivalents.hasPrerequisites || !equivalents.structure) {
     return (
       <section className={`prerequisites-section w-full ${className}`}>
         <div className="border-border bg-accent w-full overflow-hidden rounded-md border p-6">
@@ -52,7 +51,7 @@ export default function PrerequisitesSection({ prerequisites, className = "" }: 
 
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
             <div className="w-full overflow-hidden">
-              <EquivCoursesDisplay prerequisites={prerequisites.structure} />
+              <EquivCoursesDisplay equivalents={equivalents.structure} />
             </div>
 
           </CollapsibleContent>
