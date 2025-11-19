@@ -1,3 +1,9 @@
+MIT License
+
+Copyright (c) 2021 Nicolás Mc Intyre
+Copyright (c) 2023 kovaxis
+Copyright (c) 2025 Vicente Muñoz
+
 # 📓 Process Data Notebook
 
 Jupyter Notebook para procesar los datos de cursos scrapeados y generar archivos JSON simplificados y optimizados.
