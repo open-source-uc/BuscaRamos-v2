@@ -21,18 +21,19 @@ export default function TableCourseCampuses({
   }
 
   const prefixText = getCampusPrefix(lastSemester);
-  const campusText = validCampus.join(", ");
   const pillVariant = isCurrentSemester(lastSemester) ? "blue" : "red";
 
   return (
-    <Pill variant={pillVariant}>
-      <div className="flex flex-col">
-        <span className="text-xs font-medium opacity-80">{prefixText}</span>
-        <div className="flex items-center gap-1">
-          {variant === "with-icon" && <LocationIcon className="h-3 w-3" />}
-          <span>{campusText}</span>
+    <div className="w-full">
+      <Pill variant={pillVariant} size="md" className="w-full max-w-full inline-block">
+        <div className="flex flex-col min-w-0 w-full">
+          <span className="text-xs font-medium opacity-80 whitespace-nowrap">{prefixText}</span>
+          <div className="flex flex-wrap items-center gap-1 min-w-0 w-full">
+            {variant === "with-icon" && <LocationIcon className="h-4 w-4 flex-shrink-0" />}
+            <span className="break-words text-sm whitespace-normal">{validCampus.join(", ")}</span>
+          </div>
         </div>
-      </div>
-    </Pill>
+      </Pill>
+    </div>
   );
 }

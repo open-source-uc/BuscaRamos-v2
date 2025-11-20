@@ -57,11 +57,14 @@ export default function CourseInformation({
             </Pill>
           )}
 
-          {Array.isArray(course.categories) && course.categories.some((c) => c.trim() !== "") && (
-            <Pill variant="purple" icon={CategoryIcon}>
-              <span>{course.categories.filter((c) => c.trim() !== "").join(", ")}</span>
-            </Pill>
-          )}
+          {Array.isArray(course.categories) &&
+            course.categories.some((c) => c && String(c).trim() !== "") && (
+              <Pill variant="purple" icon={CategoryIcon}>
+                <span>
+                  {course.categories.filter((c) => c && String(c).trim() !== "").join(", ")}
+                </span>
+              </Pill>
+            )}
 
           {Array.isArray(course.format) && course.format.some((f) => f.trim() !== "") && (
             <Pill variant="yellow" icon={SwapIcon}>
@@ -69,11 +72,13 @@ export default function CourseInformation({
             </Pill>
           )}
 
-          {Array.isArray(course.area) && course.area.length > 0 && (
-            <Pill variant="pink" icon={AreaIcon}>
-              <span>{course.area.filter((a) => a && String(a).trim() !== "").join(", ")}</span>
-            </Pill>
-          )}
+          {Array.isArray(course.area) &&
+            course.area.length > 0 &&
+            course.area.some((a) => a && String(a).trim() !== "") && (
+              <Pill variant="pink" icon={AreaIcon}>
+                <span>{course.area.filter((a) => a && String(a).trim() !== "").join(", ")}</span>
+              </Pill>
+            )}
           {Array.isArray(course.is_removable) &&
             course.is_removable.length > 0 &&
             (() => {

@@ -1,6 +1,7 @@
 "use server";
 
-import { PrerequisiteGroup, PrerequisiteCourse } from "./courseReq";
+import { PrerequisiteGroup } from "./courseReq";
+import { RestrictionGroup } from "./courseRestrictions";
 
 const API_BASE_URL = "https://buscaramos-v2-static-data.osuc.workers.dev";
 
@@ -18,13 +19,30 @@ function convertPrerequisiteGroup(group: any): PrerequisiteGroup {
   };
 }
 
+/**
+ * Convierte un RestrictionGroup de la API al formato esperado
+ */
+function convertRestrictionGroup(group: any): RestrictionGroup {
+  return {
+    type: group.type === "AND" ? "AND" : "OR",
+    restrictions:
+      group.restrictions?.map((restriction: any) => ({
+        type: restriction.type || "",
+        operator: restriction.operator || "",
+        value: restriction.value || "",
+        raw: restriction.raw || "",
+      })) || [],
+    groups: group.groups?.map((subGroup: any) => convertRestrictionGroup(subGroup)),
+  };
+}
+
 export interface ParsedMetaData {
   has_prerequisites: boolean;
   has_restrictions: boolean;
   has_equivalences: boolean;
   unlocks_courses: boolean;
   prerequisites?: PrerequisiteGroup;
-  restrictions?: PrerequisiteGroup;
+  restrictions?: RestrictionGroup;
   connector?: string;
   equivalences?: string[];
   unlocks?: Record<string, any>;
@@ -151,7 +169,7 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
             ? convertPrerequisiteGroup(apiData.parsed_meta_data.prerequisites)
             : undefined,
           restrictions: apiData.parsed_meta_data.restrictions
-            ? convertPrerequisiteGroup(apiData.parsed_meta_data.restrictions)
+            ? convertRestrictionGroup(apiData.parsed_meta_data.restrictions)
             : undefined,
           connector: apiData.parsed_meta_data.connector,
           equivalences: apiData.parsed_meta_data.equivalences,

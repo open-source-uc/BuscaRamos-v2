@@ -1,3 +1,40 @@
+/**
+ * Tipo que representa los datos que llegan del archivo courses-score.ndjson
+ * Solo incluye los campos que se usan en el frontend para la tabla de cursos
+ */
+export type CourseScore = {
+  // Identificación y básicos
+  sigle: string;
+  name: string;
+  credits: number;
+  school: string;
+  last_semester: string;
+
+  // Estadísticas de reseñas
+  likes: number;
+  dislikes: number;
+  superlikes: number;
+  votes_low_workload: number;
+  votes_medium_workload: number;
+  votes_high_workload: number;
+  votes_mandatory_attendance: number;
+  votes_optional_attendance: number;
+  avg_weekly_hours: number;
+
+  // Arrays de características
+  format: string[];
+  campus: string[];
+  is_removable: boolean[];
+  is_special: boolean[];
+  is_english: boolean[];
+  area: string[];
+  categories: string[];
+};
+
+/**
+ * Tipo legacy para compatibilidad con código que aún usa CourseDB
+ * @deprecated Usar CourseScore directamente. Este tipo solo se mantiene para compatibilidad con getCourseStats
+ */
 export type CourseDB = {
   id: number;
   sigle: string;
@@ -11,30 +48,6 @@ export type CourseDB = {
   votes_optional_attendance: number;
   avg_weekly_hours: number;
   sort_index: number;
-};
-export type CourseScore = CourseDB & {
-  name: string;
-  credits: number;
-  parsed_meta_data: {
-    has_prerequisites: boolean;
-    has_restrictions: boolean;
-    has_equivalences: boolean;
-    unlocks_courses: boolean;
-    prerequisites?: any;
-    restrictions?: any;
-    connector?: string;
-    equivalences?: string[];
-    unlocks?: Record<string, any>;
-  };
-  format: string[];
-  campus: string[];
-  is_removable: boolean[];
-  is_special: boolean[];
-  is_english: boolean[];
-  school: string;
-  area: string[];
-  categories: string[];
-  last_semester: string;
 };
 
 export interface CourseReview {

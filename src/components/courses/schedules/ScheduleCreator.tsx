@@ -9,7 +9,6 @@ import {
   TIME_SLOTS,
   DAYS,
   convertNDJSONToSections,
-  applySectionSuggestions,
   shuffleSections,
   getAvailableSections,
 } from "@/lib/scheduleMatrix";
@@ -19,7 +18,6 @@ import {
   addCourseToSchedule,
   removeCourseFromSchedule,
   getSavedHiddenCourses,
-  saveHiddenCourses,
   addHiddenCourse,
   removeHiddenCourse,
 } from "@/lib/scheduleStorage";
@@ -51,7 +49,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { CURRENT_SEMESTER } from "@/lib/currentSemester";
 const ConflictResolver = lazy(() => import("@/components/courses/schedules/ConflictResolver"));
 const ScheduleCombinations = lazy(
   () => import("@/components/courses/schedules/ScheduleCombinations")

@@ -120,13 +120,15 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
                   </div>
 
                   {/* Área de Formación General */}
-                  {course.area && (
-                    <div className="flex items-center">
-                      <Pill variant="pink" size="sm" icon={AreaIcon}>
-                        {course.area}
-                      </Pill>
-                    </div>
-                  )}
+                  {Array.isArray(course.area) &&
+                    course.area.length > 0 &&
+                    course.area.some((a) => a && String(a).trim() !== "") && (
+                      <div className="flex items-center">
+                        <Pill variant="pink" size="sm" icon={AreaIcon}>
+                          {course.area.filter((a) => a && String(a).trim() !== "").join(", ")}
+                        </Pill>
+                      </div>
+                    )}
                   {/* Reseñas con componente Sentiment */}
                   <div className="flex items-center justify-between">
                     {totalReviews === 0 ? (

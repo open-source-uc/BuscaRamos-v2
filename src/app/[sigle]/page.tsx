@@ -3,6 +3,7 @@ import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/componen
 import {
   getCourseStats,
   getPrerequisitesWithNamesFromStructure,
+  getRestrictionsFromStructure,
   getEquivalentsWithNames,
 } from "@/lib/courses";
 import {
@@ -119,6 +120,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   const prerequisites = await getPrerequisitesWithNamesFromStructure(
     course.parsed_meta_data.prerequisites
   );
+  const restrictions = await getRestrictionsFromStructure(course.parsed_meta_data.restrictions);
   const equivalents = await getEquivalentsWithNames(course.parsed_meta_data.equivalences);
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
@@ -194,7 +196,12 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
           )}
         </div>
       </section>
-      <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
+      <PrerequisitesSection
+        prerequisites={prerequisites}
+        restrictions={restrictions.hasRestrictions ? restrictions : undefined}
+        connector={course.parsed_meta_data.connector}
+        className="mt-8"
+      />
       <EquivCourses equivalents={equivalents} className="mt-8" />
       <SectionsCollapsible className="mt-8" courseSigle={course.sigle} />
       <section>

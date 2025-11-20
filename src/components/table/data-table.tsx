@@ -208,7 +208,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       {/* Course Filters Section */}
 
       {/* Tables Section */}
-      <div className="w-full">
+      <div className="w-full flex justify-center">
         <DesktopTable table={table} />
         <MovilTable table={table} />
       </div>

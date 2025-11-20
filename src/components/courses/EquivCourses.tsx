@@ -1,4 +1,4 @@
-import { DocsIcon, ChevronDownIcon, ShuffleIcon } from "@/components/icons/icons";
+import { ChevronDownIcon, ShuffleIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ParsedEquivalents } from "@/lib/courseEquiv";
 import { EquivCoursesDisplay } from "./EquivCoursesDisplay";

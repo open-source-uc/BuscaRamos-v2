@@ -2,7 +2,8 @@
 
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { PrerequisiteGroup, ParsedPrerequisites } from "./courseReq";
-import { EquivalentGroup, ParsedEquivalents } from "./courseEquiv";
+import { ParsedEquivalents } from "./courseEquiv";
+import { RestrictionGroup, ParsedRestrictions } from "./courseRestrictions";
 import { CourseDB } from "@/types/types";
 import { getCourseStaticData } from "./coursesStaticData";
 
@@ -118,6 +119,23 @@ export const getPrerequisitesWithNamesFromStructure = async (
   return {
     hasPrerequisites: true,
     structure: structureWithNames,
+  };
+};
+
+/**
+ * Obtiene restricciones parseadas a partir de una estructura de restricciones
+ * Las restricciones no necesitan nombres de cursos, solo se parsean directamente
+ */
+export const getRestrictionsFromStructure = async (
+  structure: RestrictionGroup | undefined
+): Promise<ParsedRestrictions> => {
+  if (!structure) {
+    return { hasRestrictions: false };
+  }
+
+  return {
+    hasRestrictions: true,
+    structure: structure,
   };
 };
 

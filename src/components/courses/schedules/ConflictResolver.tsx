@@ -15,7 +15,6 @@ import { Pill } from "@/components/ui/pill";
 import {
   findConflictResolution,
   applySectionSuggestions,
-  type SectionSuggestion,
   type ConflictResolutionResult,
 } from "@/lib/scheduleMatrix";
 import type { CourseSections } from "@/types/types.ts";

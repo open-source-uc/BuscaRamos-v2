@@ -2,6 +2,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import prettierPlugin from "eslint-plugin-prettier";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,6 +19,7 @@ export default [
   {
     plugins: {
       prettier: prettierPlugin,
+      "unused-imports": unusedImports,
     },
     rules: {
       // ✅ Integración con Prettier
@@ -25,7 +27,21 @@ export default [
 
       // ✅ Máximo de líneas en archivos TSX
       "max-lines": ["error", { max: 250, skipBlankLines: true, skipComments: true }],
+
+      // ✅ Detectar y eliminar imports no usados
+      "no-unused-vars": "off", // Desactivar la regla base
+      "@typescript-eslint/no-unused-vars": "off", // Desactivar la regla de TypeScript
+      "unused-imports/no-unused-imports": "error", // Detectar imports no usados
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
     },
-    files: ["**/*.tsx"], // Solo aplica a TSX
+    files: ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"], // Aplica a todos los archivos
   },
 ];

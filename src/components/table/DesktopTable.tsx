@@ -3,18 +3,24 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { flexRender, Table as TableType } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 export default function TableTable({ table }: { table: TableType<CourseScore> }) {
   return (
     <div className="tablet:block hidden pt-4">
-      <div className="bg-accent border-border rounded-md border">
-        <Table>
+      <div className="bg-accent border-border rounded-md border w-[90vw] max-w-[90vw] overflow-x-auto">
+        <Table className="table-fixed w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className={
+                        (header.column.columnDef.meta as { className?: string })?.className
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -45,7 +51,13 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
                   aria-label={`Ver detalles del curso ${row.original.sigle} - ${row.original.name}`}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        (cell.column.columnDef.meta as { className?: string })?.className,
+                        cell.column.id === "campus" && "whitespace-normal"
+                      )}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -61,7 +73,7 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4 w-[90vw] max-w-[90vw]">
         <div className="text-foreground-muted-dark flex-1 text-sm">
           {table.getFilteredRowModel().rows.length} cursos encontrados
         </div>
