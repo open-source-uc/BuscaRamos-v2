@@ -77,12 +77,10 @@ export function Search({
           inputMode="search"
           autoCorrect="off"
           autoCapitalize="none"
-
           data-lpignore="true"
           data-1p-ignore="true"
           data-bw-ignore="true"
           data-dashlane-ignore="true"
-
           spellCheck={false}
           placeholder={placeholder}
           value={displayValue}

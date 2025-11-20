@@ -15,17 +15,24 @@ export type CourseDB = {
 export type CourseScore = CourseDB & {
   name: string;
   credits: number;
-  req: string;
-  conn: string;
-  restr: string;
-  equiv: string;
+  parsed_meta_data: {
+    has_prerequisites: boolean;
+    has_restrictions: boolean;
+    has_equivalences: boolean;
+    unlocks_courses: boolean;
+    prerequisites?: any;
+    restrictions?: any;
+    connector?: string;
+    equivalences?: string[];
+    unlocks?: Record<string, any>;
+  };
   format: string[];
   campus: string[];
   is_removable: boolean[];
-  is_special: boolean;
-  is_english: boolean;
+  is_special: boolean[];
+  is_english: boolean[];
   school: string;
-  area: string;
+  area: string[];
   categories: string[];
   last_semester: string;
 };
@@ -66,9 +73,11 @@ export interface CourseSection {
 	section?: number
 	format?: string
 	campus?: string
-	is_english?: boolean
-	is_removable?: boolean
-	is_special?: boolean
+	category?: string
+	area?: string
+	is_english?: boolean // Valor booleano individual de la sección
+	is_removable?: boolean // Valor booleano individual de la sección
+	is_special?: boolean // Valor booleano individual de la sección
 	total_quota?: number
 	quota?: Record<string, number>
 	name?: string // Course name for display purposes

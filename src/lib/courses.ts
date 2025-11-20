@@ -1,9 +1,10 @@
 "use server"
 
 import { getRequestContext } from "@cloudflare/next-on-pages"
-import { parsePrerequisites, PrerequisiteGroup } from "./courseReq"
+import { PrerequisiteGroup, ParsedPrerequisites } from "./courseReq"
+import { EquivalentGroup, ParsedEquivalents } from "./courseEquiv"
 import { CourseDB } from "@/types/types"
-import {coursesStaticData} from "./coursesStaticData"
+import { getCourseStaticData } from "./coursesStaticData"
 
 const DB = () => getRequestContext().env.DB
 
@@ -68,12 +69,16 @@ function extractSiglesFromStructure(group: PrerequisiteGroup): string[] {
 	return sigles
 }
 
-const getCourseNames = (sigles: string[]) => {
+const getCourseNames = async (sigles: string[]) => {
   const courseMap: Map<string, string> = new Map();
 
-  sigles.forEach((sigle) => {
-    courseMap.set(sigle, coursesStaticData()[sigle]?.name || sigle);
-  });
+  await Promise.all(
+    sigles.map(async (sigle) => {
+      const course = await getCourseStaticData(sigle);
+      // Si no hay nombre, usar "" para detectar que el curso no existe
+      courseMap.set(sigle, course?.name || "");
+    })
+  );
 
   return courseMap;
 }
@@ -87,6 +92,8 @@ function addNamesToStructure(
 		courses: group.courses?.map((course) => ({
 			...course,
 			name: courseNames.get(course.sigle),
+			// Preservar isCoreq (puede venir como is_coreq de la API)
+			isCoreq: course.isCoreq ?? (course as any).is_coreq ?? false,
 		})),
 		groups: group.groups?.map((subGroup) => addNamesToStructure(subGroup, courseNames)),
 	}
@@ -94,20 +101,49 @@ function addNamesToStructure(
 	return updatedGroup
 }
 
-export const getPrerequisitesWithNames = async (req: string) => {
-	const parsed = parsePrerequisites(req)
-
-	if (!parsed.hasPrerequisites || !parsed.structure) {
-		return parsed
+/**
+ * Obtiene prerrequisitos con nombres a partir de una estructura ya parseada
+ */
+export const getPrerequisitesWithNamesFromStructure = async (
+	structure: PrerequisiteGroup | undefined
+): Promise<ParsedPrerequisites> => {
+	if (!structure) {
+		return { hasPrerequisites: false }
 	}
 
-	const sigles = extractSiglesFromStructure(parsed.structure)
+	const sigles = extractSiglesFromStructure(structure)
 	const courseNames = await getCourseNames(sigles)
-	const structureWithNames = addNamesToStructure(parsed.structure, courseNames)
+	const structureWithNames = addNamesToStructure(structure, courseNames)
 
 	return {
-		...parsed,
+		hasPrerequisites: true,
 		structure: structureWithNames,
+	}
+}
+
+/**
+ * Obtiene equivalencias con nombres a partir de un array de siglas
+ * Retorna la estructura ParsedEquivalents para compatibilidad con el componente EquivCourses
+ */
+export const getEquivalentsWithNames = async (
+	equivalences: string[] | undefined
+): Promise<ParsedEquivalents> => {
+	if (!equivalences || equivalences.length === 0) {
+		return { hasEquivalents: false }
+	}
+
+	const courseNames = await getCourseNames(equivalences)
+	const coursesWithNames = equivalences.map((sigle) => ({
+		sigle,
+		name: courseNames.get(sigle),
+	}))
+
+	return {
+		hasEquivalents: true,
+		structure: {
+			type: "OR",
+			courses: coursesWithNames,
+		},
 	}
 }
 

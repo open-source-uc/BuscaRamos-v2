@@ -57,7 +57,9 @@ export function CourseFilters({
 }: CourseFiltersProps) {
   // Get unique areas from the data
   const uniqueAreas = useMemo(() => {
-    const areas = courses.map((course) => course.area).filter((area) => area && area !== "Ninguna");
+    const areas = courses
+      .flatMap((course) => (Array.isArray(course.area) ? course.area : []))
+      .filter((area) => area && area.trim() !== "" && area !== "Ninguna");
     return Array.from(new Set(areas)).sort();
   }, [courses]);
 
@@ -125,14 +127,11 @@ export function CourseFilters({
   // Convert unique categories to combobox options
   const uniqueCategories = useMemo(() => {
     const allCategories = courses
-      .flatMap((course) =>
-        Array.isArray(course.categories) ? course.categories : []
-      )
+      .flatMap((course) => (Array.isArray(course.categories) ? course.categories : []))
       .filter((cat) => cat && cat.trim() !== ""); // eliminar vacíos
 
     return Array.from(new Set(allCategories)).sort();
   }, [courses]);
-
 
   // Convert unique schools to combobox options
   const schoolOptions = useMemo((): ComboboxOption[] => {

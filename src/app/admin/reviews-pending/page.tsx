@@ -3,13 +3,22 @@ import ChangeStatusForm from "@/components/reviews/FormChangeStatus";
 import Review from "@/components/reviews/Review";
 import { Button } from "@/components/ui/button";
 import { Pill } from "@/components/ui/pill";
-import { coursesStaticData } from "@/lib/coursesStaticData";
+import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { getReviewsByStatus } from "@/lib/reviews";
 
 export const runtime = "edge";
 
 export default async function PendingPage() {
   const reviews = await getReviewsByStatus(0, 100);
+
+  // Obtener datos de cursos para todas las reseñas
+  const reviewsWithCourses = await Promise.all(
+    reviews.map(async (review) => {
+      const course = await getCourseStaticData(review.course_sigle);
+      return { review, course };
+    })
+  );
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <section className="border border-border rounded-md px-6 py-8 mb-8">
@@ -42,7 +51,7 @@ export default async function PendingPage() {
         {reviews.length === 0 ? (
           <p className="text-center text-muted-foreground">No hay reseñas por ver.</p>
         ) : (
-          reviews.map((review) => (
+          reviewsWithCourses.map(({ review, course }) => (
             <div key={review.id} className="flex flex-col gap-4 bg-yellow-50 p-4">
               <ChangeStatusForm review={review} />
               <Review
@@ -50,7 +59,7 @@ export default async function PendingPage() {
                 review={review}
                 editable
                 hideLike
-                course={coursesStaticData()[review.course_sigle]}
+                course={course || undefined}
               />
             </div>
           ))

@@ -3,7 +3,7 @@ export const runtime = "edge";
 import Review from "@/components/reviews/Review";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";
-import { coursesStaticData } from "@/lib/coursesStaticData";
+import { getCourseStaticData } from "@/lib/coursesStaticData";
 import Link from "next/link";
 
 export default async function Profile() {
@@ -14,6 +14,14 @@ export default async function Profile() {
   }
 
   const reviews = await getUserReviews(user.userId, 10);
+
+  // Obtener datos de cursos para todas las reseñas
+  const reviewsWithCourses = await Promise.all(
+    reviews.map(async (review) => {
+      const course = await getCourseStaticData(review.course_sigle);
+      return { review, course };
+    })
+  );
 
   return (
     <main className="max-w-6xl mx-auto p-8 space-y-8">
@@ -26,13 +34,13 @@ export default async function Profile() {
         <p className="text-gray-500">No hay reseñas para este curso.</p>
       ) : (
         <div className="space-y-4">
-          {reviews.map((review) => (
+          {reviewsWithCourses.map(({ review, course }) => (
             <Review
               key={review.id}
               review={review}
               status
               editable
-              course={coursesStaticData()[review.course_sigle]}
+              course={course || undefined}
               hideLike
             />
           ))}

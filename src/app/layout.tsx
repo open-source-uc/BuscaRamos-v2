@@ -82,11 +82,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-CL">
-    <head>
-      {/* <!-- Cloudflare Web Analytics --> */}
-      <Script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7874d2302e154e14ab08e25ea85909f9"}'></Script>
-      {/* <!-- End Cloudflare Web Analytics --> */}
-    </head>
+      <head>
+        {/* <!-- Cloudflare Web Analytics --> */}
+        <Script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "7874d2302e154e14ab08e25ea85909f9"}'
+        ></Script>
+        {/* <!-- End Cloudflare Web Analytics --> */}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen`}
       >
