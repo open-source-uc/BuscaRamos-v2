@@ -29,7 +29,7 @@
 			"binding": "R2PUBLIC",
 			"bucket_name": "ousc-public",
 		}
-	],
+	]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
