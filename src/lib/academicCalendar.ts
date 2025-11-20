@@ -2,7 +2,7 @@
  * Utilidades para manejar el calendario académico usando configuración JSON
  */
 import { CURRENT_SEMESTER } from '@/lib/currentSemester'
-import academicCalendarData from '@/../data/academicCalendar.json'
+import academicCalendarData from '@/../migration/data/academicCalendar.json'
 import type { semester } from '@/lib/icsHorario'
 
 const stringToIcs = (dateString: string): [number, number, number] => {
