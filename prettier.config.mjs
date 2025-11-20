@@ -1,5 +1,4 @@
 export default {
-  type: "module",
   semi: true,
   singleQuote: false,
   tabWidth: 2,

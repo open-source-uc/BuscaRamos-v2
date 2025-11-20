@@ -13,12 +13,22 @@ jobs:
         env:
           API_SECRET: ${{ secrets.API_SECRET }}
         run: |
-          response=$(curl -s -w "%{http_code}" -X GET \
+          # Capturar el cuerpo de la respuesta y el código HTTP por separado
+          response_body=$(curl -s -X GET \
             -H "Authorization: Bearer $API_SECRET" \
             -H "Accept: application/x-ndjson" \
+            -w "\n%{http_code}" \
             https://buscaramos-v2-static-data.osuc.workers.dev/reload)
 
-          http_code="${response: -3}"
+          # Separar el cuerpo del código HTTP (última línea)
+          http_code=$(echo "$response_body" | tail -n1)
+          json_body=$(echo "$response_body" | sed '$d')
+
+          # Imprimir la respuesta JSON
+          echo "API Response:"
+          echo "$json_body" | jq '.' || echo "$json_body"
+
+          # Verificar el código HTTP
           if [ "$http_code" -ne 200 ]; then
             echo "API call failed with status code: $http_code"
             exit 1

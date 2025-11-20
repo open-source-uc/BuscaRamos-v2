@@ -1,9 +1,9 @@
 ---
 name: 🧩 Feature Request
 about: Sugiere una idea para el proyecto
-title: '[FEAT]: '
+title: "[FEAT]: "
 labels: enhancement
-assignees: ''
+assignees: ""
 ---
 
 ## Historia de Usuario

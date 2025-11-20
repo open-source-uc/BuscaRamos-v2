@@ -12,15 +12,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: [
-      ".git",
-      ".next",
-      ".vercel",
-      ".wrangler",
-      "node_modules",
-      "dist",
-      "build"
-    ]
+    ignores: [".git", ".next", ".vercel", ".wrangler", "node_modules", "dist", "build"],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
@@ -32,8 +24,8 @@ export default [
       "prettier/prettier": "error",
 
       // ✅ Máximo de líneas en archivos TSX
-      "max-lines": ["error", { max: 250, skipBlankLines: true, skipComments: true }]
+      "max-lines": ["error", { max: 250, skipBlankLines: true, skipComments: true }],
     },
     files: ["**/*.tsx"], // Solo aplica a TSX
-  }
+  },
 ];

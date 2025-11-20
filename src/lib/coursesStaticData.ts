@@ -98,7 +98,7 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
   }
 
   const url = `${API_BASE_URL}/data/${sigle}`;
-  
+
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       // Crear un AbortController para timeout
@@ -108,12 +108,12 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
       const response = await fetch(url, {
         signal: controller.signal,
         headers: {
-          'Accept': 'application/json',
+          Accept: "application/json",
         },
       });
-      
+
       clearTimeout(timeoutId);
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           // Curso no encontrado, no es un error
@@ -121,20 +121,22 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
         }
         // Para otros errores HTTP, intentar retry si quedan intentos
         if (attempt < retries && response.status >= 500) {
-          console.warn(`Error ${response.status} fetching ${sigle}, retrying... (attempt ${attempt + 1}/${retries + 1})`);
-          await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1))); // Backoff exponencial
+          console.warn(
+            `Error ${response.status} fetching ${sigle}, retrying... (attempt ${attempt + 1}/${retries + 1})`
+          );
+          await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1))); // Backoff exponencial
           continue;
         }
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
       const apiData: APICourseData = await response.json();
-      
+
       // Validar que los datos sean válidos
       if (!apiData.sigle || !apiData.name) {
-        throw new Error('Invalid API response: missing required fields');
+        throw new Error("Invalid API response: missing required fields");
       }
-      
+
       // Mapear datos de la API, convirtiendo is_coreq a isCoreq en prerequisites y restrictions
       const courseData: CourseStaticData = {
         sigle: apiData.sigle,
@@ -145,7 +147,7 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
           has_restrictions: apiData.parsed_meta_data.has_restrictions,
           has_equivalences: apiData.parsed_meta_data.has_equivalences,
           unlocks_courses: apiData.parsed_meta_data.unlocks_courses,
-          prerequisites: apiData.parsed_meta_data.prerequisites 
+          prerequisites: apiData.parsed_meta_data.prerequisites
             ? convertPrerequisiteGroup(apiData.parsed_meta_data.prerequisites)
             : undefined,
           restrictions: apiData.parsed_meta_data.restrictions
@@ -173,29 +175,35 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
       return courseData;
     } catch (error: any) {
       // Si es un abort (timeout), intentar retry
-      if (error.name === 'AbortError' && attempt < retries) {
-        console.warn(`Timeout fetching ${sigle}, retrying... (attempt ${attempt + 1}/${retries + 1})`);
-        await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+      if (error.name === "AbortError" && attempt < retries) {
+        console.warn(
+          `Timeout fetching ${sigle}, retrying... (attempt ${attempt + 1}/${retries + 1})`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
         continue;
       }
-      
+
       // Si es un error de red y quedan intentos, retry
-      if ((error.message?.includes('fetch failed') || error.cause) && attempt < retries) {
-        console.warn(`Network error fetching ${sigle}, retrying... (attempt ${attempt + 1}/${retries + 1})`);
-        await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+      if ((error.message?.includes("fetch failed") || error.cause) && attempt < retries) {
+        console.warn(
+          `Network error fetching ${sigle}, retrying... (attempt ${attempt + 1}/${retries + 1})`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
         continue;
       }
-      
+
       // Último intento falló o no hay más intentos
       const errorMessage = error.message || String(error);
-      const errorDetails = error.cause ? ` (cause: ${error.cause})` : '';
-      console.error(`Error fetching course data for ${sigle} after ${attempt + 1} attempt(s): ${errorMessage}${errorDetails}`);
-      
+      const errorDetails = error.cause ? ` (cause: ${error.cause})` : "";
+      console.error(
+        `Error fetching course data for ${sigle} after ${attempt + 1} attempt(s): ${errorMessage}${errorDetails}`
+      );
+
       // No cachear errores para permitir reintentos en el futuro
       return null;
     }
   }
-  
+
   return null;
 }
 

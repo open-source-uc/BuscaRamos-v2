@@ -56,7 +56,11 @@ export function useFuse<T>({
   const clientRef = useRef<ReturnType<typeof createFuseWorkerClient<T>> | null>(null);
   const startClient = useCallback(() => {
     if (typeof window === "undefined") return;
-    clientRef.current = createFuseWorkerClient<T>({ data, keys: effectiveKeys, options: effectiveOptions });
+    clientRef.current = createFuseWorkerClient<T>({
+      data,
+      keys: effectiveKeys,
+      options: effectiveOptions,
+    });
   }, [data, effectiveKeys, effectiveOptions]);
   const stopClient = useCallback(() => {
     try {
@@ -78,7 +82,10 @@ export function useFuse<T>({
         stopClient();
       };
     } else {
-      fuseRef.current = new Fuse<T>(data, { keys: effectiveKeys as any, ...(effectiveOptions as any) });
+      fuseRef.current = new Fuse<T>(data, {
+        keys: effectiveKeys as any,
+        ...(effectiveOptions as any),
+      });
       return () => {
         fuseRef.current = null;
       };
@@ -105,7 +112,7 @@ export function useFuse<T>({
           const items = await clientRef.current?.search(effectiveQuery);
           if (items) setResults(items);
         } else {
-          const fr = fuseRef.current?.search(effectiveQuery).map(r => r.item) ?? [];
+          const fr = fuseRef.current?.search(effectiveQuery).map((r) => r.item) ?? [];
           setResults(fr);
         }
       } finally {
@@ -145,5 +152,3 @@ export function useFuse<T>({
     [results, isSearching, abort, effectiveQuery]
   );
 }
-
-
