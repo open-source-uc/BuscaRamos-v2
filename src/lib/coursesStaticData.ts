@@ -1,8 +1,22 @@
 "use server";
 
-import { PrerequisiteGroup } from "./courseReq";
+import { PrerequisiteGroup, PrerequisiteCourse } from "./courseReq";
 
 const API_BASE_URL = "https://buscaramos-v2-static-data.osuc.workers.dev";
+
+/**
+ * Convierte un PrerequisiteGroup de la API (con is_coreq) al formato esperado (con isCoreq)
+ */
+function convertPrerequisiteGroup(group: any): PrerequisiteGroup {
+  return {
+    type: group.type,
+    courses: group.courses?.map((course: any) => ({
+      sigle: course.sigle,
+      isCoreq: course.is_coreq ?? course.isCoreq ?? false,
+    })),
+    groups: group.groups?.map((subGroup: any) => convertPrerequisiteGroup(subGroup)),
+  };
+}
 
 export interface ParsedMetaData {
   has_prerequisites: boolean;
@@ -121,7 +135,7 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
         throw new Error('Invalid API response: missing required fields');
       }
       
-      // Mapear datos de la API directamente sin conversiones
+      // Mapear datos de la API, convirtiendo is_coreq a isCoreq en prerequisites y restrictions
       const courseData: CourseStaticData = {
         sigle: apiData.sigle,
         name: apiData.name,
@@ -131,8 +145,12 @@ async function fetchCourseData(sigle: string, retries = 2): Promise<CourseStatic
           has_restrictions: apiData.parsed_meta_data.has_restrictions,
           has_equivalences: apiData.parsed_meta_data.has_equivalences,
           unlocks_courses: apiData.parsed_meta_data.unlocks_courses,
-          prerequisites: apiData.parsed_meta_data.prerequisites,
-          restrictions: apiData.parsed_meta_data.restrictions,
+          prerequisites: apiData.parsed_meta_data.prerequisites 
+            ? convertPrerequisiteGroup(apiData.parsed_meta_data.prerequisites)
+            : undefined,
+          restrictions: apiData.parsed_meta_data.restrictions
+            ? convertPrerequisiteGroup(apiData.parsed_meta_data.restrictions)
+            : undefined,
           connector: apiData.parsed_meta_data.connector,
           equivalences: apiData.parsed_meta_data.equivalences,
           unlocks: apiData.parsed_meta_data.unlocks,

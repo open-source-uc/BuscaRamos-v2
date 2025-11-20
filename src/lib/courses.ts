@@ -94,6 +94,8 @@ function addNamesToStructure(
 		courses: group.courses?.map((course) => ({
 			...course,
 			name: courseNames.get(course.sigle),
+			// Preservar isCoreq (puede venir como is_coreq de la API)
+			isCoreq: course.isCoreq ?? (course as any).is_coreq ?? false,
 		})),
 		groups: group.groups?.map((subGroup) => addNamesToStructure(subGroup, courseNames)),
 	}
