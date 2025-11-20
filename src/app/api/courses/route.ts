@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
 
 	try {
 		const courses = await getCourseSummaries()
-		const ndjson = createCoursesNDJSON_v1(courses)
+		const ndjson = await createCoursesNDJSON_v1(courses)
 
 		await R2PUBLIC().put("courses-score.ndjson", ndjson, {
 			httpMetadata: {
