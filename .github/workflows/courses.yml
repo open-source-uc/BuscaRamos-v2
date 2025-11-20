@@ -16,7 +16,7 @@ jobs:
           response=$(curl -s -w "%{http_code}" -X GET \
             -H "Authorization: Bearer $API_SECRET" \
             -H "Accept: application/x-ndjson" \
-            https://buscaramos.osuc.dev/api/courses)
+            https://buscaramos-v2-static-data.osuc.workers.dev/reload)
 
           http_code="${response: -3}"
           if [ "$http_code" -ne 200 ]; then
