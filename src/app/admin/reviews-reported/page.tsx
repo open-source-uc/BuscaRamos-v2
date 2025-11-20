@@ -10,7 +10,7 @@ export const runtime = "edge";
 
 export default async function PendingPage() {
   const reviews = await getReviewsByStatus(2, 100);
-  
+
   // Obtener datos de cursos para todas las reseñas
   const reviewsWithCourses = await Promise.all(
     reviews.map(async (review) => {
@@ -18,7 +18,7 @@ export default async function PendingPage() {
       return { review, course };
     })
   );
-  
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <section className="border border-border rounded-md px-6 py-8 mb-8">

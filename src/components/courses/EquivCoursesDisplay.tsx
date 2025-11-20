@@ -7,11 +7,7 @@ interface EquivalentsDisplayProps {
   className?: string;
 }
 
-
-export const EquivCoursesDisplay = ({
-  equivalents,
-  className = "",
-}: EquivalentsDisplayProps) => {
+export const EquivCoursesDisplay = ({ equivalents, className = "" }: EquivalentsDisplayProps) => {
   const hasEquivalents =
     (equivalents?.courses?.length ?? 0) > 0 || (equivalents?.groups?.length ?? 0) > 0;
 
@@ -42,10 +38,7 @@ interface EquivalentGroupComponentProps {
   isNested?: boolean;
 }
 
-const EquivalentGroupComponent = ({
-  group,
-  isNested = false,
-}: EquivalentGroupComponentProps) => {
+const EquivalentGroupComponent = ({ group, isNested = false }: EquivalentGroupComponentProps) => {
   // Texto descriptivo según el tipo del grupo
   const groupLabel =
     group.type === "AND"

@@ -1,6 +1,10 @@
 import { getCourseReviews } from "../../actions/reviews";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
-import { getCourseStats, getPrerequisitesWithNamesFromStructure, getEquivalentsWithNames } from "@/lib/courses";
+import {
+  getCourseStats,
+  getPrerequisitesWithNamesFromStructure,
+  getEquivalentsWithNames,
+} from "@/lib/courses";
 import {
   calculatePositivePercentage,
   calculateSentiment,
@@ -112,7 +116,9 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
     : "Sin datos";
   const weeklyHoursLabel = c ? formatWeeklyHours(c.avg_weekly_hours) : "Sin datos";
   const totalReviews = c ? c.likes + c.superlikes + c.dislikes : 0;
-  const prerequisites = await getPrerequisitesWithNamesFromStructure(course.parsed_meta_data.prerequisites);
+  const prerequisites = await getPrerequisitesWithNamesFromStructure(
+    course.parsed_meta_data.prerequisites
+  );
   const equivalents = await getEquivalentsWithNames(course.parsed_meta_data.equivalences);
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
@@ -187,16 +193,11 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
             </div>
           )}
         </div>
-
       </section>
       <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
       <EquivCourses equivalents={equivalents} className="mt-8" />
-      <SectionsCollapsible
-        className="mt-8"
-        courseSigle={course.sigle}
-      />
+      <SectionsCollapsible className="mt-8" courseSigle={course.sigle} />
       <section>
-
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}
           <div className="flex items-center justify-between">

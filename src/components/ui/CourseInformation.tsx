@@ -55,86 +55,89 @@ export default function CourseInformation({
             <Pill variant="orange" icon={BuildingIcon}>
               <span>{course.school}</span>
             </Pill>
-          )} 
-
-          {Array.isArray(course.categories) && course.categories.some(c => c.trim() !== "") && (
-          <Pill variant="purple" icon={CategoryIcon}>
-            <span>{course.categories.filter(c => c.trim() !== "").join(", ")}</span>
-          </Pill>
           )}
 
-          {Array.isArray(course.format) && course.format.some(f => f.trim() !== "") && (
-          <Pill variant="yellow" icon={SwapIcon}>
-            <span>{course.format.filter(f => f.trim() !== "").join(", ")}</span>
-          </Pill>
+          {Array.isArray(course.categories) && course.categories.some((c) => c.trim() !== "") && (
+            <Pill variant="purple" icon={CategoryIcon}>
+              <span>{course.categories.filter((c) => c.trim() !== "").join(", ")}</span>
+            </Pill>
+          )}
+
+          {Array.isArray(course.format) && course.format.some((f) => f.trim() !== "") && (
+            <Pill variant="yellow" icon={SwapIcon}>
+              <span>{course.format.filter((f) => f.trim() !== "").join(", ")}</span>
+            </Pill>
           )}
 
           {Array.isArray(course.area) && course.area.length > 0 && (
             <Pill variant="pink" icon={AreaIcon}>
-              <span>{course.area.filter(a => a && String(a).trim() !== "").join(", ")}</span>
+              <span>{course.area.filter((a) => a && String(a).trim() !== "").join(", ")}</span>
             </Pill>
           )}
-          {Array.isArray(course.is_removable) && course.is_removable.length > 0 && (() => {
-            const allTrue = course.is_removable.every((val) => val === true);
-            const allFalse = course.is_removable.every((val) => val === false);
-            const hasMixed = !allTrue && !allFalse;
-            
-            if (hasMixed) {
+          {Array.isArray(course.is_removable) &&
+            course.is_removable.length > 0 &&
+            (() => {
+              const allTrue = course.is_removable.every((val) => val === true);
+              const allFalse = course.is_removable.every((val) => val === false);
+              const hasMixed = !allTrue && !allFalse;
+
+              if (hasMixed) {
+                return (
+                  <Pill variant="orange" icon={CloseIcon}>
+                    Hay secciones no retirables
+                  </Pill>
+                );
+              }
               return (
-                <Pill variant="orange" icon={CloseIcon}>
-                  Hay secciones no retirables
+                <Pill variant={allTrue ? "green" : "red"} icon={allTrue ? CheckIcon : CloseIcon}>
+                  {allTrue ? "Retirable" : "No retirable"}
                 </Pill>
               );
-            }
-            return (
-              <Pill
-                variant={allTrue ? "green" : "red"}
-                icon={allTrue ? CheckIcon : CloseIcon}
-              >
-                {allTrue ? "Retirable" : "No retirable"}
-              </Pill>
-            );
-          })()}
-          {Array.isArray(course.is_english) && course.is_english.length > 0 && (() => {
-            const allTrue = course.is_english.every((val) => val === true);
-            const allFalse = course.is_english.every((val) => val === false);
-            const hasMixed = !allTrue && !allFalse;
-            
-            if (allTrue) {
-              return (
-                <Pill variant="purple" icon={LanguageIcon}>
-                  Se dicta en Inglés
-                </Pill>
-              );
-            } else if (hasMixed) {
-              return (
-                <Pill variant="orange" icon={LanguageIcon}>
-                  Hay secciones en inglés
-                </Pill>
-              );
-            }
-            return null;
-          })()}
-          {Array.isArray(course.is_special) && course.is_special.length > 0 && (() => {
-            const allTrue = course.is_special.every((val) => val === true);
-            const allFalse = course.is_special.every((val) => val === false);
-            const hasMixed = !allTrue && !allFalse;
-            
-            if (allTrue) {
-              return (
-                <Pill variant="yellow" icon={StarIcon}>
-                  Especial
-                </Pill>
-              );
-            } else if (hasMixed) {
-              return (
-                <Pill variant="orange" icon={StarIcon}>
-                  Hay secciones especiales
-                </Pill>
-              );
-            }
-            return null;
-          })()}
+            })()}
+          {Array.isArray(course.is_english) &&
+            course.is_english.length > 0 &&
+            (() => {
+              const allTrue = course.is_english.every((val) => val === true);
+              const allFalse = course.is_english.every((val) => val === false);
+              const hasMixed = !allTrue && !allFalse;
+
+              if (allTrue) {
+                return (
+                  <Pill variant="purple" icon={LanguageIcon}>
+                    Se dicta en Inglés
+                  </Pill>
+                );
+              } else if (hasMixed) {
+                return (
+                  <Pill variant="orange" icon={LanguageIcon}>
+                    Hay secciones en inglés
+                  </Pill>
+                );
+              }
+              return null;
+            })()}
+          {Array.isArray(course.is_special) &&
+            course.is_special.length > 0 &&
+            (() => {
+              const allTrue = course.is_special.every((val) => val === true);
+              const allFalse = course.is_special.every((val) => val === false);
+              const hasMixed = !allTrue && !allFalse;
+
+              if (allTrue) {
+                return (
+                  <Pill variant="yellow" icon={StarIcon}>
+                    Especial
+                  </Pill>
+                );
+              } else if (hasMixed) {
+                return (
+                  <Pill variant="orange" icon={StarIcon}>
+                    Hay secciones especiales
+                  </Pill>
+                );
+              }
+              return null;
+            })()}
         </div>
       )}
     </section>

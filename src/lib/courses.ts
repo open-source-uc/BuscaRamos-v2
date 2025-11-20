@@ -75,10 +75,8 @@ const getCourseNames = async (sigles: string[]) => {
   await Promise.all(
     sigles.map(async (sigle) => {
       const course = await getCourseStaticData(sigle);
-      // Si no hay nombre, no lo agregamos al map para que se muestre solo la sigla con el icono
-      if (course?.name) {
-        courseMap.set(sigle, course.name);
-      }
+      // Si no hay nombre, usar "" para detectar que el curso no existe
+      courseMap.set(sigle, course?.name || "");
     })
   );
 

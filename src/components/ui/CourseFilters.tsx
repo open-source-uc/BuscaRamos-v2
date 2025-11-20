@@ -127,14 +127,11 @@ export function CourseFilters({
   // Convert unique categories to combobox options
   const uniqueCategories = useMemo(() => {
     const allCategories = courses
-      .flatMap((course) =>
-        Array.isArray(course.categories) ? course.categories : []
-      )
+      .flatMap((course) => (Array.isArray(course.categories) ? course.categories : []))
       .filter((cat) => cat && cat.trim() !== ""); // eliminar vacíos
 
     return Array.from(new Set(allCategories)).sort();
   }, [courses]);
-
 
   // Convert unique schools to combobox options
   const schoolOptions = useMemo((): ComboboxOption[] => {

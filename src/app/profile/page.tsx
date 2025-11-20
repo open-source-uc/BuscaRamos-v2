@@ -14,7 +14,7 @@ export default async function Profile() {
   }
 
   const reviews = await getUserReviews(user.userId, 10);
-  
+
   // Obtener datos de cursos para todas las reseñas
   const reviewsWithCourses = await Promise.all(
     reviews.map(async (review) => {

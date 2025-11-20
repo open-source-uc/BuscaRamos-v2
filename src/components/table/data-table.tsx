@@ -49,14 +49,15 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
 
     // Apply category filters first
     if (selectedArea === "formacion-general") {
-      filtered = filtered.filter((course) => 
-        Array.isArray(course.area) && 
-        course.area.length > 0 && 
-        course.area.some(a => a.trim() !== "" && a !== "Ninguna")
+      filtered = filtered.filter(
+        (course) =>
+          Array.isArray(course.area) &&
+          course.area.length > 0 &&
+          course.area.some((a) => a.trim() !== "" && a !== "Ninguna")
       );
     } else if (selectedArea !== "all") {
-      filtered = filtered.filter((course) => 
-        Array.isArray(course.area) && course.area.includes(selectedArea)
+      filtered = filtered.filter(
+        (course) => Array.isArray(course.area) && course.area.includes(selectedArea)
       );
     }
 
@@ -107,7 +108,6 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
         return false;
       });
     }
-
 
     return filtered;
   }, [
@@ -204,7 +204,6 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
           />
         </div>
       </div>
-      
 
       {/* Course Filters Section */}
 

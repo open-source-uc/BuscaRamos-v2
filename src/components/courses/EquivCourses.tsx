@@ -8,7 +8,7 @@ interface Props {
   className?: string;
 }
 
-export default function EquivCoursesSection({equivalents, className = "" }: Props) {
+export default function EquivCoursesSection({ equivalents, className = "" }: Props) {
   if (!equivalents.hasEquivalents || !equivalents.structure) {
     return (
       <section className={`equiv-courses-section w-full ${className}`}>
@@ -53,7 +53,6 @@ export default function EquivCoursesSection({equivalents, className = "" }: Prop
             <div className="w-full overflow-hidden">
               <EquivCoursesDisplay equivalents={equivalents.structure} />
             </div>
-
           </CollapsibleContent>
         </Collapsible>
       </div>
