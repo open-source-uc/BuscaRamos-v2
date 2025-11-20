@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getRequestContext } from '@cloudflare/next-on-pages'
 import { CourseDB } from '@/types/types'
 import { R2PUBLIC } from '@/lib/binding'
-import { coursesStaticData } from '@/lib/coursesStaticData'
+import { getCourseStaticData } from '@/lib/coursesStaticData'
 export const runtime = 'edge'
 
-export function createCoursesNDJSON_v1(
+export async function createCoursesNDJSON_v1(
 	courses: CourseDB[], 
-): string {
+): Promise<string> {
 	let result = ''
 	let first = true
 	for (const course of courses) {
-		const data = coursesStaticData()[course.sigle]
+		const data = await getCourseStaticData(course.sigle)
 		if(!data) continue
 		if (!first) result += '\n'
 		result += JSON.stringify({ ...course, ...data })

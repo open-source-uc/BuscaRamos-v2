@@ -8,6 +8,11 @@ import {
 	LinkIcon,
 	CategoryIcon,
 	AttendanceIcon,
+	CheckIcon,
+	CloseIcon,
+	LanguageIcon,
+	StarIcon,
+	AreaIcon,
 } from '@/components/icons/icons'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Pill } from '@/components/ui/pill'
@@ -52,7 +57,12 @@ function ScheduleGrid({
 	const nrc = sectionData?.nrc || 'Sin NRC'
 	const campus = sectionData?.campus || 'Sin campus'
 	const category = sectionData?.category || ''
+	const area = sectionData?.area || ''
 	const format = sectionData?.format || 'Sin formato'
+	// Los valores booleanos ya vienen convertidos desde convertNDJSONToSections
+	const isRemovable = sectionData?.is_removable ?? false
+	const isEnglish = sectionData?.is_english ?? false
+	const isSpecial = sectionData?.is_special ?? false
 
 	useEffect(() => {
 		setIsInSchedule(isCourseInSchedule(courseId))
@@ -177,14 +187,36 @@ function ScheduleGrid({
 					<Pill variant="green" icon={LinkIcon} size="sm">
 						NRC {nrc}
 					</Pill>
-					{category && (
+					{category && category.trim() !== "" && (
 						<Pill variant="purple" icon={CategoryIcon} size="sm">
 							{category}
+						</Pill>
+					)}
+					{area && area.trim() !== "" && (
+						<Pill variant="pink" icon={AreaIcon} size="sm">
+							{area}
 						</Pill>
 					)}
 					<Pill variant="orange" icon={AttendanceIcon} size="sm">
 						{format}
 					</Pill>
+					<Pill
+						variant={isRemovable ? "green" : "red"}
+						icon={isRemovable ? CheckIcon : CloseIcon}
+						size="sm"
+					>
+						{isRemovable ? "Retirable" : "No retirable"}
+					</Pill>
+					{isEnglish && (
+						<Pill variant="purple" icon={LanguageIcon} size="sm">
+							En Inglés
+						</Pill>
+					)}
+					{isSpecial && (
+						<Pill variant="yellow" icon={StarIcon} size="sm">
+							Especial
+						</Pill>
+					)}
 				</div>
 			</div>
 		</div>
@@ -206,13 +238,12 @@ export default function SectionsCollapsible({
 	// Ensure coursesData is an array
 	const coursesData = Array.isArray(courses) ? courses : []
 
-	// Find the specific course from NDJSON data
-	const courseData = courses.find((course: any) => course.sigle === courseSigle)
-	const sections = courseData?.sections || {}
-	const sectionIds = Object.keys(sections)
-
-	// Convert to the format expected by createScheduleMatrix
+	// Convert to the format expected by createScheduleMatrix (this also converts arrays to booleans)
 	const courseSectionsData = courses.length > 0 ? convertNDJSONToSections(courses) : {}
+	
+	// Get sections for this specific course (already converted with proper types)
+	const sections = courseSectionsData[courseSigle] || {}
+	const sectionIds = Object.keys(sections)
 
 	// Extract unique class types present in this course's sections
 	const getClassTypesInSections = (): string[] => {
@@ -292,7 +323,8 @@ export default function SectionsCollapsible({
 										const scheduleMatrix = createScheduleMatrix(courseSectionsData, [
 											`${courseSigle}-${sectionId}`,
 										])
-
+										
+										// Use converted section data with proper boolean types
 										return (
 											<ScheduleGrid
 												key={`${sectionId}-${refreshKey}`}

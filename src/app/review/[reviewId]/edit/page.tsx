@@ -1,5 +1,5 @@
 import FormReviewUpdate from "@/components/reviews/FormReviewUpdate";
-import { coursesStaticData } from "@/lib/coursesStaticData";
+import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import { notFound } from "next/navigation";
 import z from "zod";
@@ -26,7 +26,7 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
   }
 
   const comment = await getReviewContent(review.comment_path);
-  const course = coursesStaticData()[review.course_sigle];
+  const course = await getCourseStaticData(review.course_sigle);
   if (!course) {
     notFound();
   }

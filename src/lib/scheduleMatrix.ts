@@ -205,8 +205,31 @@ export function convertCourseDataToSections(coursesJSON: any): CourseSections {
 
 		for (const [sectionId, sectionData] of Object.entries(course.sections)) {
 			const section = sectionData as any
+			// Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
+			const isEnglish = Array.isArray(section.is_english) 
+				? section.is_english[0] ?? false 
+				: section.is_english !== undefined ? section.is_english : undefined
+			const isRemovable = Array.isArray(section.is_removable)
+				? section.is_removable[0] ?? false
+				: section.is_removable !== undefined ? section.is_removable : undefined
+			const isSpecial = Array.isArray(section.is_special)
+				? section.is_special[0] ?? false
+				: section.is_special !== undefined ? section.is_special : undefined
+			
 			sections[courseId][sectionId] = {
 				schedule: section.schedule || {},
+				nrc: section.nrc || undefined,
+				section: section.section || undefined,
+				format: section.format || undefined,
+				campus: section.campus || undefined,
+				category: section.category || undefined,
+				area: section.area || undefined,
+				is_english: isEnglish,
+				is_removable: isRemovable,
+				is_special: isSpecial,
+				total_quota: section.total_quota || undefined,
+				quota: section.quota || undefined,
+				name: course.name || undefined,
 			}
 		}
 	}
@@ -228,9 +251,30 @@ export function convertNDJSONToSections(coursesArray: any[]): CourseSections {
 
 			for (const [sectionId, sectionData] of Object.entries(course.sections)) {
 				const section = sectionData as any
+				// Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
+				const isEnglish = Array.isArray(section.is_english) 
+					? section.is_english[0] ?? false 
+					: section.is_english !== undefined ? section.is_english : undefined
+				const isRemovable = Array.isArray(section.is_removable)
+					? section.is_removable[0] ?? false
+					: section.is_removable !== undefined ? section.is_removable : undefined
+				const isSpecial = Array.isArray(section.is_special)
+					? section.is_special[0] ?? false
+					: section.is_special !== undefined ? section.is_special : undefined
+				
 				sections[course.sigle][sectionId] = {
 					schedule: section.schedule || {},
+					nrc: section.nrc || undefined,
+					section: section.section || undefined,
+					format: section.format || undefined,
 					campus: section.campus || undefined,
+					category: section.category || undefined,
+					area: section.area || undefined,
+					is_english: isEnglish,
+					is_removable: isRemovable,
+					is_special: isSpecial,
+					total_quota: section.total_quota || undefined,
+					quota: section.quota || undefined,
 					name: course.name || undefined, // Agregar el nombre del curso
 				}
 			}

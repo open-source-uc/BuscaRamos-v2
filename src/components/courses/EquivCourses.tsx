@@ -1,17 +1,17 @@
 import { DocsIcon, ChevronDownIcon, ShuffleIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ParsedPrerequisites } from "@/lib/courseReq";
+import { ParsedEquivalents } from "@/lib/courseEquiv";
 import { EquivCoursesDisplay } from "./EquivCoursesDisplay";
 
 interface Props {
-  equivalents: ParsedPrerequisites;
+  equivalents: ParsedEquivalents;
   className?: string;
 }
 
-export default function PrerequisitesSection({equivalents, className = "" }: Props) {
-  if (!equivalents.hasPrerequisites || !equivalents.structure) {
+export default function EquivCoursesSection({equivalents, className = "" }: Props) {
+  if (!equivalents.hasEquivalents || !equivalents.structure) {
     return (
-      <section className={`prerequisites-section w-full ${className}`}>
+      <section className={`equiv-courses-section w-full ${className}`}>
         <div className="border-border bg-accent w-full overflow-hidden rounded-md border p-6">
           <div className="text-muted-foreground flex items-center gap-3">
             <div className="bg-muted text-muted-foreground border-muted-foreground/20 flex-shrink-0 rounded-lg border p-2">

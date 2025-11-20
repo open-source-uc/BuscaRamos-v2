@@ -1,5 +1,5 @@
 import { Pill } from "@/components/ui/pill";
-import { DocsIcon, OpenInFullIcon } from "@/components/icons/icons";
+import { DocsIcon, OpenInFullIcon, DeceasedIcon } from "@/components/icons/icons";
 import { EquivalentCourse, EquivalentGroup } from "@/lib/courseEquiv";
 
 interface EquivalentsDisplayProps {
@@ -12,7 +12,6 @@ export const EquivCoursesDisplay = ({
   equivalents,
   className = "",
 }: EquivalentsDisplayProps) => {
-   console.log("EQUIVALENTS DISPLAY", equivalents);
   const hasEquivalents =
     (equivalents?.courses?.length ?? 0) > 0 || (equivalents?.groups?.length ?? 0) > 0;
 
@@ -60,7 +59,7 @@ const EquivalentGroupComponent = ({
     if (!hasName) {
       return (
         <div key={`${course.sigle}-${index}`} className="flex w-full items-center gap-3 px-3 py-2">
-          <Pill variant="ghost_blue" size="xs">
+          <Pill icon={DeceasedIcon} variant="ghost_blue" size="xs">
             {course.sigle}
           </Pill>
         </div>

@@ -1,6 +1,6 @@
 import { getCourseReviews } from "../../actions/reviews";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
-import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
+import { getCourseStats, getPrerequisitesWithNamesFromStructure, getEquivalentsWithNames } from "@/lib/courses";
 import {
   calculatePositivePercentage,
   calculateSentiment,
@@ -16,7 +16,7 @@ import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 import type { Metadata } from "next";
-import { courseDescriptions, coursesStaticData } from "@/lib/coursesStaticData";
+import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { notFound } from "next/navigation";
 import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
 
@@ -28,7 +28,7 @@ export async function generateMetadata({
   params: Promise<{ sigle: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
-  const course = coursesStaticData()[resolvedParams.sigle];
+  const course = await getCourseStaticData(resolvedParams.sigle);
 
   if (!course) {
     return {
@@ -45,8 +45,7 @@ export async function generateMetadata({
   const totalReviews = stats ? stats.likes + stats.superlikes + stats.dislikes : 0;
 
   const title = `${course.sigle} - ${course.name} | BuscaRamos`;
-  const coursesDescription = courseDescriptions()[course.sigle];
-  const description = `${course.name} (${course.sigle}) - ${coursesDescription ? coursesDescription.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
+  const description = `${course.name} (${course.sigle}) - ${course.description ? course.description.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
 
   return {
     title,
@@ -93,7 +92,7 @@ export async function generateMetadata({
 
 export default async function CatalogPage({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
-  const course = coursesStaticData()[resolvedParams.sigle];
+  const course = await getCourseStaticData(resolvedParams.sigle);
 
   if (!course) {
     notFound();
@@ -113,8 +112,8 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
     : "Sin datos";
   const weeklyHoursLabel = c ? formatWeeklyHours(c.avg_weekly_hours) : "Sin datos";
   const totalReviews = c ? c.likes + c.superlikes + c.dislikes : 0;
-  const prerequisites = await getPrerequisitesWithNames(course.req);
-  const equivalents = await getPrerequisitesWithNames(course.equiv);
+  const prerequisites = await getPrerequisitesWithNamesFromStructure(course.parsed_meta_data.prerequisites);
+  const equivalents = await getEquivalentsWithNames(course.parsed_meta_data.equivalences);
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
   return (
@@ -122,7 +121,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
       {/* Información del curso */}
       <CourseInformation
         course={course}
-        description={courseDescriptions()[course.sigle]}
+        description={course.description || undefined}
         information
       />
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
@@ -191,16 +190,12 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
 
       </section>
       <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
+      <EquivCourses equivalents={equivalents} className="mt-8" />
       <SectionsCollapsible
         className="mt-8"
         courseSigle={course.sigle}
       />
       <section>
-
-      {/* Seccion de cursos equivalentes */}
-        </section>
-          <EquivCourses equivalents={equivalents} className="mt-8" />
-        <section>
 
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}

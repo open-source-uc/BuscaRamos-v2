@@ -49,9 +49,15 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
 
     // Apply category filters first
     if (selectedArea === "formacion-general") {
-      filtered = filtered.filter((course) => course.area && course.area !== "Ninguna");
+      filtered = filtered.filter((course) => 
+        Array.isArray(course.area) && 
+        course.area.length > 0 && 
+        course.area.some(a => a.trim() !== "" && a !== "Ninguna")
+      );
     } else if (selectedArea !== "all") {
-      filtered = filtered.filter((course) => course.area === selectedArea);
+      filtered = filtered.filter((course) => 
+        Array.isArray(course.area) && course.area.includes(selectedArea)
+      );
     }
 
     if (selectedCampus !== "all") {
@@ -83,10 +89,9 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
 
     if (showEnglishOnly) {
       filtered = filtered.filter((course) => {
-        if (Array.isArray(course.is_english)) {
-          return course.is_english.some((isEnglish) => isEnglish === true);
-        }
-        return course.is_english === true;
+        // CourseScore.is_english is always an array at course level
+        const englishArray = course.is_english || [];
+        return Array.isArray(englishArray) && englishArray.some((isEnglish) => isEnglish === true);
       });
     }
 

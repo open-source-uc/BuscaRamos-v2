@@ -9,6 +9,7 @@ import {
   LanguageIcon,
   CategoryIcon,
   SwapIcon,
+  StarIcon,
 } from "../icons";
 import { Pill } from "./pill";
 import Link from "next/link";
@@ -68,28 +69,72 @@ export default function CourseInformation({
           </Pill>
           )}
 
-        
-
-          {course.area && course.area !== "" && (
+          {Array.isArray(course.area) && course.area.length > 0 && (
             <Pill variant="pink" icon={AreaIcon}>
-              {course.area}
+              <span>{course.area.filter(a => a && String(a).trim() !== "").join(", ")}</span>
             </Pill>
           )}
-          {course.is_removable && course.is_removable.length > 0 && (
-            <Pill
-              variant={course.is_removable.some((removable) => removable) ? "green" : "red"}
-              icon={course.is_removable.some((removable) => removable) ? CheckIcon : CloseIcon}
-            >
-              {course.is_removable.some((removable) => removable) ? "Retirable" : "No retirable"}
-            </Pill>
-          )}
-          {course.is_english &&
-            course.is_english.length > 0 &&
-            course.is_english.some((english) => english) && (
-              <Pill variant="purple" icon={LanguageIcon}>
-                Se dicta en Inglés
+          {Array.isArray(course.is_removable) && course.is_removable.length > 0 && (() => {
+            const allTrue = course.is_removable.every((val) => val === true);
+            const allFalse = course.is_removable.every((val) => val === false);
+            const hasMixed = !allTrue && !allFalse;
+            
+            if (hasMixed) {
+              return (
+                <Pill variant="orange" icon={CloseIcon}>
+                  Hay secciones no retirables
+                </Pill>
+              );
+            }
+            return (
+              <Pill
+                variant={allTrue ? "green" : "red"}
+                icon={allTrue ? CheckIcon : CloseIcon}
+              >
+                {allTrue ? "Retirable" : "No retirable"}
               </Pill>
-            )}
+            );
+          })()}
+          {Array.isArray(course.is_english) && course.is_english.length > 0 && (() => {
+            const allTrue = course.is_english.every((val) => val === true);
+            const allFalse = course.is_english.every((val) => val === false);
+            const hasMixed = !allTrue && !allFalse;
+            
+            if (allTrue) {
+              return (
+                <Pill variant="purple" icon={LanguageIcon}>
+                  Se dicta en Inglés
+                </Pill>
+              );
+            } else if (hasMixed) {
+              return (
+                <Pill variant="orange" icon={LanguageIcon}>
+                  Hay secciones en inglés
+                </Pill>
+              );
+            }
+            return null;
+          })()}
+          {Array.isArray(course.is_special) && course.is_special.length > 0 && (() => {
+            const allTrue = course.is_special.every((val) => val === true);
+            const allFalse = course.is_special.every((val) => val === false);
+            const hasMixed = !allTrue && !allFalse;
+            
+            if (allTrue) {
+              return (
+                <Pill variant="yellow" icon={StarIcon}>
+                  Especial
+                </Pill>
+              );
+            } else if (hasMixed) {
+              return (
+                <Pill variant="orange" icon={StarIcon}>
+                  Hay secciones especiales
+                </Pill>
+              );
+            }
+            return null;
+          })()}
         </div>
       )}
     </section>
