@@ -164,3 +164,36 @@ export const getEquivalentsWithNames = async (
     },
   };
 };
+
+/**
+ * Obtiene unlocks con nombres a partir de arrays de siglas
+ * Retorna la estructura con objetos que contienen sigle y name
+ */
+export const getUnlocksWithNames = async (
+  unlocks: { as_prerequisite: string[]; as_corequisite: string[] } | undefined
+): Promise<{
+  as_prerequisite: Array<{ sigle: string; name?: string }>;
+  as_corequisite: Array<{ sigle: string; name?: string }>;
+}> => {
+  if (!unlocks) {
+    return { as_prerequisite: [], as_corequisite: [] };
+  }
+
+  const allSigles = [...unlocks.as_prerequisite, ...unlocks.as_corequisite];
+  const courseNames = await getCourseNames(allSigles);
+
+  const prerequisitesWithNames = unlocks.as_prerequisite.map((sigle) => ({
+    sigle,
+    name: courseNames.get(sigle) || undefined,
+  }));
+
+  const corequisitesWithNames = unlocks.as_corequisite.map((sigle) => ({
+    sigle,
+    name: courseNames.get(sigle) || undefined,
+  }));
+
+  return {
+    as_prerequisite: prerequisitesWithNames,
+    as_corequisite: corequisitesWithNames,
+  };
+};

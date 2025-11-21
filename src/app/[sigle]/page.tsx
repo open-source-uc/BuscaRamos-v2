@@ -5,6 +5,7 @@ import {
   getPrerequisitesWithNamesFromStructure,
   getRestrictionsFromStructure,
   getEquivalentsWithNames,
+  getUnlocksWithNames,
 } from "@/lib/courses";
 import {
   calculatePositivePercentage,
@@ -25,6 +26,7 @@ import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { notFound } from "next/navigation";
 import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
 import QuotaHistorySection from "@/components/courses/QuotaHistorySection";
+import OpensCoursesSection from "@/components/courses/OpensCoursesSections";
 
 export const runtime = "edge";
 
@@ -99,6 +101,7 @@ export async function generateMetadata({
 export default async function CatalogPage({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
   const course = await getCourseStaticData(resolvedParams.sigle);
+  const unlocks = course?.parsed_meta_data.unlocks || { as_prerequisite: [], as_corequisite: [] };
 
   if (!course) {
     notFound();
@@ -123,6 +126,9 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
   );
   const restrictions = await getRestrictionsFromStructure(course.parsed_meta_data.restrictions);
   const equivalents = await getEquivalentsWithNames(course.parsed_meta_data.equivalences);
+  const unlocksWithNames = await getUnlocksWithNames(
+    unlocks as { as_prerequisite: string[]; as_corequisite: string[] }
+  );
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
   return (
@@ -203,6 +209,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
         connector={course.parsed_meta_data.connector}
         className="mt-8"
       />
+      <OpensCoursesSection unlocks={unlocksWithNames} className="mt-8" />
       <EquivCourses equivalents={equivalents} className="mt-8" />
       <SectionsCollapsible className="mt-8" courseSigle={course.sigle} />
       <QuotaHistorySection course={course} className="mt-8" />
