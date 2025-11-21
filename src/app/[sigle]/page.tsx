@@ -24,6 +24,7 @@ import type { Metadata } from "next";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { notFound } from "next/navigation";
 import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
+import QuotaHistorySection from "@/components/courses/QuotaHistorySection";
 
 export const runtime = "edge";
 
@@ -204,6 +205,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
       />
       <EquivCourses equivalents={equivalents} className="mt-8" />
       <SectionsCollapsible className="mt-8" courseSigle={course.sigle} />
+      <QuotaHistorySection course={course} className="mt-8" />
       <section>
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}

@@ -1,0 +1,288 @@
+"use client";
+
+import { ChevronDownIcon } from "@/components/icons/icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Area,
+  AreaChart,
+  ReferenceLine,
+} from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
+import { CourseStaticData } from "@/lib/coursesStaticData";
+import { useMemo } from "react";
+import { milestones } from "../../lib/milestones";
+
+interface Props {
+  course: CourseStaticData;
+  className?: string;
+}
+
+// Función para formatear la fecha del timestamp
+function formatTimestamp(timestamp: string): string {
+  // Formato: "2025-11-01-15" -> "01 Nov 15:00"
+  const parts = timestamp.split("-");
+  if (parts.length !== 4) return timestamp;
+
+  const month = parts[1];
+  const day = parts[2];
+  const hour = parts[3];
+
+  const monthNames = [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dic",
+  ];
+
+  const monthIndex = parseInt(month, 10) - 1;
+  const monthName = monthIndex >= 0 && monthIndex < 12 ? monthNames[monthIndex] : month;
+  const hourFormatted = hour.padStart(2, "0");
+
+  return `${day} ${monthName} ${hourFormatted}:00`;
+}
+
+// Función para procesar los datos del historial de cupos
+function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): Array<{
+  fecha: string;
+  ocupados: number;
+  total: number;
+  timestamp: string;
+  milestone?: string;
+}> {
+  if (!quotaHistory) return [];
+
+  const allData: Array<{
+    fecha: string;
+    ocupados: number;
+    total: number;
+    timestamp: string;
+    semestre: string;
+  }> = [];
+
+  // Iterar sobre cada semestre
+  Object.entries(quotaHistory).forEach(([semestre, sections]) => {
+    if (!sections) return;
+    // Iterar sobre cada timestamp/sección
+    Object.entries(sections).forEach(([timestamp, section]) => {
+      // Verificar que existe agg antes de procesar
+      if (section && section.agg) {
+        allData.push({
+          fecha: formatTimestamp(timestamp),
+          ocupados: section.agg.ocupados,
+          total: section.agg.total,
+          timestamp: timestamp,
+          semestre: semestre,
+        });
+      }
+    });
+  });
+
+  // Ordenar por timestamp (fecha más antigua primero)
+  return allData
+    .sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+    .map(({ fecha, ocupados, total, timestamp }) => ({
+      fecha,
+      ocupados,
+      total,
+      timestamp,
+      milestone: milestones[timestamp as keyof typeof milestones],
+    }));
+}
+
+export default function QuotaHistorySection({ course, className = "" }: Props) {
+  const quotaHistory = course.quota_history;
+
+  const chartData = useMemo(() => {
+    return processQuotaHistory(quotaHistory);
+  }, [quotaHistory]);
+
+  const minOcupados = useMemo(() => {
+    if (chartData.length === 0) return 0;
+    return Math.min(...chartData.map((d) => d.ocupados));
+  }, [chartData]);
+
+  const totalCupos = useMemo(() => {
+    if (chartData.length === 0) return 0;
+    return Math.max(...chartData.map((d) => d.total));
+  }, [chartData]);
+
+  // Obtener las fechas con milestones
+  const milestonesData = useMemo(() => {
+    return chartData
+      .filter((d) => d.milestone)
+      .map((d) => ({
+        fecha: d.fecha,
+        milestone: d.milestone!,
+      }));
+  }, [chartData]);
+
+  // Calcular el dominio del eje Y con padding para mostrar mejor la variación
+  const yAxisDomain = useMemo(() => {
+    if (chartData.length === 0) return [0, 100];
+    const maxOcupados = Math.max(...chartData.map((d) => d.ocupados));
+    const range = maxOcupados - minOcupados;
+
+    // Si no hay variación (valores completamente constantes)
+    if (range === 0) {
+      // Si no hay variación, mostrar ±10% del valor para que se vea el gráfico
+      const padding = Math.max(maxOcupados * 0.1, 5); // Al menos 5 unidades de padding
+      const min = Math.max(0, maxOcupados - padding);
+      const max = maxOcupados + padding;
+      return [min, max];
+    }
+
+    // Si hay variación (aunque sea pequeña), usar padding mínimo para amplificar la escala
+    // Usar un padding fijo pequeño (2-3 unidades) en lugar de porcentaje para que se vea mejor
+    const padding = Math.max(range * 0.2, 2); // 20% del rango o mínimo 2 unidades
+    const min = Math.max(0, minOcupados - padding);
+    const max = maxOcupados + padding;
+    return [min, max];
+  }, [minOcupados, chartData]);
+
+  const chartConfig = {
+    ocupados: {
+      label: "Cupos Ocupados:",
+      color: "hsl(var(--chart-1))",
+    },
+  } satisfies ChartConfig;
+
+  // No mostrar si no hay quota_history, no hay semestres, o no hay datos procesados
+  if (!quotaHistory || Object.keys(quotaHistory).length === 0 || chartData.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className={`quota-history-section w-full ${className}`}>
+      <div className="border-border w-full overflow-hidden rounded-md border">
+        <Collapsible>
+          <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
+            <div className="flex min-w-0 flex-1 items-center gap-3">
+              <div className="bg-blue-light text-blue border-blue/20 flex-shrink-0 rounded-lg border p-2">
+                <svg
+                  className="h-5 w-5 fill-current"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                </svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-foreground text-lg font-semibold">Historial de Cupos</h2>
+                <p className="text-muted-foreground text-sm">
+                  Evolución de cupos ocupados a lo largo del tiempo
+                </p>
+              </div>
+            </div>
+            <div className="ml-4 flex flex-shrink-0 items-center gap-2">
+              <span className="text-muted-foreground tablet:inline hidden text-sm">Expandir</span>
+              <ChevronDownIcon className="text-muted-foreground group-hover:text-foreground h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+            </div>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
+            <div className="w-full overflow-hidden">
+              <div className="mb-4">
+                <h3 className="text-foreground mb-2 text-sm font-semibold">
+                  Evolución de Cupos Ocupados
+                </h3>
+                <p className="text-muted-foreground text-xs">
+                  Total cupos disponibles: {totalCupos}
+                </p>
+              </div>
+              <ChartContainer config={chartConfig} className="h-[300px] w-full">
+                <AreaChart
+                  data={chartData}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 60,
+                    bottom: 5,
+                  }}
+                >
+                  <defs>
+                    <linearGradient id="colorOcupados" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="var(--color-ocupados)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--color-ocupados)" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis
+                    dataKey="fecha"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                    tick={{ fontSize: 11 }}
+                  />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tick={{ fontSize: 11 }}
+                    domain={yAxisDomain}
+                    tickFormatter={(value) => Math.round(value).toString()}
+                  />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        formatter={(value) => `${value?.toLocaleString()} cupos ocupados`}
+                        nameKey="ocupados"
+                      />
+                    }
+                  />
+                  {milestonesData.map((milestone, index) => (
+                    <ReferenceLine
+                      key={`milestone-${index}`}
+                      x={milestone.fecha}
+                      stroke="oklch(0.257 0.3 54)"
+                      strokeDasharray="5 5"
+                      strokeWidth={2}
+                      label={{
+                        value: milestone.milestone,
+                        position: "right",
+                        fill: "oklch(0.257 0.3 54)",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        offset: 10,
+                      }}
+                    />
+                  ))}
+                  <Area
+                    type="linear"
+                    dataKey="ocupados"
+                    stroke="var(--color-ocupados)"
+                    strokeWidth={2.5}
+                    fill="url(#colorOcupados)"
+                    dot={{ fill: "var(--color-ocupados)", r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 5, fill: "var(--color-ocupados)", strokeWidth: 2 }}
+                    connectNulls={false}
+                  />
+                </AreaChart>
+              </ChartContainer>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+    </section>
+  );
+}

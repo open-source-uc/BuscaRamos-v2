@@ -48,13 +48,14 @@ export interface ParsedMetaData {
   unlocks?: Record<string, any>;
 }
 
-export interface QuotaHistoryEntry {
-  semester: string;
-  agg: {
-    total: number;
-    disponibles: number;
-    ocupados: number;
-  };
+export interface QuotaHistoryAgg {
+  total: number;
+  disponibles: number;
+  ocupados: number;
+}
+
+export interface QuotaHistorySection {
+  agg: QuotaHistoryAgg;
 }
 
 export interface CourseStaticData {
@@ -72,7 +73,7 @@ export interface CourseStaticData {
   is_english: boolean[];
   description: string;
   last_semester: string;
-  quota_history?: Record<string, QuotaHistoryEntry>;
+  quota_history?: Record<string, Record<string, QuotaHistorySection>>;
 }
 
 interface APICourseData {
@@ -100,7 +101,7 @@ interface APICourseData {
   is_english: boolean[];
   description: string;
   last_semester: string;
-  quota_history?: Record<string, QuotaHistoryEntry>;
+  quota_history?: Record<string, Record<string, QuotaHistorySection>>;
 }
 
 // Cache para almacenar datos de cursos
