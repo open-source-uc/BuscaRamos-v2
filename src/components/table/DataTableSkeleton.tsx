@@ -19,7 +19,7 @@ export default function DataTableSkeleton() {
 
       {/* Table Skeleton */}
       <div className="w-full flex justify-center">
-        <div className="tablet:block hidden pt-4">
+        <div className="desktop:block hidden pt-4">
           <div className="bg-accent border-border rounded-md border w-[90vw] max-w-[90vw] overflow-x-auto">
             <Table className="table-fixed w-full">
               <TableHeader>
@@ -81,7 +81,8 @@ export default function DataTableSkeleton() {
           </div>
         </div>
         {/* Mobile skeleton */}
-        <div className="tablet:hidden block w-full space-y-4">
+        <div className="desktop:hidden w-full pt-4">
+          <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4">
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="bg-accent border-border rounded-md border p-4 space-y-3">
               <Skeleton className="h-5 w-32" />
@@ -93,6 +94,7 @@ export default function DataTableSkeleton() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </div>

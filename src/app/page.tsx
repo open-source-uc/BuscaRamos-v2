@@ -50,8 +50,10 @@ export const metadata: Metadata = {
 
 export default async function CatalogPage() {
   return (
-    <main className="flex justify-center items-center p-4 flex-col">
-      <CoursesTable />
+    <main className="flex justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
+      <div className="w-full max-w-7xl">
+        <CoursesTable />
+      </div>
     </main>
   );
 }

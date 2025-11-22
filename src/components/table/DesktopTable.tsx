@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function TableTable({ table }: { table: TableType<CourseScore> }) {
   return (
-    <div className="tablet:block hidden pt-4">
+    <div className="desktop:block hidden pt-4">
       <div className="bg-accent border-border rounded-md border w-[90vw] max-w-[90vw] overflow-x-auto">
         <Table className="table-fixed w-full">
           <TableHeader>

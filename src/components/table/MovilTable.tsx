@@ -63,9 +63,10 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
   }, [table.getFilteredRowModel().rows.length, itemsPerPage]);
 
   return (
-    <div className="tablet:hidden flex flex-col space-y-4 pt-4">
+    <div className="desktop:hidden w-full pt-4">
       {visibleRows?.length ? (
         <>
+          <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4">
           {visibleRows.map((row) => {
             const course = row.original;
             const totalReviews = course.likes + course.superlikes + course.dislikes;
@@ -84,7 +85,7 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
               /* Versión para móvil */
               <div
                 key={row.id}
-                className="border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                className="border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full"
                 onClick={() => {
                   window.location.href = `/${course.sigle}`;
                 }}
@@ -105,7 +106,7 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
                 </div>
 
                 {/* Nombre del curso */}
-                <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold">
+                <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold break-words w-full overflow-hidden">
                   {course.name}
                 </h3>
 
@@ -150,6 +151,7 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
               </div>
             );
           })}
+          </div>
 
           {/* Loading indicator and intersection observer target */}
           {hasMore && (

@@ -24,11 +24,11 @@ export default function TableCourseCampuses({
   const pillVariant = isCurrentSemester(lastSemester) ? "blue" : "red";
 
   return (
-    <div className="w-full">
-      <Pill variant={pillVariant} size="md" className="w-full max-w-full inline-block">
-        <div className="flex flex-col min-w-0 w-full">
+    <div className="w-full desktop:w-auto">
+      <Pill variant={pillVariant} size="md" className="inline-block">
+        <div className="flex flex-col min-w-0">
           <span className="text-xs font-medium opacity-80 whitespace-nowrap">{prefixText}</span>
-          <div className="flex flex-wrap items-center gap-1 min-w-0 w-full">
+          <div className="flex flex-wrap items-center gap-1 min-w-0">
             {variant === "with-icon" && <LocationIcon className="h-4 w-4 flex-shrink-0" />}
             <span className="break-words text-sm whitespace-normal">{validCampus.join(", ")}</span>
           </div>

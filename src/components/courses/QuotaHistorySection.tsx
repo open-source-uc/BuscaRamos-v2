@@ -198,7 +198,8 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
           </CollapsibleTrigger>
 
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
-            <div className="w-full overflow-hidden">
+            <div className="w-full overflow-hidden flex justify-center">
+              <div className="w-full max-w-5xl">
               <div className="mb-4">
                 <h3 className="text-foreground mb-2 text-sm font-semibold">
                   Evolución de Cupos Ocupados
@@ -212,8 +213,8 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
                   data={chartData}
                   margin={{
                     top: 20,
-                    right: 30,
-                    left: 60,
+                    right: 20,
+                    left: 0,
                     bottom: 5,
                   }}
                 >
@@ -279,6 +280,7 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
                   />
                 </AreaChart>
               </ChartContainer>
+              </div>
             </div>
           </CollapsibleContent>
         </Collapsible>
