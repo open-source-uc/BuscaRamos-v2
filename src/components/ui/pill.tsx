@@ -51,7 +51,11 @@ export interface PillProps
 const Pill = React.forwardRef<HTMLDivElement, PillProps>(
   ({ className, variant, size, icon: Icon, children, ...props }, ref) => {
     const iconSize =
-      size === "sm" ? "h-3 w-3" : size === "lg" ? "h-5 w-5" : size === "xl" ? "h-6 w-6" : "h-4 w-4";
+      size === "xs" ? "h-3 w-3 min-w-[0.75rem] min-h-[0.75rem]" : 
+      size === "sm" ? "h-3 w-3 min-w-[0.75rem] min-h-[0.75rem]" : 
+      size === "lg" ? "h-5 w-5 min-w-[1.25rem] min-h-[1.25rem]" : 
+      size === "xl" ? "h-6 w-6 min-w-[1.5rem] min-h-[1.5rem]" : 
+      "h-4 w-4 min-w-[1rem] min-h-[1rem]";
 
     // Determine icon color for ghost variants
     const getIconColor = () => {
@@ -77,7 +81,7 @@ const Pill = React.forwardRef<HTMLDivElement, PillProps>(
 
     return (
       <div className={cn(pillVariants({ variant, size, className }))} ref={ref} {...props}>
-        {Icon && <Icon className={`${iconSize} ${getIconColor()}`} />}
+        {Icon && <Icon className={`${iconSize} ${getIconColor()} flex-shrink-0`} />}
         {children}
       </div>
     );

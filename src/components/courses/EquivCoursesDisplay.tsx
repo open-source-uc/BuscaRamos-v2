@@ -52,7 +52,7 @@ const EquivalentGroupComponent = ({ group, isNested = false }: EquivalentGroupCo
     if (!hasName) {
       return (
         <div key={`${course.sigle}-${index}`} className="flex w-full items-center gap-3 px-3 py-2">
-          <Pill icon={DeceasedIcon} variant="ghost_blue" size="xs">
+          <Pill icon={DeceasedIcon} variant="ghost_blue" size="xs" className="flex-shrink-0 w-20 justify-center">
             {course.sigle}
           </Pill>
         </div>
@@ -66,7 +66,7 @@ const EquivalentGroupComponent = ({ group, isNested = false }: EquivalentGroupCo
         className="hover:bg-muted/50 group flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 transition-colors duration-200"
       >
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          <Pill variant="blue" size="xs" className="flex-shrink-0">
+          <Pill variant="blue" size="xs" className="flex-shrink-0 w-20 justify-center">
             {course.sigle}
           </Pill>
 

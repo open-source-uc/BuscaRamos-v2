@@ -16,7 +16,7 @@ export default function OpensCoursesSection({ unlocks, className = "" }: Props) 
       <section className={`w-full ${className}`}>
         <div className="border-border bg-accent w-full overflow-hidden rounded-md border p-6">
           <div className="text-muted-foreground flex items-center gap-3">
-            <div className="bg-green-light text-green border-green/20 flex-shrink-0 rounded-lg border p-2">
+            <div className="bg-muted text-muted-foreground border-muted-foreground/20 flex-shrink-0 rounded-lg border p-2">
               <OpenInFullIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0 flex-1">
