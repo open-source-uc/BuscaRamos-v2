@@ -83,17 +83,17 @@ export default function DataTableSkeleton() {
         {/* Mobile skeleton */}
         <div className="desktop:hidden w-full pt-4">
           <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="bg-accent border-border rounded-md border p-4 space-y-3">
-              <Skeleton className="h-5 w-32" />
-              <Skeleton className="h-4 w-full" />
-              <div className="flex flex-wrap gap-2">
-                <Skeleton className="h-6 w-20" />
-                <Skeleton className="h-6 w-24" />
-                <Skeleton className="h-6 w-16" />
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="bg-accent border-border rounded-md border p-4 space-y-3">
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-4 w-full" />
+                <div className="flex flex-wrap gap-2">
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-6 w-24" />
+                  <Skeleton className="h-6 w-16" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </div>
       </div>

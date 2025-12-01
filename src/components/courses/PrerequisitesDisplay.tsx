@@ -56,7 +56,12 @@ const PrerequisiteGroupComponent = ({
     if (!hasName) {
       return (
         <div key={`${course.sigle}-${index}`} className="flex w-full items-center gap-3 px-3 py-2">
-          <Pill icon={DeceasedIcon} variant="ghost_blue" size="xs" className="flex-shrink-0 w-20 justify-center">
+          <Pill
+            icon={DeceasedIcon}
+            variant="ghost_blue"
+            size="xs"
+            className="flex-shrink-0 w-20 justify-center"
+          >
             {course.sigle}
           </Pill>
         </div>

@@ -2,16 +2,7 @@
 
 import { ChevronDownIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Area,
-  AreaChart,
-  ReferenceLine,
-} from "recharts";
+import { XAxis, YAxis, CartesianGrid, Area, AreaChart, ReferenceLine } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -64,6 +55,7 @@ function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): A
   fecha: string;
   ocupados: number;
   total: number;
+  porcentaje: number;
   timestamp: string;
   milestone?: string;
 }> {
@@ -73,6 +65,7 @@ function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): A
     fecha: string;
     ocupados: number;
     total: number;
+    porcentaje: number;
     timestamp: string;
     semestre: string;
   }> = [];
@@ -84,13 +77,18 @@ function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): A
     Object.entries(sections).forEach(([timestamp, section]) => {
       // Verificar que existe agg antes de procesar
       if (section && section.agg) {
+        const ocupados = section.agg.ocupados;
+        const total = section.agg.total;
+        const porcentaje = total && total > 0 ? (ocupados / total) * 100 : 0;
+
         allData.push({
           fecha: formatTimestamp(timestamp),
-          ocupados: section.agg.ocupados,
-          total: section.agg.total,
+          ocupados,
+          total,
           timestamp: timestamp,
           semestre: semestre,
-        });
+          porcentaje,
+        } as any);
       }
     });
   });
@@ -98,11 +96,12 @@ function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): A
   // Ordenar por timestamp (fecha más antigua primero)
   return allData
     .sort((a, b) => a.timestamp.localeCompare(b.timestamp))
-    .map(({ fecha, ocupados, total, timestamp }) => ({
+    .map(({ fecha, ocupados, total, timestamp, porcentaje }) => ({
       fecha,
       ocupados,
       total,
       timestamp,
+      porcentaje,
       milestone: milestones[timestamp as keyof typeof milestones],
     }));
 }
@@ -134,32 +133,14 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
       }));
   }, [chartData]);
 
-  // Calcular el dominio del eje Y con padding para mostrar mejor la variación
+  // Use percentage scale (0-100) so a change is comparable across courses
   const yAxisDomain = useMemo(() => {
-    if (chartData.length === 0) return [0, 100];
-    const maxOcupados = Math.max(...chartData.map((d) => d.ocupados));
-    const range = maxOcupados - minOcupados;
-
-    // Si no hay variación (valores completamente constantes)
-    if (range === 0) {
-      // Si no hay variación, mostrar ±10% del valor para que se vea el gráfico
-      const padding = Math.max(maxOcupados * 0.1, 5); // Al menos 5 unidades de padding
-      const min = Math.max(0, maxOcupados - padding);
-      const max = maxOcupados + padding;
-      return [min, max];
-    }
-
-    // Si hay variación (aunque sea pequeña), usar padding mínimo para amplificar la escala
-    // Usar un padding fijo pequeño (2-3 unidades) en lugar de porcentaje para que se vea mejor
-    const padding = Math.max(range * 0.2, 2); // 20% del rango o mínimo 2 unidades
-    const min = Math.max(0, minOcupados - padding);
-    const max = maxOcupados + padding;
-    return [min, max];
-  }, [minOcupados, chartData]);
+    return [0, 100];
+  }, []);
 
   const chartConfig = {
-    ocupados: {
-      label: "Cupos Ocupados:",
+    porcentaje: {
+      label: "Cupos Ocupados (%):",
       color: "hsl(var(--chart-1))",
     },
   } satisfies ChartConfig;
@@ -200,86 +181,93 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
             <div className="w-full overflow-hidden flex justify-center">
               <div className="w-full max-w-5xl">
-              <div className="mb-4">
-                <h3 className="text-foreground mb-2 text-sm font-semibold">
-                  Evolución de Cupos Ocupados
-                </h3>
-                <p className="text-muted-foreground text-xs">
-                  Total cupos disponibles: {totalCupos}
-                </p>
-              </div>
-              <ChartContainer config={chartConfig} className="h-[300px] w-full">
-                <AreaChart
-                  data={chartData}
-                  margin={{
-                    top: 20,
-                    right: 20,
-                    left: 0,
-                    bottom: 5,
-                  }}
-                >
-                  <defs>
-                    <linearGradient id="colorOcupados" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--color-ocupados)" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="var(--color-ocupados)" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis
-                    dataKey="fecha"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
-                    tick={{ fontSize: 11 }}
-                  />
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tick={{ fontSize: 11 }}
-                    domain={yAxisDomain}
-                    tickFormatter={(value) => Math.round(value).toString()}
-                  />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(value) => `${value?.toLocaleString()} cupos ocupados`}
-                        nameKey="ocupados"
-                      />
-                    }
-                  />
-                  {milestonesData.map((milestone, index) => (
-                    <ReferenceLine
-                      key={`milestone-${index}`}
-                      x={milestone.fecha}
-                      stroke="oklch(0.257 0.3 54)"
-                      strokeDasharray="5 5"
-                      strokeWidth={2}
-                      label={{
-                        value: milestone.milestone,
-                        position: "right",
-                        fill: "oklch(0.257 0.3 54)",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        offset: 10,
-                      }}
+                <div className="mb-4">
+                  <h3 className="text-foreground mb-2 text-sm font-semibold">
+                    Evolución de Cupos Ocupados
+                  </h3>
+                  <p className="text-muted-foreground text-xs">
+                    Total cupos disponibles: {totalCupos}
+                  </p>
+                </div>
+                <ChartContainer config={chartConfig} className="h-[300px] w-full">
+                  <AreaChart
+                    data={chartData}
+                    margin={{
+                      top: 20,
+                      right: 20,
+                      left: 0,
+                      bottom: 5,
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="colorOcupados" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--color-porcentaje)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="var(--color-porcentaje)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis
+                      dataKey="fecha"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                      tick={{ fontSize: 11 }}
                     />
-                  ))}
-                  <Area
-                    type="linear"
-                    dataKey="ocupados"
-                    stroke="var(--color-ocupados)"
-                    strokeWidth={2.5}
-                    fill="url(#colorOcupados)"
-                    dot={{ fill: "var(--color-ocupados)", r: 3, strokeWidth: 0 }}
-                    activeDot={{ r: 5, fill: "var(--color-ocupados)", strokeWidth: 2 }}
-                    connectNulls={false}
-                  />
-                </AreaChart>
-              </ChartContainer>
+                    <YAxis
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      tick={{ fontSize: 11 }}
+                      domain={yAxisDomain}
+                      tickFormatter={(value) => `${Math.round(value)}%`}
+                    />
+                    <ChartTooltip
+                      content={
+                        <ChartTooltipContent
+                          formatter={(value, name, item) => {
+                            const ocupados = item?.payload?.ocupados;
+                            const total = item?.payload?.total;
+                            const percent = typeof value === "number" ? value : 0;
+                            return (
+                              <>{`${percent.toFixed(1)}% (${ocupados?.toLocaleString()}/${total?.toLocaleString()})`}</>
+                            );
+                          }}
+                          nameKey="porcentaje"
+                        />
+                      }
+                    />
+                    {milestonesData.map((milestone, index) => (
+                      <ReferenceLine
+                        key={`milestone-${index}`}
+                        x={milestone.fecha}
+                        stroke="oklch(0.257 0.3 54)"
+                        strokeDasharray="5 5"
+                        strokeWidth={2}
+                        label={{
+                          value: milestone.milestone,
+                          position: "right",
+                          fill: "oklch(0.257 0.3 54)",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          offset: 10,
+                        }}
+                      />
+                    ))}
+                    <Area
+                      type="linear"
+                      dataKey="porcentaje"
+                      stroke="var(--color-porcentaje)"
+                      strokeWidth={2.5}
+                      fill="url(#colorOcupados)"
+                      dot={{ fill: "var(--color-porcentaje)", r: 3, strokeWidth: 0 }}
+                      activeDot={{ r: 5, fill: "var(--color-porcentaje)", strokeWidth: 2 }}
+                      connectNulls={false}
+                    />
+                  </AreaChart>
+                </ChartContainer>
               </div>
             </div>
           </CollapsibleContent>

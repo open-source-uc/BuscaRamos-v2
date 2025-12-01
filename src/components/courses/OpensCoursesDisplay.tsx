@@ -30,17 +30,25 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
       <div className="w-full space-y-1">
         {unlocks.as_prerequisite.map((course, index) => {
           const hasName = course.name && course.name.trim() !== "";
-          
+
           if (!hasName) {
             return (
-              <div key={`${course.sigle}-${index}`} className="flex w-full items-center gap-3 px-3 py-2">
-                <Pill icon={DeceasedIcon} variant="ghost_blue" size="xs" className="flex-shrink-0 w-20 justify-center">
+              <div
+                key={`${course.sigle}-${index}`}
+                className="flex w-full items-center gap-3 px-3 py-2"
+              >
+                <Pill
+                  icon={DeceasedIcon}
+                  variant="ghost_blue"
+                  size="xs"
+                  className="flex-shrink-0 w-20 justify-center"
+                >
                   {course.sigle}
                 </Pill>
               </div>
             );
           }
-          
+
           return (
             <a
               key={`${course.sigle}-${index}`}
@@ -48,11 +56,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
               className="hover:bg-muted/50 group flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 transition-colors duration-200"
             >
               <div className="flex min-w-0 flex-1 items-center gap-3">
-                <Pill
-                  variant="green"
-                  size="xs"
-                  className="flex-shrink-0 w-20 justify-center"
-                >
+                <Pill variant="green" size="xs" className="flex-shrink-0 w-20 justify-center">
                   {course.sigle}
                 </Pill>
 
@@ -69,17 +73,25 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
         })}
         {unlocks.as_corequisite.map((course, index) => {
           const hasName = course.name && course.name.trim() !== "";
-          
+
           if (!hasName) {
             return (
-              <div key={`${course.sigle}-${index}`} className="flex w-full items-center gap-3 px-3 py-2">
-                <Pill icon={DeceasedIcon} variant="ghost_blue" size="xs" className="flex-shrink-0 w-20 justify-center">
+              <div
+                key={`${course.sigle}-${index}`}
+                className="flex w-full items-center gap-3 px-3 py-2"
+              >
+                <Pill
+                  icon={DeceasedIcon}
+                  variant="ghost_blue"
+                  size="xs"
+                  className="flex-shrink-0 w-20 justify-center"
+                >
                   {course.sigle}
                 </Pill>
               </div>
             );
           }
-          
+
           return (
             <a
               key={`${course.sigle}-${index}`}

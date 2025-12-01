@@ -65,7 +65,10 @@ export default function OpensCoursesSection({ unlocks, className = "" }: Props) 
                   <div className="bg-orange border-orange-light flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border">
                     <TextureIcon className="text-background h-3 w-3" />
                   </div>
-                  <span>Co-requisitos ({unlocks.as_corequisite.length}) - Se pueden inscribir si se toma este ramo al mismo tiempo</span>
+                  <span>
+                    Co-requisitos ({unlocks.as_corequisite.length}) - Se pueden inscribir si se toma
+                    este ramo al mismo tiempo
+                  </span>
                 </div>
               </div>
             </div>

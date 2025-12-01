@@ -1,4 +1,5 @@
 import type { CourseSections, ScheduleMatrix, ScheduleBlock } from "@/types/types.ts";
+import { isCurrentSemester } from "@/lib/currentSemester";
 
 // Mapeo de franjas horarias
 export const TIME_SLOTS = [
@@ -250,12 +251,22 @@ export function convertCourseDataToSections(coursesJSON: any): CourseSections {
  */
 export function convertNDJSONToSections(coursesArray: any[]): CourseSections {
   const sections: CourseSections = {};
-
   for (const course of coursesArray) {
     if (course.sigle && course.sections) {
+      // Expect `course.sections` grouped by semester: { "2025-2": { "1": {...} }, ... }
+      const semKeys = Object.keys(course.sections || {});
+      const currentSem = semKeys.find(isCurrentSemester);
+      if (!currentSem) {
+        // No data for current semester -> skip this course
+        continue;
+      }
+
+      const sectionsSource = course.sections[currentSem] as Record<string, any>;
+      if (!sectionsSource) continue;
+
       sections[course.sigle] = {};
 
-      for (const [sectionId, sectionData] of Object.entries(course.sections)) {
+      for (const [sectionId, sectionData] of Object.entries(sectionsSource)) {
         const section = sectionData as any;
         // Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
         const isEnglish = Array.isArray(section.is_english)

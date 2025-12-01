@@ -2,6 +2,8 @@
  * Semestre actual
  * Se debe actualizar al inicio de cada semestre
  */
+import type { CourseSection } from "../types/types";
+
 export const CURRENT_SEMESTER = "2025-2";
 
 /**
@@ -20,6 +22,35 @@ export function isCurrentSemester(semester: string): boolean {
  */
 export function getCampusPrefix(lastSemester: string): string {
   return isCurrentSemester(lastSemester) ? "Actualmente ofrecido en" : "Previamente ofrecido en";
+}
+
+/**
+ * Devuelve el mapa de secciones para un semestre dado dentro de la estructura NDJSON.
+ *
+ * @param sections - Objeto con semestres como claves y dentro mapas de secciones:
+ * {
+ *   "2025-2": { "1": {...}, "2": {...} },
+ *   "2025-1": { "1": {...} }
+ * }
+ * @param semester - Semestre objetivo en formato "YYYY-N"
+ * @returns el mapa de secciones para `semester` (ej. { "1": {...}, "2": {...} }) o {} si no existe
+ */
+export function getSectionsForSemester(
+  sections: Record<string, Record<string, CourseSection>> | undefined,
+  semester: string
+): Record<string, CourseSection> {
+  if (!sections) return {};
+
+  return sections[semester] ?? {};
+}
+
+/**
+ * Wrapper conveniente que devuelve las secciones del semestre actual.
+ */
+export function getSectionsForCurrentSemester(
+  sections: Record<string, Record<string, any>> | undefined
+): Record<string, any> {
+  return getSectionsForSemester(sections, CURRENT_SEMESTER);
 }
 
 /**
