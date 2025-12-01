@@ -12,6 +12,7 @@ import {
 import { CourseStaticData } from "@/lib/coursesStaticData";
 import { useMemo } from "react";
 import { milestones } from "../../lib/milestones";
+import { isCurrentSemester } from "@/lib/currentSemester";
 
 interface Props {
   course: CourseStaticData;
@@ -61,6 +62,7 @@ function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): A
 }> {
   if (!quotaHistory) return [];
 
+  // Only use data from the current semester
   const allData: Array<{
     fecha: string;
     ocupados: number;
@@ -70,27 +72,29 @@ function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): A
     semestre: string;
   }> = [];
 
-  // Iterar sobre cada semestre
-  Object.entries(quotaHistory).forEach(([semestre, sections]) => {
-    if (!sections) return;
-    // Iterar sobre cada timestamp/sección
-    Object.entries(sections).forEach(([timestamp, section]) => {
-      // Verificar que existe agg antes de procesar
-      if (section && section.agg) {
-        const ocupados = section.agg.ocupados;
-        const total = section.agg.total;
-        const porcentaje = total && total > 0 ? (ocupados / total) * 100 : 0;
+  const semKeys = Object.keys(quotaHistory || {});
+  const currentSem = semKeys.find(isCurrentSemester);
+  if (!currentSem) return [];
 
-        allData.push({
-          fecha: formatTimestamp(timestamp),
-          ocupados,
-          total,
-          timestamp: timestamp,
-          semestre: semestre,
-          porcentaje,
-        } as any);
-      }
-    });
+  const sections = (quotaHistory as any)[currentSem] as Record<string, any> | undefined;
+  if (!sections) return [];
+
+  // Iterar sobre cada timestamp/sección del semestre actual
+  Object.entries(sections).forEach(([timestamp, section]) => {
+    if (section && section.agg) {
+      const ocupados = section.agg.ocupados;
+      const total = section.agg.total;
+      const porcentaje = total && total > 0 ? (ocupados / total) * 100 : 0;
+
+      allData.push({
+        fecha: formatTimestamp(timestamp),
+        ocupados,
+        total,
+        timestamp: timestamp,
+        semestre: currentSem,
+        porcentaje,
+      } as any);
+    }
   });
 
   // Ordenar por timestamp (fecha más antigua primero)
