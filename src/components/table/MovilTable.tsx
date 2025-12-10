@@ -83,17 +83,12 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
 
             return (
               /* Versión para móvil */
-              <div
+              <a
                 key={row.id}
-                className="border-border hover:bg-muted/50 cursor-pointer rounded-md border p-4 transition-colors w-full relative"
+                href={`/${course.sigle}`}
+                className="border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full block no-underline"
+                aria-label={`Ver detalles del curso ${course.sigle} - ${course.name}`}
               >
-                <a
-                  href={`/${course.sigle}`}
-                  className="absolute inset-0 z-10 rounded-md"
-                  aria-label={`Ver detalles del curso ${course.sigle} - ${course.name}`}
-                >
-                  <span className="sr-only">Ver detalles de {course.sigle} - {course.name}</span>
-                </a>
                   {/* Header con sigla y créditos */}
                   <div className="mb-2 flex items-start justify-between">
                     <div className="text-foreground text-xs font-medium">{course.sigle}</div>
@@ -143,8 +138,8 @@ export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps
                   <div className="text-muted-foreground mt-4 flex flex-row-reverse items-center gap-1 text-xs">
                     <OpenInFullIcon className="inline-block h-4 w-4" /> Presiona para ver detalles
                   </div>
-                </div>
-              );
+              </a>
+            );
             })}
           </div>
 

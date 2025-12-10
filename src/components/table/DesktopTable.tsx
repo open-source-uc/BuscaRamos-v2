@@ -36,23 +36,39 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-muted/50 cursor-pointer transition-colors relative"
+                  className="hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none group"
+                  onClick={() => {
+                    window.location.href = `/${row.original.sigle}`;
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      window.location.href = `/${row.original.sigle}`;
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Ver detalles del curso ${row.original.sigle} - ${row.original.name}`}
                 >
-                  <a
-                    href={`/${row.original.sigle}`}
-                    className="absolute inset-0 z-10"
-                    aria-label={`Ver detalles del curso ${row.original.sigle} - ${row.original.name}`}
-                  >
-                    <span className="sr-only">Ver detalles de {row.original.sigle} - {row.original.name}</span>
-                  </a>
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell, index) => (
                     <TableCell
                       key={cell.id}
                       className={cn(
                         (cell.column.columnDef.meta as { className?: string })?.className,
-                        cell.column.id === "campus" && "whitespace-normal"
+                        cell.column.id === "campus" && "whitespace-normal",
+                        "relative"
                       )}
                     >
+                      {index === 0 && (
+                        <a
+                          href={`/${row.original.sigle}`}
+                          className="absolute opacity-0 pointer-events-none"
+                          tabIndex={-1}
+                          aria-hidden="true"
+                        >
+                          {row.original.sigle} - {row.original.name}
+                        </a>
+                      )}
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
