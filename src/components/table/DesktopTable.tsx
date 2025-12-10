@@ -36,20 +36,15 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                  onClick={() => {
-                    window.location.href = `/${row.original.sigle}`;
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      window.location.href = `/${row.original.sigle}`;
-                    }
-                  }}
-                  tabIndex={0}
-                  role="button"
-                  aria-label={`Ver detalles del curso ${row.original.sigle} - ${row.original.name}`}
+                  className="hover:bg-muted/50 cursor-pointer transition-colors relative"
                 >
+                  <a
+                    href={`/${row.original.sigle}`}
+                    className="absolute inset-0 z-10"
+                    aria-label={`Ver detalles del curso ${row.original.sigle} - ${row.original.name}`}
+                  >
+                    <span className="sr-only">Ver detalles de {row.original.sigle} - {row.original.name}</span>
+                  </a>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
