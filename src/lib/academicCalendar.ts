@@ -2,23 +2,38 @@
  * Utilidades para manejar el calendario académico usando configuración JSON
  */
 import { CURRENT_SEMESTER } from "@/lib/currentSemester";
-import academicCalendarData from "@/../migration/data/academicCalendar.json";
 import type { semester } from "@/lib/icsHorario";
+import { academicCalendar } from "@/lib/schedule/academicCalendar";
 
 const stringToIcs = (dateString: string): [number, number, number] => {
-  const date = dateString.split("-");
-  return [parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2])];
+  const [year, month, day] = dateString.split("-");
+  return [parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10)];
 };
 
-const SEMESTER = academicCalendarData[CURRENT_SEMESTER];
+type AcademicCalendar = typeof academicCalendar;
+type AcademicSemesterKey = keyof AcademicCalendar;
+type AcademicSemester = AcademicCalendar[AcademicSemesterKey];
+type AcademicExcludedDate = AcademicSemester["excludedDates"][number];
 
-const SEMESTER_START = new Date(...stringToIcs(SEMESTER.semesterStart));
-const SEMESTER_END = new Date(...stringToIcs(SEMESTER.semesterEnd));
+const isAcademicSemesterKey = (semesterKey: string): semesterKey is AcademicSemesterKey =>
+  semesterKey in academicCalendar;
 
-const EXCLUDED_DATES = SEMESTER.excludedDates.map((date) => new Date(...stringToIcs(date["date"])));
+if (!isAcademicSemesterKey(CURRENT_SEMESTER)) {
+  throw new Error(`Missing academic calendar configuration for semester ${CURRENT_SEMESTER}`);
+}
+
+const semesterKey = CURRENT_SEMESTER;
+const semesterConfig = academicCalendar[semesterKey];
+
+const SEMESTER_START = new Date(...stringToIcs(semesterConfig.semesterStart));
+const SEMESTER_END = new Date(...stringToIcs(semesterConfig.semesterEnd));
+
+const EXCLUDED_DATES = semesterConfig.excludedDates.map(
+  ({ date }: AcademicExcludedDate) => new Date(...stringToIcs(date))
+);
 
 export const ACTUAL_SEMESTER: semester = {
-  name: CURRENT_SEMESTER,
+  name: semesterKey,
   start: SEMESTER_START,
   end: SEMESTER_END,
   excludedDates: EXCLUDED_DATES,

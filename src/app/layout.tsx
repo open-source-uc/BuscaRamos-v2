@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "@/styles/global.css";
 import HeaderPage from "@/components/header/HeaderPage";
+import FloatingNavButton from "@/components/FloatingNavButton";
 import { AuthProvider } from "@/context/authCtx";
+import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
@@ -57,11 +59,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
@@ -79,17 +76,20 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
-        <AuthProvider>
-          <HeaderPage />
-          {children}
-          <Toaster
-            position="top-center"
-            expand={true}
-            richColors={true}
-            closeButton={true}
-            duration={4000}
-          />
-        </AuthProvider>
+        <SemesterProvider>
+          <AuthProvider>
+            <HeaderPage />
+            {children}
+            <Toaster
+              position="top-center"
+              expand={true}
+              richColors={true}
+              closeButton={true}
+              duration={4000}
+            />
+            <FloatingNavButton />
+          </AuthProvider>
+        </SemesterProvider>
       </body>
     </html>
   );

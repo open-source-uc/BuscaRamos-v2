@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { isCurrentSemester } from "@/lib/currentSemester";
+import { useCurrentSemester } from "@/context/semesterCtx";
 import { CourseScore } from "@/types/types";
 import { Combobox, ComboboxOption } from "./combobox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible";
@@ -31,6 +31,8 @@ interface CourseFiltersProps {
   onFiltersOpenChange: (open: boolean) => void;
   onCategoryChange: (value: string) => void;
   onClearFilters: () => void;
+  additionalActiveFiltersCount?: number;
+  children?: ReactNode;
 }
 
 export function CourseFilters({
@@ -54,7 +56,10 @@ export function CourseFilters({
   onFiltersOpenChange,
   onClearFilters,
   onCategoryChange,
+  additionalActiveFiltersCount = 0,
+  children,
 }: CourseFiltersProps) {
+  const currentSemester = useCurrentSemester();
   // Get unique areas from the data
   const uniqueAreas = useMemo(() => {
     const areas = courses
@@ -88,7 +93,7 @@ export function CourseFilters({
   }, [courses]);
 
   // Get unique semesters from the data
-  const uniqueSemesters = useMemo(() => {
+  const uniqueSemesters = (() => {
     const semesters = courses
       .map((course) => course.last_semester)
       .filter((semester) => semester && semester.trim() !== "");
@@ -97,8 +102,8 @@ export function CourseFilters({
     // Sort semesters with current semester first, then by year and semester number
     return uniqueSet.sort((a, b) => {
       // Current semester always comes first
-      if (isCurrentSemester(a)) return -1;
-      if (isCurrentSemester(b)) return 1;
+      if (a === currentSemester) return -1;
+      if (b === currentSemester) return 1;
 
       // Parse semesters for comparison
       const [yearA, semA] = a.split("-").map(Number);
@@ -108,7 +113,7 @@ export function CourseFilters({
       if (yearA !== yearB) return yearB - yearA;
       return semB - semA;
     });
-  }, [courses]);
+  })();
 
   // Convert unique areas to combobox options
   const areaOptions = useMemo((): ComboboxOption[] => {
@@ -167,17 +172,16 @@ export function CourseFilters({
   }, [uniqueFormats]);
 
   // Convert unique semesters to combobox options
-  const semesterOptions = useMemo((): ComboboxOption[] => {
+  const semesterOptions = (() => {
     const options: ComboboxOption[] = [{ value: "all", label: "Todos los semestres" }];
 
     uniqueSemesters.forEach((semester) => {
-      const isCurrentSem = isCurrentSemester(semester);
-      const label = isCurrentSem ? `${semester} (actual)` : semester;
+      const label = semester === currentSemester ? `${semester} (actual)` : semester;
       options.push({ value: semester, label });
     });
 
     return options;
-  }, [uniqueSemesters]);
+  })();
 
   // Convert unique categories to combobox options
   const categoryOptions = useMemo((): ComboboxOption[] => {
@@ -201,6 +205,7 @@ export function CourseFilters({
     if (showRetirableOnly) count++;
     if (showEnglishOnly) count++;
     if (selectedCategory !== "all") count++;
+    count += additionalActiveFiltersCount;
     return count;
   }, [
     selectedArea,
@@ -210,6 +215,8 @@ export function CourseFilters({
     selectedSemester,
     showRetirableOnly,
     showEnglishOnly,
+    selectedCategory,
+    additionalActiveFiltersCount,
   ]);
 
   return (
@@ -398,6 +405,8 @@ export function CourseFilters({
                 </div>
               </div>
             </div>
+
+            {children && <div className="border-border border-t pt-4">{children}</div>}
 
             {/* Clear Filters Button */}
             {activeFiltersCount > 0 && (

@@ -1,15 +1,23 @@
 import { DocsIcon, ChevronDownIcon, TextureIcon, DeceasedIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ParsedPrerequisites } from "@/lib/courseReq";
+import { ParsedPrerequisites, PrerequisiteGroup } from "@/lib/courseReq";
 import { ParsedRestrictions } from "@/lib/courseRestrictions";
 import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
 import { RestrictionsDisplay } from "./RestrictionsDisplay";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   prerequisites: ParsedPrerequisites;
   restrictions?: ParsedRestrictions;
   connector?: string; // "AND" | "OR" o "y" | "o"
   className?: string;
+  loading?: boolean;
+}
+
+function countCourses(group: PrerequisiteGroup): number {
+  const direct = group.courses?.length ?? 0;
+  const nested = group.groups?.reduce((acc, g) => acc + countCourses(g), 0) ?? 0;
+  return direct + nested;
 }
 
 export default function PrerequisitesSection({
@@ -17,6 +25,7 @@ export default function PrerequisitesSection({
   restrictions,
   connector,
   className = "",
+  loading = false,
 }: Props) {
   const hasPrerequisites = prerequisites.hasPrerequisites && prerequisites.structure;
   const hasRestrictions = restrictions?.hasRestrictions && restrictions?.structure;
@@ -87,6 +96,19 @@ export default function PrerequisitesSection({
           </CollapsibleTrigger>
 
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
+            {loading ? (
+              <div className="space-y-2 py-6">
+                {Array.from({
+                  length: Math.max(
+                    (hasPrerequisites ? countCourses(prerequisites.structure!) : 0) +
+                    (hasRestrictions ? 1 : 0),
+                    1
+                  ),
+                }).map((_, i) => (
+                  <Skeleton key={i} className="h-10 w-full rounded-md" />
+                ))}
+              </div>
+            ) : (
             <div className="w-full overflow-hidden space-y-4">
               {hasPrerequisites && (
                 <div>
@@ -102,6 +124,7 @@ export default function PrerequisitesSection({
                 </>
               )}
             </div>
+            )}
 
             <div className="border-border mt-4 w-full border-t pt-4">
               <div className="text-muted-foreground flex flex-wrap gap-4 text-xs">

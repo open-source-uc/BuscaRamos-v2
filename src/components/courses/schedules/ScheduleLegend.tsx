@@ -44,9 +44,9 @@ export const CLASS_TYPES = {
 // Color variants for different class types
 const CLASS_TYPE_COLORS = {
   CLAS: "schedule_blue",
-  LAB: "schedule_green",
-  AYUD: "schedule_purple",
-  AYU: "schedule_purple",
+  LAB: "schedule_purple",
+  AYUD: "schedule_green",
+  AYU: "schedule_green",
   PRA: "schedule_orange",
   SUP: "schedule_pink",
   TAL: "schedule_red",

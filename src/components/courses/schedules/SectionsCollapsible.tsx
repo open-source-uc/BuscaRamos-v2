@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 import {
   CalendarIcon,
   ChevronDownIcon,
@@ -17,13 +18,14 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { toast } from "sonner";
 import type { ScheduleMatrix, CourseSections } from "@/types/types";
 import {
   createScheduleMatrix,
   TIME_SLOTS,
   DAYS,
-  convertNDJSONToSections,
+  convertCourseDataToSections,
 } from "@/lib/scheduleMatrix";
 import { addCourseToSchedule, isCourseInSchedule } from "@/lib/scheduleStorage";
 import {
@@ -31,67 +33,76 @@ import {
   getClassTypeColor,
   getClassTypeShort,
 } from "@/components/courses/schedules/ScheduleLegend";
-// import { useCoursesSections } from '@/components/hooks/useCoursesSections'
-import { useNDJSONStream } from "@/hooks/useNDJSONStream";
+import { useCurrentSemester } from "@/context/semesterCtx";
+import { staticDataClient } from "@/lib/static-data-api/client";
+import QuotaHistorySection, { type QuotaTimeline } from "@/components/courses/QuotaHistorySection";
+import { sectionFitsScheduleModuleFilter } from "@/lib/scheduleModuleFilter";
 
-interface Props {
-  sectionIds: string[];
-  placeholderSections: CourseSections;
-  courseSigle: string;
-  className?: string;
+// Semestres válidos extraídos del tipo generado para /data/quota/{sigle}
+export const SEMESTERS = ["2026-1", "2025-2", "2025-1", "2024-3", "2024-2", "2024-1"] as const;
+export type ValidSemester = (typeof SEMESTERS)[number];
+
+async function fetchSemesterSections(semester: string, sigle: string): Promise<CourseSections> {
+  const res = await fetch(`https://public.osuc.dev/${semester}.json`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = (await res.json()) as Record<string, { sections?: unknown }>;
+  const courseData = data[sigle];
+  return courseData?.sections ? convertCourseDataToSections({ [sigle]: courseData }) : {};
+}
+
+async function fetchQuotaTimeline(semester: ValidSemester, sigle: string): Promise<QuotaTimeline> {
+  const { data } = await staticDataClient.GET("/data/quota/{sigle}", {
+    params: { path: { sigle }, query: { semester } },
+  });
+  return (data?.quota ?? {}) as QuotaTimeline;
 }
 
 function ScheduleGrid({
   matrix,
   sectionId,
   courseSigle,
+  semester,
   onAddToSchedule,
   sectionData,
 }: {
   matrix: ScheduleMatrix;
   sectionId: string;
   courseSigle: string;
+  semester: string;
   onAddToSchedule: (courseId: string, success: boolean) => void;
   sectionData?: any;
 }) {
   const [isInSchedule, setIsInSchedule] = useState(false);
   const courseId = `${courseSigle}-${sectionId}`;
 
-  // Get section data for NRC and campus from NDJSON data
+  useEffect(() => {
+    setIsInSchedule(isCourseInSchedule(courseId, semester));
+  }, [courseId, semester]);
+
   const nrc = sectionData?.nrc || "Sin NRC";
   const campus = sectionData?.campus || "Sin campus";
   const category = sectionData?.category || "";
   const area = sectionData?.area || "";
   const format = sectionData?.format || "Sin formato";
-  // Los valores booleanos ya vienen convertidos desde convertNDJSONToSections
   const isRemovable = sectionData?.is_removable ?? false;
   const isEnglish = sectionData?.is_english ?? false;
   const isSpecial = sectionData?.is_special ?? false;
 
-  useEffect(() => {
-    setIsInSchedule(isCourseInSchedule(courseId));
-  }, [courseId]);
-
   const handleAddToSchedule = () => {
-    const success = addCourseToSchedule(courseId);
-    if (success) {
-      setIsInSchedule(true);
-    }
+    const success = addCourseToSchedule(courseId, semester);
+    if (success) setIsInSchedule(true);
     onAddToSchedule(courseId, success);
   };
 
-  // Check if there are Saturday classes
   const hasSaturdayClasses = TIME_SLOTS.some(
-    (_, timeIndex) => matrix[timeIndex] && matrix[timeIndex][5] && matrix[timeIndex][5].length > 0 // Saturday is index 5
+    (_, timeIndex) => matrix[timeIndex] && matrix[timeIndex][5] && matrix[timeIndex][5].length > 0
   );
-
-  // Always show weekdays (L-V), add Saturday only if it has classes
-  const displayDays = hasSaturdayClasses ? DAYS : DAYS.slice(0, 5); // L-V or L-S
+  const displayDays = hasSaturdayClasses ? DAYS : DAYS.slice(0, 5);
 
   return (
-    <div className="bg-background border-border tablet:p-4 rounded-lg border p-3">
+    <div className="bg-background border-border tablet:p-4 rounded-lg border p-2">
       <div className="tablet:mb-3 mb-2 flex items-center justify-between">
-        <h3 className="tablet:text-lg text-base font-semibold">Sección {sectionId}</h3>
+        <h3 className="tablet:text-base text-sm font-semibold">Sección {sectionId}</h3>
         <Button
           variant={isInSchedule ? "outline" : "ghost_blue"}
           size="xs"
@@ -103,28 +114,24 @@ function ScheduleGrid({
         </Button>
       </div>
 
-      {/* Minimalist Schedule Grid */}
-      <div className="mt-4 overflow-x-auto">
-        <div className="min-w-[280px]">
-          {/* Header with days */}
+      <div className="mt-2 tablet:mt-3 overflow-x-auto">
+        <div className="min-w-[220px]">
           <div
-            className={`tablet:gap-1 tablet:mb-2 mb-1 grid gap-0.5`}
-            style={{ gridTemplateColumns: `32px repeat(${displayDays.length}, 1fr)` }}
+            className="tablet:gap-1 tablet:mb-1.5 mb-0.5 grid gap-0.5"
+            style={{ gridTemplateColumns: `28px repeat(${displayDays.length}, 1fr)` }}
           >
-            <div className="tablet:w-12 w-8"></div>
+            <div className="w-7 tablet:w-10"></div>
             {displayDays.map((day) => (
               <div
                 key={day}
-                className="tablet:text-xs text-muted-foreground tablet:px-1 px-0.5 py-1 text-center text-[10px] font-medium"
+                className="text-muted-foreground px-0.5 py-0.5 text-center text-[9px] tablet:text-[10px] font-medium"
               >
                 {day}
               </div>
             ))}
           </div>
 
-          {/* Time slots - always start from 08:20, then show consecutive slots with classes */}
           {TIME_SLOTS.map((time, timeIndex) => {
-            // Always show from 08:20 onwards if there are any classes in this time slot or later
             const hasClassFromThisTimeOnwards = TIME_SLOTS.slice(timeIndex).some((_, futureIndex) =>
               displayDays.some((day) => {
                 const dayIndex = DAYS.indexOf(day);
@@ -136,36 +143,31 @@ function ScheduleGrid({
               })
             );
 
-            // Only show if we're at 08:20 or later AND there are classes from this time onwards
             if (timeIndex === 0 || hasClassFromThisTimeOnwards) {
               return (
                 <div
                   key={time}
-                  className={`tablet:gap-1 tablet:mb-1 mb-0.5 grid gap-0.5`}
-                  style={{ gridTemplateColumns: `32px repeat(${displayDays.length}, 1fr)` }}
+                  className="tablet:gap-1 mb-0.5 grid gap-0.5"
+                  style={{ gridTemplateColumns: `28px repeat(${displayDays.length}, 1fr)` }}
                 >
-                  {/* Time label */}
-                  <div className="tablet:text-xs text-muted-foreground tablet:px-1 tablet:w-12 w-8 px-0.5 py-1 text-right text-[10px]">
-                    {time}
+                  <div className="text-muted-foreground w-7 tablet:w-10 px-0.5 py-0.5 text-right text-[8px] tablet:text-[10px] leading-tight">
+                    {time.slice(0, 5)}
                   </div>
-
-                  {/* Day columns */}
                   {displayDays.map((day) => {
                     const dayIndex = DAYS.indexOf(day);
                     const classes = matrix[timeIndex][dayIndex];
                     const hasClass = classes.length > 0;
                     const classInfo = hasClass ? classes[0] : null;
-
                     return (
                       <div
                         key={`${day}-${timeIndex}`}
-                        className="tablet:min-h-[32px] tablet:px-1 flex min-h-[24px] items-center justify-center px-0.5 py-1"
+                        className="tablet:min-h-[28px] flex min-h-[20px] items-center justify-center px-0.5 py-0.5"
                       >
                         {hasClass && classInfo && (
                           <Pill
                             variant={getClassTypeColor(classInfo.type)}
                             size="xs"
-                            className="tablet:text-[10px] min-w-0 px-1 py-0.5 text-[9px] leading-none"
+                            className="min-w-0 px-0.5 py-0.5 text-[8px] tablet:text-[9px] leading-none"
                           >
                             {getClassTypeShort(classInfo.type)}
                           </Pill>
@@ -181,45 +183,29 @@ function ScheduleGrid({
         </div>
       </div>
 
-      {/* Separator */}
-      <div className="border-border tablet:mt-4 tablet:pt-4 mt-3 border-t pt-3">
-        {/* Section Info Pills */}
-        <div className="flex flex-wrap items-center gap-2">
-          <Pill variant="blue" icon={BuildingIcon} size="sm">
-            {campus}
-          </Pill>
-          <Pill variant="green" icon={LinkIcon} size="sm">
-            NRC {nrc}
-          </Pill>
+      <div className="border-border tablet:mt-3 tablet:pt-3 mt-2 border-t pt-2">
+        <div className="flex flex-wrap items-center gap-1 tablet:gap-2">
+          <Pill variant="blue" icon={BuildingIcon} size="xs">{campus}</Pill>
+          <Pill variant="green" icon={LinkIcon} size="xs">NRC {nrc}</Pill>
           {category && category.trim() !== "" && (
-            <Pill variant="purple" icon={CategoryIcon} size="sm">
-              {category}
-            </Pill>
+            <Pill variant="purple" icon={CategoryIcon} size="xs">{category}</Pill>
           )}
           {area && area.trim() !== "" && (
-            <Pill variant="pink" icon={AreaIcon} size="sm">
-              {area}
-            </Pill>
+            <Pill variant="pink" icon={AreaIcon} size="xs">{area}</Pill>
           )}
-          <Pill variant="orange" icon={AttendanceIcon} size="sm">
-            {format}
-          </Pill>
+          <Pill variant="orange" icon={AttendanceIcon} size="xs">{format}</Pill>
           <Pill
             variant={isRemovable ? "green" : "red"}
             icon={isRemovable ? CheckIcon : CloseIcon}
-            size="sm"
+            size="xs"
           >
             {isRemovable ? "Retirable" : "No retirable"}
           </Pill>
           {isEnglish && (
-            <Pill variant="purple" icon={LanguageIcon} size="sm">
-              En Inglés
-            </Pill>
+            <Pill variant="purple" icon={LanguageIcon} size="xs">En Inglés</Pill>
           )}
           {isSpecial && (
-            <Pill variant="yellow" icon={StarIcon} size="sm">
-              Especial
-            </Pill>
+            <Pill variant="yellow" icon={StarIcon} size="xs">Especial</Pill>
           )}
         </div>
       </div>
@@ -230,41 +216,66 @@ function ScheduleGrid({
 interface SectionsCollapsibleProps {
   courseSigle: string;
   className?: string;
+  /** If provided, overrides internal semester state and hides the semester selector */
+  externalSemester?: ValidSemester;
+  /** Called when a section is successfully added to the schedule */
+  onCourseAdded?: (courseId: string) => void;
+  /** Whether to render the sections collapsible open by default */
+  defaultSectionsOpen?: boolean;
+  /** If provided, only sections whose blocks are contained in these modules will be shown */
+  allowedScheduleModules?: readonly string[];
 }
 
 export default function SectionsCollapsible({
   courseSigle,
   className = "",
+  externalSemester,
+  onCourseAdded,
+  defaultSectionsOpen = false,
+  allowedScheduleModules = [],
 }: SectionsCollapsibleProps) {
   const [refreshKey, setRefreshKey] = useState(0);
-  const { data: courses, loading: isPending } = useNDJSONStream<any>(
-    "https://public.osuc.dev/courses-sections.ndjson"
+  const currentSemester = useCurrentSemester();
+
+  const defaultSemester =
+    (SEMESTERS.find((s) => s <= currentSemester) as ValidSemester | undefined) ?? SEMESTERS[0];
+  const [selectedSemester, setSelectedSemester] = useState<ValidSemester>(defaultSemester);
+
+  const effectiveSemester = externalSemester ?? selectedSemester;
+
+  const {
+    data: sectionsData,
+    isLoading: isPending,
+    error,
+  } = useSWR(
+    `sections:${effectiveSemester}:${courseSigle}`,
+    () => fetchSemesterSections(effectiveSemester, courseSigle),
+    { revalidateOnFocus: false }
   );
 
-  // Ensure coursesData is an array
-  const coursesData = Array.isArray(courses) ? courses : [];
+  const { data: quotaTimeline } = useSWR(
+    !externalSemester ? `quota:${effectiveSemester}:${courseSigle}` : null,
+    () => fetchQuotaTimeline(effectiveSemester as ValidSemester, courseSigle),
+    { revalidateOnFocus: false }
+  );
 
-  // Convert to the format expected by createScheduleMatrix (this also converts arrays to booleans)
-  const courseSectionsData = courses.length > 0 ? convertNDJSONToSections(courses) : {};
-
-  // Get sections for this specific course (already converted with proper types)
+  const courseSectionsData = sectionsData ?? {};
   const sections = courseSectionsData[courseSigle] || {};
   const sectionIds = Object.keys(sections);
+  const visibleSectionIds = sectionIds.filter((sectionId) =>
+    sectionFitsScheduleModuleFilter(sections[sectionId], allowedScheduleModules)
+  );
 
-  // Extract unique class types present in this course's sections
   const getClassTypesInSections = (): string[] => {
     const classTypes = new Set<string>();
-
-    Object.values(sections).forEach((section: any) => {
+    visibleSectionIds.forEach((sectionId) => {
+      const section = sections[sectionId];
       if (section.schedule) {
-        Object.values(section.schedule).forEach((timeSlot: any) => {
-          if (Array.isArray(timeSlot) && timeSlot.length > 0) {
-            classTypes.add(timeSlot[0]);
-          }
+        Object.values(section.schedule).forEach((timeSlot) => {
+          if (Array.isArray(timeSlot) && timeSlot.length > 0) classTypes.add(timeSlot[0]);
         });
       }
     });
-
     return Array.from(classTypes).sort();
   };
 
@@ -273,103 +284,135 @@ export default function SectionsCollapsible({
   const handleAddToSchedule = (courseId: string, success: boolean) => {
     if (success) {
       toast.success(`${courseId} agregado a tu horario`);
+      onCourseAdded?.(courseId);
     } else {
       toast.info(`${courseId} ya está en tu horario`);
     }
-    // Force re-render to update button states
     setRefreshKey((prev) => prev + 1);
   };
 
-  // If no sections available and not loading, show non-collapsible message
-  if (!isPending && sectionIds.length === 0) {
-    return (
-      <section className={`${className}`}>
-        <div className="bg-accent border-border overflow-hidden rounded-md border p-6">
-          <div className="flex items-center gap-3">
-            <div className="bg-muted text-muted-foreground border-border flex-shrink-0 rounded-lg border p-2">
-              <CalendarIcon className="h-5 w-5 fill-current" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <h2 className="text-lg font-semibold">Secciones</h2>
-              <p className="text-sm">No hay secciones disponibles para este semestre</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const semesterLabel = (s: ValidSemester) =>
+    s === currentSemester ? `${s} (actual)` : s;
+
+  const semesterOptions: ComboboxOption[] = SEMESTERS.map((s) => ({
+    value: s,
+    label: semesterLabel(s),
+  }));
+
+  const semesterSelect = (
+    <Combobox
+      options={semesterOptions}
+      value={selectedSemester}
+      onValueChange={(v) => {
+        if (v) setSelectedSemester(v as ValidSemester);
+      }}
+      placeholder="Seleccionar semestre"
+      searchPlaceholder="Buscar semestre..."
+      emptyMessage="No se encontraron semestres."
+      buttonClassName="h-8 w-full text-xs tablet:w-36"
+      aria-label="Seleccionar semestre"
+    />
+  );
 
   return (
-    <>
-      <section className={`${className}`}>
-        <div className="bg-accent border-border overflow-hidden rounded-md border">
-          <Collapsible>
-            <CollapsibleTrigger className="hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
-              <div className="flex min-w-0 flex-1 items-center gap-3">
-                <div className="bg-orange-light text-orange border-orange/20 flex-shrink-0 rounded-lg border p-2">
-                  <CalendarIcon className="h-5 w-5 fill-current" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-lg font-semibold">Secciones</h2>
-                  <p className="text-muted-foreground text-sm">
-                    Conoce los horarios de las diferentes secciones del curso
-                  </p>
-                </div>
-              </div>
-              <div className="ml-4 flex flex-shrink-0 items-center gap-2">
-                <span className="text-muted-foreground tablet:inline hidden text-sm">Expandir</span>
-                <ChevronDownIcon className="text-muted-foreground group-hover:text-foreground h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-              </div>
-            </CollapsibleTrigger>
-
-            <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
-              {!isPending && sectionIds.length > 0 ? (
-                <div className="tablet:grid-cols-2 grid grid-cols-1 gap-4">
-                  {sectionIds.map((sectionId) => {
-                    const scheduleMatrix = createScheduleMatrix(courseSectionsData, [
-                      `${courseSigle}-${sectionId}`,
-                    ]);
-
-                    // Use converted section data with proper boolean types
-                    return (
-                      <ScheduleGrid
-                        key={`${sectionId}-${refreshKey}`}
-                        matrix={scheduleMatrix}
-                        sectionId={sectionId}
-                        courseSigle={courseSigle}
-                        onAddToSchedule={handleAddToSchedule}
-                        sectionData={sections[sectionId]}
-                      />
-                    );
-                  })}
-                </div>
-              ) : isPending ? (
-                <div className="py-8 text-center">
-                  <p className="text-muted-foreground">Cargando secciones...</p>
-                </div>
-              ) : (
-                <div className="py-8 text-center">
-                  <p className="text-muted-foreground">
-                    No hay secciones disponibles para este semestre.
-                  </p>
-                </div>
-              )}
-
-              {/* Legend */}
-              {availableClassTypes.length > 0 && (
-                <div className="border-border mt-6 border-t pt-4">
-                  <ScheduleLegend
-                    classTypes={availableClassTypes}
-                    compact={true}
-                    useShortNames={false}
-                    className="text-xs"
-                  />
-                </div>
-              )}
-            </CollapsibleContent>
-          </Collapsible>
+    <section className={className}>
+      {/* Encabezado compartido con selector de semestre — oculto cuando el semestre es externo */}
+      {!externalSemester && (
+        <div className="bg-accent border-border mb-3 flex flex-col gap-3 rounded-md border px-4 py-3 tablet:flex-row tablet:items-center tablet:justify-between tablet:px-6">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="bg-orange-light text-orange border-orange/20 flex-shrink-0 rounded-lg border p-2">
+              <CalendarIcon className="h-5 w-5 fill-current" />
+            </div>
+            <div className="min-w-0">
+              <h2 className="text-base font-semibold">Oferta académica</h2>
+              <p className="text-muted-foreground text-xs">Semestre {effectiveSemester}</p>
+            </div>
+          </div>
+          {semesterSelect}
         </div>
-      </section>
-    </>
+      )}
+
+      {/* Collapsible de secciones */}
+      <div className="bg-accent border-border overflow-hidden rounded-md border">
+        <Collapsible defaultOpen={defaultSectionsOpen}>
+          <CollapsibleTrigger className="hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
+            <div className="flex min-w-0 flex-1 items-center gap-3">
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg font-semibold">Secciones</h2>
+                <p className="text-muted-foreground text-sm">
+                  {isPending
+                    ? "Cargando..."
+                    : visibleSectionIds.length > 0
+                      ? `${visibleSectionIds.length} sección${visibleSectionIds.length !== 1 ? "es" : ""} disponible${visibleSectionIds.length !== 1 ? "s" : ""}`
+                      : "No hay secciones para este semestre"}
+                </p>
+              </div>
+            </div>
+            <div className="ml-4 flex flex-shrink-0 items-center gap-2">
+              {externalSemester && (
+                <span className="text-muted-foreground text-xs">{effectiveSemester}</span>
+              )}
+              <span className="text-muted-foreground tablet:inline hidden text-sm">Expandir</span>
+              <ChevronDownIcon className="text-muted-foreground group-hover:text-foreground h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+            </div>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
+            {isPending ? (
+              <div className="py-8 text-center">
+                <p className="text-muted-foreground">Cargando secciones...</p>
+              </div>
+            ) : error ? (
+              <div className="py-8 text-center">
+                <p className="text-muted-foreground">Error al cargar las secciones.</p>
+              </div>
+            ) : visibleSectionIds.length > 0 ? (
+              <div className="tablet:grid-cols-2 grid grid-cols-1 gap-3">
+                {visibleSectionIds.map((sectionId) => {
+                  const scheduleMatrix = createScheduleMatrix(courseSectionsData, [
+                    `${courseSigle}-${sectionId}`,
+                  ]);
+                  return (
+                    <ScheduleGrid
+                      key={`${sectionId}-${refreshKey}`}
+                      matrix={scheduleMatrix}
+                      sectionId={sectionId}
+                      courseSigle={courseSigle}
+                      semester={effectiveSemester}
+                      onAddToSchedule={handleAddToSchedule}
+                      sectionData={sections[sectionId]}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="py-8 text-center">
+                <p className="text-muted-foreground">
+                  {allowedScheduleModules.length > 0
+                    ? "No hay secciones disponibles que calcen con el filtro de horario."
+                    : "No hay secciones disponibles para este semestre."}
+                </p>
+              </div>
+            )}
+
+            {availableClassTypes.length > 0 && (
+              <div className="border-border mt-6 border-t pt-4">
+                <ScheduleLegend
+                  classTypes={availableClassTypes}
+                  compact={true}
+                  useShortNames={false}
+                  className="text-xs"
+                />
+              </div>
+            )}
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
+      {/* Historial de cupos — solo cuando no está controlado externamente */}
+      {!externalSemester && (
+        <QuotaHistorySection quotaTimeline={quotaTimeline} className="mt-3" />
+      )}
+    </section>
   );
 }

@@ -1,10 +1,20 @@
-/**
- * Semestre actual
- * Se debe actualizar al inicio de cada semestre
- */
 import type { CourseSection } from "../types/types";
 
-export const CURRENT_SEMESTER = "2025-2";
+/**
+ * Calcula el semestre actual basado en la fecha del sistema.
+ * Semestre 1: marzo–julio · Semestre 2: agosto–diciembre · TAV (3): enero–febrero
+ */
+export function computeCurrentSemester(): string {
+  const now = new Date();
+  const month = now.getMonth() + 1; // 1-12
+  const year = now.getFullYear();
+  if (month >= 3 && month <= 7) return `${year}-1`;
+  if (month >= 8) return `${year}-2`;
+  // enero o febrero: TAV del año anterior
+  return `${year - 1}-3`;
+}
+
+export const CURRENT_SEMESTER = computeCurrentSemester();
 
 /**
  * Chequea si el semestre dado es el semestre actual

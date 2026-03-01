@@ -1,37 +1,40 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig } from "eslint/config";
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
+import prettierConfig from "eslint-config-prettier/flat";
 import prettierPlugin from "eslint-plugin-prettier";
 import unusedImports from "eslint-plugin-unused-imports";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-export default [
+export default defineConfig([
   {
     ignores: [".git", ".next", ".vercel", ".wrangler", "node_modules", "dist", "build"],
+    linterOptions: {
+      reportUnusedDisableDirectives: "error",
+    },
   },
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...nextCoreWebVitals,
+  ...nextTypescript,
   {
+    files: ["**/*.{js,jsx,mjs,ts,tsx,mts,cts}"],
     plugins: {
       prettier: prettierPlugin,
       "unused-imports": unusedImports,
     },
     rules: {
-      // ✅ Integración con Prettier
       "prettier/prettier": "error",
-
-      // ✅ Máximo de líneas en archivos TSX
-      "max-lines": ["error", { max: 250, skipBlankLines: true, skipComments: true }],
-
-      // ✅ Detectar y eliminar imports no usados
-      "no-unused-vars": "off", // Desactivar la regla base
-      "@typescript-eslint/no-unused-vars": "off", // Desactivar la regla de TypeScript
-      "unused-imports/no-unused-imports": "error", // Detectar imports no usados
+      "max-lines": ["error", { max: 400, skipBlankLines: true, skipComments: true }],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-expressions": "error",
+      "react-hooks/exhaustive-deps": "error",
+      "react-hooks/set-state-in-effect": "error",
+      "react-hooks/set-state-in-render": "error",
+      "@next/next/no-async-client-component": "error",
+      "@next/next/no-img-element": "error",
+      "@next/next/no-head-element": "error",
+      "@next/next/no-css-tags": "error",
+      "@next/next/no-typos": "error",
+      "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
         {
@@ -42,6 +45,6 @@ export default [
         },
       ],
     },
-    files: ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"], // Aplica a todos los archivos
   },
-];
+  prettierConfig,
+]);

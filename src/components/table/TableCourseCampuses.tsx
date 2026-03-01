@@ -1,5 +1,7 @@
+"use client";
+
 import { Pill } from "@/components/ui/pill";
-import { getCampusPrefix, isCurrentSemester } from "@/lib/currentSemester";
+import { useCurrentSemester } from "@/context/semesterCtx";
 import { LocationIcon } from "@/components/icons/icons";
 
 interface TableCourseCampusesProps {
@@ -14,14 +16,16 @@ export default function TableCourseCampuses({
   variant = "default",
 }: TableCourseCampusesProps) {
   // Filter out empty strings and null/undefined values
+  const currentSemester = useCurrentSemester();
   const validCampus = campus?.filter((campusItem) => campusItem && campusItem.trim() !== "") || [];
 
   if (validCampus.length === 0) {
     return <div></div>;
   }
 
-  const prefixText = getCampusPrefix(lastSemester);
-  const pillVariant = isCurrentSemester(lastSemester) ? "blue" : "red";
+  const isCurrent = lastSemester === currentSemester;
+  const prefixText = isCurrent ? "Actualmente ofrecido en" : "Previamente ofrecido en";
+  const pillVariant = isCurrent ? "blue" : "red";
 
   return (
     <div className="w-full desktop:w-auto">

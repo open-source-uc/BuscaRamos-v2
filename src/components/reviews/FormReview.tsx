@@ -20,7 +20,8 @@ import { useEffect, useMemo } from "react";
 import { ButtonInput } from "../ui/button-input";
 import { NumericInput } from "../ui/numeric-input";
 import { SelectInput } from "../ui/select-input";
-import { CURRENT_SEMESTER, getMaxAllowedYear } from "@/lib/currentSemester";
+import { parseSemester } from "@/lib/currentSemester";
+import { useCurrentSemester } from "@/context/semesterCtx";
 import Link from "next/link";
 import TrashButton from "./TrashButton";
 import { toast } from "sonner";
@@ -46,8 +47,9 @@ export default function FormReview({
     toast.error(state.message);
   }, [state]);
 
+  const currentSemester = useCurrentSemester();
   const isEditMode = useMemo(() => !!initialValues, [initialValues]);
-  const currentYear = getMaxAllowedYear();
+  const currentYear = parseSemester(currentSemester).year;
 
   return (
     <div className="mx-auto px-2 py-4 sm:px-4 sm:py-8">
@@ -297,7 +299,7 @@ export default function FormReview({
                 <SelectInput
                   icon={CalendarIcon}
                   label="Semestre"
-                  description={`Período académico cursado (máximo ${CURRENT_SEMESTER})`}
+                  description={`Período académico cursado (máximo ${currentSemester})`}
                   selectProps={{
                     id: "semester_taken",
                     name: "semester_taken",

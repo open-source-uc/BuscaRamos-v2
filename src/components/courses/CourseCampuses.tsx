@@ -1,6 +1,8 @@
+"use client";
+
 import { Pill } from "@/components/ui/pill";
 import { LocationIcon } from "@/components/icons/icons";
-import { getCampusPrefix } from "@/lib/currentSemester";
+import { useCurrentSemester } from "@/context/semesterCtx";
 
 interface CourseCampusesProps {
   campus: string[];
@@ -8,11 +10,13 @@ interface CourseCampusesProps {
 }
 
 export default function CourseCampuses({ campus, lastSemester }: CourseCampusesProps) {
+  const currentSemester = useCurrentSemester();
   if (!campus || campus.length === 0) {
     return null;
   }
 
-  const prefixText = getCampusPrefix(lastSemester);
+  const prefixText =
+    lastSemester === currentSemester ? "Actualmente ofrecido en" : "Previamente ofrecido en";
 
   return (
     <>

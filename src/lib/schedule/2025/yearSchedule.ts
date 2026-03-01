@@ -1,4 +1,4 @@
-{
+export const yearSchedule2025 = {
   "2025-1": {
     "semesterStart": "2025-03-05",
     "semesterEnd": "2025-06-27",

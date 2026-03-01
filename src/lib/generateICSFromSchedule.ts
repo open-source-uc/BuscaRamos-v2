@@ -1,6 +1,7 @@
 import { TIME_SLOTS } from "@/lib/scheduleMatrix";
 import { ACTUAL_SEMESTER } from "@/lib/academicCalendar";
 import { VCalendar, eventTemplate } from "@/lib/icsHorario";
+import { formatScheduleLocation } from "@/lib/scheduleLocation";
 import type { icsEvent } from "@/lib/icsHorario";
 import type { ScheduleMatrix, ScheduleBlock } from "@/types/types.ts";
 
@@ -117,14 +118,12 @@ export default function generateICSFromSchedule({
 
         // Crear el evento ICS
         const courseName = classInfo.courseName || classInfo.courseId;
+        const scheduleLocation = formatScheduleLocation(classInfo.campus, classInfo.classroom);
         const summary = escapeICSText(`${courseName} (${getClassTypeDescription(classInfo.type)})`);
         const description = escapeICSText(
-          `${courseName} (${classInfo.courseId}) - ${getClassTypeDescription(classInfo.type)}\nCampus: ${classInfo.campus || "Sin campus"}\nSemestre: ${ACTUAL_SEMESTER.name}`
+          `${courseName} (${classInfo.courseId}) - ${getClassTypeDescription(classInfo.type)}\nUbicacion: ${scheduleLocation}\nSemestre: ${ACTUAL_SEMESTER.name}`
         );
-        const location =
-          classInfo.classroom == "(Por Asignar)"
-            ? escapeICSText(classInfo.campus || "")
-            : escapeICSText(classInfo.classroom);
+        const location = escapeICSText(scheduleLocation);
 
         const event: icsEvent = {
           start: startDate,

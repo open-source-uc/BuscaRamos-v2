@@ -1,6 +1,7 @@
 import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { OpensCoursesDisplay } from "@/components/courses/OpensCoursesDisplay";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   unlocks: {
@@ -8,9 +9,10 @@ interface Props {
     as_corequisite: Array<{ sigle: string; name?: string }>;
   };
   className?: string;
+  loading?: boolean;
 }
 
-export default function OpensCoursesSection({ unlocks, className = "" }: Props) {
+export default function OpensCoursesSection({ unlocks, className = "", loading = false }: Props) {
   if (unlocks.as_prerequisite.length === 0 && unlocks.as_corequisite.length === 0) {
     return (
       <section className={`w-full ${className}`}>
@@ -52,26 +54,38 @@ export default function OpensCoursesSection({ unlocks, className = "" }: Props) 
           </CollapsibleTrigger>
 
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
-            <div className="w-full overflow-hidden">
-              <OpensCoursesDisplay unlocks={unlocks} />
-            </div>
-            <div className="border-border mt-4 w-full border-t pt-4">
-              <div className="text-muted-foreground flex flex-wrap gap-4 text-xs">
-                <div className="flex items-center gap-2">
-                  <div className="bg-green border-green-light h-4 w-4 flex-shrink-0 rounded border"></div>
-                  <span>Prerrequisitos ({unlocks.as_prerequisite.length})</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="bg-orange border-orange-light flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border">
-                    <TextureIcon className="text-background h-3 w-3" />
-                  </div>
-                  <span>
-                    Co-requisitos ({unlocks.as_corequisite.length}) - Se pueden inscribir si se toma
-                    este ramo al mismo tiempo
-                  </span>
-                </div>
+            {loading ? (
+              <div className="space-y-2 py-6">
+                {Array.from({
+                  length: Math.max(unlocks.as_prerequisite.length + unlocks.as_corequisite.length, 1),
+                }).map((_, i) => (
+                  <Skeleton key={i} className="h-10 w-full rounded-md" />
+                ))}
               </div>
-            </div>
+            ) : (
+              <>
+                <div className="w-full overflow-hidden">
+                  <OpensCoursesDisplay unlocks={unlocks} />
+                </div>
+                <div className="border-border mt-4 w-full border-t pt-4">
+                  <div className="text-muted-foreground flex flex-wrap gap-4 text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="bg-green border-green-light h-4 w-4 flex-shrink-0 rounded border"></div>
+                      <span>Prerrequisitos ({unlocks.as_prerequisite.length})</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="bg-orange border-orange-light flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border">
+                        <TextureIcon className="text-background h-3 w-3" />
+                      </div>
+                      <span>
+                        Co-requisitos ({unlocks.as_corequisite.length}) - Se pueden inscribir si se toma
+                        este ramo al mismo tiempo
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </CollapsibleContent>
         </Collapsible>
       </div>

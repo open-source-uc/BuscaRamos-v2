@@ -17,6 +17,7 @@ import MovilTable from "./MovilTable";
 import DesktopTable from "./DesktopTable";
 import { CourseFilters } from "../ui/CourseFilters";
 import { Search } from "../search/SearchInput";
+import { applyCourseScoreFilters } from "@/lib/courseScoreFilters";
 
 interface DataTableProps {
   data: CourseScore[];
@@ -45,71 +46,16 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
 
   // Apply filters first (no search here)
   const filteredWithoutSearch = useMemo(() => {
-    let filtered = data;
-
-    // Apply category filters first
-    if (selectedArea === "formacion-general") {
-      filtered = filtered.filter(
-        (course) =>
-          Array.isArray(course.area) &&
-          course.area.length > 0 &&
-          course.area.some((a) => a.trim() !== "" && a !== "Ninguna")
-      );
-    } else if (selectedArea !== "all") {
-      filtered = filtered.filter(
-        (course) => Array.isArray(course.area) && course.area.includes(selectedArea)
-      );
-    }
-
-    if (selectedCampus !== "all") {
-      filtered = filtered.filter((course) => {
-        const campusArray = course.campus || [];
-        return campusArray.includes(selectedCampus);
-      });
-    }
-
-    if (selectedSchool !== "all") {
-      filtered = filtered.filter((course) => course.school === selectedSchool);
-    }
-
-    if (selectedFormat !== "all") {
-      filtered = filtered.filter((course) => {
-        if (Array.isArray(course.format)) {
-          return course.format.includes(selectedFormat);
-        }
-        return course.format === selectedFormat;
-      });
-    }
-
-    if (showRetirableOnly) {
-      filtered = filtered.filter((course) => {
-        const retirableArray = course.is_removable || [];
-        return retirableArray.some((removable) => removable === true);
-      });
-    }
-
-    if (showEnglishOnly) {
-      filtered = filtered.filter((course) => {
-        // CourseScore.is_english is always an array at course level
-        const englishArray = course.is_english || [];
-        return Array.isArray(englishArray) && englishArray.some((isEnglish) => isEnglish === true);
-      });
-    }
-
-    if (selectedSemester !== "all") {
-      filtered = filtered.filter((course) => course.last_semester === selectedSemester);
-    }
-
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter((course) => {
-        if (Array.isArray(course.categories)) {
-          return course.categories.includes(selectedCategory);
-        }
-        return false;
-      });
-    }
-
-    return filtered;
+    return applyCourseScoreFilters(data, {
+      selectedArea,
+      selectedSchool,
+      selectedCampus,
+      selectedFormat,
+      selectedSemester,
+      selectedCategory,
+      showRetirableOnly,
+      showEnglishOnly,
+    });
   }, [
     data,
     selectedArea,

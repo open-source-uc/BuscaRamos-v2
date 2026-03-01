@@ -1,17 +1,17 @@
 /**
- * Utility functions for managing user schedule storage
+ * Utility functions for managing user schedule storage (semester-aware)
  */
 
-const SCHEDULE_STORAGE_KEY = "scheduleCourses";
+const storageKey = (semester: string) => `scheduleCourses-${semester}`;
 
 /**
- * Get saved courses from localStorage
+ * Get saved courses from localStorage for a given semester
  */
-export function getSavedCourses(): string[] {
+export function getSavedCourses(semester: string): string[] {
   if (typeof window === "undefined") return [];
 
   try {
-    const saved = localStorage.getItem(SCHEDULE_STORAGE_KEY);
+    const saved = localStorage.getItem(storageKey(semester));
     return saved ? JSON.parse(saved) : [];
   } catch (error) {
     console.error("Error loading saved courses:", error);
@@ -20,71 +20,70 @@ export function getSavedCourses(): string[] {
 }
 
 /**
- * Save courses to localStorage
+ * Save courses to localStorage for a given semester
  */
-export function saveCourses(courses: string[]): void {
+export function saveCourses(courses: string[], semester: string): void {
   if (typeof window === "undefined") return;
 
   try {
-    localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(courses));
+    localStorage.setItem(storageKey(semester), JSON.stringify(courses));
   } catch (error) {
     console.error("Error saving courses:", error);
   }
 }
 
 /**
- * Add a course to the saved schedule
+ * Add a course to the saved schedule for a given semester
  */
-export function addCourseToSchedule(courseId: string): boolean {
-  const currentCourses = getSavedCourses();
+export function addCourseToSchedule(courseId: string, semester: string): boolean {
+  const currentCourses = getSavedCourses(semester);
 
   if (currentCourses.includes(courseId)) {
     return false; // Already exists
   }
 
-  const updatedCourses = [...currentCourses, courseId];
-  saveCourses(updatedCourses);
+  saveCourses([...currentCourses, courseId], semester);
   return true;
 }
 
 /**
- * Remove a course from the saved schedule
+ * Remove a course from the saved schedule for a given semester
  */
-export function removeCourseFromSchedule(courseId: string): boolean {
-  const currentCourses = getSavedCourses();
+export function removeCourseFromSchedule(courseId: string, semester: string): boolean {
+  const currentCourses = getSavedCourses(semester);
   const updatedCourses = currentCourses.filter((id) => id !== courseId);
 
   if (updatedCourses.length === currentCourses.length) {
     return false; // Course wasn't in the list
   }
 
-  saveCourses(updatedCourses);
+  saveCourses(updatedCourses, semester);
   return true;
 }
 
 /**
- * Check if a course is already in the schedule
+ * Check if a course is already in the schedule for a given semester
  */
-export function isCourseInSchedule(courseId: string): boolean {
-  return getSavedCourses().includes(courseId);
+export function isCourseInSchedule(courseId: string, semester: string): boolean {
+  return getSavedCourses(semester).includes(courseId);
 }
 
 /**
- * Clear all courses from the schedule
+ * Clear all courses from the schedule for a given semester
  */
-export function clearSchedule(): void {
-  saveCourses([]);
+export function clearSchedule(semester: string): void {
+  saveCourses([], semester);
 }
 
 /**
- * Get the total number of courses in the schedule
+ * Get the total number of courses in the schedule for a given semester
  */
-export function getScheduleCount(): number {
-  return getSavedCourses().length;
+export function getScheduleCount(semester: string): number {
+  return getSavedCourses(semester).length;
 }
 
 /**
- * Hidden courses storage functions
+ * Hidden courses storage functions (not semester-aware)
  */
 const HIDDEN_COURSES_STORAGE_KEY = "scheduleHiddenCourses";
 
@@ -126,8 +125,7 @@ export function addHiddenCourse(courseKey: string): boolean {
     return false; // Already hidden
   }
 
-  const updatedHidden = [...currentHidden, courseKey];
-  saveHiddenCourses(updatedHidden);
+  saveHiddenCourses([...currentHidden, courseKey]);
   return true;
 }
 

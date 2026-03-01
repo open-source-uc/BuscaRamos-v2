@@ -24,6 +24,16 @@ const toICSDatetime = (date: Date) => {
   return `${year}${month}${day}T${hours}${minutes}${seconds}`;
 };
 
+const toICSUtcDatetime = (date: Date) => {
+  const year = date.getUTCFullYear();
+  const month = `0${date.getUTCMonth() + 1}`.slice(-2);
+  const day = `0${date.getUTCDate()}`.slice(-2);
+  const hours = `0${date.getUTCHours()}`.slice(-2);
+  const minutes = `0${date.getUTCMinutes()}`.slice(-2);
+  const seconds = `0${date.getUTCSeconds()}`.slice(-2);
+  return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+};
+
 // Función para dividir líneas largas según RFC 5545 (máximo 75 caracteres)
 const foldLine = (line: string): string => {
   if (line.length <= 75) return line;
@@ -46,25 +56,6 @@ export const VCalendar = (calendarEvents: string) => {
     "PRODID:-//buscaramos//CL",
     "VERSION:2.0",
     "CALSCALE:GREGORIAN",
-    "X-WR-TIMEZONE:America/Santiago",
-    "BEGIN:VTIMEZONE",
-    "TZID:America/Santiago",
-    "X-LIC-LOCATION:America/Santiago",
-    "BEGIN:STANDARD",
-    "TZOFFSETFROM:-0300",
-    "TZOFFSETTO:-0400",
-    "TZNAME:-04",
-    "DTSTART:19700405T000000",
-    "RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU",
-    "END:STANDARD",
-    "BEGIN:DAYLIGHT",
-    "TZOFFSETFROM:-0400",
-    "TZOFFSETTO:-0300",
-    "TZNAME:-03",
-    "DTSTART:19700906T000000",
-    "RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=1SU",
-    "END:DAYLIGHT",
-    "END:VTIMEZONE",
   ];
 
   const calendar = lines.map(foldLine).join("\r\n") + "\r\n" + calendarEvents + "END:VCALENDAR\r\n";
@@ -98,19 +89,21 @@ export const eventTemplate = (e: icsEvent, s: semester) => {
     return eventDateTime;
   });
 
+  const semesterEndInclusive = new Date(s.end);
+  semesterEndInclusive.setHours(23, 59, 59, 0);
+
   const exDateLines =
     excludedDatesWithTime.length > 0
-      ? excludedDatesWithTime
-          .map((date) => `EXDATE;TZID=America/Santiago:${toICSDatetime(date)}`)
-          .join("\r\n")
+      ? excludedDatesWithTime.map((date) => `EXDATE:${toICSDatetime(date)}`).join("\r\n")
       : "";
 
   const lines = [
     "BEGIN:VEVENT",
-    `DTSTAMP:${toICSDatetime(new Date())}`,
-    `DTSTART;TZID=America/Santiago:${toICSDatetime(e.start)}`,
-    `DTEND;TZID=America/Santiago:${toICSDatetime(e.end)}`,
-    `RRULE:FREQ=WEEKLY;UNTIL=${toICSDatetime(s.end)};BYDAY=${e.day}`,
+    `DTSTAMP:${toICSUtcDatetime(new Date())}`,
+    // Export floating local times so calendar apps don't shift Chilean class hours by DST/tz parsing.
+    `DTSTART:${toICSDatetime(e.start)}`,
+    `DTEND:${toICSDatetime(e.end)}`,
+    `RRULE:FREQ=WEEKLY;UNTIL=${toICSDatetime(semesterEndInclusive)};BYDAY=${e.day}`,
     ...(exDateLines ? exDateLines.split("\r\n") : []),
     `UID:${event_id++}@buscaramos`,
     `DESCRIPTION:${e.description}`,

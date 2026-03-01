@@ -12,135 +12,78 @@ import {
 import { CourseStaticData } from "@/lib/coursesStaticData";
 import { useMemo } from "react";
 import { milestones } from "../../lib/milestones";
-import { isCurrentSemester } from "@/lib/currentSemester";
+import { useCurrentSemester } from "@/context/semesterCtx";
+
+/** Historial de cupos por timestamp: { [timestamp]: { agg: { total, disponibles, ocupados } } } */
+export type QuotaTimeline = Record<
+  string,
+  { agg: { total: number; disponibles: number; ocupados: number } }
+>;
 
 interface Props {
-  course: CourseStaticData;
+  course?: CourseStaticData;
+  /** Datos de cupos agregados para mostrar directamente (sin buscar semestre). */
+  quotaTimeline?: QuotaTimeline;
   className?: string;
 }
 
-// Función para formatear la fecha del timestamp
 function formatTimestamp(timestamp: string): string {
-  // Formato: "2025-11-01-15" -> "01 Nov 15:00"
   const parts = timestamp.split("-");
   if (parts.length !== 4) return timestamp;
-
-  const month = parts[1];
-  const day = parts[2];
-  const hour = parts[3];
-
   const monthNames = [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dic",
+    "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
   ];
-
-  const monthIndex = parseInt(month, 10) - 1;
-  const monthName = monthIndex >= 0 && monthIndex < 12 ? monthNames[monthIndex] : month;
-  const hourFormatted = hour.padStart(2, "0");
-
-  return `${day} ${monthName} ${hourFormatted}:00`;
+  const monthIndex = parseInt(parts[1], 10) - 1;
+  const monthName = monthIndex >= 0 && monthIndex < 12 ? monthNames[monthIndex] : parts[1];
+  return `${parts[2]} ${monthName} ${parts[3].padStart(2, "0")}:00`;
 }
 
-// Función para procesar los datos del historial de cupos
-function processQuotaHistory(quotaHistory: CourseStaticData["quota_history"]): Array<{
-  fecha: string;
-  ocupados: number;
-  total: number;
-  porcentaje: number;
-  timestamp: string;
-  milestone?: string;
-}> {
-  if (!quotaHistory) return [];
-
-  // Only use data from the current semester
-  const allData: Array<{
-    fecha: string;
-    ocupados: number;
-    total: number;
-    porcentaje: number;
-    timestamp: string;
-    semestre: string;
-  }> = [];
-
-  const semKeys = Object.keys(quotaHistory || {});
-  const currentSem = semKeys.find(isCurrentSemester);
-  if (!currentSem) return [];
-
-  const sections = (quotaHistory as any)[currentSem] as Record<string, any> | undefined;
-  if (!sections) return [];
-
-  // Iterar sobre cada timestamp/sección del semestre actual
-  Object.entries(sections).forEach(([timestamp, section]) => {
-    if (section && section.agg) {
-      const ocupados = section.agg.ocupados;
-      const total = section.agg.total;
-      const porcentaje = total && total > 0 ? (ocupados / total) * 100 : 0;
-
-      allData.push({
+function processTimeline(timeline: QuotaTimeline) {
+  return Object.entries(timeline)
+    .filter(([, entry]) => entry?.agg)
+    .map(([timestamp, entry]) => {
+      const { ocupados, total } = entry.agg;
+      const porcentaje = total > 0 ? (ocupados / total) * 100 : 0;
+      return {
         fecha: formatTimestamp(timestamp),
         ocupados,
         total,
-        timestamp: timestamp,
-        semestre: currentSem,
         porcentaje,
-      } as any);
-    }
-  });
-
-  // Ordenar por timestamp (fecha más antigua primero)
-  return allData
-    .sort((a, b) => a.timestamp.localeCompare(b.timestamp))
-    .map(({ fecha, ocupados, total, timestamp, porcentaje }) => ({
-      fecha,
-      ocupados,
-      total,
-      timestamp,
-      porcentaje,
-      milestone: milestones[timestamp as keyof typeof milestones],
-    }));
+        timestamp,
+        milestone: milestones[timestamp as keyof typeof milestones],
+      };
+    })
+    .sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 }
 
-export default function QuotaHistorySection({ course, className = "" }: Props) {
-  const quotaHistory = course.quota_history;
+export default function QuotaHistorySection({ course, quotaTimeline, className = "" }: Props) {
+  const currentSemester = useCurrentSemester();
 
-  const chartData = useMemo(() => {
-    return processQuotaHistory(quotaHistory);
-  }, [quotaHistory]);
+  // Resolve the timeline: prefer the direct prop, otherwise derive from course.quota_history
+  const resolvedTimeline = useMemo<QuotaTimeline>(() => {
+    if (quotaTimeline) return quotaTimeline;
+    if (!course?.quota_history) return {};
+    const semKey = Object.keys(course.quota_history).find((k) => k === currentSemester);
+    return semKey ? (course.quota_history[semKey] as QuotaTimeline) : {};
+  }, [quotaTimeline, course?.quota_history, currentSemester]);
 
-  const minOcupados = useMemo(() => {
-    if (chartData.length === 0) return 0;
-    return Math.min(...chartData.map((d) => d.ocupados));
-  }, [chartData]);
+  const chartData = useMemo(() => processTimeline(resolvedTimeline), [resolvedTimeline]);
 
-  const totalCupos = useMemo(() => {
-    if (chartData.length === 0) return 0;
-    return Math.max(...chartData.map((d) => d.total));
-  }, [chartData]);
+  const totalCupos = useMemo(
+    () => (chartData.length === 0 ? 0 : Math.max(...chartData.map((d) => d.total))),
+    [chartData]
+  );
 
-  // Obtener las fechas con milestones
-  const milestonesData = useMemo(() => {
-    return chartData
-      .filter((d) => d.milestone)
-      .map((d) => ({
-        fecha: d.fecha,
-        milestone: d.milestone!,
-      }));
-  }, [chartData]);
+  const milestonesData = useMemo(
+    () =>
+      chartData
+        .filter((d) => d.milestone)
+        .map((d) => ({ fecha: d.fecha, milestone: d.milestone! })),
+    [chartData]
+  );
 
-  // Use percentage scale (0-100) so a change is comparable across courses
-  const yAxisDomain = useMemo(() => {
-    return [0, 100];
-  }, []);
+  if (chartData.length === 0) return null;
 
   const chartConfig = {
     porcentaje: {
@@ -149,11 +92,6 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
     },
   } satisfies ChartConfig;
 
-  // No mostrar si no hay quota_history, no hay semestres, o no hay datos procesados
-  if (!quotaHistory || Object.keys(quotaHistory).length === 0 || chartData.length === 0) {
-    return null;
-  }
-
   return (
     <section className={`quota-history-section w-full ${className}`}>
       <div className="border-border w-full overflow-hidden rounded-md border">
@@ -161,11 +99,7 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
               <div className="bg-blue-light text-blue border-blue/20 flex-shrink-0 rounded-lg border p-2">
-                <svg
-                  className="h-5 w-5 fill-current"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
                 </svg>
               </div>
@@ -194,15 +128,7 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
                   </p>
                 </div>
                 <ChartContainer config={chartConfig} className="h-[300px] w-full">
-                  <AreaChart
-                    data={chartData}
-                    margin={{
-                      top: 20,
-                      right: 20,
-                      left: 0,
-                      bottom: 5,
-                    }}
-                  >
+                  <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
                     <defs>
                       <linearGradient id="colorOcupados" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="var(--color-porcentaje)" stopOpacity={0.3} />
@@ -225,7 +151,7 @@ export default function QuotaHistorySection({ course, className = "" }: Props) {
                       axisLine={false}
                       tickMargin={8}
                       tick={{ fontSize: 11 }}
-                      domain={yAxisDomain}
+                      domain={[0, 100]}
                       tickFormatter={(value: number) => `${Math.round(value)}%`}
                     />
                     <ChartTooltip
