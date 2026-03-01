@@ -34,7 +34,7 @@ export function useNDJSONStream<T = unknown>(url: string) {
             if (!line.trim()) continue;
             try {
               const json = JSON.parse(line) as T;
-              if (!abort) setData(prev => [...prev, json]);
+              if (!abort) setData((prev) => [...prev, json]);
             } catch {
               console.warn("Línea inválida NDJSON:", line);
             }
@@ -44,7 +44,7 @@ export function useNDJSONStream<T = unknown>(url: string) {
         if (buffer.trim()) {
           try {
             const json = JSON.parse(buffer) as T;
-            if (!abort) setData(prev => [...prev, json]);
+            if (!abort) setData((prev) => [...prev, json]);
           } catch {
             console.warn("Última línea inválida:", buffer);
           }

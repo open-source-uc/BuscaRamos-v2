@@ -1,75 +1,62 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getCloudflareContext } from "@opennextjs/cloudflare"
-import { CourseDB } from '@/types/types'
-import { R2PUBLIC } from '@/lib/binding'
-import { coursesStaticData } from '@/lib/coursesStaticData'
-export function createCoursesNDJSON_v1(
-	courses: CourseDB[], 
-): string {
-	let result = ''
-	let first = true
-	for (const course of courses) {
-		const data = coursesStaticData()[course.sigle]
-		if(!data) continue
-		if (!first) result += '\n'
-		result += JSON.stringify({ ...course, ...data })
-		first = false
-	}
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { NextRequest, NextResponse } from "next/server";
+import { R2PUBLIC } from "@/lib/binding";
+import { getCourseStaticData } from "@/lib/coursesStaticData";
+import { CourseDB } from "@/types/types";
 
-	return result
+async function createCoursesNDJSON_v1(courses: CourseDB[]): Promise<string> {
+  const lines = (
+    await Promise.all(
+      courses.map(async (course) => {
+        const data = await getCourseStaticData(course.sigle);
+        if (!data) return null;
+        return JSON.stringify({ ...course, ...data });
+      })
+    )
+  ).filter((line): line is string => line !== null);
+
+  return lines.join("\n");
 }
 
-
-
 export async function GET(request: NextRequest) {
-	const API_SECRET = process.env.API_SECRET
-	
-	if (!API_SECRET) {
-		return NextResponse.json(
-			{ error: 'Internal Server Error: API_SECRET' },
-			{ status: 500 }
-		)
-	}
+  const API_SECRET = process.env.API_SECRET;
 
-	const authHeader = request.headers.get('Authorization')
+  if (!API_SECRET) {
+    return NextResponse.json({ error: "Internal Server Error: API_SECRET" }, { status: 500 });
+  }
 
-	if (!authHeader || authHeader !== `Bearer ${API_SECRET}`) {
-		return NextResponse.json(
-			{ error: 'Unauthorized' },
-			{ status: 401 }
-		)
-	}
+  const authHeader = request.headers.get("Authorization");
 
-	try {
-		const courses = await getCourseSummaries()
-		const ndjson = createCoursesNDJSON_v1(courses)
+  if (!authHeader || authHeader !== `Bearer ${API_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-		await R2PUBLIC().put("courses-score.ndjson", ndjson, {
-			httpMetadata: {
-				contentType: 'application/x-ndjson; charset=utf-8',
-			}
-		})
-		
+  try {
+    const courses = await getCourseSummaries();
+    const ndjson = await createCoursesNDJSON_v1(courses);
 
-		return new Response("Updated", {
-			status: 200,
-			headers: {
-				'Content-Type': 'application/x-ndjson; charset=utf-8',
-			},
-		})
-	} catch (error) {
-		console.error('Error in GET handler:', error)
-		return NextResponse.json(
-			{ error: 'Internal Server Error' },
-			{ status: 500 }
-		)
-	}
+    await R2PUBLIC().put("courses-score.ndjson", ndjson, {
+      httpMetadata: {
+        contentType: "application/x-ndjson; charset=utf-8",
+      },
+    });
+
+    return new Response("Updated", {
+      status: 200,
+      headers: {
+        "Content-Type": "application/x-ndjson; charset=utf-8",
+      },
+    });
+  } catch (error) {
+    console.error("Error in GET handler:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }
 
 async function getCourseSummaries(): Promise<CourseDB[]> {
-	const DB = getCloudflareContext().env.DB
-    const result = await DB.prepare(
-        `
+  const DB = getCloudflareContext().env.DB;
+  const result = await DB.prepare(
+    `
         SELECT 
         id,
         sigle,
@@ -85,7 +72,7 @@ async function getCourseSummaries(): Promise<CourseDB[]> {
         sort_index
         FROM course_summary ORDER BY sort_index DESC, id
     `
-    ).all<CourseDB>()
+  ).all<CourseDB>();
 
-    return result.results
+  return result.results;
 }

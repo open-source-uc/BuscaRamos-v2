@@ -27,10 +27,13 @@ let fuse: Fuse<any> | null = null;
 
 function handleInit<T>(msg: InitMsg<T>) {
   const { data, keys, options } = msg;
-  fuse = new Fuse(data as any[], {
-    keys: keys as any,
-    ...(options || {}),
-  } as any);
+  fuse = new Fuse(
+    data as any[],
+    {
+      keys: keys as any,
+      ...(options || {}),
+    } as any
+  );
 }
 
 function handleSearch<T>(msg: SearchMsg) {
@@ -61,5 +64,3 @@ self.addEventListener("message", (event: MessageEvent<InboundMessage<any>>) => {
 });
 
 export {};
-
-

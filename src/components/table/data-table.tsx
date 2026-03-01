@@ -33,6 +33,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
   const [selectedCampus, setSelectedCampus] = useState<string>("all");
   const [selectedFormat, setSelectedFormat] = useState<string>("all");
   const [selectedSemester, setSelectedSemester] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [showRetirableOnly, setShowRetirableOnly] = useState(false);
   const [showEnglishOnly, setShowEnglishOnly] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -48,9 +49,16 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
 
     // Apply category filters first
     if (selectedArea === "formacion-general") {
-      filtered = filtered.filter((course) => course.area && course.area !== "Ninguna");
+      filtered = filtered.filter(
+        (course) =>
+          Array.isArray(course.area) &&
+          course.area.length > 0 &&
+          course.area.some((a) => a.trim() !== "" && a !== "Ninguna")
+      );
     } else if (selectedArea !== "all") {
-      filtered = filtered.filter((course) => course.area === selectedArea);
+      filtered = filtered.filter(
+        (course) => Array.isArray(course.area) && course.area.includes(selectedArea)
+      );
     }
 
     if (selectedCampus !== "all") {
@@ -82,15 +90,23 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
 
     if (showEnglishOnly) {
       filtered = filtered.filter((course) => {
-        if (Array.isArray(course.is_english)) {
-          return course.is_english.some((isEnglish) => isEnglish === true);
-        }
-        return course.is_english === true;
+        // CourseScore.is_english is always an array at course level
+        const englishArray = course.is_english || [];
+        return Array.isArray(englishArray) && englishArray.some((isEnglish) => isEnglish === true);
       });
     }
 
     if (selectedSemester !== "all") {
       filtered = filtered.filter((course) => course.last_semester === selectedSemester);
+    }
+
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter((course) => {
+        if (Array.isArray(course.categories)) {
+          return course.categories.includes(selectedCategory);
+        }
+        return false;
+      });
     }
 
     return filtered;
@@ -101,6 +117,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     selectedSchool,
     selectedFormat,
     selectedSemester,
+    selectedCategory,
     showRetirableOnly,
     showEnglishOnly,
   ]);
@@ -172,6 +189,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
             selectedSemester={selectedSemester}
             showRetirableOnly={showRetirableOnly}
             showEnglishOnly={showEnglishOnly}
+            selectedCategory={selectedCategory}
             filtersOpen={filtersOpen}
             onAreaChange={setSelectedArea}
             onSchoolChange={setSelectedSchool}
@@ -181,6 +199,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
             onRetirableToggle={setShowRetirableOnly}
             onEnglishToggle={setShowEnglishOnly}
             onFiltersOpenChange={setFiltersOpen}
+            onCategoryChange={setSelectedCategory}
             onClearFilters={handleClearFilters}
           />
         </div>
@@ -189,7 +208,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       {/* Course Filters Section */}
 
       {/* Tables Section */}
-      <div className="w-full">
+      <div className="w-full flex justify-center">
         <DesktopTable table={table} />
         <MovilTable table={table} />
       </div>

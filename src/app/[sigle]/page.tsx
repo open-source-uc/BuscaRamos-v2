@@ -1,6 +1,12 @@
 import { getCourseReviews } from "../../actions/reviews";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
-import { getCourseStats, getPrerequisitesWithNames } from "@/lib/courses";
+import {
+  getCourseStats,
+  getPrerequisitesWithNamesFromStructure,
+  getRestrictionsFromStructure,
+  getEquivalentsWithNames,
+  getUnlocksWithNames,
+} from "@/lib/courses";
 import {
   calculatePositivePercentage,
   calculateSentiment,
@@ -10,14 +16,17 @@ import {
   getWorkloadLabel,
 } from "@/lib/courseStats";
 import PrerequisitesSection from "@/components/courses/PrerequisitesSection";
+import EquivCourses from "@/components/courses/EquivCourses";
 import Review from "@/components/reviews/Review";
 import CourseInformation from "@/components/ui/CourseInformation";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 import type { Metadata } from "next";
-import { courseDescriptions, coursesStaticData } from "@/lib/coursesStaticData";
+import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { notFound } from "next/navigation";
 import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
+import QuotaHistorySection from "@/components/courses/QuotaHistorySection";
+import OpensCoursesSection from "@/components/courses/OpensCoursesSections";
 
 export async function generateMetadata({
   params,
@@ -25,7 +34,7 @@ export async function generateMetadata({
   params: Promise<{ sigle: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
-  const course = coursesStaticData()[resolvedParams.sigle];
+  const course = await getCourseStaticData(resolvedParams.sigle);
 
   if (!course) {
     return {
@@ -42,8 +51,7 @@ export async function generateMetadata({
   const totalReviews = stats ? stats.likes + stats.superlikes + stats.dislikes : 0;
 
   const title = `${course.sigle} - ${course.name} | BuscaRamos`;
-  const coursesDescription = courseDescriptions()[course.sigle];
-  const description = `${course.name} (${course.sigle}) - ${coursesDescription ? coursesDescription.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
+  const description = `${course.name} (${course.sigle}) - ${course.description ? course.description.substring(0, 120) + "..." : "Información del curso"} | ${totalReviews} reseñas de estudiantes | ${positivePercentage}% recomendación`;
 
   return {
     title,
@@ -90,7 +98,8 @@ export async function generateMetadata({
 
 export default async function CatalogPage({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
-  const course = coursesStaticData()[resolvedParams.sigle];
+  const course = await getCourseStaticData(resolvedParams.sigle);
+  const unlocks = course?.parsed_meta_data.unlocks || { as_prerequisite: [], as_corequisite: [] };
 
   if (!course) {
     notFound();
@@ -110,8 +119,14 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
     : "Sin datos";
   const weeklyHoursLabel = c ? formatWeeklyHours(c.avg_weekly_hours) : "Sin datos";
   const totalReviews = c ? c.likes + c.superlikes + c.dislikes : 0;
-  const prerequisites = await getPrerequisitesWithNames(course.req);
-
+  const prerequisites = await getPrerequisitesWithNamesFromStructure(
+    course.parsed_meta_data.prerequisites
+  );
+  const restrictions = await getRestrictionsFromStructure(course.parsed_meta_data.restrictions);
+  const equivalents = await getEquivalentsWithNames(course.parsed_meta_data.equivalences);
+  const unlocksWithNames = await getUnlocksWithNames(
+    unlocks as { as_prerequisite: string[]; as_corequisite: string[] }
+  );
   const userVotes = await getVotesOnReviewsInCourseByUserID(course.sigle);
 
   return (
@@ -119,7 +134,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
       {/* Información del curso */}
       <CourseInformation
         course={course}
-        description={courseDescriptions()[course.sigle]}
+        description={course.description || undefined}
         information
       />
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
@@ -186,11 +201,16 @@ export default async function CatalogPage({ params }: { params: Promise<{ sigle:
           )}
         </div>
       </section>
-      <PrerequisitesSection prerequisites={prerequisites} className="mt-8" />
-      <SectionsCollapsible
+      <PrerequisitesSection
+        prerequisites={prerequisites}
+        restrictions={restrictions.hasRestrictions ? restrictions : undefined}
+        connector={course.parsed_meta_data.connector}
         className="mt-8"
-        courseSigle={course.sigle}
       />
+      <OpensCoursesSection unlocks={unlocksWithNames} className="mt-8" />
+      <EquivCourses equivalents={equivalents} className="mt-8" />
+      <SectionsCollapsible className="mt-8" courseSigle={course.sigle} />
+      <QuotaHistorySection course={course} className="mt-8" />
       <section>
         <div className="space-y-6">
           {/* 👇 Título + botón alineados con flex */}

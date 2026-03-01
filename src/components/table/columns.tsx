@@ -12,6 +12,7 @@ import { CourseScore } from "@/types/types";
 export const columns: ColumnDef<CourseScore>[] = [
   {
     accessorKey: "sigle",
+    meta: { className: "w-[8%]" },
     header: ({ column }) => {
       return (
         <Button
@@ -25,11 +26,12 @@ export const columns: ColumnDef<CourseScore>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div>{row.original.sigle}</div>;
+      return <div className="truncate">{row.original.sigle}</div>;
     },
   },
   {
     accessorKey: "name",
+    meta: { className: "w-[30%]" },
     header: ({ column }) => {
       return (
         <Button
@@ -43,11 +45,19 @@ export const columns: ColumnDef<CourseScore>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="max-w-[200px] font-medium text-wrap">{row.original.name}</div>;
+      return (
+        <div
+          className="font-medium truncate overflow-hidden text-ellipsis whitespace-nowrap"
+          title={row.original.name}
+        >
+          {row.original.name}
+        </div>
+      );
     },
   },
   {
     accessorKey: "credits",
+    meta: { className: "w-[6%]" },
     header: ({ column }) => {
       return (
         <Button
@@ -61,11 +71,12 @@ export const columns: ColumnDef<CourseScore>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div>{row.original.credits}</div>;
+      return <div className="text-center">{row.original.credits}</div>;
     },
   },
   {
     accessorKey: "campus",
+    meta: { className: "w-[20%]" },
     header: ({ column }) => {
       return (
         <Button
@@ -89,6 +100,7 @@ export const columns: ColumnDef<CourseScore>[] = [
   },
   {
     accessorKey: "area",
+    meta: { className: "w-[18%]" },
     header: ({ column }) => {
       return (
         <Button
@@ -102,13 +114,21 @@ export const columns: ColumnDef<CourseScore>[] = [
       );
     },
     cell: ({ row }) => {
-      if (row.original.area !== "") {
-        return <Pill variant="pink">{row.original.area}</Pill>;
+      const area = row.original.area;
+      if (
+        Array.isArray(area) &&
+        area.length > 0 &&
+        area.some((a) => a && String(a).trim() !== "")
+      ) {
+        const validAreas = area.filter((a) => a && String(a).trim() !== "");
+        return <Pill variant="pink">{validAreas.join(", ")}</Pill>;
       }
+      return null;
     },
   },
   {
     accessorKey: "reviews",
+    meta: { className: "w-[18%]" },
     header: ({ column }) => {
       return (
         <Button

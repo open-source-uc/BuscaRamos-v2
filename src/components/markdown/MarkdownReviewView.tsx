@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ComponentProps } from "react";
 
 import { Pill } from "@/components/ui/pill";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 import ReactMarkdown from "react-markdown";
+
+type PillVariant = ComponentProps<typeof Pill>["variant"];
+type PillSize = ComponentProps<typeof Pill>["size"];
 
 export function MarkdownReviewView({
   path,
@@ -46,15 +50,15 @@ export function MarkdownReviewView({
         rehypePlugins={[rehypeRaw]}
         remarkPlugins={[remarkGfm, remarkBreaks]}
         components={{
-          pill: ({ node, children }) => {
+          pill: ({ node, children }: any) => {
             const props = node?.properties ?? {};
             return (
-              <Pill variant={props.variant as string} size={props.size as string}>
+              <Pill variant={props.variant as PillVariant} size={props.size as PillSize}>
                 {children}
               </Pill>
             );
           },
-          img: ({ node }) => {
+          img: ({ node }: any) => {
             if (!imgAllow) return null;
             const { src, alt, title } = node?.properties || {};
             return (
@@ -66,7 +70,7 @@ export function MarkdownReviewView({
               />
             );
           },
-        }}
+        } as any}
       >
         {text}
       </ReactMarkdown>

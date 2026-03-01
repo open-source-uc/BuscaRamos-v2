@@ -2,7 +2,9 @@
  * Semestre actual
  * Se debe actualizar al inicio de cada semestre
  */
-export const CURRENT_SEMESTER = '2025-2'
+import type { CourseSection } from "../types/types";
+
+export const CURRENT_SEMESTER = "2025-2";
 
 /**
  * Chequea si el semestre dado es el semestre actual
@@ -10,7 +12,7 @@ export const CURRENT_SEMESTER = '2025-2'
  * @returns verdadero si es el semestre actual, falso en caso contrario
  */
 export function isCurrentSemester(semester: string): boolean {
-			return semester === CURRENT_SEMESTER
+  return semester === CURRENT_SEMESTER;
 }
 
 /**
@@ -19,7 +21,36 @@ export function isCurrentSemester(semester: string): boolean {
  * @returns "Actualmente dado en" si es el semestre actual, "Previamente dado en" si es un semestre pasado
  */
 export function getCampusPrefix(lastSemester: string): string {
-	return isCurrentSemester(lastSemester) ? 'Actualmente ofrecido en' : 'Previamente ofrecido en'
+  return isCurrentSemester(lastSemester) ? "Actualmente ofrecido en" : "Previamente ofrecido en";
+}
+
+/**
+ * Devuelve el mapa de secciones para un semestre dado dentro de la estructura NDJSON.
+ *
+ * @param sections - Objeto con semestres como claves y dentro mapas de secciones:
+ * {
+ *   "2025-2": { "1": {...}, "2": {...} },
+ *   "2025-1": { "1": {...} }
+ * }
+ * @param semester - Semestre objetivo en formato "YYYY-N"
+ * @returns el mapa de secciones para `semester` (ej. { "1": {...}, "2": {...} }) o {} si no existe
+ */
+export function getSectionsForSemester(
+  sections: Record<string, Record<string, CourseSection>> | undefined,
+  semester: string
+): Record<string, CourseSection> {
+  if (!sections) return {};
+
+  return sections[semester] ?? {};
+}
+
+/**
+ * Wrapper conveniente que devuelve las secciones del semestre actual.
+ */
+export function getSectionsForCurrentSemester(
+  sections: Record<string, Record<string, any>> | undefined
+): Record<string, any> {
+  return getSectionsForSemester(sections, CURRENT_SEMESTER);
 }
 
 /**
@@ -28,11 +59,11 @@ export function getCampusPrefix(lastSemester: string): string {
  * @returns objeto con year (número) y semesterNumber (número)
  */
 export function parseSemester(semester: string): { year: number; semesterNumber: number } {
-	const [yearStr, semesterStr] = semester.split('-')
-	return {
-		year: parseInt(yearStr, 10),
-		semesterNumber: parseInt(semesterStr, 10),
-	}
+  const [yearStr, semesterStr] = semester.split("-");
+  return {
+    year: parseInt(yearStr, 10),
+    semesterNumber: parseInt(semesterStr, 10),
+  };
 }
 
 /**
@@ -42,7 +73,7 @@ export function parseSemester(semester: string): { year: number; semesterNumber:
  * @returns semestre en formato "YYYY-N"
  */
 export function formatSemester(year: number, semesterNumber: number): string {
-	return `${year}-${semesterNumber}`
+  return `${year}-${semesterNumber}`;
 }
 
 /**
@@ -52,19 +83,19 @@ export function formatSemester(year: number, semesterNumber: number): string {
  * @returns true si la combinación está en el futuro, false en caso contrario
  */
 export function isFutureSemester(year: number, semesterNumber: number): boolean {
-	const current = parseSemester(CURRENT_SEMESTER)
+  const current = parseSemester(CURRENT_SEMESTER);
 
-	// Si el año es mayor al actual, es futuro
-	if (year > current.year) {
-		return true
-	}
+  // Si el año es mayor al actual, es futuro
+  if (year > current.year) {
+    return true;
+  }
 
-	// Si es el mismo año, comparar semestres
-	if (year === current.year && semesterNumber > current.semesterNumber) {
-		return true
-	}
+  // Si es el mismo año, comparar semestres
+  if (year === current.year && semesterNumber > current.semesterNumber) {
+    return true;
+  }
 
-	return false
+  return false;
 }
 
 /**
@@ -72,7 +103,7 @@ export function isFutureSemester(year: number, semesterNumber: number): boolean 
  * @returns año actual
  */
 export function getMaxAllowedYear(): number {
-	return parseSemester(CURRENT_SEMESTER).year
+  return parseSemester(CURRENT_SEMESTER).year;
 }
 
 /**
@@ -81,23 +112,22 @@ export function getMaxAllowedYear(): number {
  * @returns array de números de semestre permitidos
  */
 export function getAllowedSemestersForYear(year: number): number[] {
-	const current = parseSemester(CURRENT_SEMESTER)
+  const current = parseSemester(CURRENT_SEMESTER);
 
-	// Si es un año anterior al actual, permitir todos los semestres
-	if (year < current.year) {
-		return [1, 2, 3]
-	}
+  // Si es un año anterior al actual, permitir todos los semestres
+  if (year < current.year) {
+    return [1, 2, 3];
+  }
 
-	// Si es el año actual, solo permitir semestres hasta el actual
-	if (year === current.year) {
-		const allowedSemesters = []
-		for (let i = 1; i <= current.semesterNumber; i++) {
-			allowedSemesters.push(i)
-		}
-		return allowedSemesters
-	}
+  // Si es el año actual, solo permitir semestres hasta el actual
+  if (year === current.year) {
+    const allowedSemesters = [];
+    for (let i = 1; i <= current.semesterNumber; i++) {
+      allowedSemesters.push(i);
+    }
+    return allowedSemesters;
+  }
 
-	// Si es un año futuro, no permitir ningún semestre
-	return []
+  // Si es un año futuro, no permitir ningún semestre
+  return [];
 }
-

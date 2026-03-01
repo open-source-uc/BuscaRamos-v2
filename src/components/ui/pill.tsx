@@ -12,18 +12,21 @@ const pillVariants = cva("inline-flex items-center rounded-lg border font-medium
       purple: "bg-purple-light text-purple border-purple/20",
       orange: "bg-orange-light text-orange border-orange/20",
       red: "bg-red-light text-red border-red/20",
+      yellow: "bg-yellow-200 text-yellow-800 border-yellow-300",
       ghost_blue: "bg-transparent text-muted-foreground border-border",
       ghost_pink: "bg-transparent text-muted-foreground border-border",
       ghost_green: "bg-transparent text-muted-foreground border-border",
       ghost_purple: "bg-transparent text-muted-foreground border-border",
       ghost_orange: "bg-transparent text-muted-foreground border-border",
       ghost_red: "bg-transparent text-muted-foreground border-border",
+      ghost_yellow: "bg-transparent text-yellow-600 border-yellow-400",
       schedule_blue: "bg-primary-foreground text-primary border-primary/20 rounded-sm",
       schedule_pink: "bg-pink-light text-pink border-pink/20 rounded-sm",
       schedule_green: "bg-green-light text-green border-green/20 rounded-sm",
       schedule_purple: "bg-purple-light text-purple border-purple/20 rounded-sm",
       schedule_orange: "bg-orange-light text-orange border-orange/20 rounded-sm",
       schedule_red: "bg-red-light text-red border-red/20 rounded-sm",
+      schedule_yellow: "bg-yellow-100 text-yellow-700 border-yellow-300 rounded-sm",
     },
     size: {
       xs: "gap-1 px-2 py-0.5 text-xs",
@@ -48,7 +51,15 @@ export interface PillProps
 const Pill = React.forwardRef<HTMLDivElement, PillProps>(
   ({ className, variant, size, icon: Icon, children, ...props }, ref) => {
     const iconSize =
-      size === "sm" ? "h-3 w-3" : size === "lg" ? "h-5 w-5" : size === "xl" ? "h-6 w-6" : "h-4 w-4";
+      size === "xs"
+        ? "h-3 w-3 min-w-[0.75rem] min-h-[0.75rem]"
+        : size === "sm"
+          ? "h-3 w-3 min-w-[0.75rem] min-h-[0.75rem]"
+          : size === "lg"
+            ? "h-5 w-5 min-w-[1.25rem] min-h-[1.25rem]"
+            : size === "xl"
+              ? "h-6 w-6 min-w-[1.5rem] min-h-[1.5rem]"
+              : "h-4 w-4 min-w-[1rem] min-h-[1rem]";
 
     // Determine icon color for ghost variants
     const getIconColor = () => {
@@ -74,7 +85,7 @@ const Pill = React.forwardRef<HTMLDivElement, PillProps>(
 
     return (
       <div className={cn(pillVariants({ variant, size, className }))} ref={ref} {...props}>
-        {Icon && <Icon className={`${iconSize} ${getIconColor()}`} />}
+        {Icon && <Icon className={`${iconSize} ${getIconColor()} flex-shrink-0`} />}
         {children}
       </div>
     );

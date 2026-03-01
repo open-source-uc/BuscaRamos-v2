@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "@/styles/global.css";
 import HeaderPage from "@/components/header/HeaderPage";
 import { AuthProvider } from "@/context/authCtx";
@@ -70,12 +71,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-CL">
+      <head>
+        <Script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "7874d2302e154e14ab08e25ea85909f9"}'
+        />
+      </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
         <AuthProvider>
           <HeaderPage />
           {children}
           <Toaster
-            position="top-center" // Cambié a top-center para arriba al medio
+            position="top-center"
             expand={true}
             richColors={true}
             closeButton={true}
