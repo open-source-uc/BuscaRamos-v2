@@ -46,7 +46,7 @@ next-env.d.ts
 !.dev.vars.example
 !.env.example
 
-**/.backup.sql
+**/.backup*.sql
 
 .cursor
 .cursor/
