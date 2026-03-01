@@ -4,7 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "buscaramos-v2",
+  "name": "buscaramos-v2-worker",
   "compatibility_date": "2026-03-01",
   "compatibility_flags": ["nodejs_compat"],
   "main": ".open-next/worker.js",
