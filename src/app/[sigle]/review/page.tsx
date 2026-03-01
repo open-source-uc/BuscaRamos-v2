@@ -6,8 +6,6 @@ import { getReviewBySigleAndUserId, getReviewContent } from "@/lib/reviews";
 import { CourseReview } from "@/types/types";
 import { notFound } from "next/navigation";
 
-export const runtime = "edge";
-
 export default async function WriteReview({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
   const course = coursesStaticData()[resolvedParams.sigle];

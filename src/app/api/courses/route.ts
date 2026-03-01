@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getRequestContext } from '@cloudflare/next-on-pages'
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 import { CourseDB } from '@/types/types'
 import { R2PUBLIC } from '@/lib/binding'
 import { coursesStaticData } from '@/lib/coursesStaticData'
-export const runtime = 'edge'
-
 export function createCoursesNDJSON_v1(
 	courses: CourseDB[], 
 ): string {
@@ -69,7 +67,7 @@ export async function GET(request: NextRequest) {
 }
 
 async function getCourseSummaries(): Promise<CourseDB[]> {
-	const DB = getRequestContext().env.DB
+	const DB = getCloudflareContext().env.DB
     const result = await DB.prepare(
         `
         SELECT 

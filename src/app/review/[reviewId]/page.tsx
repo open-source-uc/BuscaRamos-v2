@@ -7,8 +7,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import z from "zod";
 
-export const runtime = "edge";
-
 const paramsSchema = z.object({
   reviewId: z
     .string() // primero es string (viene de la URL)

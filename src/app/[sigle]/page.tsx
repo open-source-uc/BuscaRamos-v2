@@ -19,8 +19,6 @@ import { courseDescriptions, coursesStaticData } from "@/lib/coursesStaticData";
 import { notFound } from "next/navigation";
 import SectionsCollapsible from "@/components/courses/schedules/SectionsCollapsible";
 
-export const runtime = "edge";
-
 export async function generateMetadata({
   params,
 }: {

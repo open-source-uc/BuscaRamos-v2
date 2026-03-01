@@ -1,11 +1,11 @@
 "use server"
 
-import { getRequestContext } from "@cloudflare/next-on-pages"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 import { parsePrerequisites, PrerequisiteGroup } from "./courseReq"
 import { CourseDB } from "@/types/types"
 import {coursesStaticData} from "./coursesStaticData"
 
-const DB = () => getRequestContext().env.DB
+const DB = () => getCloudflareContext().env.DB
 
 export async function isCourseExisting(sigle: string) {
     const result = await DB().prepare(

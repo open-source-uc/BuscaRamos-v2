@@ -5,14 +5,18 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "buscaramos-v2",
-	"compatibility_date": "2025-09-06",
+	"compatibility_date": "2026-03-01",
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
-	"pages_build_output_dir": ".vercel/output/static",
+	"main": ".open-next/worker.js",
 	"observability": {
 		"enabled": true
 	},
+	"assets": {
+    	"directory": ".open-next/assets",
+    	"binding": "ASSETS"
+  	},
 	"d1_databases": [
 		{
 			"binding": "DB",

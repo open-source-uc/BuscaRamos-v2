@@ -1,8 +1,6 @@
 import { UsersIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Pill } from "@/components/ui/pill";
-export const runtime = "edge";
-
 export default async function AdminPage() {
   // Aqui no hay proteccion de login pues esta en el middleware
   return (

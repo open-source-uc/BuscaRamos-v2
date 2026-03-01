@@ -44,5 +44,3 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
     </main>
   );
 }
-
-export const runtime = "edge";

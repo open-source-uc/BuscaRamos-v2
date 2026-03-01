@@ -1,5 +1,5 @@
-import json1 from "@/../data/courses-simplified.json" assert { type: "json" };
-import json2 from "@/../data/courses-descriptions.json" assert { type: "json" };
+import json1 from "@/../data/courses-simplified.json" 
+import json2 from "@/../data/courses-descriptions.json"
 
 export interface CourseStaticData {
   sigle: string;

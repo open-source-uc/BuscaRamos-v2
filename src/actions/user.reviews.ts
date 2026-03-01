@@ -5,10 +5,10 @@ import { hasPermission, OsucPermissions } from "@/lib/auth/permissions"
 import { isCourseExisting } from "@/lib/courses"
 import { isFutureSemester } from "@/lib/currentSemester"
 import * as reviews from "@/lib/reviews"
-import { getRequestContext } from "@cloudflare/next-on-pages"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 import z from "zod"
 
-const R2 = () => getRequestContext().env.R2
+const R2 = () => getCloudflareContext().env.R2
 
 const courseReviewSchema = z.object({
 	course_sigle: z

@@ -1,6 +1,4 @@
-export const runtime = 'edge'
-
-import { getRequestContext } from '@cloudflare/next-on-pages'
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 import type { NextRequest } from 'next/server'
 
 export const GET = async (req: NextRequest) => {
@@ -15,7 +13,7 @@ export const GET = async (req: NextRequest) => {
 		return new Response("Bad Request: Missing 'path' parameter", { status: 400 })
 	}
 
-	const R2 = getRequestContext().env.R2
+	const R2 = getCloudflareContext().env.R2
 	const head = await R2.head(key)
 
 	if (!head) {

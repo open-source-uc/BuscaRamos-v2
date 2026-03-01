@@ -1,8 +1,6 @@
 import CoursesTable from "@/components/CoursesTable";
 import type { Metadata } from "next";
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: "BuscaRamos - Catálogo Cursos",
   description:

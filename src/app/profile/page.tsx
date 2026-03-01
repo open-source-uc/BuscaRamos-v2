@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import Review from "@/components/reviews/Review";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";

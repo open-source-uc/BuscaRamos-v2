@@ -1,10 +1,10 @@
 "use server"
 
 import { CourseReview } from "@/types/types"
-import { getRequestContext } from "@cloudflare/next-on-pages"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 
-const DB = () => getRequestContext().env.DB
-const R2 = () => getRequestContext().env.R2
+const DB = () => getCloudflareContext().env.DB
+const R2 = () => getCloudflareContext().env.R2
 
 async function simpleRandomHash() {
     const randomData = crypto.getRandomValues(new Uint8Array(32));

@@ -6,8 +6,6 @@ import { Pill } from "@/components/ui/pill";
 import { coursesStaticData } from "@/lib/coursesStaticData";
 import { getReviewsByStatus } from "@/lib/reviews";
 
-export const runtime = "edge";
-
 export default async function PendingPage() {
   const reviews = await getReviewsByStatus(3, 100);
   return (
