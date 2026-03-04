@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
 import useSWR from "swr";
 import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import {
@@ -131,12 +131,58 @@ function ScheduleGrid({
   const conflicts = detectScheduleConflicts(matrix);
   const hasConflicts = conflicts.length > 0;
   const gridColumns =
-    "grid-cols-[52px_repeat(6,minmax(0,1fr))] tablet:grid-cols-[74px_repeat(6,minmax(0,1fr))]";
+    "grid-cols-[56px_repeat(6,96px)] tablet:grid-cols-[74px_repeat(6,minmax(110px,1fr))]";
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [mobileScale, setMobileScale] = useState(1);
+  const [scaledHeight, setScaledHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const content = contentRef.current;
+
+    if (!container || !content) return;
+
+    const measureScale = () => {
+      if (window.innerWidth >= 768) {
+        setMobileScale(1);
+        setScaledHeight(null);
+        return;
+      }
+
+      const containerWidth = container.clientWidth;
+      const contentWidth = content.scrollWidth;
+      const contentHeight = content.scrollHeight;
+
+      if (!containerWidth || !contentWidth || !contentHeight) return;
+
+      const nextScale = Math.min(1, containerWidth / contentWidth);
+      setMobileScale(nextScale);
+      setScaledHeight(contentHeight * nextScale);
+    };
+
+    measureScale();
+
+    const resizeObserver = new ResizeObserver(measureScale);
+    resizeObserver.observe(container);
+    resizeObserver.observe(content);
+    window.addEventListener("resize", measureScale);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", measureScale);
+    };
+  }, [matrix]);
 
   return (
     <div className="bg-background border-border overflow-hidden rounded-lg border">
-      <div className="overflow-x-auto">
-        <div className="min-w-0">
+      <div ref={containerRef} className="overflow-hidden tablet:overflow-x-auto">
+        <div style={scaledHeight ? { height: `${scaledHeight}px` } : undefined}>
+          <div
+            ref={contentRef}
+            className="min-w-[632px] origin-top-left tablet:min-w-0"
+            style={mobileScale < 1 ? { transform: `scale(${mobileScale})` } : undefined}
+          >
           {/* Header */}
           <div className={cn("bg-accent border-border grid border-b", gridColumns)}>
             <div className="text-accent-foreground px-2 py-2 text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
@@ -203,14 +249,14 @@ function ScheduleGrid({
                                 size="xs"
                                 className="bg-muted border-border text-muted-foreground line-through decoration-muted-foreground/60 tablet:text-[11px] w-full min-w-0 justify-center px-1 py-0.5 text-[9px] opacity-60"
                               >
-                                <div className="text-center leading-tight">
+                                <div className="min-w-0 text-center leading-tight">
                                   <div className="font-medium tracking-tight">
                                     {classInfo.courseId}-{classInfo.section}
                                   </div>
                                   <div className="tablet:text-[10px] text-[8px] opacity-80">
                                     {getClassTypeLong(classInfo.type)}
                                   </div>
-                                  <div className="tablet:text-[10px] break-words text-[8px] opacity-80">
+                                  <div className="tablet:text-[10px] text-[8px] opacity-80">
                                     {scheduleLocation}
                                   </div>
                                 </div>
@@ -234,14 +280,14 @@ function ScheduleGrid({
                               size="xs"
                               className="tablet:text-[11px] w-full min-w-0 justify-center px-1 py-0.5 text-[9px]"
                             >
-                              <div className="text-center leading-tight">
+                              <div className="min-w-0 text-center leading-tight">
                                 <div className="font-medium tracking-tight">
                                   {classInfo.courseId}-{classInfo.section}
                                 </div>
                                 <div className="tablet:text-[10px] text-[8px] opacity-80">
                                   {getClassTypeLong(classInfo.type)}
                                 </div>
-                                <div className="tablet:text-[10px] break-words text-[8px] opacity-80">
+                                <div className="tablet:text-[10px] text-[8px] opacity-80">
                                   {scheduleLocation}
                                 </div>
                               </div>
@@ -265,6 +311,7 @@ function ScheduleGrid({
               )}
             </div>
           ))}
+          </div>
         </div>
       </div>
 

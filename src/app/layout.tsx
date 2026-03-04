@@ -4,6 +4,7 @@ import "@/styles/global.css";
 import HeaderPage from "@/components/header/HeaderPage";
 import FloatingNavButton from "@/components/FloatingNavButton";
 import { AuthProvider } from "@/context/authCtx";
+import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
 
@@ -77,18 +78,20 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
         <SemesterProvider>
-          <AuthProvider>
-            <HeaderPage />
-            {children}
-            <Toaster
-              position="top-center"
-              expand={true}
-              richColors={true}
-              closeButton={true}
-              duration={4000}
-            />
-            <FloatingNavButton />
-          </AuthProvider>
+          <CourseNameMapProvider>
+            <AuthProvider>
+              <HeaderPage />
+              {children}
+              <Toaster
+                position="top-center"
+                expand={true}
+                richColors={true}
+                closeButton={true}
+                duration={4000}
+              />
+              <FloatingNavButton />
+            </AuthProvider>
+          </CourseNameMapProvider>
         </SemesterProvider>
       </body>
     </html>
