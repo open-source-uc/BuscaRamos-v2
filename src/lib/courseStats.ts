@@ -57,7 +57,8 @@ export function getAttendanceLabel(mandatory: number, optional: number, none: nu
   return "No requiere";
 }
 
-export function formatWeeklyHours(hours: number): string {
+export function formatWeeklyHours(hours: number | null): string {
+  if (hours === null) return "Sin datos";
   if (hours === 0) return "Sin datos";
   if (hours < 1) return "< 1 hora";
   if (hours === 1) return "1 hora";

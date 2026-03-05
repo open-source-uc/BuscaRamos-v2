@@ -1,20 +1,24 @@
 import { DocsIcon, ChevronDownIcon, TextureIcon, DeceasedIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ParsedPrerequisites, PrerequisiteGroup } from "@/lib/courseReq";
-import { ParsedRestrictions } from "@/lib/courseRestrictions";
+import type { CourseStaticData } from "@/lib/coursesStaticData";
 import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
 import { RestrictionsDisplay } from "./RestrictionsDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
 
+type ApiPrerequisiteGroup = NonNullable<CourseStaticData["parsed_meta_data"]["prerequisites"]>;
+type ApiRestrictionGroup = NonNullable<CourseStaticData["parsed_meta_data"]["restrictions"]>;
+
 interface Props {
-  prerequisites: ParsedPrerequisites;
-  restrictions?: ParsedRestrictions;
+  prerequisites?: CourseStaticData["parsed_meta_data"]["prerequisites"];
+  hasPrerequisites: boolean;
+  restrictions?: CourseStaticData["parsed_meta_data"]["restrictions"];
+  hasRestrictions: boolean;
   connector?: string; // "AND" | "OR" o "y" | "o"
   className?: string;
   loading?: boolean;
 }
 
-function countCourses(group: PrerequisiteGroup): number {
+function countCourses(group: ApiPrerequisiteGroup): number {
   const direct = group.courses?.length ?? 0;
   const nested = group.groups?.reduce((acc, g) => acc + countCourses(g), 0) ?? 0;
   return direct + nested;
@@ -22,14 +26,16 @@ function countCourses(group: PrerequisiteGroup): number {
 
 export default function PrerequisitesSection({
   prerequisites,
+  hasPrerequisites,
   restrictions,
+  hasRestrictions,
   connector,
   className = "",
   loading = false,
 }: Props) {
-  const hasPrerequisites = prerequisites.hasPrerequisites && prerequisites.structure;
-  const hasRestrictions = restrictions?.hasRestrictions && restrictions?.structure;
-  const hasAny = hasPrerequisites || hasRestrictions;
+  const prerequisiteStructure = hasPrerequisites ? prerequisites : undefined;
+  const restrictionStructure = hasRestrictions ? restrictions : undefined;
+  const hasAny = Boolean(prerequisiteStructure || restrictionStructure);
 
   if (!hasAny) {
     return (
@@ -50,7 +56,7 @@ export default function PrerequisitesSection({
   }
 
   const renderConnector = () => {
-    if (!connector || !hasPrerequisites || !hasRestrictions) return null;
+    if (!connector || !prerequisiteStructure || !restrictionStructure) return null;
 
     // Normalizar el conector (puede venir como "y", "o", "AND", "OR")
     const normalizedConnector = connector.toUpperCase();
@@ -100,8 +106,8 @@ export default function PrerequisitesSection({
               <div className="space-y-2 py-6">
                 {Array.from({
                   length: Math.max(
-                    (hasPrerequisites ? countCourses(prerequisites.structure!) : 0) +
-                    (hasRestrictions ? 1 : 0),
+                    (prerequisiteStructure ? countCourses(prerequisiteStructure) : 0) +
+                      (restrictionStructure ? 1 : 0),
                     1
                   ),
                 }).map((_, i) => (
@@ -109,21 +115,23 @@ export default function PrerequisitesSection({
                 ))}
               </div>
             ) : (
-            <div className="w-full overflow-hidden space-y-4">
-              {hasPrerequisites && (
-                <div>
-                  <h3 className="text-foreground mb-3 text-sm font-semibold">Prerrequisitos</h3>
-                  <PrerequisitesDisplay prerequisites={prerequisites.structure!} />
-                </div>
-              )}
+              <div className="w-full overflow-hidden space-y-4">
+                {prerequisiteStructure && (
+                  <div>
+                    <h3 className="text-foreground mb-3 text-sm font-semibold">Prerrequisitos</h3>
+                    <PrerequisitesDisplay prerequisites={prerequisiteStructure} />
+                  </div>
+                )}
 
-              {hasRestrictions && (
-                <>
-                  {renderConnector()}
-                  <RestrictionsDisplay restrictions={restrictions.structure!} />
-                </>
-              )}
-            </div>
+                {restrictionStructure && (
+                  <>
+                    {renderConnector()}
+                    <RestrictionsDisplay
+                      restrictions={restrictionStructure as ApiRestrictionGroup}
+                    />
+                  </>
+                )}
+              </div>
             )}
 
             <div className="border-border mt-4 w-full border-t pt-4">

@@ -2,18 +2,23 @@ import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { OpensCoursesDisplay } from "@/components/courses/OpensCoursesDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { CourseStaticData } from "@/lib/coursesStaticData";
+
+type ApiUnlocks = NonNullable<CourseStaticData["parsed_meta_data"]["unlocks"]>;
 
 interface Props {
-  unlocks: {
-    as_prerequisite: Array<{ sigle: string; name?: string }>;
-    as_corequisite: Array<{ sigle: string; name?: string }>;
-  };
+  unlocks?: CourseStaticData["parsed_meta_data"]["unlocks"];
   className?: string;
   loading?: boolean;
 }
 
 export default function OpensCoursesSection({ unlocks, className = "", loading = false }: Props) {
-  if (unlocks.as_prerequisite.length === 0 && unlocks.as_corequisite.length === 0) {
+  const safeUnlocks = (unlocks ?? {
+    as_prerequisite: [],
+    as_corequisite: [],
+  }) as ApiUnlocks;
+
+  if (safeUnlocks.as_prerequisite.length === 0 && safeUnlocks.as_corequisite.length === 0) {
     return (
       <section className={`w-full ${className}`}>
         <div className="border-border bg-accent w-full overflow-hidden rounded-md border p-6">
@@ -57,7 +62,10 @@ export default function OpensCoursesSection({ unlocks, className = "", loading =
             {loading ? (
               <div className="space-y-2 py-6">
                 {Array.from({
-                  length: Math.max(unlocks.as_prerequisite.length + unlocks.as_corequisite.length, 1),
+                  length: Math.max(
+                    safeUnlocks.as_prerequisite.length + safeUnlocks.as_corequisite.length,
+                    1
+                  ),
                 }).map((_, i) => (
                   <Skeleton key={i} className="h-10 w-full rounded-md" />
                 ))}
@@ -65,21 +73,21 @@ export default function OpensCoursesSection({ unlocks, className = "", loading =
             ) : (
               <>
                 <div className="w-full overflow-hidden">
-                  <OpensCoursesDisplay unlocks={unlocks} />
+                  <OpensCoursesDisplay unlocks={safeUnlocks} />
                 </div>
                 <div className="border-border mt-4 w-full border-t pt-4">
                   <div className="text-muted-foreground flex flex-wrap gap-4 text-xs">
                     <div className="flex items-center gap-2">
                       <div className="bg-green border-green-light h-4 w-4 flex-shrink-0 rounded border"></div>
-                      <span>Prerrequisitos ({unlocks.as_prerequisite.length})</span>
+                      <span>Prerrequisitos ({safeUnlocks.as_prerequisite.length})</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="bg-orange border-orange-light flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border">
                         <TextureIcon className="text-background h-3 w-3" />
                       </div>
                       <span>
-                        Co-requisitos ({unlocks.as_corequisite.length}) - Se pueden inscribir si se toma
-                        este ramo al mismo tiempo
+                        Co-requisitos ({safeUnlocks.as_corequisite.length}) - Se pueden inscribir si
+                        se toma este ramo al mismo tiempo
                       </span>
                     </div>
                   </div>

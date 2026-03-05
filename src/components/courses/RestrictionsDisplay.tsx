@@ -1,8 +1,11 @@
 import { Pill } from "@/components/ui/pill";
-import { RestrictionGroup, RestrictionRule } from "@/lib/courseRestrictions";
+import type { CourseStaticData } from "@/lib/coursesStaticData";
+
+type ApiRestrictionGroup = NonNullable<CourseStaticData["parsed_meta_data"]["restrictions"]>;
+type ApiRestrictionRule = ApiRestrictionGroup["restrictions"][number];
 
 interface RestrictionsDisplayProps {
-  restrictions: RestrictionGroup;
+  restrictions: ApiRestrictionGroup;
   className?: string;
 }
 
@@ -30,7 +33,7 @@ export const RestrictionsDisplay = ({ restrictions, className = "" }: Restrictio
 };
 
 interface RestrictionGroupComponentProps {
-  group: RestrictionGroup;
+  group: ApiRestrictionGroup;
   isNested?: boolean;
 }
 
@@ -40,7 +43,9 @@ const RestrictionGroupComponent = ({ group, isNested = false }: RestrictionGroup
       ? "Debes cumplir todas las restricciones de este grupo"
       : "Debes cumplir al menos una de las restricciones de este grupo";
 
-  const renderRestriction = (restriction: RestrictionRule, index: number) => {
+  const renderRestriction = (restriction: ApiRestrictionRule, index: number) => {
+    const raw =
+      restriction.raw ?? `${restriction.type} ${restriction.operator} ${restriction.value}`;
     return (
       <div
         key={`restriction-${index}`}
@@ -50,13 +55,13 @@ const RestrictionGroupComponent = ({ group, isNested = false }: RestrictionGroup
           {restriction.type}
         </Pill>
         <div className="min-w-0 flex-1">
-          <p className="text-foreground text-sm font-medium">{restriction.raw}</p>
+          <p className="text-foreground text-sm font-medium">{raw}</p>
         </div>
       </div>
     );
   };
 
-  const renderGroup = (subGroup: RestrictionGroup, index: number) => (
+  const renderGroup = (subGroup: ApiRestrictionGroup, index: number) => (
     <div
       key={`group-${index}`}
       className="border-border bg-muted/30 my-2 w-full overflow-hidden rounded-lg border px-2 py-4"
@@ -112,8 +117,8 @@ const RestrictionGroupComponent = ({ group, isNested = false }: RestrictionGroup
           return (
             <div key={`item-${index}`} className="w-full">
               {isGroup
-                ? renderGroup(item as RestrictionGroup, index)
-                : renderRestriction(item as RestrictionRule, index)}
+                ? renderGroup(item as ApiRestrictionGroup, index)
+                : renderRestriction(item as ApiRestrictionRule, index)}
               {!isNested && !isLast && renderSeparatorPill(group.type)}
             </div>
           );

@@ -9,10 +9,8 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { CourseStaticData } from "@/lib/coursesStaticData";
-import { useMemo } from "react";
+import { useMemo, type ComponentProps } from "react";
 import { milestones } from "../../lib/milestones";
-import { useCurrentSemester } from "@/context/semesterCtx";
 
 /** Historial de cupos por timestamp: { [timestamp]: { agg: { total, disponibles, ocupados } } } */
 export type QuotaTimeline = Record<
@@ -21,8 +19,6 @@ export type QuotaTimeline = Record<
 >;
 
 interface Props {
-  course?: CourseStaticData;
-  /** Datos de cupos agregados para mostrar directamente (sin buscar semestre). */
   quotaTimeline?: QuotaTimeline;
   className?: string;
 }
@@ -31,8 +27,18 @@ function formatTimestamp(timestamp: string): string {
   const parts = timestamp.split("-");
   if (parts.length !== 4) return timestamp;
   const monthNames = [
-    "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dic",
   ];
   const monthIndex = parseInt(parts[1], 10) - 1;
   const monthName = monthIndex >= 0 && monthIndex < 12 ? monthNames[monthIndex] : parts[1];
@@ -57,18 +63,8 @@ function processTimeline(timeline: QuotaTimeline) {
     .sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 }
 
-export default function QuotaHistorySection({ course, quotaTimeline, className = "" }: Props) {
-  const currentSemester = useCurrentSemester();
-
-  // Resolve the timeline: prefer the direct prop, otherwise derive from course.quota_history
-  const resolvedTimeline = useMemo<QuotaTimeline>(() => {
-    if (quotaTimeline) return quotaTimeline;
-    if (!course?.quota_history) return {};
-    const semKey = Object.keys(course.quota_history).find((k) => k === currentSemester);
-    return semKey ? (course.quota_history[semKey] as QuotaTimeline) : {};
-  }, [quotaTimeline, course?.quota_history, currentSemester]);
-
-  const chartData = useMemo(() => processTimeline(resolvedTimeline), [resolvedTimeline]);
+export default function QuotaHistorySection({ quotaTimeline = {}, className = "" }: Props) {
+  const chartData = useMemo(() => processTimeline(quotaTimeline), [quotaTimeline]);
 
   const totalCupos = useMemo(
     () => (chartData.length === 0 ? 0 : Math.max(...chartData.map((d) => d.total))),
@@ -92,6 +88,18 @@ export default function QuotaHistorySection({ course, quotaTimeline, className =
     },
   } satisfies ChartConfig;
 
+  const tooltipFormatter: NonNullable<ComponentProps<typeof ChartTooltipContent>["formatter"]> = (
+    value,
+    _name,
+    item
+  ) => {
+    const payload = item?.payload as { ocupados?: number; total?: number } | undefined;
+    const percent = typeof value === "number" ? value : Number(value) || 0;
+    return (
+      <>{`${percent.toFixed(1)}% (${payload?.ocupados?.toLocaleString()}/${payload?.total?.toLocaleString()})`}</>
+    );
+  };
+
   return (
     <section className={`quota-history-section w-full ${className}`}>
       <div className="border-border w-full overflow-hidden rounded-md border">
@@ -99,7 +107,11 @@ export default function QuotaHistorySection({ course, quotaTimeline, className =
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
               <div className="bg-blue-light text-blue border-blue/20 flex-shrink-0 rounded-lg border p-2">
-                <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  className="h-5 w-5 fill-current"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
                 </svg>
               </div>
@@ -156,17 +168,7 @@ export default function QuotaHistorySection({ course, quotaTimeline, className =
                     />
                     <ChartTooltip
                       content={
-                        <ChartTooltipContent
-                          formatter={(value: number, _name: string, item: any) => {
-                            const ocupados = item?.payload?.ocupados;
-                            const total = item?.payload?.total;
-                            const percent = typeof value === "number" ? value : 0;
-                            return (
-                              <>{`${percent.toFixed(1)}% (${ocupados?.toLocaleString()}/${total?.toLocaleString()})`}</>
-                            );
-                          }}
-                          nameKey="porcentaje"
-                        />
+                        <ChartTooltipContent formatter={tooltipFormatter} nameKey="porcentaje" />
                       }
                     />
                     {milestonesData.map((milestone, index) => (

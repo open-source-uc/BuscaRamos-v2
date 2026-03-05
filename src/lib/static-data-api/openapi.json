@@ -1,1 +1,2738 @@
-{"openapi":"3.1.0","info":{"title":"Buscaramos V2 Static Data API","description":"API REST para consultar información de cursos.","version":"1.0.0","contact":{"name":"OSUC","url":"https://osuc.dev/"}},"tags":[{"name":"Archivos","description":"Endpoints para subir y descargar archivos de datos de cursos"}],"components":{"securitySchemes":{"bearerAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}},"paths":{"/":{"get":{"operationId":"getIndex","summary":"Health Check","description":"Verifica que la API esté funcionando correctamente","responses":{"200":{"description":"API funcionando correctamente","content":{"text/plain":{"schema":{"type":"string"}}}}}}},"/data/{sigle}":{"get":{"operationId":"getData:sigle","summary":"Obtener Datos Unificados de un Curso","description":"Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)","parameters":[{"in":"path","name":"sigle","required":true,"description":"Sigla del curso","schema":{"type":"string"}},{"in":"query","name":"hash","required":false,"description":"Hash del deploy para habilitar cache inmutable por 1 mes","schema":{"type":"string"}}],"responses":{"200":{"description":"Datos del curso","content":{"application/json":{"schema":{"type":"object","properties":{"sigle":{"type":"string"},"name":{"type":"string"},"credits":{"type":"number"},"parsed_meta_data":{"type":"object","properties":{"has_prerequisites":{"type":"boolean"},"has_restrictions":{"type":"boolean"},"has_equivalences":{"type":"boolean"},"unlocks_courses":{"type":"boolean"},"connector":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["programa","nivel","carrera","escuela","creditos"]},"operator":{"type":"string","enum":["=",">=","<>"]},"value":{"type":"string"},"raw":{"type":"string"}},"required":["type","operator","value"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["programa","nivel","carrera","escuela","creditos"]},"operator":{"type":"string","enum":["=",">=","<>"]},"value":{"type":"string"},"raw":{"type":"string"}},"required":["type","operator","value"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["programa","nivel","carrera","escuela","creditos"]},"operator":{"type":"string","enum":["=",">=","<>"]},"value":{"type":"string"},"raw":{"type":"string"}},"required":["type","operator","value"]}},"groups":{"type":"array","prefixItems":[]}},"required":["type","restrictions","groups"]}}},"required":["type","restrictions","groups"]}}},"required":["type","restrictions","groups"]},"prerequisites":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"courses":{"type":"array","items":{"type":"object","properties":{"sigle":{"type":"string"},"is_coreq":{"type":"boolean"}},"required":["sigle","is_coreq"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"courses":{"type":"array","items":{"type":"object","properties":{"sigle":{"type":"string"},"is_coreq":{"type":"boolean"}},"required":["sigle","is_coreq"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"courses":{"type":"array","items":{"type":"object","properties":{"sigle":{"type":"string"},"is_coreq":{"type":"boolean"}},"required":["sigle","is_coreq"]}},"groups":{"type":"array","prefixItems":[]}},"required":["type","courses","groups"]}}},"required":["type","courses","groups"]}}},"required":["type","courses","groups"]},"equivalences":{"type":"array","items":{"type":"string"}},"unlocks":{"type":"object","properties":{"as_prerequisite":{"type":"array","items":{"type":"string"}},"as_corequisite":{"type":"array","items":{"type":"string"}}},"required":["as_prerequisite","as_corequisite"]}},"required":["has_prerequisites","has_restrictions","has_equivalences","unlocks_courses"]},"school":{"type":"string"},"area":{"type":"array","items":{"type":"string"}},"categories":{"type":"array","items":{"type":"string"}},"format":{"type":"array","items":{"type":"string"}},"campus":{"type":"array","items":{"type":"string"}},"is_removable":{"type":"array","items":{"type":"boolean"}},"is_special":{"type":"array","items":{"type":"boolean"}},"is_english":{"type":"array","items":{"type":"boolean"}},"last_semester":{"type":"string"},"description":{"type":"string"},"likes":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"dislikes":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"superlikes":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_low_workload":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_medium_workload":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_high_workload":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_mandatory_attendance":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_optional_attendance":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"avg_weekly_hours":{"anyOf":[{"type":"number"},{"type":"null"}]}},"required":["sigle","name","credits","parsed_meta_data","school","area","categories","format","campus","is_removable","is_special","is_english","last_semester","likes","dislikes","superlikes","votes_low_workload","votes_medium_workload","votes_high_workload","votes_mandatory_attendance","votes_optional_attendance","avg_weekly_hours"]}}}},"404":{"description":"Curso no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}}}}},"/data/{sigle}/":{"get":{"operationId":"getData:sigle","summary":"Obtener Datos Unificados de un Curso (con barra final)","description":"Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)","parameters":[{"in":"path","name":"sigle","required":true,"description":"Sigla del curso","schema":{"type":"string"}},{"in":"query","name":"hash","required":false,"description":"Hash del deploy para habilitar cache inmutable por 1 mes","schema":{"type":"string"}}],"responses":{"200":{"description":"Datos del curso","content":{"application/json":{"schema":{"type":"object","properties":{"sigle":{"type":"string"},"name":{"type":"string"},"credits":{"type":"number"},"parsed_meta_data":{"type":"object","properties":{"has_prerequisites":{"type":"boolean"},"has_restrictions":{"type":"boolean"},"has_equivalences":{"type":"boolean"},"unlocks_courses":{"type":"boolean"},"connector":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["programa","nivel","carrera","escuela","creditos"]},"operator":{"type":"string","enum":["=",">=","<>"]},"value":{"type":"string"},"raw":{"type":"string"}},"required":["type","operator","value"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["programa","nivel","carrera","escuela","creditos"]},"operator":{"type":"string","enum":["=",">=","<>"]},"value":{"type":"string"},"raw":{"type":"string"}},"required":["type","operator","value"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"restrictions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["programa","nivel","carrera","escuela","creditos"]},"operator":{"type":"string","enum":["=",">=","<>"]},"value":{"type":"string"},"raw":{"type":"string"}},"required":["type","operator","value"]}},"groups":{"type":"array","prefixItems":[]}},"required":["type","restrictions","groups"]}}},"required":["type","restrictions","groups"]}}},"required":["type","restrictions","groups"]},"prerequisites":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"courses":{"type":"array","items":{"type":"object","properties":{"sigle":{"type":"string"},"is_coreq":{"type":"boolean"}},"required":["sigle","is_coreq"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"courses":{"type":"array","items":{"type":"object","properties":{"sigle":{"type":"string"},"is_coreq":{"type":"boolean"}},"required":["sigle","is_coreq"]}},"groups":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["AND","OR"]},"courses":{"type":"array","items":{"type":"object","properties":{"sigle":{"type":"string"},"is_coreq":{"type":"boolean"}},"required":["sigle","is_coreq"]}},"groups":{"type":"array","prefixItems":[]}},"required":["type","courses","groups"]}}},"required":["type","courses","groups"]}}},"required":["type","courses","groups"]},"equivalences":{"type":"array","items":{"type":"string"}},"unlocks":{"type":"object","properties":{"as_prerequisite":{"type":"array","items":{"type":"string"}},"as_corequisite":{"type":"array","items":{"type":"string"}}},"required":["as_prerequisite","as_corequisite"]}},"required":["has_prerequisites","has_restrictions","has_equivalences","unlocks_courses"]},"school":{"type":"string"},"area":{"type":"array","items":{"type":"string"}},"categories":{"type":"array","items":{"type":"string"}},"format":{"type":"array","items":{"type":"string"}},"campus":{"type":"array","items":{"type":"string"}},"is_removable":{"type":"array","items":{"type":"boolean"}},"is_special":{"type":"array","items":{"type":"boolean"}},"is_english":{"type":"array","items":{"type":"boolean"}},"last_semester":{"type":"string"},"description":{"type":"string"},"likes":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"dislikes":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"superlikes":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_low_workload":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_medium_workload":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_high_workload":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_mandatory_attendance":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"votes_optional_attendance":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"avg_weekly_hours":{"anyOf":[{"type":"number"},{"type":"null"}]}},"required":["sigle","name","credits","parsed_meta_data","school","area","categories","format","campus","is_removable","is_special","is_english","last_semester","likes","dislikes","superlikes","votes_low_workload","votes_medium_workload","votes_high_workload","votes_mandatory_attendance","votes_optional_attendance","avg_weekly_hours"]}}}},"404":{"description":"Curso no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}}}}},"/data/quota/{sigle}":{"get":{"operationId":"getDataQuota:sigle","summary":"Obtener Cuotas de un Curso por Semestre","description":"Obtiene las cuotas agregadas de un curso para un semestre específico. Parámetros: sigle y query semester (2024-1, 2024-2, 2024-3, 2025-1, 2025-2, 2026-1).","parameters":[{"in":"path","name":"sigle","required":true,"description":"Sigla del curso","schema":{"type":"string"}},{"in":"query","name":"semester","required":true,"description":"Semestre a consultar","schema":{"type":"string","enum":["2024-1","2024-2","2024-3","2025-1","2025-2","2026-1"]}},{"in":"query","name":"hash","required":false,"description":"Hash del deploy para habilitar cache inmutable por 1 mes","schema":{"type":"string"}}],"responses":{"200":{"description":"Historial de cuotas del curso","content":{"application/json":{"schema":{"type":"object","properties":{"sigle":{"type":"string"},"semester":{"type":"string","enum":["2024-1","2024-2","2024-3","2025-1","2025-2","2026-1"]},"quota":{"type":"object","propertyNames":{"type":"string"},"additionalProperties":{"type":"object","properties":{"timestamp":{"type":"string"},"data":{"type":"object","propertyNames":{"type":"string"},"additionalProperties":{"type":"object","properties":{"nivel":{"anyOf":[{"type":"string"},{"type":"null"}]},"escuela":{"anyOf":[{"type":"string"},{"type":"null"}]},"programa":{"anyOf":[{"type":"string"},{"type":"null"}]},"concentracion":{"anyOf":[{"type":"string"},{"type":"null"}]},"cohorte":{"anyOf":[{"type":"string"},{"type":"null"}]},"periodo_admision":{"anyOf":[{"type":"string"},{"type":"null"}]},"ofrecidas":{"type":"number"},"ocupadas":{"type":"number"},"disponibles":{"type":"number"}},"required":["nivel","escuela","programa","concentracion","cohorte","periodo_admision","ofrecidas","ocupadas","disponibles"]}},"agg":{"type":"object","properties":{"total":{"type":"number"},"disponibles":{"type":"number"},"ocupados":{"type":"number"}},"required":["total","disponibles","ocupados"]}},"required":["timestamp","data","agg"]}}},"required":["sigle","semester","quota"]}}}},"400":{"description":"Semestre inválido o faltante","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"404":{"description":"Historial de cuotas no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}}}}},"/upload":{"post":{"operationId":"postUpload","tags":["Archivos"],"summary":"Subir Archivos de Cursos","description":"Sube los archivos courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json al bucket R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"requestBody":{"description":"Archivos a subir: courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json","content":{"multipart/form-data":{"schema":{"type":"object","properties":{"courses-simplified-v2.json":{"type":"string","format":"binary","description":"Archivo JSON con datos simplificados de cursos"},"courses-sections.ndjson":{"type":"string","format":"binary","description":"Archivo NDJSON con secciones de cursos"},"courses-quota-history.json":{"type":"string","format":"binary","description":"Archivo JSON con historial de cuotas de cursos"}},"required":["courses-simplified-v2.json","courses-sections.ndjson","courses-quota-history.json"]}}}},"responses":{"200":{"description":"Archivos subidos exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string"},"uploaded":{"type":"array","items":{"type":"object","properties":{"filename":{"type":"string"},"size":{"type":"number"}},"required":["filename","size"]}}},"required":["message","uploaded"]}}}},"400":{"description":"Error en la solicitud","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/upload/semester-json":{"post":{"operationId":"postUploadSemester-json","tags":["Archivos"],"summary":"Subir JSON de semestre","description":"Sube un archivo JSON de semestre al bucket R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"requestBody":{"description":"Archivo JSON en el campo \"file\" con uno de estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json","content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"type":"string","format":"binary","description":"Archivo JSON permitido: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json"}},"required":["file"]}}}},"responses":{"200":{"description":"Archivo subido exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string"},"filename":{"type":"string"},"size":{"type":"number"},"overwritten":{"type":"boolean"}},"required":["message","filename","size","overwritten"]}}}},"400":{"description":"Archivo inválido o JSON inválido","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/upload/courses-unified":{"post":{"operationId":"postUploadCourses-unified","tags":["Archivos"],"summary":"Subir courses-unified.json","description":"Sube el archivo courses-unified.json al bucket R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"requestBody":{"description":"Archivo JSON en el campo \"file\" con nombre courses-unified.json","content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"type":"string","format":"binary","description":"Archivo JSON requerido: courses-unified.json"}},"required":["file"]}}}},"responses":{"200":{"description":"Archivo subido exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string"},"filename":{"type":"string"},"size":{"type":"number"},"overwritten":{"type":"boolean"}},"required":["message","filename","size","overwritten"]}}}},"400":{"description":"Archivo inválido o JSON inválido","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/download/semester-json/{filename}":{"get":{"operationId":"getDownloadSemester-json:filename","tags":["Archivos"],"summary":"Descargar JSON de semestre","description":"Descarga un archivo JSON de semestre desde R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"responses":{"200":{"description":"Archivo descargado exitosamente","content":{"application/json":{"schema":{"description":"Archivo JSON binario","type":"string"}}}},"400":{"description":"Nombre de archivo inválido","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"404":{"description":"Archivo no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}},"parameters":[{"schema":{"type":"string"},"in":"path","name":"filename","required":true}]}},"/download/courses-unified":{"get":{"operationId":"getDownloadCourses-unified","tags":["Archivos"],"summary":"Descargar courses-unified.json","description":"Descarga el archivo courses-unified.json desde R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"responses":{"200":{"description":"Archivo descargado exitosamente","content":{"application/json":{"schema":{"description":"Archivo JSON binario","type":"string"}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"404":{"description":"Archivo no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/download/courses-simplified-v2":{"get":{"operationId":"getDownloadCourses-simplified-v2","tags":["Archivos"],"summary":"Descargar courses-simplified-v2.json","description":"Descarga el archivo courses-simplified-v2.json desde el bucket R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"responses":{"200":{"description":"Archivo descargado exitosamente","content":{"application/json":{"schema":{"description":"Archivo JSON binario","type":"string"}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"404":{"description":"Archivo no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/download/courses-sections":{"get":{"operationId":"getDownloadCourses-sections","tags":["Archivos"],"summary":"Descargar courses-sections.ndjson","description":"Descarga el archivo courses-sections.ndjson desde el bucket R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"responses":{"200":{"description":"Archivo descargado exitosamente","content":{"application/x-ndjson":{"schema":{"description":"Archivo NDJSON binario","type":"string"}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"404":{"description":"Archivo no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/download/courses-quota-history":{"get":{"operationId":"getDownloadCourses-quota-history","tags":["Archivos"],"summary":"Descargar courses-quota-history.json","description":"Descarga el archivo courses-quota-history.json desde el bucket R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"responses":{"200":{"description":"Archivo descargado exitosamente","content":{"application/json":{"schema":{"description":"Archivo JSON binario","type":"string"}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"404":{"description":"Archivo no encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}},"/reload":{"get":{"operationId":"getReload","summary":"Recargar Datos de Cursos","tags":["Archivos"],"description":"Genera y actualiza el archivo NDJSON con los datos combinados de la base de datos y los datos estáticos. Sube el resultado al bucket R2. Requiere autenticación Bearer token.","security":[{"bearerAuth":[]}],"responses":{"200":{"description":"Datos actualizados exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string"},"stats":{"type":"object","properties":{"total":{"type":"number"},"processed":{"type":"number"},"skipped":{"type":"number"}},"required":["total","processed","skipped"]}},"required":["message","stats"]}}}},"401":{"description":"No autorizado","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"}},"required":["error"]}}}},"500":{"description":"Error interno del servidor","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string"},"details":{"type":"string"}},"required":["error"]}}}}}}}}}
+{
+"openapi": "3.1.0",
+"info": {
+"title": "Buscaramos V2 Static Data API",
+"description": "API REST para consultar información de cursos. Hola rocka del futuro :D",
+"version": "1.0.0",
+"contact": {
+"name": "OSUC",
+"url": "https://osuc.dev/"
+}
+},
+"tags": [
+{
+"name": "Archivos",
+"description": "Endpoints para subir y descargar archivos de datos de cursos"
+}
+],
+"components": {
+"securitySchemes": {
+"bearerAuth": {
+"type": "http",
+"scheme": "bearer",
+"bearerFormat": "JWT"
+}
+}
+},
+"paths": {
+"/": {
+"get": {
+"operationId": "getIndex",
+"summary": "Health Check",
+"description": "Verifica que la API esté funcionando correctamente",
+"responses": {
+"200": {
+"description": "API funcionando correctamente",
+"content": {
+"text/plain": {
+"schema": {
+"type": "string"
+}
+}
+}
+}
+}
+}
+},
+"/data/batch": {
+"get": {
+"operationId": "getDataBatch",
+"summary": "Obtener Datos Unificados de Varios Cursos",
+"description": "Obtiene múltiples entradas de courses-unified.json repitiendo el query parameter sigle. Ejemplo: /data/batch?sigle=ACO250E&sigle=ADP001E",
+"parameters": [
+{
+"in": "query",
+"name": "sigle",
+"required": true,
+"description": "Siglas de cursos a consultar. Repetir el parámetro para enviar varias siglas.",
+"schema": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+},
+{
+"in": "query",
+"name": "hash",
+"required": false,
+"description": "Hash del deploy para habilitar cache inmutable por 1 mes",
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Datos de los cursos solicitados",
+"content": {
+"application/json": {
+"schema": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"name": {
+"type": "string"
+},
+"credits": {
+"type": "number"
+},
+"parsed_meta_data": {
+"type": "object",
+"properties": {
+"has_prerequisites": {
+"type": "boolean"
+},
+"has_restrictions": {
+"type": "boolean"
+},
+"has_equivalences": {
+"type": "boolean"
+},
+"unlocks_courses": {
+"type": "boolean"
+},
+"connector": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"prefixItems": []
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+},
+"prerequisites": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"prefixItems": []
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+},
+"equivalences": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"unlocks": {
+"type": "object",
+"properties": {
+"as_prerequisite": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"as_corequisite": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+},
+"required": [
+"as_prerequisite",
+"as_corequisite"
+]
+}
+},
+"required": [
+"has_prerequisites",
+"has_restrictions",
+"has_equivalences",
+"unlocks_courses"
+]
+},
+"school": {
+"type": "string"
+},
+"area": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"categories": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"format": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"campus": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"is_removable": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"is_special": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"is_english": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"last_semester": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+},
+"required": [
+"sigle",
+"name",
+"credits",
+"parsed_meta_data",
+"school",
+"area",
+"categories",
+"format",
+"campus",
+"is_removable",
+"is_special",
+"is_english",
+"last_semester"
+]
+}
+}
+}
+}
+},
+"400": {
+"description": "Falta el query parameter sigle",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Uno o más cursos no fueron encontrados",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"missing": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+},
+"required": [
+"error",
+"missing"
+]
+}
+}
+}
+}
+}
+}
+},
+"/data/{sigle}": {
+"get": {
+"operationId": "getData:sigle",
+"summary": "Obtener Datos Unificados de un Curso",
+"description": "Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)",
+"parameters": [
+{
+"in": "path",
+"name": "sigle",
+"required": true,
+"description": "Sigla del curso",
+"schema": {
+"type": "string"
+}
+},
+{
+"in": "query",
+"name": "hash",
+"required": false,
+"description": "Hash del deploy para habilitar cache inmutable por 1 mes",
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Datos del curso",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"name": {
+"type": "string"
+},
+"credits": {
+"type": "number"
+},
+"parsed_meta_data": {
+"type": "object",
+"properties": {
+"has_prerequisites": {
+"type": "boolean"
+},
+"has_restrictions": {
+"type": "boolean"
+},
+"has_equivalences": {
+"type": "boolean"
+},
+"unlocks_courses": {
+"type": "boolean"
+},
+"connector": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"prefixItems": []
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+},
+"prerequisites": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"prefixItems": []
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+},
+"equivalences": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"unlocks": {
+"type": "object",
+"properties": {
+"as_prerequisite": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"as_corequisite": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+},
+"required": [
+"as_prerequisite",
+"as_corequisite"
+]
+}
+},
+"required": [
+"has_prerequisites",
+"has_restrictions",
+"has_equivalences",
+"unlocks_courses"
+]
+},
+"school": {
+"type": "string"
+},
+"area": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"categories": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"format": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"campus": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"is_removable": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"is_special": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"is_english": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"last_semester": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+},
+"required": [
+"sigle",
+"name",
+"credits",
+"parsed_meta_data",
+"school",
+"area",
+"categories",
+"format",
+"campus",
+"is_removable",
+"is_special",
+"is_english",
+"last_semester"
+]
+}
+}
+}
+},
+"404": {
+"description": "Curso no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/data/{sigle}/": {
+"get": {
+"operationId": "getData:sigle",
+"summary": "Obtener Datos Unificados de un Curso (con barra final)",
+"description": "Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)",
+"parameters": [
+{
+"in": "path",
+"name": "sigle",
+"required": true,
+"description": "Sigla del curso",
+"schema": {
+"type": "string"
+}
+},
+{
+"in": "query",
+"name": "hash",
+"required": false,
+"description": "Hash del deploy para habilitar cache inmutable por 1 mes",
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Datos del curso",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"name": {
+"type": "string"
+},
+"credits": {
+"type": "number"
+},
+"parsed_meta_data": {
+"type": "object",
+"properties": {
+"has_prerequisites": {
+"type": "boolean"
+},
+"has_restrictions": {
+"type": "boolean"
+},
+"has_equivalences": {
+"type": "boolean"
+},
+"unlocks_courses": {
+"type": "boolean"
+},
+"connector": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"restrictions": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"programa",
+"nivel",
+"carrera",
+"escuela",
+"creditos"
+]
+},
+"operator": {
+"type": "string",
+"enum": [
+"=",
+">=",
+"<>"
+]
+},
+"value": {
+"type": "string"
+},
+"raw": {
+"type": "string"
+}
+},
+"required": [
+"type",
+"operator",
+"value"
+]
+}
+},
+"groups": {
+"type": "array",
+"prefixItems": []
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"restrictions",
+"groups"
+]
+},
+"prerequisites": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"enum": [
+"AND",
+"OR"
+]
+},
+"courses": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"is_coreq": {
+"type": "boolean"
+}
+},
+"required": [
+"sigle",
+"is_coreq"
+]
+}
+},
+"groups": {
+"type": "array",
+"prefixItems": []
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+}
+}
+},
+"required": [
+"type",
+"courses",
+"groups"
+]
+},
+"equivalences": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"unlocks": {
+"type": "object",
+"properties": {
+"as_prerequisite": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"as_corequisite": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+},
+"required": [
+"as_prerequisite",
+"as_corequisite"
+]
+}
+},
+"required": [
+"has_prerequisites",
+"has_restrictions",
+"has_equivalences",
+"unlocks_courses"
+]
+},
+"school": {
+"type": "string"
+},
+"area": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"categories": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"format": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"campus": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"is_removable": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"is_special": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"is_english": {
+"type": "array",
+"items": {
+"type": "boolean"
+}
+},
+"last_semester": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+},
+"required": [
+"sigle",
+"name",
+"credits",
+"parsed_meta_data",
+"school",
+"area",
+"categories",
+"format",
+"campus",
+"is_removable",
+"is_special",
+"is_english",
+"last_semester"
+]
+}
+}
+}
+},
+"404": {
+"description": "Curso no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/data/quota/{sigle}": {
+"get": {
+"operationId": "getDataQuota:sigle",
+"summary": "Obtener Cuotas de un Curso por Semestre",
+"description": "Obtiene las cuotas agregadas de un curso para un semestre específico. Parámetros: sigle y query semester (2024-1, 2024-2, 2024-3, 2025-1, 2025-2, 2026-1).",
+"parameters": [
+{
+"in": "path",
+"name": "sigle",
+"required": true,
+"description": "Sigla del curso",
+"schema": {
+"type": "string"
+}
+},
+{
+"in": "query",
+"name": "semester",
+"required": true,
+"description": "Semestre a consultar",
+"schema": {
+"type": "string",
+"enum": [
+"2024-1",
+"2024-2",
+"2024-3",
+"2025-1",
+"2025-2",
+"2026-1"
+]
+}
+},
+{
+"in": "query",
+"name": "hash",
+"required": false,
+"description": "Hash del deploy para habilitar cache inmutable por 1 mes",
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Historial de cuotas del curso",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"sigle": {
+"type": "string"
+},
+"semester": {
+"type": "string",
+"enum": [
+"2024-1",
+"2024-2",
+"2024-3",
+"2025-1",
+"2025-2",
+"2026-1"
+]
+},
+"quota": {
+"type": "object",
+"propertyNames": {
+"type": "string"
+},
+"additionalProperties": {
+"type": "object",
+"properties": {
+"timestamp": {
+"type": "string"
+},
+"data": {
+"type": "object",
+"propertyNames": {
+"type": "string"
+},
+"additionalProperties": {
+"type": "object",
+"properties": {
+"nivel": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+]
+},
+"escuela": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+]
+},
+"programa": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+]
+},
+"concentracion": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+]
+},
+"cohorte": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+]
+},
+"periodo_admision": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+]
+},
+"ofrecidas": {
+"type": "number"
+},
+"ocupadas": {
+"type": "number"
+},
+"disponibles": {
+"type": "number"
+}
+},
+"required": [
+"nivel",
+"escuela",
+"programa",
+"concentracion",
+"cohorte",
+"periodo_admision",
+"ofrecidas",
+"ocupadas",
+"disponibles"
+]
+}
+},
+"agg": {
+"type": "object",
+"properties": {
+"total": {
+"type": "number"
+},
+"disponibles": {
+"type": "number"
+},
+"ocupados": {
+"type": "number"
+}
+},
+"required": [
+"total",
+"disponibles",
+"ocupados"
+]
+}
+},
+"required": [
+"timestamp",
+"data",
+"agg"
+]
+}
+}
+},
+"required": [
+"sigle",
+"semester",
+"quota"
+]
+}
+}
+}
+},
+"400": {
+"description": "Semestre inválido o faltante",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Historial de cuotas no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/upload": {
+"post": {
+"operationId": "postUpload",
+"tags": [
+"Archivos"
+],
+"summary": "Subir Archivos de Cursos",
+"description": "Sube los archivos courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json al bucket R2. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"requestBody": {
+"description": "Archivos a subir: courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json",
+"content": {
+"multipart/form-data": {
+"schema": {
+"type": "object",
+"properties": {
+"courses-simplified-v2.json": {
+"type": "string",
+"format": "binary",
+"description": "Archivo JSON con datos simplificados de cursos"
+},
+"courses-sections.ndjson": {
+"type": "string",
+"format": "binary",
+"description": "Archivo NDJSON con secciones de cursos"
+},
+"courses-quota-history.json": {
+"type": "string",
+"format": "binary",
+"description": "Archivo JSON con historial de cuotas de cursos"
+}
+},
+"required": [
+"courses-simplified-v2.json",
+"courses-sections.ndjson",
+"courses-quota-history.json"
+]
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Archivos subidos exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"message": {
+"type": "string"
+},
+"uploaded": {
+"type": "array",
+"items": {
+"type": "object",
+"properties": {
+"filename": {
+"type": "string"
+},
+"size": {
+"type": "number"
+}
+},
+"required": [
+"filename",
+"size"
+]
+}
+}
+},
+"required": [
+"message",
+"uploaded"
+]
+}
+}
+}
+},
+"400": {
+"description": "Error en la solicitud",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/upload/semester-json": {
+"post": {
+"operationId": "postUploadSemester-json",
+"tags": [
+"Archivos"
+],
+"summary": "Subir JSON de semestre",
+"description": "Sube un archivo JSON de semestre al bucket R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"requestBody": {
+"description": "Archivo JSON en el campo \"file\" con uno de estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json",
+"content": {
+"multipart/form-data": {
+"schema": {
+"type": "object",
+"properties": {
+"file": {
+"type": "string",
+"format": "binary",
+"description": "Archivo JSON permitido: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json"
+}
+},
+"required": [
+"file"
+]
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Archivo subido exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"message": {
+"type": "string"
+},
+"filename": {
+"type": "string"
+},
+"size": {
+"type": "number"
+},
+"overwritten": {
+"type": "boolean"
+}
+},
+"required": [
+"message",
+"filename",
+"size",
+"overwritten"
+]
+}
+}
+}
+},
+"400": {
+"description": "Archivo inválido o JSON inválido",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/upload/course-name-map": {
+"post": {
+"operationId": "postUploadCourse-name-map",
+"tags": [
+"Archivos"
+],
+"summary": "Subir course-name-map.json",
+"description": "Sube el archivo course-name-map.json al bucket R2. El contenido debe ser un JSON con formato { \"<sigle>\": \"<name>\" }. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"requestBody": {
+"description": "Archivo JSON en el campo \"file\" con nombre course-name-map.json",
+"content": {
+"multipart/form-data": {
+"schema": {
+"type": "object",
+"properties": {
+"file": {
+"type": "string",
+"format": "binary",
+"description": "Archivo JSON requerido: course-name-map.json"
+}
+},
+"required": [
+"file"
+]
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Archivo subido exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"message": {
+"type": "string"
+},
+"filename": {
+"type": "string"
+},
+"size": {
+"type": "number"
+},
+"overwritten": {
+"type": "boolean"
+}
+},
+"required": [
+"message",
+"filename",
+"size",
+"overwritten"
+]
+}
+}
+}
+},
+"400": {
+"description": "Archivo inválido, JSON inválido o estructura inválida",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/upload/courses-unified": {
+"post": {
+"operationId": "postUploadCourses-unified",
+"tags": [
+"Archivos"
+],
+"summary": "Subir courses-unified.json",
+"description": "Sube el archivo courses-unified.json al bucket R2. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"requestBody": {
+"description": "Archivo JSON en el campo \"file\" con nombre courses-unified.json",
+"content": {
+"multipart/form-data": {
+"schema": {
+"type": "object",
+"properties": {
+"file": {
+"type": "string",
+"format": "binary",
+"description": "Archivo JSON requerido: courses-unified.json"
+}
+},
+"required": [
+"file"
+]
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Archivo subido exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"message": {
+"type": "string"
+},
+"filename": {
+"type": "string"
+},
+"size": {
+"type": "number"
+},
+"overwritten": {
+"type": "boolean"
+}
+},
+"required": [
+"message",
+"filename",
+"size",
+"overwritten"
+]
+}
+}
+}
+},
+"400": {
+"description": "Archivo inválido o JSON inválido",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/download/semester-json/{filename}": {
+"get": {
+"operationId": "getDownloadSemester-json:filename",
+"tags": [
+"Archivos"
+],
+"summary": "Descargar JSON de semestre",
+"description": "Descarga un archivo JSON de semestre desde R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"responses": {
+"200": {
+"description": "Archivo descargado exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"description": "Archivo JSON binario",
+"type": "string"
+}
+}
+}
+},
+"400": {
+"description": "Nombre de archivo inválido",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Archivo no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+},
+"parameters": [
+{
+"schema": {
+"type": "string"
+},
+"in": "path",
+"name": "filename",
+"required": true
+}
+]
+}
+},
+"/download/courses-unified": {
+"get": {
+"operationId": "getDownloadCourses-unified",
+"tags": [
+"Archivos"
+],
+"summary": "Descargar courses-unified.json",
+"description": "Descarga el archivo courses-unified.json desde R2. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"responses": {
+"200": {
+"description": "Archivo descargado exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"description": "Archivo JSON binario",
+"type": "string"
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Archivo no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/download/courses-simplified-v2": {
+"get": {
+"operationId": "getDownloadCourses-simplified-v2",
+"tags": [
+"Archivos"
+],
+"summary": "Descargar courses-simplified-v2.json",
+"description": "Descarga el archivo courses-simplified-v2.json desde el bucket R2. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"responses": {
+"200": {
+"description": "Archivo descargado exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"description": "Archivo JSON binario",
+"type": "string"
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Archivo no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/download/courses-sections": {
+"get": {
+"operationId": "getDownloadCourses-sections",
+"tags": [
+"Archivos"
+],
+"summary": "Descargar courses-sections.ndjson",
+"description": "Descarga el archivo courses-sections.ndjson desde el bucket R2. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"responses": {
+"200": {
+"description": "Archivo descargado exitosamente",
+"content": {
+"application/x-ndjson": {
+"schema": {
+"description": "Archivo NDJSON binario",
+"type": "string"
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Archivo no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+},
+"/download/courses-quota-history": {
+"get": {
+"operationId": "getDownloadCourses-quota-history",
+"tags": [
+"Archivos"
+],
+"summary": "Descargar courses-quota-history.json",
+"description": "Descarga el archivo courses-quota-history.json desde el bucket R2. Requiere autenticación Bearer token.",
+"security": [
+{
+"bearerAuth": []
+}
+],
+"responses": {
+"200": {
+"description": "Archivo descargado exitosamente",
+"content": {
+"application/json": {
+"schema": {
+"description": "Archivo JSON binario",
+"type": "string"
+}
+}
+}
+},
+"401": {
+"description": "No autorizado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"404": {
+"description": "Archivo no encontrado",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+},
+"500": {
+"description": "Error interno del servidor",
+"content": {
+"application/json": {
+"schema": {
+"type": "object",
+"properties": {
+"error": {
+"type": "string"
+},
+"details": {
+"type": "string"
+}
+},
+"required": [
+"error"
+]
+}
+}
+}
+}
+}
+}
+}
+}
+}

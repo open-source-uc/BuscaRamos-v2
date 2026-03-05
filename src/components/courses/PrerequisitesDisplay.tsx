@@ -1,9 +1,13 @@
 import { Pill } from "@/components/ui/pill";
 import { DocsIcon, DeceasedIcon, TextureIcon, OpenInFullIcon } from "@/components/icons/icons";
-import { PrerequisiteCourse, PrerequisiteGroup } from "@/lib/courseReq";
+import { useCourseNameMap } from "@/context/courseNameMapCtx";
+import type { CourseStaticData } from "@/lib/coursesStaticData";
+
+type ApiPrerequisiteGroup = NonNullable<CourseStaticData["parsed_meta_data"]["prerequisites"]>;
+type ApiPrerequisiteCourse = ApiPrerequisiteGroup["courses"][number];
 
 interface PrerequisitesDisplayProps {
-  prerequisites: PrerequisiteGroup;
+  prerequisites: ApiPrerequisiteGroup;
   className?: string;
 }
 
@@ -37,7 +41,7 @@ export const PrerequisitesDisplay = ({
 };
 
 interface PrerequisiteGroupComponentProps {
-  group: PrerequisiteGroup;
+  group: ApiPrerequisiteGroup;
   isNested?: boolean;
 }
 
@@ -45,13 +49,15 @@ const PrerequisiteGroupComponent = ({
   group,
   isNested = false,
 }: PrerequisiteGroupComponentProps) => {
+  const { courseNameMap } = useCourseNameMap();
   const groupLabel =
     group.type === "AND"
       ? "Debes aprobar todos los cursos de este grupo"
       : "Debes aprobar solo uno de los cursos de este grupo";
 
-  const renderCourse = (course: PrerequisiteCourse, index: number) => {
-    const hasName = course.name && course.name.trim() !== "";
+  const renderCourse = (course: ApiPrerequisiteCourse, index: number) => {
+    const courseName = courseNameMap[course.sigle.toUpperCase()] || "";
+    const hasName = courseName.trim() !== "";
 
     if (!hasName) {
       return (
@@ -76,8 +82,8 @@ const PrerequisiteGroupComponent = ({
       >
         <div className="flex min-w-0 flex-1 items-center gap-3">
           <Pill
-            icon={course.isCoreq ? TextureIcon : undefined}
-            variant={course.isCoreq ? "orange" : "blue"}
+            icon={course.is_coreq ? TextureIcon : undefined}
+            variant={course.is_coreq ? "orange" : "blue"}
             size="xs"
             className="flex-shrink-0 w-20 justify-center"
           >
@@ -85,8 +91,8 @@ const PrerequisiteGroupComponent = ({
           </Pill>
 
           <div className="min-w-0 flex-1">
-            <p className="text-foreground text-sm font-medium text-wrap" title={course.name}>
-              {course.name}
+            <p className="text-foreground text-sm font-medium text-wrap" title={courseName}>
+              {courseName}
             </p>
           </div>
         </div>
@@ -96,7 +102,7 @@ const PrerequisiteGroupComponent = ({
     );
   };
 
-  const renderGroup = (subGroup: PrerequisiteGroup, index: number) => (
+  const renderGroup = (subGroup: ApiPrerequisiteGroup, index: number) => (
     <div
       key={`group-${index}`}
       className="border-border bg-muted/30 my-2 w-full overflow-hidden rounded-lg border px-2 py-4"
@@ -146,14 +152,14 @@ const PrerequisiteGroupComponent = ({
       {/* Render courses and groups with separators */}
       <div className="w-full space-y-1">
         {allItems.map((item, index) => {
-          const isGroup = "type" in item;
+          const isGroup = "courses" in item;
           const isLast = index === allItems.length - 1;
 
           return (
             <div key={`item-${index}`} className="w-full">
               {isGroup
-                ? renderGroup(item as PrerequisiteGroup, index)
-                : renderCourse(item as PrerequisiteCourse, index)}
+                ? renderGroup(item as ApiPrerequisiteGroup, index)
+                : renderCourse(item as ApiPrerequisiteCourse, index)}
               {!isNested && !isLast && renderSeparatorPill(group.type)}
             </div>
           );

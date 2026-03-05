@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { getCourseReviews } from "../../actions/reviews";
 import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
@@ -18,22 +19,35 @@ import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 import CourseInformation from "@/components/ui/CourseInformation";
 import CourseRelationsSections from "@/components/courses/CourseRelationsSections";
 
+const getCoursePageData = cache(async (sigle: string) => {
+  const course = await getCourseStaticData(sigle);
+
+  if (!course) {
+    return null;
+  }
+
+  const stats = await getCourseStats(course.sigle);
+
+  return { course, stats };
+});
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ sigle: string }>;
 }): Promise<Metadata> {
   const { sigle } = await params;
-  const course = await getCourseStaticData(sigle.toUpperCase());
+  const data = await getCoursePageData(sigle);
 
-  if (!course) {
+  if (!data) {
     return {
       title: "Curso no encontrado - BuscaRamos",
       description: "El curso solicitado no se encuentra en nuestro catálogo.",
     };
   }
 
-  const stats = await getCourseStats(course.sigle);
+  const { course, stats } = data;
+
   const positivePercentage = stats
     ? calculatePositivePercentage(stats.likes, stats.superlikes, stats.dislikes)
     : 0;
@@ -86,12 +100,13 @@ export async function generateMetadata({
 
 export default async function CoursePage({ params }: { params: Promise<{ sigle: string }> }) {
   const { sigle } = await params;
-  const course = await getCourseStaticData(sigle.toUpperCase());
+  const data = await getCoursePageData(sigle);
 
-  if (!course) notFound();
+  if (!data) notFound();
 
-  const [stats, reviews, userVotes] = await Promise.all([
-    getCourseStats(course.sigle),
+  const { course, stats } = data;
+
+  const [reviews, userVotes] = await Promise.all([
     getCourseReviews(course.sigle, 100),
     getVotesOnReviewsInCourseByUserID(course.sigle),
   ]);
@@ -112,7 +127,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
   const attendanceLabel = stats
     ? getAttendanceLabel(stats.votes_mandatory_attendance, stats.votes_optional_attendance, 0)
     : "Sin datos";
-  const weeklyHoursLabel = stats ? formatWeeklyHours(stats.avg_weekly_hours) : "Sin datos";
+  const weeklyHoursLabel = formatWeeklyHours(stats?.avg_weekly_hours ?? null);
   const totalReviews = stats ? stats.likes + stats.superlikes + stats.dislikes : 0;
 
   return (
@@ -162,11 +177,11 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
               <p className="text-lg font-semibold">{attendanceLabel}</p>
             </div>
           </div>
-          {stats && (
-            <div className="text-sm text-muted-foreground">
-              Basado en {stats.votes_mandatory_attendance + stats.votes_optional_attendance} votos
-            </div>
-          )}
+          <div className="text-sm text-muted-foreground">
+            Basado en{" "}
+            {(stats?.votes_mandatory_attendance ?? 0) + (stats?.votes_optional_attendance ?? 0)}{" "}
+            votos
+          </div>
         </div>
 
         <div className="border border-border bg-accent rounded-md p-6">
@@ -179,12 +194,10 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
               <p className="text-lg font-semibold">{totalReviews}</p>
             </div>
           </div>
-          {stats && (
-            <div className="flex gap-2 text-sm">
-              <span className="text-green">{stats.likes + stats.superlikes} ↑</span>
-              <span className="text-red">{stats.dislikes} ↓</span>
-            </div>
-          )}
+          <div className="flex gap-2 text-sm">
+            <span className="text-green">{(stats?.likes ?? 0) + (stats?.superlikes ?? 0)} ↑</span>
+            <span className="text-red">{stats?.dislikes ?? 0} ↓</span>
+          </div>
         </div>
       </section>
 

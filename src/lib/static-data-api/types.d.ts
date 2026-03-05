@@ -24,6 +24,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/data/batch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Obtener Datos Unificados de Varios Cursos
+         * @description Obtiene múltiples entradas de courses-unified.json repitiendo el query parameter sigle. Ejemplo: /data/batch?sigle=ACO250E&sigle=ADP001E
+         */
+        get: operations["getDataBatch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/data/{sigle}": {
         parameters: {
             query?: never;
@@ -118,6 +138,26 @@ export interface paths {
          * @description Sube un archivo JSON de semestre al bucket R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.
          */
         post: operations["postUploadSemester-json"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/upload/course-name-map": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Subir course-name-map.json
+         * @description Sube el archivo course-name-map.json al bucket R2. El contenido debe ser un JSON con formato { "<sigle>": "<name>" }. Requiere autenticación Bearer token.
+         */
+        post: operations["postUploadCourse-name-map"];
         delete?: never;
         options?: never;
         head?: never;
@@ -244,26 +284,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/reload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Recargar Datos de Cursos
-         * @description Genera y actualiza el archivo NDJSON con los datos combinados de la base de datos y los datos estáticos. Sube el resultado al bucket R2. Requiere autenticación Bearer token.
-         */
-        get: operations["getReload"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -292,6 +312,145 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+        };
+    };
+    getDataBatch: {
+        parameters: {
+            query: {
+                /** @description Siglas de cursos a consultar. Repetir el parámetro para enviar varias siglas. */
+                sigle: string[];
+                /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
+                hash?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Datos de los cursos solicitados */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        sigle: string;
+                        name: string;
+                        credits: number;
+                        parsed_meta_data: {
+                            has_prerequisites: boolean;
+                            has_restrictions: boolean;
+                            has_equivalences: boolean;
+                            unlocks_courses: boolean;
+                            /** @enum {string} */
+                            connector?: "AND" | "OR";
+                            restrictions?: {
+                                /** @enum {string} */
+                                type: "AND" | "OR";
+                                restrictions: {
+                                    /** @enum {string} */
+                                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                                    /** @enum {string} */
+                                    operator: "=" | ">=" | "<>";
+                                    value: string;
+                                    raw?: string;
+                                }[];
+                                groups: {
+                                    /** @enum {string} */
+                                    type: "AND" | "OR";
+                                    restrictions: {
+                                        /** @enum {string} */
+                                        type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                                        /** @enum {string} */
+                                        operator: "=" | ">=" | "<>";
+                                        value: string;
+                                        raw?: string;
+                                    }[];
+                                    groups: {
+                                        /** @enum {string} */
+                                        type: "AND" | "OR";
+                                        restrictions: {
+                                            /** @enum {string} */
+                                            type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                                            /** @enum {string} */
+                                            operator: "=" | ">=" | "<>";
+                                            value: string;
+                                            raw?: string;
+                                        }[];
+                                        groups: [
+                                        ];
+                                    }[];
+                                }[];
+                            };
+                            prerequisites?: {
+                                /** @enum {string} */
+                                type: "AND" | "OR";
+                                courses: {
+                                    sigle: string;
+                                    is_coreq: boolean;
+                                }[];
+                                groups: {
+                                    /** @enum {string} */
+                                    type: "AND" | "OR";
+                                    courses: {
+                                        sigle: string;
+                                        is_coreq: boolean;
+                                    }[];
+                                    groups: {
+                                        /** @enum {string} */
+                                        type: "AND" | "OR";
+                                        courses: {
+                                            sigle: string;
+                                            is_coreq: boolean;
+                                        }[];
+                                        groups: [
+                                        ];
+                                    }[];
+                                }[];
+                            };
+                            equivalences?: string[];
+                            unlocks?: {
+                                as_prerequisite: string[];
+                                as_corequisite: string[];
+                            };
+                        };
+                        school: string;
+                        area: string[];
+                        categories: string[];
+                        format: string[];
+                        campus: string[];
+                        is_removable: boolean[];
+                        is_special: boolean[];
+                        is_english: boolean[];
+                        last_semester: string;
+                        description?: string;
+                    }[];
+                };
+            };
+            /** @description Falta el query parameter sigle */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Uno o más cursos no fueron encontrados */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                        missing: string[];
+                    };
                 };
             };
         };
@@ -408,15 +567,6 @@ export interface operations {
                         is_english: boolean[];
                         last_semester: string;
                         description?: string;
-                        likes: number;
-                        dislikes: number;
-                        superlikes: number;
-                        votes_low_workload: number;
-                        votes_medium_workload: number;
-                        votes_high_workload: number;
-                        votes_mandatory_attendance: number;
-                        votes_optional_attendance: number;
-                        avg_weekly_hours: number | null;
                     };
                 };
             };
@@ -545,15 +695,6 @@ export interface operations {
                         is_english: boolean[];
                         last_semester: string;
                         description?: string;
-                        likes: number;
-                        dislikes: number;
-                        superlikes: number;
-                        votes_low_workload: number;
-                        votes_medium_workload: number;
-                        votes_high_workload: number;
-                        votes_mandatory_attendance: number;
-                        votes_optional_attendance: number;
-                        avg_weekly_hours: number | null;
                     };
                 };
             };
@@ -764,6 +905,77 @@ export interface operations {
                 };
             };
             /** @description Archivo inválido o JSON inválido */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                        details?: string;
+                    };
+                };
+            };
+            /** @description No autorizado */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Error interno del servidor */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                        details?: string;
+                    };
+                };
+            };
+        };
+    };
+    "postUploadCourse-name-map": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Archivo JSON en el campo "file" con nombre course-name-map.json */
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
+                    /**
+                     * Format: binary
+                     * @description Archivo JSON requerido: course-name-map.json
+                     */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Archivo subido exitosamente */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                        filename: string;
+                        size: number;
+                        overwritten: boolean;
+                    };
+                };
+            };
+            /** @description Archivo inválido, JSON inválido o estructura inválida */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1132,56 +1344,6 @@ export interface operations {
             };
             /** @description Archivo no encontrado */
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-        };
-    };
-    getReload: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Datos actualizados exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        message: string;
-                        stats: {
-                            total: number;
-                            processed: number;
-                            skipped: number;
-                        };
-                    };
-                };
-            };
-            /** @description No autorizado */
-            401: {
                 headers: {
                     [name: string]: unknown;
                 };
