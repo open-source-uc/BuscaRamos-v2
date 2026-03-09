@@ -10,6 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1,
     },
+    {
+      url: `${BASE_URL}/horario`,
+      changeFrequency: "monthly",
+      priority: 1,
+    },
     ...sigles.map((sigle) => ({
       url: `${BASE_URL}/${sigle}`,
       changeFrequency: "weekly" as const,
