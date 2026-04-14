@@ -20,7 +20,7 @@ import EditableButton from "./EditableButton";
 import { CourseStaticData } from "@/lib/coursesStaticData";
 import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
-import { use } from "react";
+import { use, useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function Review({
@@ -42,6 +42,43 @@ export default function Review({
     const { user, isRoot } = use(AuthContext);
     editable = isRoot || user?.userId === review.user_id;
   }
+
+  const [user, setUser] = useState<{
+    id: number;
+    username: string;
+    career: number;
+    email_hash: string;
+  } | null>(null);
+
+
+  // Función para obtener la información del usuario que hizo la reseña
+  const userInfo = async () => {
+    const response = await fetch(`https://auth.osuc.dev/api/user/${review.user_id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    
+    if (!response.ok) {
+      console.error("Failed to fetch user info:", response.status);
+      return null;
+    }
+    
+    const userdata = await response.json();
+    console.log("Fetched user info:", userdata);
+    return userdata;
+  }
+
+  useEffect(() => {
+  userInfo().then((data) => {
+    if (data) setUser(data as {
+      id: number;
+      username: string;
+      career: number;
+      email_hash: string;
+    });
+  });
+}, [review.user_id]);
 
   return (
     <div className="relative bg-background border border-border flex flex-col gap-4 rounded-sm p-5 overflow-hidden w-full">
@@ -148,6 +185,11 @@ export default function Review({
           )}
           <ShareButton path={`/review/${review.id}`}></ShareButton>
           <ReportButton reviewId={review.id}></ReportButton>
+          {user && (
+            <p className="text-sm text-muted-foreground">
+              Carrera: {user.career}
+            </p>
+)}
         </div>
       </div>
     </div>
