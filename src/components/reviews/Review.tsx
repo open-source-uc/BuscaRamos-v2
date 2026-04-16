@@ -3,9 +3,12 @@
 import { formatWeeklyHours } from "@/lib/courseStats";
 import {
   AttendanceIcon,
+  BookIcon,
   CalendarIcon,
+  CareerIcon,
   ClockIcon,
   StarIcon,
+  SwapIcon,
   ThumbDownIcon,
   ThumbUpIcon,
   WorkloadIcon,
@@ -22,6 +25,7 @@ import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import { Book } from "lucide-react";
 
 export default function Review({
   review,
@@ -53,21 +57,29 @@ export default function Review({
 
   // Función para obtener la información del usuario que hizo la reseña
   const userInfo = async () => {
-    const response = await fetch(`https://auth.osuc.dev/api/user/${review.user_id}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    
-    if (!response.ok) {
-      console.error("Failed to fetch user info:", response.status);
+    console.log("Entering userInfo function with user_id:", review.user_id);
+
+    try {
+      const response = await fetch(`https://auth.osuc.dev/api/user/${review.user_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      if (!response.ok) {
+        console.error("Failed to fetch user info:", response.status);
+        return null;
+      }
+      
+      const userdata = await response.json();
+      console.log("Fetched user info:", userdata);
+      return userdata;
+
+    } catch (error) {
+      console.error("Error fetching user info:", error);
       return null;
-    }
-    
-    const userdata = await response.json();
-    console.log("Fetched user info:", userdata);
-    return userdata;
   }
+};
 
   useEffect(() => {
   userInfo().then((data) => {
@@ -183,13 +195,12 @@ export default function Review({
               <EditableButton reviewId={review.id}></EditableButton>
             </>
           )}
+          <Pill variant="purple" icon={CareerIcon}>
+            <span>Carrera</span>            
+          </Pill>
+
           <ShareButton path={`/review/${review.id}`}></ShareButton>
           <ReportButton reviewId={review.id}></ReportButton>
-          {user && (
-            <p className="text-sm text-muted-foreground">
-              Carrera: {user.career}
-            </p>
-)}
         </div>
       </div>
     </div>

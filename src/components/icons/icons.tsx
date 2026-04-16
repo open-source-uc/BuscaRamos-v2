@@ -823,3 +823,17 @@ export function BookIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function CareerIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="24px"
+      viewBox="0 -960 960 960"
+      width="24px"
+      className={className}
+    >
+      <path d="M280-80v-294L168-480l112-106V-880h400v294l112 106-112 106V-80L480-160 280-80Zm80-80 120-55 120 55v-134q-29 8-60 11t-60 3q-29 0-60-3t-60-11v134Zm120-177q93 0 156.5-63.5T700-557q0-93-63.5-156.5T480-777q-93 0-156.5 63.5T260-557q0 93 63.5 156.5T480-337ZM360-800v-80h240v80H360Zm120 360Z" />
+    </svg>
+  );
+}

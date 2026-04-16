@@ -209,7 +209,6 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
             <h2 className="text-2xl font-semibold">Reseñas ({reviews.length})</h2>
             <MakeReviewButton sigle={course.sigle} />
           </div>
-          <p>Probando</p>
           {reviews.length === 0 ? (
             <p className="text-gray-500">No hay reseñas para este curso.</p>
           ) : (

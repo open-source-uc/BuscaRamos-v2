@@ -69,8 +69,10 @@ export default function CourseInformation({
           {Array.isArray(course.format) && course.format.some((f) => f.trim() !== "") && (
             <Pill variant="yellow" icon={SwapIcon}>
               <span>{course.format.filter((f) => f.trim() !== "").join(", ")}</span>
+              
             </Pill>
           )}
+          
 
           {Array.isArray(course.area) &&
             course.area.length > 0 &&
