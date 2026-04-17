@@ -71,7 +71,7 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 w-[90vw] max-w-[90vw]">
+      <div className="flex items-center justify-end space-x-2 py-4 w-full">
         <div className="text-foreground-muted-dark flex-1 text-sm">
           {table.getFilteredRowModel().rows.length} cursos encontrados
         </div>
