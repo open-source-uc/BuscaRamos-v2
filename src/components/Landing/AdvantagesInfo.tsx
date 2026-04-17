@@ -19,7 +19,7 @@ export default function AdvantagesInfo() {
             <div className="bg-green-light text-green border-green/20 rounded-lg border p-3">
               <ThumbUpIcon className="h-6 w-6 fill-current" />
             </div>
-            <h3 className="text-xl font-semibold">Reseñas Reales</h3>
+            <h3 className="text-xl font-semibold">Reseñas auténticas</h3>
           </div>
           <p className="text-muted-foreground">
             Opiniones auténticas de estudiantes que ya cursaron los ramos. Conoce la verdadera
@@ -32,7 +32,7 @@ export default function AdvantagesInfo() {
             <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-3">
               <WorkloadIcon className="h-6 w-6 fill-current" />
             </div>
-            <h3 className="text-xl font-semibold">Estadísticas Detalladas</h3>
+            <h3 className="text-xl font-semibold">Información precisa</h3>
           </div>
           <p className="text-muted-foreground">
             Carga académica, asistencia requerida y más datos. Toda la información que necesitas en
@@ -45,7 +45,7 @@ export default function AdvantagesInfo() {
             <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-3">
               <ResourcesIcon className="h-6 w-6 fill-current" />
             </div>
-            <h3 className="text-xl font-semibold">Recursos Académicos</h3>
+            <h3 className="text-xl font-semibold">Recursos académicos</h3>
           </div>
           <p className="text-muted-foreground">
             Accede a materiales de estudio, recomendaciones y recursos compartidos por la comunidad
