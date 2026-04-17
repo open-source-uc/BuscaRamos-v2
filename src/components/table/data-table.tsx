@@ -111,11 +111,21 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     <div className="space-y-6">
       {/* Search Section */}
       <div className="flex flex-col gap-4">
-        <div className="w-full">
+        <div className="flex flex-col w-full items-center justify-center mt-20 mb-5 gap-5">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <h1 className="text-5xl font-semibold text-center leading-tight">
+              Planifica tu semestre a tu medida
+            </h1>
+
+            <p className="text-lg text-stone-600 font-medium">
+              Descubre opiniones, estadísticas y recursos de miles de cursos universitarios
+            </p>
+          </div>
+
           <Search
             onSearch={handleSearch}
             placeholder="Buscar por nombre o sigla..."
-            className="w-full"
+            className="w-xl min-w-64"
             initialValue={externalSearchValue}
             isSearching={fuseSearch.isSearching}
           />
