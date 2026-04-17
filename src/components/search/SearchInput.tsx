@@ -60,7 +60,7 @@ export function Search({
   };
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center gap-2 rounded-md ${className}`}>
       <div className="relative flex-1">
         <div className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 transform">
           {isSearching ? (
@@ -86,7 +86,7 @@ export function Search({
           value={displayValue}
           onChange={(e) => handleSearch(e.target.value)}
           onKeyDown={onKeyDown}
-          className="pl-10"
+          className="bg-white pl-10"
         />
         {displayValue && (
           <Button
