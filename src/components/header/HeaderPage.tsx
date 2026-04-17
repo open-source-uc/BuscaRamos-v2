@@ -24,9 +24,9 @@ export default function HeaderPage() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white py-5 px-10 flex items-center justify-between shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white p-5 flex items-center justify-between shadow-sm">
       {/* Izquierda: título y subtítulo */}
-      <Link className="flex items-center gap-3" href={"/"}>
+      <Link className="flex items-center gap-2 shrink-0" href={"/"}>
         <Image
           src={logo}
           alt="BuscaRamos - Logotipo principal"
@@ -50,8 +50,8 @@ export default function HeaderPage() {
         </div>
       </Link>
 
-      <nav className="flex-1 px-20">
-        <ul className="flex gap-5">
+      <nav className="hidden lg:flex flex-1 px-4">
+        <ul className="flex items-center gap-6 lg:gap-8 lg:px-4">
           <li>
             <NavbarLink href="catalogo">CATÁLOGO</NavbarLink>
           </li>
