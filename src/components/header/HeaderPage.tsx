@@ -53,7 +53,7 @@ export default function HeaderPage() {
       <nav className="flex-1 px-20">
         <ul className="flex gap-5">
           <li>
-            <NavbarLink href="catalog">CATÁLOGO</NavbarLink>
+            <NavbarLink href="catalogo">CATÁLOGO</NavbarLink>
           </li>
 
           <li>

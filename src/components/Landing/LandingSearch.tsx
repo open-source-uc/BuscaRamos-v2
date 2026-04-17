@@ -12,9 +12,9 @@ export default function LandingSearch() {
   const handleSearch = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      window.location.href = `/catalog?search=${encodeURIComponent(searchTerm.trim())}`;
+      window.location.href = `/catalogo?search=${encodeURIComponent(searchTerm.trim())}`;
     } else {
-      window.location.href = "/catalog";
+      window.location.href = "/catalogo";
     }
   };
 
