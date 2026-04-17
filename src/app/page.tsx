@@ -59,7 +59,7 @@ export default async function HomePage() {
         <AdvantagesInfo />
       </section>
 
-      <section className="tablet:py-20 py-16 max-w-6xl">
+      <section className="tablet:py-20 mx-auto max-w-6xl px-4 py-16">
         <GettingStarted />
       </section>
     </main>
