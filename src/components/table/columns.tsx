@@ -16,7 +16,7 @@ export const columns: ColumnDef<CourseScore>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="place-self-center my-2 flex items-center gap-2 font-semibold"
+          className="place-self-center my-2 flex items-center gap-2 font-semibold hover:bg-muted/50"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -35,7 +35,7 @@ export const columns: ColumnDef<CourseScore>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="place-self-center my-2 flex items-center gap-2 font-semibold"
+          className="place-self-center my-2 flex items-center gap-2 font-semibold hover:bg-muted/50"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -61,7 +61,7 @@ export const columns: ColumnDef<CourseScore>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="place-self-center my-2 flex items-center gap-2 font-semibold"
+          className="place-self-center my-2 flex items-center gap-2 font-semibold hover:bg-muted/50"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -80,7 +80,7 @@ export const columns: ColumnDef<CourseScore>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="place-self-center my-2 flex items-center gap-2 font-semibold"
+          className="place-self-center my-2 flex items-center gap-2 font-semibold hover:bg-muted/50"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -104,7 +104,7 @@ export const columns: ColumnDef<CourseScore>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="place-self-center my-2 flex items-center gap-2 font-semibold"
+          className="place-self-center my-2 flex items-center gap-2 font-semibold hover:bg-muted/50"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -132,7 +132,7 @@ export const columns: ColumnDef<CourseScore>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="place-self-center my-2 flex items-center gap-2 font-semibold"
+          className="place-self-center my-2 flex items-center gap-2 font-semibold hover:bg-muted/50"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
