@@ -37,15 +37,7 @@ export default function HeaderPage() {
         <div className="flex flex-col justify-center">
           <h1 className="text-2xl font-semibold leading-none">BuscaRamos</h1>
           <span className="text-xs font-semibold leading-none">
-            by{" "}
-            <a
-              href="https://osuc.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500"
-            >
-              OSUC
-            </a>
+            by <span className="text-blue-500">OSUC</span>
           </span>
         </div>
       </Link>
