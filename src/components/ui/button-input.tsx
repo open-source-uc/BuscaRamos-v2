@@ -74,7 +74,8 @@ const iconVariants = cva("fill-current", {
 });
 
 export interface ButtonInputProps
-  extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "htmlFor">,
+  extends
+    Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "htmlFor">,
     VariantProps<typeof buttonInputVariants> {
   icon?: React.ComponentType<{ className?: string }>;
   title: string;

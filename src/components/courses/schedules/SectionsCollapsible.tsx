@@ -185,15 +185,25 @@ function ScheduleGrid({
 
       <div className="border-border tablet:mt-3 tablet:pt-3 mt-2 border-t pt-2">
         <div className="flex flex-wrap items-center gap-1 tablet:gap-2">
-          <Pill variant="blue" icon={BuildingIcon} size="xs">{campus}</Pill>
-          <Pill variant="green" icon={LinkIcon} size="xs">NRC {nrc}</Pill>
+          <Pill variant="blue" icon={BuildingIcon} size="xs">
+            {campus}
+          </Pill>
+          <Pill variant="green" icon={LinkIcon} size="xs">
+            NRC {nrc}
+          </Pill>
           {category && category.trim() !== "" && (
-            <Pill variant="purple" icon={CategoryIcon} size="xs">{category}</Pill>
+            <Pill variant="purple" icon={CategoryIcon} size="xs">
+              {category}
+            </Pill>
           )}
           {area && area.trim() !== "" && (
-            <Pill variant="pink" icon={AreaIcon} size="xs">{area}</Pill>
+            <Pill variant="pink" icon={AreaIcon} size="xs">
+              {area}
+            </Pill>
           )}
-          <Pill variant="orange" icon={AttendanceIcon} size="xs">{format}</Pill>
+          <Pill variant="orange" icon={AttendanceIcon} size="xs">
+            {format}
+          </Pill>
           <Pill
             variant={isRemovable ? "green" : "red"}
             icon={isRemovable ? CheckIcon : CloseIcon}
@@ -202,10 +212,14 @@ function ScheduleGrid({
             {isRemovable ? "Retirable" : "No retirable"}
           </Pill>
           {isEnglish && (
-            <Pill variant="purple" icon={LanguageIcon} size="xs">En Inglés</Pill>
+            <Pill variant="purple" icon={LanguageIcon} size="xs">
+              En Inglés
+            </Pill>
           )}
           {isSpecial && (
-            <Pill variant="yellow" icon={StarIcon} size="xs">Especial</Pill>
+            <Pill variant="yellow" icon={StarIcon} size="xs">
+              Especial
+            </Pill>
           )}
         </div>
       </div>
@@ -291,8 +305,7 @@ export default function SectionsCollapsible({
     setRefreshKey((prev) => prev + 1);
   };
 
-  const semesterLabel = (s: ValidSemester) =>
-    s === currentSemester ? `${s} (actual)` : s;
+  const semesterLabel = (s: ValidSemester) => (s === currentSemester ? `${s} (actual)` : s);
 
   const semesterOptions: ComboboxOption[] = SEMESTERS.map((s) => ({
     value: s,
@@ -410,9 +423,7 @@ export default function SectionsCollapsible({
       </div>
 
       {/* Historial de cupos — solo cuando no está controlado externamente */}
-      {!externalSemester && (
-        <QuotaHistorySection quotaTimeline={quotaTimeline} className="mt-3" />
-      )}
+      {!externalSemester && <QuotaHistorySection quotaTimeline={quotaTimeline} className="mt-3" />}
     </section>
   );
 }

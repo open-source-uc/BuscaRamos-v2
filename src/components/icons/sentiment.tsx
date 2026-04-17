@@ -27,8 +27,7 @@ const sentimentVariants = cva("inline-flex items-center gap-3 rounded-lg transit
 });
 
 export interface SentimentProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof sentimentVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof sentimentVariants> {
   sentiment: "veryHappy" | "happy" | "neutral" | "sad" | "verySad" | "question";
   ariaLabel?: string;
   showTooltip?: boolean;

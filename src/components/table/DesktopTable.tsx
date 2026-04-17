@@ -49,7 +49,11 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
                       <a
                         href={`/${row.original.sigle}`}
                         className="block w-full h-full text-inherit no-underline"
-                        aria-label={index === 0 ? `Ver detalles del curso ${row.original.sigle} - ${row.original.name}` : undefined}
+                        aria-label={
+                          index === 0
+                            ? `Ver detalles del curso ${row.original.sigle} - ${row.original.name}`
+                            : undefined
+                        }
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </a>

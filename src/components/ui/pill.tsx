@@ -43,8 +43,7 @@ const pillVariants = cva("inline-flex items-center rounded-lg border font-medium
 });
 
 export interface PillProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof pillVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof pillVariants> {
   icon?: React.ComponentType<{ className?: string }>;
 }
 
