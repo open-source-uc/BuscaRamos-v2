@@ -7,6 +7,7 @@ import {
   createScheduleMatrix,
   detectScheduleConflicts,
   TIME_SLOTS,
+  TIME_RANGES,
   DAYS,
   convertCourseDataToSections,
   shuffleSections,
@@ -52,6 +53,7 @@ import SectionsCollapsible, {
   SEMESTERS,
   type ValidSemester,
 } from "@/components/courses/schedules/SectionsCollapsible";
+import { Microwave } from "lucide-react";
 const ConflictResolver = lazy(() => import("@/components/courses/schedules/ConflictResolver"));
 const ScheduleCombinations = lazy(
   () => import("@/components/courses/schedules/ScheduleCombinations")
@@ -214,8 +216,12 @@ function ScheduleGrid({
                     gridColumns
                   )}
                 >
-                  <div className="text-muted-foreground bg-muted/25 flex items-center px-2 py-2 text-[10px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
-                    {time}
+                  <div className="text-muted-foreground bg-muted/25 flex items-center px-2 py-2 text-[10px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm gap-2">
+                    <h3 className="text-xl">{timeIndex + 1}</h3>
+                    <h3 className="text-center">
+                      {time} <br />
+                      {TIME_RANGES[time as keyof typeof TIME_RANGES]}
+                    </h3>
                   </div>
 
                   {DAYS.map((day, dayIndex) => {
@@ -309,11 +315,20 @@ function ScheduleGrid({
 
                 {time === "12:20" && (
                   <div className={cn("border-border grid border-b", gridColumns)}>
-                    <div className="bg-orange-light px-2 py-3 text-left text-[10px] font-semibold tablet:px-4 tablet:py-6 tablet:text-sm">
-                      13:30 - 14:50 <br />
-                      Horario de Almuerzo
+                    <div className="bg-muted/70 text-muted-foreground flex px-2 py-2 gap-1 text-left text-[10px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
+                      <Microwave
+                        size={16}
+                        strokeWidth={1.5}
+                        className="shrink-0 text-transparent stroke-muted-foreground"
+                      />
+                      <h3 className="text-center">
+                        13:30 <br />
+                        14:50
+                      </h3>
                     </div>
-                    <div className="bg-orange-light/70 col-span-6 flex items-center justify-center p-2 text-center text-sm font-semibold"></div>
+                    <div className="bg-muted/70 text-muted-foreground col-span-6 flex items-center justify-center p-2 text-center text-sm font-semibold">
+                      HORARIO DE ALMUERZO
+                    </div>
                   </div>
                 )}
               </div>
