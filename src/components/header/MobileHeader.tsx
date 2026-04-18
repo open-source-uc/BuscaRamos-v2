@@ -100,7 +100,7 @@ export default function MobileHeader() {
                 <Link
                   href="/horario"
                   onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border-px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
+                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
                 >
                   HORARIO
                 </Link>
