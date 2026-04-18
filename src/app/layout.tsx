@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "@/styles/global.css";
-import HeaderPage from "@/components/header/HeaderPage";
+import Header from "@/components/header/Header";
 import FloatingNavButton from "@/components/FloatingNavButton";
 import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
@@ -80,7 +80,7 @@ export default function RootLayout({
         <SemesterProvider>
           <CourseNameMapProvider>
             <AuthProvider>
-              <HeaderPage />
+              <Header />
               {children}
               <Toaster
                 position="top-center"
