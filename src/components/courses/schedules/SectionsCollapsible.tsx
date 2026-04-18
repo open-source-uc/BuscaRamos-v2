@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import {
   CalendarIcon,
@@ -72,12 +72,9 @@ function ScheduleGrid({
   onAddToSchedule: (courseId: string, success: boolean) => void;
   sectionData?: any;
 }) {
-  const [isInSchedule, setIsInSchedule] = useState(false);
   const courseId = `${courseSigle}-${sectionId}`;
-
-  useEffect(() => {
-    setIsInSchedule(isCourseInSchedule(courseId, semester));
-  }, [courseId, semester]);
+  const isInSchedule =
+    typeof window !== "undefined" ? isCourseInSchedule(courseId, semester) : false;
 
   const nrc = sectionData?.nrc || "Sin NRC";
   const campus = sectionData?.campus || "Sin campus";
@@ -90,7 +87,6 @@ function ScheduleGrid({
 
   const handleAddToSchedule = () => {
     const success = addCourseToSchedule(courseId, semester);
-    if (success) setIsInSchedule(true);
     onAddToSchedule(courseId, success);
   };
 
@@ -115,7 +111,7 @@ function ScheduleGrid({
       </div>
 
       <div className="mt-2 tablet:mt-3 overflow-x-auto">
-        <div className="min-w-[220px]">
+        <div className="min-w-55">
           <div
             className="tablet:gap-1 tablet:mb-1.5 mb-0.5 grid gap-0.5"
             style={{ gridTemplateColumns: `28px repeat(${displayDays.length}, 1fr)` }}
@@ -161,7 +157,7 @@ function ScheduleGrid({
                     return (
                       <div
                         key={`${day}-${timeIndex}`}
-                        className="tablet:min-h-[28px] flex min-h-[20px] items-center justify-center px-0.5 py-0.5"
+                        className="tablet:min-h-7 flex min-h-5 items-center justify-center px-0.5 py-0.5"
                       >
                         {hasClass && classInfo && (
                           <Pill
@@ -333,7 +329,7 @@ export default function SectionsCollapsible({
       {!externalSemester && (
         <div className="bg-accent border-border mb-3 flex flex-col gap-3 rounded-md border px-4 py-3 tablet:flex-row tablet:items-center tablet:justify-between tablet:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="bg-orange-light text-orange border-orange/20 flex-shrink-0 rounded-lg border p-2">
+            <div className="bg-orange-light text-orange border-orange/20 shrink-0 rounded-lg border p-2">
               <CalendarIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0">
@@ -361,7 +357,7 @@ export default function SectionsCollapsible({
                 </p>
               </div>
             </div>
-            <div className="ml-4 flex flex-shrink-0 items-center gap-2">
+            <div className="ml-4 flex shrink-0 items-center gap-2">
               {externalSemester && (
                 <span className="text-muted-foreground text-xs">{effectiveSemester}</span>
               )}
