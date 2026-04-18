@@ -96,8 +96,8 @@ export default function HeaderPage() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                <Link href="/colaboradores" className="hover:bg-muted">
-                  COLABORADORES
+                <Link href="/contribuidores" className="hover:bg-muted">
+                  CONTRIBUIDORES
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
