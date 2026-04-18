@@ -187,7 +187,7 @@ function ScheduleGrid({
         <div style={scaledHeight ? { height: `${scaledHeight}px` } : undefined}>
           <div
             ref={contentRef}
-            className="min-w-[632px] origin-top-left tablet:min-w-0"
+            className="min-w-158 origin-top-left tablet:min-w-0"
             style={mobileScale < 1 ? { transform: `scale(${mobileScale})` } : undefined}
           >
             {/* Header */}
@@ -226,7 +226,7 @@ function ScheduleGrid({
                       <div
                         key={`${day}-${timeIndex}`}
                         className={cn(
-                          "tablet:min-h-[74px] flex min-h-[58px] flex-col items-center justify-center gap-1 px-1 py-1.5 tablet:gap-1.5 tablet:px-2 tablet:py-2",
+                          "tablet:min-h-18.5 flex min-h-14.5 flex-col items-center justify-center gap-1 px-1 py-1.5 tablet:gap-1.5 tablet:px-2 tablet:py-2",
                           hasConflict && "bg-red-light border-red/20"
                         )}
                       >
