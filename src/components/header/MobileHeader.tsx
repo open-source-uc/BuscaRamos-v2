@@ -45,7 +45,7 @@ export default function MobileHeader() {
   return (
     <header className="tablet:hidden border-background flex w-full items-center px-4 py-4">
       <div className="flex w-full justify-between">
-        <Link className="flex items-center gap-2 shrink-0 z-110" href={"/"}>
+        <Link className="flex items-center gap-2 shrink-0 z-110" href={"/"} onClick={closeMenu}>
           <Image
             src={logo}
             alt="BuscaRamos - Logotipo principal"
