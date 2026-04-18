@@ -15,12 +15,12 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         variant="outline"
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
-        className="flex items-center gap-2 w-28 justify-center flex-shrink-0"
+        className="flex items-center gap-2 w-28 justify-center shrink-0"
       >
         ← Anterior
       </Button>
 
-      <div className="w-32 flex-shrink-0">
+      <div className="w-32 shrink-0">
         <span className="text-sm text-muted-foreground font-mono text-center block">
           Página {currentPage} de {totalPages}
         </span>
@@ -30,7 +30,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         variant="outline"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
-        className="flex items-center gap-2 w-28 justify-center flex-shrink-0"
+        className="flex items-center gap-2 w-28 justify-center shrink-0"
       >
         Siguiente →
       </Button>

@@ -84,7 +84,7 @@ const Pill = React.forwardRef<HTMLDivElement, PillProps>(
 
     return (
       <div className={cn(pillVariants({ variant, size, className }))} ref={ref} {...props}>
-        {Icon && <Icon className={`${iconSize} ${getIconColor()} flex-shrink-0`} />}
+        {Icon && <Icon className={`${iconSize} ${getIconColor()} shrink-0`} />}
         {children}
       </div>
     );

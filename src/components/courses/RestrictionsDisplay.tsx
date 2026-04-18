@@ -17,7 +17,7 @@ export const RestrictionsDisplay = ({ restrictions, className = "" }: Restrictio
     return (
       <div className={`w-full py-6 ${className}`}>
         <div className="text-muted-foreground flex items-center gap-3">
-          <div className="bg-green-light text-green border-green/20 flex-shrink-0 rounded-lg border p-2">
+          <div className="bg-green-light text-green border-green/20 shrink-0 rounded-lg border p-2">
             <span className="text-sm font-medium">Sin restricciones específicas</span>
           </div>
         </div>
@@ -51,7 +51,7 @@ const RestrictionGroupComponent = ({ group, isNested = false }: RestrictionGroup
         key={`restriction-${index}`}
         className="flex w-full items-center gap-3 rounded-lg border border-border bg-accent px-3 py-2"
       >
-        <Pill variant="red" size="sm" className="flex-shrink-0">
+        <Pill variant="red" size="sm" className="shrink-0">
           {restriction.type}
         </Pill>
         <div className="min-w-0 flex-1">
@@ -100,7 +100,7 @@ const RestrictionGroupComponent = ({ group, isNested = false }: RestrictionGroup
       {isNested && hasMultipleItems && (
         <div className="border-border flex w-full items-center gap-3 border-b px-2 pb-3">
           <div
-            className={`h-2 w-2 flex-shrink-0 rounded-full ${group.type === "AND" ? "bg-primary" : "bg-green"}`}
+            className={`h-2 w-2 shrink-0 rounded-full ${group.type === "AND" ? "bg-primary" : "bg-green"}`}
           ></div>
           <span className={`text-muted-foreground min-w-0 flex-1 text-sm font-semibold`}>
             {groupLabel}

@@ -63,21 +63,21 @@ export default function FormReview({
         <div className="text-muted-foreground grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
-              <div className="bg-muted-foreground mt-2 h-1 w-1 flex-shrink-0 rounded-full"></div>
+              <div className="bg-muted-foreground mt-2 h-1 w-1 shrink-0 rounded-full"></div>
               <span>Sé respetuoso con el equipo docente</span>
             </li>
             <li className="flex items-start gap-2">
-              <div className="bg-muted-foreground mt-2 h-1 w-1 flex-shrink-0 rounded-full"></div>
+              <div className="bg-muted-foreground mt-2 h-1 w-1 shrink-0 rounded-full"></div>
               <span>Incluye información útil para futuros estudiantes del curso</span>
             </li>
           </ul>
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
-              <div className="bg-muted-foreground mt-2 h-1 w-1 flex-shrink-0 rounded-full"></div>
+              <div className="bg-muted-foreground mt-2 h-1 w-1 shrink-0 rounded-full"></div>
               <span>Sé constructivo en tu reseña</span>
             </li>
             <li className="flex items-start gap-2">
-              <div className="bg-muted-foreground mt-2 h-1 w-1 flex-shrink-0 rounded-full"></div>
+              <div className="bg-muted-foreground mt-2 h-1 w-1 shrink-0 rounded-full"></div>
               <span>Considera incluir ejemplos concretos de tu experiencia</span>
             </li>
           </ul>

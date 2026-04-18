@@ -300,7 +300,7 @@ export default function ScheduleCombinations({
       <section className={className}>
         <div className="bg-accent border-border overflow-hidden rounded-md border p-6">
           <div className="text-muted-foreground flex items-center gap-3">
-            <div className="bg-muted text-muted-foreground border-border flex-shrink-0 rounded-lg border p-2">
+            <div className="bg-muted text-muted-foreground border-border shrink-0 rounded-lg border p-2">
               <CalendarIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0 flex-1">
@@ -319,7 +319,7 @@ export default function ScheduleCombinations({
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-purple-light text-purple border-purple/20 flex-shrink-0 rounded-lg border p-2">
+              <div className="bg-purple-light text-purple border-purple/20 shrink-0 rounded-lg border p-2">
                 <CalendarIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0 flex-1">
@@ -329,7 +329,7 @@ export default function ScheduleCombinations({
                 </p>
               </div>
             </div>
-            <div className="ml-4 flex flex-shrink-0 items-center gap-2">
+            <div className="ml-4 flex shrink-0 items-center gap-2">
               {combinations.length > 0 && (
                 <span className="text-muted-foreground tablet:inline hidden text-sm">
                   {combinations.length} combinaciones

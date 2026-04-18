@@ -665,7 +665,7 @@ export default function ScheduleCreator() {
       {/* Semester selector */}
       <div className="border-border bg-accent flex flex-col gap-4 rounded-lg border p-4 tablet:flex-row tablet:items-center tablet:justify-between">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2 flex-shrink-0">
+          <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2 shrink-0">
             <CalendarIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0">
@@ -693,7 +693,7 @@ export default function ScheduleCreator() {
       <div className="border-border rounded-lg border bg-accent">
         <div className="p-4 tablet:p-6">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 flex-shrink-0">
+            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 shrink-0">
               <SearchIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -798,7 +798,7 @@ export default function ScheduleCreator() {
           className="hover:bg-muted/30 flex w-full items-center justify-between p-4 text-left transition-colors tablet:p-5"
         >
           <div className="flex min-w-0 items-center gap-3">
-            <div className="bg-pink-light text-pink border-pink/20 flex-shrink-0 rounded-lg border p-2">
+            <div className="bg-pink-light text-pink border-pink/20 shrink-0 rounded-lg border p-2">
               <AreaIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0">
@@ -810,7 +810,7 @@ export default function ScheduleCreator() {
           </div>
           <ChevronDownIcon
             className={cn(
-              "text-muted-foreground ml-4 h-5 w-5 flex-shrink-0 transition-transform duration-200",
+              "text-muted-foreground ml-4 h-5 w-5 shrink-0 transition-transform duration-200",
               showOFGFinder && "rotate-180"
             )}
           />
@@ -897,7 +897,7 @@ export default function ScheduleCreator() {
         <div className="border-border rounded-lg border bg-accent p-4 tablet:p-6">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 flex-shrink-0">
+              <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 shrink-0">
                 <SelectionIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0">
@@ -943,7 +943,7 @@ export default function ScheduleCreator() {
                   </div>
                   <button
                     onClick={() => handleCourseRemove(courseId)}
-                    className="hover:bg-muted flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full transition-colors"
+                    className="hover:bg-muted flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors"
                     aria-label={`Eliminar ${courseId}`}
                   >
                     <CloseIcon className="h-3 w-3" />

@@ -22,7 +22,7 @@ export const PrerequisitesDisplay = ({
     return (
       <div className={`w-full py-6 ${className}`}>
         <div className="text-muted-foreground flex items-center gap-3">
-          <div className="bg-green-light text-green border-green/20 flex-shrink-0 rounded-lg border p-2">
+          <div className="bg-green-light text-green border-green/20 shrink-0 rounded-lg border p-2">
             <DocsIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0 flex-1">
@@ -66,7 +66,7 @@ const PrerequisiteGroupComponent = ({
             icon={DeceasedIcon}
             variant="ghost_blue"
             size="xs"
-            className="flex-shrink-0 w-20 justify-center"
+            className="shrink-0 w-20 justify-center"
           >
             {course.sigle}
           </Pill>
@@ -85,7 +85,7 @@ const PrerequisiteGroupComponent = ({
             icon={course.is_coreq ? TextureIcon : undefined}
             variant={course.is_coreq ? "orange" : "blue"}
             size="xs"
-            className="flex-shrink-0 w-20 justify-center"
+            className="shrink-0 w-20 justify-center"
           >
             {course.sigle}
           </Pill>
@@ -97,7 +97,7 @@ const PrerequisiteGroupComponent = ({
           </div>
         </div>
 
-        <OpenInFullIcon className="text-muted-foreground group-hover:text-foreground h-4 w-4 flex-shrink-0 transition-colors duration-200" />
+        <OpenInFullIcon className="text-muted-foreground group-hover:text-foreground h-4 w-4 shrink-0 transition-colors duration-200" />
       </a>
     );
   };
@@ -141,7 +141,7 @@ const PrerequisiteGroupComponent = ({
       {isNested && hasMultipleItems && (
         <div className="border-border flex w-full items-center gap-3 border-b px-2 pb-3">
           <div
-            className={`h-2 w-2 flex-shrink-0 rounded-full ${group.type === "AND" ? "bg-primary" : "bg-green"}`}
+            className={`h-2 w-2 shrink-0 rounded-full ${group.type === "AND" ? "bg-primary" : "bg-green"}`}
           ></div>
           <span className={`text-muted-foreground min-w-0 flex-1 text-sm font-semibold`}>
             {groupLabel}

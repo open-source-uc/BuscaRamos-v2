@@ -33,7 +33,7 @@ export default function TableCourseCampuses({
         <div className="flex flex-col min-w-0">
           <span className="text-xs font-medium opacity-80 whitespace-nowrap">{prefixText}</span>
           <div className="flex flex-wrap items-center gap-1 min-w-0">
-            {variant === "with-icon" && <LocationIcon className="h-4 w-4 flex-shrink-0" />}
+            {variant === "with-icon" && <LocationIcon className="h-4 w-4 shrink-0" />}
             <span className="break-words text-sm whitespace-normal">{validCampus.join(", ")}</span>
           </div>
         </div>
