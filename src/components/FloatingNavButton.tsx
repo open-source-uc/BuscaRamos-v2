@@ -11,6 +11,10 @@ export default function FloatingNavButton() {
   const router = useRouter();
   const isOnSchedule = pathname === SCHEDULE_PATH;
 
+  const allowedPaths = ["/catalogo", "/horario"];
+  const isVisible = allowedPaths.includes(pathname);
+  if (!isVisible) return null;
+
   const handleClick = () => {
     if (isOnSchedule) {
       const backUrl = sessionStorage.getItem(BACK_KEY) ?? "/";
