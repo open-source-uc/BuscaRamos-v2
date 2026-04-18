@@ -6,12 +6,12 @@ import TableCourseCampuses from "./TableCourseCampuses";
 import { AreaIcon, OpenInFullIcon, Sentiment } from "../icons";
 import { Pill } from "../ui/pill";
 
-interface MovilTableProps {
+interface MobileTableProps {
   table: Table<CourseScore>;
   itemsPerPage?: number;
 }
 
-export default function MovilTable({ table, itemsPerPage = 10 }: MovilTableProps) {
+export default function MobileTable({ table, itemsPerPage = 10 }: MobileTableProps) {
   const [displayedItems, setDisplayedItems] = useState(itemsPerPage);
   const [isLoading, setIsLoading] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);

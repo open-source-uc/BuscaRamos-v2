@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 
 import { CourseScore } from "@/types/types";
-import MovilTable from "./MovilTable";
+import MobileTable from "./MobileTable";
 import DesktopTable from "./DesktopTable";
 import { CourseFilters } from "../ui/CourseFilters";
 import { Search } from "../search/SearchInput";
@@ -154,7 +154,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       {/* Tables Section */}
       <div className="w-full flex justify-center">
         <DesktopTable table={table} />
-        <MovilTable table={table} />
+        <MobileTable table={table} />
       </div>
     </div>
   );
