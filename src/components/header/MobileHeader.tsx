@@ -19,6 +19,16 @@ const components: { title: string; href: string; description: string }[] = [
     href: "https://registrosacademicos.uc.cl/informacion-para-estudiantes/inscripcion-y-retiro-de-cursos/preguntas-frecuentes/",
     description: "Resuelve tus dudas sobre los cursos: inscripciones, retiros y más.",
   },
+  {
+    title: "Inscripción de Cursos",
+    href: "https://registration9.uc.cl/StudentRegistrationSsb/ssb/registration",
+    description: "Añade o elimina clases según tu horario asignado por banner.",
+  },
+  {
+    title: "Buscacursos UC",
+    href: "https://buscacursos.uc.cl/",
+    description: "La fuente oficial de la universidad para revisar la programación académica.",
+  },
 ];
 
 export default function MobileHeader() {
@@ -133,27 +143,6 @@ export default function MobileHeader() {
                     </p>
                   </a>
                 ))}
-              </div>
-            </section>
-
-            {/* Quick links */}
-            <section className="border-border rounded-md border p-6">
-              <h3 className="text-foreground mb-4 text-lg font-semibold">Enlaces Rápidos</h3>
-              <div className="grid grid-cols-1 gap-3">
-                <a
-                  href="https://buscacursos.uc.cl/"
-                  onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-md border px-4 py-3 text-center text-sm font-medium transition-colors duration-200"
-                >
-                  BUSCACURSOS
-                </a>
-                <a
-                  href="https://registration9.uc.cl/StudentRegistrationSsb/ssb/registration"
-                  onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-md border px-4 py-3 text-center text-sm font-medium transition-colors duration-200"
-                >
-                  INSCRIPCIÓN CURSOS
-                </a>
               </div>
             </section>
           </div>

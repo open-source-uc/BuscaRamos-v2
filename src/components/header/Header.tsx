@@ -32,6 +32,16 @@ const components: { title: string; href: string; description: string }[] = [
     href: "https://registrosacademicos.uc.cl/informacion-para-estudiantes/inscripcion-y-retiro-de-cursos/preguntas-frecuentes/",
     description: "Resuelve tus dudas sobre los cursos: inscripciones, retiros y más.",
   },
+  {
+    title: "Inscripción de Cursos",
+    href: "https://registration9.uc.cl/StudentRegistrationSsb/ssb/registration",
+    description: "Añade o elimina clases según tu horario asignado por banner.",
+  },
+  {
+    title: "Buscacursos UC",
+    href: "https://buscacursos.uc.cl/",
+    description: "La fuente oficial de la universidad para revisar la programación académica.",
+  },
 ];
 
 export default function HeaderPage() {
