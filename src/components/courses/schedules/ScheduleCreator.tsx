@@ -194,7 +194,7 @@ function ScheduleGrid({
           >
             {/* Header */}
             <div className={cn("bg-accent border-border grid border-b", gridColumns)}>
-              <div className="text-accent-foreground px-2 py-2 text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
+              <div className="text-accent-foreground px-2 py-2 text-center text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
                 Horario
               </div>
               {DAYS.map((day) => (
