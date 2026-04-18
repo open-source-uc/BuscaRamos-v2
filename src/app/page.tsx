@@ -55,7 +55,7 @@ export default async function HomePage() {
         <LandingSearch />
       </section>
 
-      <section className="tablet:py-20 mx-auto max-w-6xl px-4 py-16">
+      <section className="tablet:pt-32 tablet:pb-20 mx-auto max-w-6xl px-4 pt-24 pb-16">
         <AdvantagesInfo />
       </section>
 
