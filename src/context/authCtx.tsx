@@ -49,10 +49,13 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
 
   // Verificar autenticación al montar si no hay usuario inicial
   useEffect(() => {
-    if (!initialUser && !user) {
-      refreshAuth();
-    }
-  }, []);
+    const frame = requestAnimationFrame(() => {
+      if (!initialUser && !user) {
+        refreshAuth();
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [initialUser, user]);
 
   const value: AuthContextType = {
     user,
