@@ -2,6 +2,8 @@
 
 import Fuse, { IFuseOptions } from "fuse.js";
 
+type SearchableItem = Record<string, unknown>;
+
 type InitMsg<T> = {
   type: "INIT";
   data: T[];
@@ -23,17 +25,14 @@ type ResultMsg<T> = {
   items: T[];
 };
 
-let fuse: Fuse<any> | null = null;
+let fuse: Fuse<unknown> | null = null;
 
 function handleInit<T>(msg: InitMsg<T>) {
   const { data, keys, options } = msg;
-  fuse = new Fuse(
-    data as any[],
-    {
-      keys: keys as any,
-      ...(options || {}),
-    } as any
-  );
+  fuse = new Fuse(data, {
+    keys,
+    ...options,
+  }) as Fuse<unknown>;
 }
 
 function handleSearch<T>(msg: SearchMsg) {
@@ -49,7 +48,7 @@ function handleSearch<T>(msg: SearchMsg) {
   (self as unknown as Worker).postMessage(result);
 }
 
-self.addEventListener("message", (event: MessageEvent<InboundMessage<any>>) => {
+self.addEventListener("message", (event: MessageEvent<InboundMessage<SearchableItem>>) => {
   const msg = event.data;
   if (!msg) return;
 
