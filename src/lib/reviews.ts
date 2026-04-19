@@ -122,170 +122,55 @@ export async function updateStatusReview(reviewId: number, status: number) {
     .run();
 }
 
-export async function likeReview(reviewId: number, userId: string) {
-  const review = await getCourseReviewById(reviewId);
-  if (!review)
-    return {
-      userVote: null,
-    };
-
-  // verificar si el usuario ya ha votado
-  const existingVote = await DB()
+async function handleVote(reviewId: number, userId: string, newVote: 1 | -1) {
+  const existing = await DB()
     .prepare("SELECT * FROM user_vote_review WHERE review_id = ? AND user_id = ?")
     .bind(reviewId, userId)
-    .first<{
-      vote: 1 | -1;
-    }>();
+    .first<{ vote: number }>();
 
-  const newVote = 1;
-  let voteDifference = 0;
+  let voteDiff: number = newVote;
+  const queries = [];
 
-  if (existingVote) {
-    if (existingVote.vote === newVote) {
-      // Si es el mismo voto, lo eliminamos
-      voteDifference = -existingVote.vote; // Revertir el voto existente
-
-      await DB().batch([
+  if (existing) {
+    if (existing.vote === newVote) {
+      voteDiff = -newVote;
+      queries.push(
         DB()
-          .prepare(
-            `
-                    DELETE FROM user_vote_review 
-                    WHERE user_id = ? AND review_id = ?
-                `
-          )
-          .bind(userId, reviewId),
-
-        DB()
-          .prepare(
-            `
-                    UPDATE course_reviews 
-                    SET votes = votes + ?, updated_at = CURRENT_TIMESTAMP
-                    WHERE id = ?
-                `
-          )
-          .bind(voteDifference, reviewId),
-      ]);
-      return {
-        userVote: null,
-      };
+          .prepare("DELETE FROM user_vote_review WHERE user_id = ? AND review_id = ?")
+          .bind(userId, reviewId)
+      );
     } else {
-      // Si es un voto diferente, calculamos la diferencia
-      voteDifference = newVote - existingVote.vote;
+      voteDiff = newVote * 2;
+      queries.push(
+        DB()
+          .prepare("UPDATE user_vote_review SET vote = ? WHERE user_id = ? AND review_id = ?")
+          .bind(newVote, userId, reviewId)
+      );
     }
   } else {
-    // Si no existe voto previo
-    voteDifference = newVote;
+    queries.push(
+      DB()
+        .prepare("INSERT INTO user_vote_review (user_id, review_id, vote) VALUES (?, ?, ?)")
+        .bind(userId, reviewId, newVote)
+    );
   }
 
-  // Insertar o actualizar el voto
-  await DB().batch([
+  queries.push(
     DB()
       .prepare(
-        `
-            INSERT OR REPLACE INTO user_vote_review 
-            (user_id, review_id, vote) 
-            VALUES (?, ?, ?)
-        `
+        "UPDATE course_reviews SET votes = votes + ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
       )
-      .bind(userId, reviewId, newVote),
+      .bind(voteDiff, reviewId)
+  );
+  await DB().batch(queries);
 
-    DB()
-      .prepare(
-        `
-            UPDATE course_reviews 
-            SET votes = votes + ?, updated_at = CURRENT_TIMESTAMP
-            WHERE id = ?
-        `
-      )
-      .bind(voteDifference, reviewId),
-  ]);
-
-  return {
-    userVote: 1,
-  };
+  return { userVote: existing?.vote === newVote ? null : newVote };
 }
 
-export async function dislikeReview(reviewId: number, userId: string) {
-  const review = await getCourseReviewById(reviewId);
-  if (!review)
-    return {
-      userVote: null,
-    };
-
-  // verificar si el usuario ya ha votado
-  const existingVote = await DB()
-    .prepare("SELECT * FROM user_vote_review WHERE review_id = ? AND user_id = ?")
-    .bind(reviewId, userId)
-    .first<{
-      vote: 1 | -1;
-    }>();
-
-  const newVote = -1;
-  let voteDifference = 0;
-
-  if (existingVote) {
-    if (existingVote.vote === newVote) {
-      // Si es el mismo voto, lo eliminamos
-      voteDifference = -existingVote.vote; // Revertir el voto existente
-
-      await DB().batch([
-        DB()
-          .prepare(
-            `
-                    DELETE FROM user_vote_review 
-                    WHERE user_id = ? AND review_id = ?
-                `
-          )
-          .bind(userId, reviewId),
-
-        DB()
-          .prepare(
-            `
-                    UPDATE course_reviews 
-                    SET votes = votes + ?, updated_at = CURRENT_TIMESTAMP
-                    WHERE id = ?
-                `
-          )
-          .bind(voteDifference, reviewId),
-      ]);
-      return {
-        userVote: null,
-      };
-    } else {
-      // Si es un voto diferente, calculamos la diferencia
-      voteDifference = newVote - existingVote.vote;
-    }
-  } else {
-    // Si no existe voto previo
-    voteDifference = newVote;
-  }
-
-  // Insertar o actualizar el voto
-  await DB().batch([
-    DB()
-      .prepare(
-        `
-            INSERT OR REPLACE INTO user_vote_review 
-            (user_id, review_id, vote) 
-            VALUES (?, ?, ?)
-        `
-      )
-      .bind(userId, reviewId, newVote),
-
-    DB()
-      .prepare(
-        `
-            UPDATE course_reviews 
-            SET votes = votes + ?, updated_at = CURRENT_TIMESTAMP
-            WHERE id = ?
-        `
-      )
-      .bind(voteDifference, reviewId),
-  ]);
-  return {
-    userVote: -1,
-  };
-}
+export const likeReview = async (reviewId: number, userId: string) =>
+  handleVote(reviewId, userId, 1);
+export const dislikeReview = async (reviewId: number, userId: string) =>
+  handleVote(reviewId, userId, -1);
 
 export async function getVoteOnReviewByUserId(reviewId: number, userId: string) {
   const result = await DB()
