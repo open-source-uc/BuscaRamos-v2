@@ -9,27 +9,27 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": ".open-next/worker.js",
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "v2-ramos",
-      "database_id": "f97d5385-033e-4ade-aaf7-bb5736b4027c"
-    }
+      "database_id": "f97d5385-033e-4ade-aaf7-bb5736b4027c",
+    },
   ],
   "r2_buckets": [
     {
       "binding": "R2",
-      "bucket_name": "v2-ramos"
+      "bucket_name": "v2-ramos",
     },
     {
       "binding": "R2PUBLIC",
-      "bucket_name": "ousc-public"
-    }
-  ]
+      "bucket_name": "ousc-public",
+    },
+  ],
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -39,11 +39,6 @@ export default function ConflictResolver({
   const [isOpen, setIsOpen] = useState(false);
   const [resolution, setResolution] = useState<ConflictResolutionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleAnalyzeConflicts = async () => {
     setIsLoading(true);
@@ -92,7 +87,7 @@ export default function ConflictResolver({
     );
   };
 
-  if (!hasConflicts || !isMounted) return null;
+  if (!hasConflicts) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

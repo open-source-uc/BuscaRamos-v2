@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useDeferredValue, useMemo } from "react";
 import { CalendarIcon, ChevronDownIcon, SwapIcon, CheckIcon } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Pill } from "@/components/ui/pill";
@@ -160,7 +160,7 @@ function CombinationGrid({
 
       {/* Minimalist Schedule Grid */}
       <div className="overflow-x-auto">
-        <div className="min-w-[280px]">
+        <div className="min-w-70">
           {/* Header with days */}
           <div
             className={`tablet:gap-1 tablet:mb-2 mb-1 grid gap-0.5`}
@@ -212,7 +212,7 @@ function CombinationGrid({
                       <div
                         key={`${day}-${timeIndex}`}
                         className={cn(
-                          "tablet:min-h-[32px] tablet:px-1 flex min-h-[24px] flex-col items-center justify-center gap-0.5 px-0.5 py-1",
+                          "tablet:min-h-8 tablet:px-1 flex min-h-6 flex-col items-center justify-center gap-0.5 px-0.5 py-1",
                           hasConflict && "bg-red-light/30 border-red/20 rounded border"
                         )}
                       >
@@ -246,26 +246,14 @@ export default function ScheduleCombinations({
   onApplyCombination,
   className = "",
 }: ScheduleCombinationsProps) {
-  const [combinations, setCombinations] = useState<CombinationInfo[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const deferredCourses = useDeferredValue(selectedCourses);
+  const combinations = useMemo(() => {
+    if (deferredCourses.length === 0) return [];
 
-  useEffect(() => {
-    if (selectedCourses.length === 0) {
-      setCombinations((prev) => (prev.length === 0 ? prev : []));
-      return;
-    }
+    return generateAllCombinations(deferredCourses, courseSections, 12);
+  }, [deferredCourses, courseSections]);
 
-    setIsLoading(true);
-
-    // Add a small delay to show loading state
-    const timer = setTimeout(() => {
-      const allCombinations = generateAllCombinations(selectedCourses, courseSections, 12);
-      setCombinations(allCombinations);
-      setIsLoading(false);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [selectedCourses, courseSections]);
+  const isStale = selectedCourses !== deferredCourses;
 
   const handleApplyCombination = (newCourses: string[]) => {
     onApplyCombination(newCourses);
@@ -341,7 +329,7 @@ export default function ScheduleCombinations({
           </CollapsibleTrigger>
 
           <CollapsibleContent className="border-border bg-accent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1 w-full overflow-hidden border-t px-6 py-4">
-            {isLoading ? (
+            {isStale ? (
               <div className="py-8 text-center">
                 <div className="border-purple mx-auto mb-2 h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
                 <p className="text-muted-foreground text-sm">Generando combinaciones...</p>

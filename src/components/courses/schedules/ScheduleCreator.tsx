@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
 import useSWR from "swr";
+import dynamic from "next/dynamic";
 import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import {
   createScheduleMatrix,
@@ -53,7 +54,9 @@ import SectionsCollapsible, {
   SEMESTERS,
   type ValidSemester,
 } from "@/components/courses/schedules/SectionsCollapsible";
-const ConflictResolver = lazy(() => import("@/components/courses/schedules/ConflictResolver"));
+const ConflictResolver = dynamic(() => import("@/components/courses/schedules/ConflictResolver"), {
+  ssr: false,
+});
 const ScheduleCombinations = lazy(
   () => import("@/components/courses/schedules/ScheduleCombinations")
 );
