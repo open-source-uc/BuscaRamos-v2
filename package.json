@@ -18,7 +18,8 @@
     "deploy": "pnpm run cf:build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./env.d.ts",
     "api-typegen": "openapi-typescript src/lib/static-data-api/openapi.json -o src/lib/static-data-api/types.d.ts",
-    "sitemap": "node scripts/generate-sitemap.mjs"
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "@fontsource-variable/instrument-sans": "^5.2.7",
@@ -64,6 +65,8 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-unused-imports": "4.3.0",
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
     "openapi-typescript": "7.13.0",
     "prettier": "^3.6.2",
     "tailwindcss": "4",
@@ -75,5 +78,14 @@
   "overrides": {
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
