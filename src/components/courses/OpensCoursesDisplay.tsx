@@ -17,7 +17,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
     return (
       <div className={`w-full py-6 ${className}`}>
         <div className="text-muted-foreground flex items-center gap-3">
-          <div className="bg-green-light text-green border-green/20 flex-shrink-0 rounded-lg border p-2">
+          <div className="bg-green-light text-green border-green/20 shrink-0 rounded-lg border p-2">
             <DocsIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0 flex-1">
@@ -42,7 +42,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
                   icon={DeceasedIcon}
                   variant="ghost_blue"
                   size="xs"
-                  className="flex-shrink-0 w-20 justify-center"
+                  className="shrink-0 w-20 justify-center"
                 >
                   {sigle}
                 </Pill>
@@ -57,7 +57,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
               className="hover:bg-muted/50 group flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 transition-colors duration-200"
             >
               <div className="flex min-w-0 flex-1 items-center gap-3">
-                <Pill variant="green" size="xs" className="flex-shrink-0 w-20 justify-center">
+                <Pill variant="green" size="xs" className="shrink-0 w-20 justify-center">
                   {sigle}
                 </Pill>
 
@@ -68,7 +68,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
                 </div>
               </div>
 
-              <OpenInFullIcon className="text-muted-foreground group-hover:text-foreground h-4 w-4 flex-shrink-0 transition-colors duration-200" />
+              <OpenInFullIcon className="text-muted-foreground group-hover:text-foreground h-4 w-4 shrink-0 transition-colors duration-200" />
             </a>
           );
         })}
@@ -83,7 +83,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
                   icon={DeceasedIcon}
                   variant="ghost_blue"
                   size="xs"
-                  className="flex-shrink-0 w-20 justify-center"
+                  className="shrink-0 w-20 justify-center"
                 >
                   {sigle}
                 </Pill>
@@ -102,7 +102,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
                   icon={TextureIcon}
                   variant="orange"
                   size="xs"
-                  className="flex-shrink-0 w-20 justify-center"
+                  className="shrink-0 w-20 justify-center"
                 >
                   {sigle}
                 </Pill>
@@ -114,7 +114,7 @@ export const OpensCoursesDisplay = ({ unlocks, className = "" }: OpensCoursesDis
                 </div>
               </div>
 
-              <OpenInFullIcon className="text-muted-foreground group-hover:text-foreground h-4 w-4 flex-shrink-0 transition-colors duration-200" />
+              <OpenInFullIcon className="text-muted-foreground group-hover:text-foreground h-4 w-4 shrink-0 transition-colors duration-200" />
             </a>
           );
         })}

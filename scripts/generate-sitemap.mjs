@@ -21,8 +21,7 @@ for (const line of text.split("\n")) {
   if (!line.trim()) continue;
   try {
     const { sigle, likes, dislikes, superlikes } = JSON.parse(line);
-    const hasReviews =
-      Number(likes) > 0 || Number(dislikes) > 0 || Number(superlikes) > 0;
+    const hasReviews = Number(likes) > 0 || Number(dislikes) > 0 || Number(superlikes) > 0;
 
     if (sigle && hasReviews) sigles.push(sigle);
   } catch {

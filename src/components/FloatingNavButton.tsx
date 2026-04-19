@@ -11,6 +11,10 @@ export default function FloatingNavButton() {
   const router = useRouter();
   const isOnSchedule = pathname === SCHEDULE_PATH;
 
+  const allowedPaths = ["/catalogo", "/horario"];
+  const isVisible = allowedPaths.includes(pathname);
+  if (!isVisible) return null;
+
   const handleClick = () => {
     if (isOnSchedule) {
       const backUrl = sessionStorage.getItem(BACK_KEY) ?? "/";
@@ -24,7 +28,7 @@ export default function FloatingNavButton() {
   return (
     <button
       onClick={handleClick}
-      className="bg-primary text-primary-foreground focus:ring-primary fixed bottom-6 right-6 z-50 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      className="bg-primary text-primary-foreground focus:ring-primary tablet:hidden fixed bottom-6 right-6 z-50 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110 focus:ring-2 focus:ring-offset-2 focus:outline-none"
       aria-label={isOnSchedule ? "Volver al curso" : "Ver mi horario"}
     >
       {isOnSchedule ? (

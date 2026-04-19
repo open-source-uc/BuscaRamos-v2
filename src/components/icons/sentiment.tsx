@@ -27,8 +27,7 @@ const sentimentVariants = cva("inline-flex items-center gap-3 rounded-lg transit
 });
 
 export interface SentimentProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof sentimentVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof sentimentVariants> {
   sentiment: "veryHappy" | "happy" | "neutral" | "sad" | "verySad" | "question";
   ariaLabel?: string;
   showTooltip?: boolean;
@@ -88,7 +87,7 @@ const Sentiment = React.forwardRef<HTMLDivElement, SentimentProps>(
                 : size === "lg"
                   ? "h-6 w-6"
                   : "h-5 w-5",
-            "flex-shrink-0 fill-current" // Make the fill color match the text color and prevent shrinking
+            "shrink-0 fill-current" // Make the fill color match the text color and prevent shrinking
           )}
           aria-hidden="true"
         />

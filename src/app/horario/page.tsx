@@ -2,7 +2,7 @@
 
 import ScheduleCreator from "@/components/courses/schedules/ScheduleCreator";
 
-export default function HorarioPage() {
+export default function SchedulePage() {
   return (
     <div>
       <ScheduleCreator />

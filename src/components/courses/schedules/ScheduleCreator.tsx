@@ -7,8 +7,8 @@ import {
   createScheduleMatrix,
   detectScheduleConflicts,
   TIME_SLOTS,
+  TIME_RANGES,
   DAYS,
-  BLOCK_MAP,
   convertCourseDataToSections,
   shuffleSections,
   getAvailableSections,
@@ -95,7 +95,12 @@ function createFallbackCourseScore(sigle: string, name: string, semester: string
 }
 
 const DAY_LABELS: Record<string, string> = {
-  l: "Lu", m: "Ma", w: "Mi", j: "Ju", v: "Vi", s: "Sá",
+  l: "Lu",
+  m: "Ma",
+  w: "Mi",
+  j: "Ju",
+  v: "Vi",
+  s: "Sá",
 };
 
 function formatDays(schedule: Record<string, any>): string {
@@ -105,7 +110,10 @@ function formatDays(schedule: Record<string, any>): string {
   const days: string[] = [];
   for (const k of keys) {
     const d = DAY_LABELS[k[0]] ?? k[0].toUpperCase();
-    if (!seen.has(d)) { seen.add(d); days.push(d); }
+    if (!seen.has(d)) {
+      seen.add(d);
+      days.push(d);
+    }
   }
   return days.join(" ");
 }
@@ -180,74 +188,109 @@ function ScheduleGrid({
         <div style={scaledHeight ? { height: `${scaledHeight}px` } : undefined}>
           <div
             ref={contentRef}
-            className="min-w-[632px] origin-top-left tablet:min-w-0"
+            className="min-w-158 origin-top-left tablet:min-w-0"
             style={mobileScale < 1 ? { transform: `scale(${mobileScale})` } : undefined}
           >
-          {/* Header */}
-          <div className={cn("bg-accent border-border grid border-b", gridColumns)}>
-            <div className="text-accent-foreground px-2 py-2 text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
-              Horario
-            </div>
-            {DAYS.map((day) => (
-              <div
-                key={day}
-                className="text-accent-foreground px-1 py-2 text-center text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm"
-              >
-                {day}
+            {/* Header */}
+            <div className={cn("bg-accent border-border grid border-b", gridColumns)}>
+              <div className="text-accent-foreground px-2 py-2 text-center text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
+                Horario
               </div>
-            ))}
-          </div>
-
-          {/* Time slots */}
-          {TIME_SLOTS.map((time, timeIndex) => (
-            <div key={time}>
-              <div
-                className={cn(
-                  "border-border hover:bg-muted/25 grid border-b transition-colors",
-                  gridColumns
-                )}
-              >
-                <div className="text-muted-foreground bg-muted/25 flex items-center px-2 py-2 text-[10px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm">
-                  {time}
+              {DAYS.map((day) => (
+                <div
+                  key={day}
+                  className="text-accent-foreground px-1 py-2 text-center text-[11px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm"
+                >
+                  {day}
                 </div>
+              ))}
+            </div>
 
-                {DAYS.map((day, dayIndex) => {
-                  const classes = matrix[timeIndex][dayIndex];
-                  const hasConflict = classes.length > 1;
+            {/* Time slots */}
+            {TIME_SLOTS.map((time, timeIndex) => (
+              <div key={time}>
+                <div
+                  className={cn(
+                    "border-border hover:bg-muted/25 grid border-b transition-colors",
+                    gridColumns
+                  )}
+                >
+                  <div className="text-muted-foreground bg-muted/25 flex items-center px-2 py-2 text-[10px] font-semibold tablet:px-3 tablet:py-3 tablet:text-sm gap-2">
+                    <h3 className="text-sm">{timeIndex + 1}</h3>
+                    <h3 className="text-center">
+                      {time} <br />
+                      {TIME_RANGES[time as keyof typeof TIME_RANGES]}
+                    </h3>
+                  </div>
 
-                  return (
-                    <div
-                      key={`${day}-${timeIndex}`}
-                      className={cn(
-                        "tablet:min-h-[74px] flex min-h-[58px] flex-col items-center justify-center gap-1 px-1 py-1.5 tablet:gap-1.5 tablet:px-2 tablet:py-2",
-                        hasConflict && "bg-red-light border-red/20"
-                      )}
-                    >
-                      {classes.map((classInfo, index) => {
-                        const colorVariant = getClassTypeColor(classInfo.type);
-                        const scheduleLocation = formatScheduleLocation(
-                          classInfo.campus,
-                          classInfo.classroom
-                        );
-                        const courseIsHidden = hiddenCourses.includes(
-                          `${classInfo.courseId}-${classInfo.section}-${day}-${time}`
-                        );
-                        if (courseIsHidden)
+                  {DAYS.map((day, dayIndex) => {
+                    const classes = matrix[timeIndex][dayIndex];
+                    const hasConflict = classes.length > 1;
+
+                    return (
+                      <div
+                        key={`${day}-${timeIndex}`}
+                        className={cn(
+                          "tablet:min-h-18.5 flex min-h-14.5 flex-col items-center justify-center gap-1 px-1 py-1.5 tablet:gap-1.5 tablet:px-2 tablet:py-2",
+                          hasConflict && "bg-red-light border-red/20"
+                        )}
+                      >
+                        {classes.map((classInfo, index) => {
+                          const colorVariant = getClassTypeColor(classInfo.type);
+                          const scheduleLocation = formatScheduleLocation(
+                            classInfo.campus,
+                            classInfo.classroom
+                          );
+                          const courseIsHidden = hiddenCourses.includes(
+                            `${classInfo.courseId}-${classInfo.section}-${day}-${time}`
+                          );
+                          if (courseIsHidden)
+                            return (
+                              <div
+                                key={`${classInfo.courseId}-${classInfo.section}-${index}`}
+                                onClick={() => {
+                                  removeHiddenCourse(
+                                    `${classInfo.courseId}-${classInfo.section}-${day}-${time}`
+                                  );
+                                  onHiddenCoursesChange(getSavedHiddenCourses());
+                                }}
+                                className="w-full hover:cursor-pointer"
+                                title="Excluido del export — clic para incluir"
+                              >
+                                <Pill
+                                  size="xs"
+                                  className="bg-muted border-border text-muted-foreground line-through decoration-muted-foreground/60 tablet:text-[11px] w-full min-w-0 justify-center px-1 py-0.5 text-[9px] opacity-60"
+                                >
+                                  <div className="min-w-0 text-center leading-tight">
+                                    <div className="font-medium tracking-tight">
+                                      {classInfo.courseId}-{classInfo.section}
+                                    </div>
+                                    <div className="tablet:text-[10px] text-[8px] opacity-80">
+                                      {getClassTypeLong(classInfo.type)}
+                                    </div>
+                                    <div className="tablet:text-[10px] text-[8px] opacity-80">
+                                      {scheduleLocation}
+                                    </div>
+                                  </div>
+                                </Pill>
+                              </div>
+                            );
+
                           return (
                             <div
                               key={`${classInfo.courseId}-${classInfo.section}-${index}`}
                               onClick={() => {
-                                removeHiddenCourse(
+                                addHiddenCourse(
                                   `${classInfo.courseId}-${classInfo.section}-${day}-${time}`
                                 );
                                 onHiddenCoursesChange(getSavedHiddenCourses());
                               }}
                               className="w-full hover:cursor-pointer"
-                              title="Excluido del export — clic para incluir"
                             >
                               <Pill
+                                variant={colorVariant}
                                 size="xs"
-                                className="bg-muted border-border text-muted-foreground line-through decoration-muted-foreground/60 tablet:text-[11px] w-full min-w-0 justify-center px-1 py-0.5 text-[9px] opacity-60"
+                                className="tablet:text-[11px] w-full min-w-0 justify-center px-1 py-0.5 text-[9px]"
                               >
                                 <div className="min-w-0 text-center leading-tight">
                                   <div className="font-medium tracking-tight">
@@ -263,54 +306,21 @@ function ScheduleGrid({
                               </Pill>
                             </div>
                           );
-
-                        return (
-                          <div
-                            key={`${classInfo.courseId}-${classInfo.section}-${index}`}
-                            onClick={() => {
-                              addHiddenCourse(
-                                `${classInfo.courseId}-${classInfo.section}-${day}-${time}`
-                              );
-                              onHiddenCoursesChange(getSavedHiddenCourses());
-                            }}
-                            className="w-full hover:cursor-pointer"
-                          >
-                            <Pill
-                              variant={colorVariant}
-                              size="xs"
-                              className="tablet:text-[11px] w-full min-w-0 justify-center px-1 py-0.5 text-[9px]"
-                            >
-                              <div className="min-w-0 text-center leading-tight">
-                                <div className="font-medium tracking-tight">
-                                  {classInfo.courseId}-{classInfo.section}
-                                </div>
-                                <div className="tablet:text-[10px] text-[8px] opacity-80">
-                                  {getClassTypeLong(classInfo.type)}
-                                </div>
-                                <div className="tablet:text-[10px] text-[8px] opacity-80">
-                                  {scheduleLocation}
-                                </div>
-                              </div>
-                            </Pill>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {time === "12:20" && (
-                <div className={cn("border-border grid border-b", gridColumns)}>
-                  <div className="bg-orange-light px-2 py-3 text-left text-[10px] font-semibold tablet:px-4 tablet:py-6 tablet:text-sm">
-                    13:30 - 14:50 <br />
-                    Horario de Almuerzo
-                  </div>
-                  <div className="bg-orange-light/70 col-span-6 flex items-center justify-center p-2 text-center text-sm font-semibold"></div>
+                        })}
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
-            </div>
-          ))}
+
+                {time === "12:20" && (
+                  <div className={cn("border-border grid border-b", gridColumns)}>
+                    <div className="bg-muted/25 hover:bg-muted/50 text-muted-foreground tracking-[50px] pl-12.5 col-span-7 flex items-center justify-center py-4 text-center text-sm tablet:text-xl font-semibold">
+                      ALMUERZO
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -325,8 +335,8 @@ function ScheduleGrid({
                   Conflictos detectados: {conflicts.length}
                 </span>
                 <p className="text-red/80 mt-1 text-xs">
-                  Hay {conflicts.length} conflicto{conflicts.length > 1 ? "s" : ""} de horario en
-                  tu selección
+                  Hay {conflicts.length} conflicto{conflicts.length > 1 ? "s" : ""} de horario en tu
+                  selección
                 </p>
               </div>
             </div>
@@ -421,7 +431,10 @@ export default function ScheduleCreator() {
     });
 
     return baseFilteredCourses.filter((course) =>
-      courseHasSectionWithinScheduleModules(courseSectionsData[course.sigle], selectedScheduleModules)
+      courseHasSectionWithinScheduleModules(
+        courseSectionsData[course.sigle],
+        selectedScheduleModules
+      )
     );
   }, [
     courseSectionsData,
@@ -515,7 +528,13 @@ export default function ScheduleCreator() {
   }, [courseSectionsData]);
 
   // OFG Finder: non-conflicting sections for the selected area
-  type OFGSection = { sigle: string; name: string; sectionId: string; courseId: string; sectionData: any };
+  type OFGSection = {
+    sigle: string;
+    name: string;
+    sectionId: string;
+    courseId: string;
+    sectionData: any;
+  };
   const ofgResults = useMemo<OFGSection[]>(() => {
     if (!ofgSelectedArea) return [];
     const baseConflicts = detectScheduleConflicts(scheduleMatrix).length;
@@ -649,7 +668,7 @@ export default function ScheduleCreator() {
       {/* Semester selector */}
       <div className="border-border bg-accent flex flex-col gap-4 rounded-lg border p-4 tablet:flex-row tablet:items-center tablet:justify-between">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2 flex-shrink-0">
+          <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2 shrink-0">
             <CalendarIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0">
@@ -677,7 +696,7 @@ export default function ScheduleCreator() {
       <div className="border-border rounded-lg border bg-accent">
         <div className="p-4 tablet:p-6">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 flex-shrink-0">
+            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 shrink-0">
               <SearchIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -736,8 +755,8 @@ export default function ScheduleCreator() {
             shouldShowSearchResults &&
             searchResults.length === 0 &&
             !fuseResult.isSearching && (
-            <p className="text-muted-foreground mt-3 text-sm">No se encontraron cursos</p>
-          )}
+              <p className="text-muted-foreground mt-3 text-sm">No se encontraron cursos</p>
+            )}
         </div>
 
         {/* Search results — outside the padding to go full-width */}
@@ -782,7 +801,7 @@ export default function ScheduleCreator() {
           className="hover:bg-muted/30 flex w-full items-center justify-between p-4 text-left transition-colors tablet:p-5"
         >
           <div className="flex min-w-0 items-center gap-3">
-            <div className="bg-pink-light text-pink border-pink/20 flex-shrink-0 rounded-lg border p-2">
+            <div className="bg-pink-light text-pink border-pink/20 shrink-0 rounded-lg border p-2">
               <AreaIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0">
@@ -794,7 +813,7 @@ export default function ScheduleCreator() {
           </div>
           <ChevronDownIcon
             className={cn(
-              "text-muted-foreground ml-4 h-5 w-5 flex-shrink-0 transition-transform duration-200",
+              "text-muted-foreground ml-4 h-5 w-5 shrink-0 transition-transform duration-200",
               showOFGFinder && "rotate-180"
             )}
           />
@@ -850,7 +869,8 @@ export default function ScheduleCreator() {
                           <div className="min-w-0">
                             <div className="text-xs font-medium">Sección {sectionId}</div>
                             <div className="text-muted-foreground text-[11px]">
-                              {formatDays(sectionData.schedule || {})} · {sectionData.campus || "Sin campus"}
+                              {formatDays(sectionData.schedule || {})} ·{" "}
+                              {sectionData.campus || "Sin campus"}
                             </div>
                             <div className="text-muted-foreground text-[11px]">
                               NRC {sectionData.nrc || "—"} · {sectionData.format || ""}
@@ -880,7 +900,7 @@ export default function ScheduleCreator() {
         <div className="border-border rounded-lg border bg-accent p-4 tablet:p-6">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 flex-shrink-0">
+              <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 shrink-0">
                 <SelectionIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0">
@@ -901,10 +921,7 @@ export default function ScheduleCreator() {
                 className={cn(isShuffling && "animate-pulse")}
               >
                 <ShuffleIcon
-                  className={cn(
-                    "text-muted-foreground h-5 w-5",
-                    isShuffling && "animate-spin"
-                  )}
+                  className={cn("text-muted-foreground h-5 w-5", isShuffling && "animate-spin")}
                 />
               </Button>
             )}
@@ -922,16 +939,14 @@ export default function ScheduleCreator() {
                     <span className="font-medium">
                       {info.sigle} — Sección {info.seccion}
                     </span>
-                    <span className="text-muted-foreground text-xs">
-                      {info.nombre}
-                    </span>
+                    <span className="text-muted-foreground text-xs">{info.nombre}</span>
                     <span className="text-muted-foreground text-xs">
                       NRC {info.nrc} · {info.campus}
                     </span>
                   </div>
                   <button
                     onClick={() => handleCourseRemove(courseId)}
-                    className="hover:bg-muted flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full transition-colors"
+                    className="hover:bg-muted flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors"
                     aria-label={`Eliminar ${courseId}`}
                   >
                     <CloseIcon className="h-3 w-3" />
@@ -974,7 +989,11 @@ export default function ScheduleCreator() {
                   <DropdownMenuItem
                     key={type}
                     onClick={() =>
-                      generateICSFromSchedule({ matrix: scheduleMatrix, hiddenCourses, filterType: type })
+                      generateICSFromSchedule({
+                        matrix: scheduleMatrix,
+                        hiddenCourses,
+                        filterType: type,
+                      })
                     }
                   >
                     Exportar {getClassTypeLong(type)}

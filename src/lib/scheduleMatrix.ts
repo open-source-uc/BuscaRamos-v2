@@ -14,6 +14,19 @@ export const TIME_SLOTS = [
   "20:10",
 ];
 
+// Rango de duración de los módulos
+export const TIME_RANGES = {
+  "08:20": "09:30",
+  "09:40": "10:50",
+  "11:00": "12:10",
+  "12:20": "13:30",
+  "14:50": "16:00",
+  "16:10": "17:20",
+  "17:30": "18:40",
+  "18:50": "20:00",
+  "20:10": "21:20",
+};
+
 // Días de la semana (incluye sábado)
 export const DAYS = ["L", "M", "W", "J", "V", "S"];
 

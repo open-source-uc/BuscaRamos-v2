@@ -1,4 +1,6 @@
-import CoursesTable from "@/components/CoursesTable";
+import AdvantagesInfo from "@/components/Landing/AdvantagesInfo";
+import GettingStarted from "@/components/Landing/GettingStarted";
+import LandingSearch from "@/components/Landing/LandingSearch";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -46,12 +48,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function CatalogPage() {
+export default async function HomePage() {
   return (
-    <main className="flex justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
-      <div className="w-full max-w-7xl">
-        <CoursesTable />
-      </div>
+    <main className="flex bg-white justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
+      <section className="w-full max-w-7xl">
+        <LandingSearch />
+      </section>
+
+      <section className="tablet:pt-32 tablet:pb-20 mx-auto max-w-6xl px-4 pt-24 pb-16">
+        <AdvantagesInfo />
+      </section>
+
+      <section className="tablet:py-20 mx-auto max-w-6xl px-4 py-16">
+        <GettingStarted />
+      </section>
     </main>
   );
 }

@@ -56,7 +56,8 @@ const iconVariants = cva("fill-muted-foreground", {
 });
 
 export interface NumericInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size">,
+  extends
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size">,
     VariantProps<typeof numericInputVariants> {
   icon?: React.ComponentType<{ className?: string }>;
   label?: string;

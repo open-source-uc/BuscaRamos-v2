@@ -49,28 +49,30 @@ export function MarkdownReviewView({
       <ReactMarkdown
         rehypePlugins={[rehypeRaw]}
         remarkPlugins={[remarkGfm, remarkBreaks]}
-        components={{
-          pill: ({ node, children }: any) => {
-            const props = node?.properties ?? {};
-            return (
-              <Pill variant={props.variant as PillVariant} size={props.size as PillSize}>
-                {children}
-              </Pill>
-            );
-          },
-          img: ({ node }: any) => {
-            if (!imgAllow) return null;
-            const { src, alt, title } = node?.properties || {};
-            return (
-              <img
-                src={src as string}
-                alt={(alt as string) || ""}
-                title={title as string}
-                className="h-auto max-w-full rounded-md"
-              />
-            );
-          },
-        } as any}
+        components={
+          {
+            pill: ({ node, children }: any) => {
+              const props = node?.properties ?? {};
+              return (
+                <Pill variant={props.variant as PillVariant} size={props.size as PillSize}>
+                  {children}
+                </Pill>
+              );
+            },
+            img: ({ node }: any) => {
+              if (!imgAllow) return null;
+              const { src, alt, title } = node?.properties || {};
+              return (
+                <img
+                  src={src as string}
+                  alt={(alt as string) || ""}
+                  title={title as string}
+                  className="h-auto max-w-full rounded-md"
+                />
+              );
+            },
+          } as any
+        }
       >
         {text}
       </ReactMarkdown>

@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 
 import { CourseScore } from "@/types/types";
-import MovilTable from "./MovilTable";
+import MobileTable from "./MobileTable";
 import DesktopTable from "./DesktopTable";
 import { CourseFilters } from "../ui/CourseFilters";
 import { Search } from "../search/SearchInput";
@@ -111,15 +111,13 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     <div className="space-y-6">
       {/* Search Section */}
       <div className="flex flex-col gap-4">
-        <div className="w-full">
-          <Search
-            onSearch={handleSearch}
-            placeholder="Buscar por nombre o sigla..."
-            className="w-full"
-            initialValue={externalSearchValue}
-            isSearching={fuseSearch.isSearching}
-          />
-        </div>
+        <Search
+          onSearch={handleSearch}
+          placeholder="Buscar por nombre o sigla..."
+          className="w-full min-w-64"
+          initialValue={externalSearchValue}
+          isSearching={fuseSearch.isSearching}
+        />
 
         {/* Results counter */}
         <div className="text-sm text-gray-600">
@@ -156,7 +154,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
       {/* Tables Section */}
       <div className="w-full flex justify-center">
         <DesktopTable table={table} />
-        <MovilTable table={table} />
+        <MobileTable table={table} />
       </div>
     </div>
   );

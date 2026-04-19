@@ -4,1367 +4,1361 @@
  */
 
 export interface paths {
-    "/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Health Check
-         * @description Verifica que la API esté funcionando correctamente
-         */
-        get: operations["getIndex"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/data/batch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Obtener Datos Unificados de Varios Cursos
-         * @description Obtiene múltiples entradas de courses-unified.json repitiendo el query parameter sigle. Ejemplo: /data/batch?sigle=ACO250E&sigle=ADP001E
-         */
-        get: operations["getDataBatch"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Health Check
+     * @description Verifica que la API esté funcionando correctamente
+     */
+    get: operations["getIndex"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/data/batch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/data/{sigle}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Obtener Datos Unificados de un Curso
-         * @description Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)
-         */
-        get: operations["getData:sigle"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Obtener Datos Unificados de Varios Cursos
+     * @description Obtiene múltiples entradas de courses-unified.json repitiendo el query parameter sigle. Ejemplo: /data/batch?sigle=ACO250E&sigle=ADP001E
+     */
+    get: operations["getDataBatch"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/data/{sigle}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/data/{sigle}/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Obtener Datos Unificados de un Curso (con barra final)
-         * @description Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)
-         */
-        get: operations["getData:sigle"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Obtener Datos Unificados de un Curso
+     * @description Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)
+     */
+    get: operations["getData:sigle"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/data/{sigle}/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/data/quota/{sigle}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Obtener Cuotas de un Curso por Semestre
-         * @description Obtiene las cuotas agregadas de un curso para un semestre específico. Parámetros: sigle y query semester (2024-1, 2024-2, 2024-3, 2025-1, 2025-2, 2026-1).
-         */
-        get: operations["getDataQuota:sigle"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Obtener Datos Unificados de un Curso (con barra final)
+     * @description Obtiene la entrada del curso desde courses-unified.json por su sigla. Parámetro: sigle (ej: ACO250E, ADP001E)
+     */
+    get: operations["getData:sigle"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/data/quota/{sigle}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/upload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Subir Archivos de Cursos
-         * @description Sube los archivos courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json al bucket R2. Requiere autenticación Bearer token.
-         */
-        post: operations["postUpload"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Obtener Cuotas de un Curso por Semestre
+     * @description Obtiene las cuotas agregadas de un curso para un semestre específico. Parámetros: sigle y query semester (2024-1, 2024-2, 2024-3, 2025-1, 2025-2, 2026-1).
+     */
+    get: operations["getDataQuota:sigle"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/upload": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/upload/semester-json": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Subir JSON de semestre
-         * @description Sube un archivo JSON de semestre al bucket R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.
-         */
-        post: operations["postUploadSemester-json"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Subir Archivos de Cursos
+     * @description Sube los archivos courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json al bucket R2. Requiere autenticación Bearer token.
+     */
+    post: operations["postUpload"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/upload/semester-json": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/upload/course-name-map": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Subir course-name-map.json
-         * @description Sube el archivo course-name-map.json al bucket R2. El contenido debe ser un JSON con formato { "<sigle>": "<name>" }. Requiere autenticación Bearer token.
-         */
-        post: operations["postUploadCourse-name-map"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Subir JSON de semestre
+     * @description Sube un archivo JSON de semestre al bucket R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.
+     */
+    post: operations["postUploadSemester-json"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/upload/course-name-map": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/upload/courses-unified": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Subir courses-unified.json
-         * @description Sube el archivo courses-unified.json al bucket R2. Requiere autenticación Bearer token.
-         */
-        post: operations["postUploadCourses-unified"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Subir course-name-map.json
+     * @description Sube el archivo course-name-map.json al bucket R2. El contenido debe ser un JSON con formato { "<sigle>": "<name>" }. Requiere autenticación Bearer token.
+     */
+    post: operations["postUploadCourse-name-map"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/upload/courses-unified": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/download/semester-json/{filename}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Descargar JSON de semestre
-         * @description Descarga un archivo JSON de semestre desde R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.
-         */
-        get: operations["getDownloadSemester-json:filename"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Subir courses-unified.json
+     * @description Sube el archivo courses-unified.json al bucket R2. Requiere autenticación Bearer token.
+     */
+    post: operations["postUploadCourses-unified"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/download/semester-json/{filename}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/download/courses-unified": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Descargar courses-unified.json
-         * @description Descarga el archivo courses-unified.json desde R2. Requiere autenticación Bearer token.
-         */
-        get: operations["getDownloadCourses-unified"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Descargar JSON de semestre
+     * @description Descarga un archivo JSON de semestre desde R2. Solo se permiten estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json. Requiere autenticación Bearer token.
+     */
+    get: operations["getDownloadSemester-json:filename"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/download/courses-unified": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/download/courses-simplified-v2": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Descargar courses-simplified-v2.json
-         * @description Descarga el archivo courses-simplified-v2.json desde el bucket R2. Requiere autenticación Bearer token.
-         */
-        get: operations["getDownloadCourses-simplified-v2"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Descargar courses-unified.json
+     * @description Descarga el archivo courses-unified.json desde R2. Requiere autenticación Bearer token.
+     */
+    get: operations["getDownloadCourses-unified"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/download/courses-simplified-v2": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/download/courses-sections": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Descargar courses-sections.ndjson
-         * @description Descarga el archivo courses-sections.ndjson desde el bucket R2. Requiere autenticación Bearer token.
-         */
-        get: operations["getDownloadCourses-sections"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Descargar courses-simplified-v2.json
+     * @description Descarga el archivo courses-simplified-v2.json desde el bucket R2. Requiere autenticación Bearer token.
+     */
+    get: operations["getDownloadCourses-simplified-v2"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/download/courses-sections": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/download/courses-quota-history": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Descargar courses-quota-history.json
-         * @description Descarga el archivo courses-quota-history.json desde el bucket R2. Requiere autenticación Bearer token.
-         */
-        get: operations["getDownloadCourses-quota-history"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Descargar courses-sections.ndjson
+     * @description Descarga el archivo courses-sections.ndjson desde el bucket R2. Requiere autenticación Bearer token.
+     */
+    get: operations["getDownloadCourses-sections"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/download/courses-quota-history": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /**
+     * Descargar courses-quota-history.json
+     * @description Descarga el archivo courses-quota-history.json desde el bucket R2. Requiere autenticación Bearer token.
+     */
+    get: operations["getDownloadCourses-quota-history"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: never;
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+  schemas: never;
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    getIndex: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description API funcionando correctamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  getIndex: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getDataBatch: {
-        parameters: {
-            query: {
-                /** @description Siglas de cursos a consultar. Repetir el parámetro para enviar varias siglas. */
-                sigle: string[];
-                /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
-                hash?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description API funcionando correctamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Datos de los cursos solicitados */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        sigle: string;
-                        name: string;
-                        credits: number;
-                        parsed_meta_data: {
-                            has_prerequisites: boolean;
-                            has_restrictions: boolean;
-                            has_equivalences: boolean;
-                            unlocks_courses: boolean;
-                            /** @enum {string} */
-                            connector?: "AND" | "OR";
-                            restrictions?: {
-                                /** @enum {string} */
-                                type: "AND" | "OR";
-                                restrictions: {
-                                    /** @enum {string} */
-                                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                    /** @enum {string} */
-                                    operator: "=" | ">=" | "<>";
-                                    value: string;
-                                    raw?: string;
-                                }[];
-                                groups: {
-                                    /** @enum {string} */
-                                    type: "AND" | "OR";
-                                    restrictions: {
-                                        /** @enum {string} */
-                                        type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                        /** @enum {string} */
-                                        operator: "=" | ">=" | "<>";
-                                        value: string;
-                                        raw?: string;
-                                    }[];
-                                    groups: {
-                                        /** @enum {string} */
-                                        type: "AND" | "OR";
-                                        restrictions: {
-                                            /** @enum {string} */
-                                            type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                            /** @enum {string} */
-                                            operator: "=" | ">=" | "<>";
-                                            value: string;
-                                            raw?: string;
-                                        }[];
-                                        groups: [
-                                        ];
-                                    }[];
-                                }[];
-                            };
-                            prerequisites?: {
-                                /** @enum {string} */
-                                type: "AND" | "OR";
-                                courses: {
-                                    sigle: string;
-                                    is_coreq: boolean;
-                                }[];
-                                groups: {
-                                    /** @enum {string} */
-                                    type: "AND" | "OR";
-                                    courses: {
-                                        sigle: string;
-                                        is_coreq: boolean;
-                                    }[];
-                                    groups: {
-                                        /** @enum {string} */
-                                        type: "AND" | "OR";
-                                        courses: {
-                                            sigle: string;
-                                            is_coreq: boolean;
-                                        }[];
-                                        groups: [
-                                        ];
-                                    }[];
-                                }[];
-                            };
-                            equivalences?: string[];
-                            unlocks?: {
-                                as_prerequisite: string[];
-                                as_corequisite: string[];
-                            };
-                        };
-                        school: string;
-                        area: string[];
-                        categories: string[];
-                        format: string[];
-                        campus: string[];
-                        is_removable: boolean[];
-                        is_special: boolean[];
-                        is_english: boolean[];
-                        last_semester: string;
-                        description?: string;
+        content: {
+          "text/plain": string;
+        };
+      };
+    };
+  };
+  getDataBatch: {
+    parameters: {
+      query: {
+        /** @description Siglas de cursos a consultar. Repetir el parámetro para enviar varias siglas. */
+        sigle: string[];
+        /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
+        hash?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Datos de los cursos solicitados */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            sigle: string;
+            name: string;
+            credits: number;
+            parsed_meta_data: {
+              has_prerequisites: boolean;
+              has_restrictions: boolean;
+              has_equivalences: boolean;
+              unlocks_courses: boolean;
+              /** @enum {string} */
+              connector?: "AND" | "OR";
+              restrictions?: {
+                /** @enum {string} */
+                type: "AND" | "OR";
+                restrictions: {
+                  /** @enum {string} */
+                  type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                  /** @enum {string} */
+                  operator: "=" | ">=" | "<>";
+                  value: string;
+                  raw?: string;
+                }[];
+                groups: {
+                  /** @enum {string} */
+                  type: "AND" | "OR";
+                  restrictions: {
+                    /** @enum {string} */
+                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                    /** @enum {string} */
+                    operator: "=" | ">=" | "<>";
+                    value: string;
+                    raw?: string;
+                  }[];
+                  groups: {
+                    /** @enum {string} */
+                    type: "AND" | "OR";
+                    restrictions: {
+                      /** @enum {string} */
+                      type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                      /** @enum {string} */
+                      operator: "=" | ">=" | "<>";
+                      value: string;
+                      raw?: string;
                     }[];
-                };
+                    groups: [];
+                  }[];
+                }[];
+              };
+              prerequisites?: {
+                /** @enum {string} */
+                type: "AND" | "OR";
+                courses: {
+                  sigle: string;
+                  is_coreq: boolean;
+                }[];
+                groups: {
+                  /** @enum {string} */
+                  type: "AND" | "OR";
+                  courses: {
+                    sigle: string;
+                    is_coreq: boolean;
+                  }[];
+                  groups: {
+                    /** @enum {string} */
+                    type: "AND" | "OR";
+                    courses: {
+                      sigle: string;
+                      is_coreq: boolean;
+                    }[];
+                    groups: [];
+                  }[];
+                }[];
+              };
+              equivalences?: string[];
+              unlocks?: {
+                as_prerequisite: string[];
+                as_corequisite: string[];
+              };
             };
-            /** @description Falta el query parameter sigle */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Uno o más cursos no fueron encontrados */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        missing: string[];
-                    };
-                };
-            };
+            school: string;
+            area: string[];
+            categories: string[];
+            format: string[];
+            campus: string[];
+            is_removable: boolean[];
+            is_special: boolean[];
+            is_english: boolean[];
+            last_semester: string;
+            description?: string;
+          }[];
         };
+      };
+      /** @description Falta el query parameter sigle */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Uno o más cursos no fueron encontrados */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            missing: string[];
+          };
+        };
+      };
     };
-    "getData:sigle": {
-        parameters: {
-            query?: {
-                /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
-                hash?: string;
-            };
-            header?: never;
-            path: {
-                /** @description Sigla del curso */
-                sigle: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Datos del curso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        sigle: string;
-                        name: string;
-                        credits: number;
-                        parsed_meta_data: {
-                            has_prerequisites: boolean;
-                            has_restrictions: boolean;
-                            has_equivalences: boolean;
-                            unlocks_courses: boolean;
-                            /** @enum {string} */
-                            connector?: "AND" | "OR";
-                            restrictions?: {
-                                /** @enum {string} */
-                                type: "AND" | "OR";
-                                restrictions: {
-                                    /** @enum {string} */
-                                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                    /** @enum {string} */
-                                    operator: "=" | ">=" | "<>";
-                                    value: string;
-                                    raw?: string;
-                                }[];
-                                groups: {
-                                    /** @enum {string} */
-                                    type: "AND" | "OR";
-                                    restrictions: {
-                                        /** @enum {string} */
-                                        type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                        /** @enum {string} */
-                                        operator: "=" | ">=" | "<>";
-                                        value: string;
-                                        raw?: string;
-                                    }[];
-                                    groups: {
-                                        /** @enum {string} */
-                                        type: "AND" | "OR";
-                                        restrictions: {
-                                            /** @enum {string} */
-                                            type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                            /** @enum {string} */
-                                            operator: "=" | ">=" | "<>";
-                                            value: string;
-                                            raw?: string;
-                                        }[];
-                                        groups: [
-                                        ];
-                                    }[];
-                                }[];
-                            };
-                            prerequisites?: {
-                                /** @enum {string} */
-                                type: "AND" | "OR";
-                                courses: {
-                                    sigle: string;
-                                    is_coreq: boolean;
-                                }[];
-                                groups: {
-                                    /** @enum {string} */
-                                    type: "AND" | "OR";
-                                    courses: {
-                                        sigle: string;
-                                        is_coreq: boolean;
-                                    }[];
-                                    groups: {
-                                        /** @enum {string} */
-                                        type: "AND" | "OR";
-                                        courses: {
-                                            sigle: string;
-                                            is_coreq: boolean;
-                                        }[];
-                                        groups: [
-                                        ];
-                                    }[];
-                                }[];
-                            };
-                            equivalences?: string[];
-                            unlocks?: {
-                                as_prerequisite: string[];
-                                as_corequisite: string[];
-                            };
-                        };
-                        school: string;
-                        area: string[];
-                        categories: string[];
-                        format: string[];
-                        campus: string[];
-                        is_removable: boolean[];
-                        is_special: boolean[];
-                        is_english: boolean[];
-                        last_semester: string;
-                        description?: string;
-                    };
-                };
-            };
-            /** @description Curso no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-        };
+  };
+  "getData:sigle": {
+    parameters: {
+      query?: {
+        /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
+        hash?: string;
+      };
+      header?: never;
+      path: {
+        /** @description Sigla del curso */
+        sigle: string;
+      };
+      cookie?: never;
     };
-    "getData:sigle": {
-        parameters: {
-            query?: {
-                /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
-                hash?: string;
-            };
-            header?: never;
-            path: {
-                /** @description Sigla del curso */
-                sigle: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Datos del curso */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Datos del curso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        sigle: string;
-                        name: string;
-                        credits: number;
-                        parsed_meta_data: {
-                            has_prerequisites: boolean;
-                            has_restrictions: boolean;
-                            has_equivalences: boolean;
-                            unlocks_courses: boolean;
-                            /** @enum {string} */
-                            connector?: "AND" | "OR";
-                            restrictions?: {
-                                /** @enum {string} */
-                                type: "AND" | "OR";
-                                restrictions: {
-                                    /** @enum {string} */
-                                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                    /** @enum {string} */
-                                    operator: "=" | ">=" | "<>";
-                                    value: string;
-                                    raw?: string;
-                                }[];
-                                groups: {
-                                    /** @enum {string} */
-                                    type: "AND" | "OR";
-                                    restrictions: {
-                                        /** @enum {string} */
-                                        type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                        /** @enum {string} */
-                                        operator: "=" | ">=" | "<>";
-                                        value: string;
-                                        raw?: string;
-                                    }[];
-                                    groups: {
-                                        /** @enum {string} */
-                                        type: "AND" | "OR";
-                                        restrictions: {
-                                            /** @enum {string} */
-                                            type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
-                                            /** @enum {string} */
-                                            operator: "=" | ">=" | "<>";
-                                            value: string;
-                                            raw?: string;
-                                        }[];
-                                        groups: [
-                                        ];
-                                    }[];
-                                }[];
-                            };
-                            prerequisites?: {
-                                /** @enum {string} */
-                                type: "AND" | "OR";
-                                courses: {
-                                    sigle: string;
-                                    is_coreq: boolean;
-                                }[];
-                                groups: {
-                                    /** @enum {string} */
-                                    type: "AND" | "OR";
-                                    courses: {
-                                        sigle: string;
-                                        is_coreq: boolean;
-                                    }[];
-                                    groups: {
-                                        /** @enum {string} */
-                                        type: "AND" | "OR";
-                                        courses: {
-                                            sigle: string;
-                                            is_coreq: boolean;
-                                        }[];
-                                        groups: [
-                                        ];
-                                    }[];
-                                }[];
-                            };
-                            equivalences?: string[];
-                            unlocks?: {
-                                as_prerequisite: string[];
-                                as_corequisite: string[];
-                            };
-                        };
-                        school: string;
-                        area: string[];
-                        categories: string[];
-                        format: string[];
-                        campus: string[];
-                        is_removable: boolean[];
-                        is_special: boolean[];
-                        is_english: boolean[];
-                        last_semester: string;
-                        description?: string;
-                    };
-                };
+        content: {
+          "application/json": {
+            sigle: string;
+            name: string;
+            credits: number;
+            parsed_meta_data: {
+              has_prerequisites: boolean;
+              has_restrictions: boolean;
+              has_equivalences: boolean;
+              unlocks_courses: boolean;
+              /** @enum {string} */
+              connector?: "AND" | "OR";
+              restrictions?: {
+                /** @enum {string} */
+                type: "AND" | "OR";
+                restrictions: {
+                  /** @enum {string} */
+                  type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                  /** @enum {string} */
+                  operator: "=" | ">=" | "<>";
+                  value: string;
+                  raw?: string;
+                }[];
+                groups: {
+                  /** @enum {string} */
+                  type: "AND" | "OR";
+                  restrictions: {
+                    /** @enum {string} */
+                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                    /** @enum {string} */
+                    operator: "=" | ">=" | "<>";
+                    value: string;
+                    raw?: string;
+                  }[];
+                  groups: {
+                    /** @enum {string} */
+                    type: "AND" | "OR";
+                    restrictions: {
+                      /** @enum {string} */
+                      type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                      /** @enum {string} */
+                      operator: "=" | ">=" | "<>";
+                      value: string;
+                      raw?: string;
+                    }[];
+                    groups: [];
+                  }[];
+                }[];
+              };
+              prerequisites?: {
+                /** @enum {string} */
+                type: "AND" | "OR";
+                courses: {
+                  sigle: string;
+                  is_coreq: boolean;
+                }[];
+                groups: {
+                  /** @enum {string} */
+                  type: "AND" | "OR";
+                  courses: {
+                    sigle: string;
+                    is_coreq: boolean;
+                  }[];
+                  groups: {
+                    /** @enum {string} */
+                    type: "AND" | "OR";
+                    courses: {
+                      sigle: string;
+                      is_coreq: boolean;
+                    }[];
+                    groups: [];
+                  }[];
+                }[];
+              };
+              equivalences?: string[];
+              unlocks?: {
+                as_prerequisite: string[];
+                as_corequisite: string[];
+              };
             };
-            /** @description Curso no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
+            school: string;
+            area: string[];
+            categories: string[];
+            format: string[];
+            campus: string[];
+            is_removable: boolean[];
+            is_special: boolean[];
+            is_english: boolean[];
+            last_semester: string;
+            description?: string;
+          };
         };
+      };
+      /** @description Curso no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
     };
-    "getDataQuota:sigle": {
-        parameters: {
-            query: {
-                /** @description Semestre a consultar */
-                semester: "2024-1" | "2024-2" | "2024-3" | "2025-1" | "2025-2" | "2026-1";
-                /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
-                hash?: string;
-            };
-            header?: never;
-            path: {
-                /** @description Sigla del curso */
-                sigle: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Historial de cuotas del curso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        sigle: string;
-                        /** @enum {string} */
-                        semester: "2024-1" | "2024-2" | "2024-3" | "2025-1" | "2025-2" | "2026-1";
-                        quota: {
-                            [key: string]: {
-                                timestamp: string;
-                                data: {
-                                    [key: string]: {
-                                        nivel: string | null;
-                                        escuela: string | null;
-                                        programa: string | null;
-                                        concentracion: string | null;
-                                        cohorte: string | null;
-                                        periodo_admision: string | null;
-                                        ofrecidas: number;
-                                        ocupadas: number;
-                                        disponibles: number;
-                                    };
-                                };
-                                agg: {
-                                    total: number;
-                                    disponibles: number;
-                                    ocupados: number;
-                                };
-                            };
-                        };
-                    };
-                };
-            };
-            /** @description Semestre inválido o faltante */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Historial de cuotas no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-        };
+  };
+  "getData:sigle": {
+    parameters: {
+      query?: {
+        /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
+        hash?: string;
+      };
+      header?: never;
+      path: {
+        /** @description Sigla del curso */
+        sigle: string;
+      };
+      cookie?: never;
     };
-    postUpload: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Datos del curso */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        /** @description Archivos a subir: courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json */
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description Archivo JSON con datos simplificados de cursos
-                     */
-                    "courses-simplified-v2.json": string;
-                    /**
-                     * Format: binary
-                     * @description Archivo NDJSON con secciones de cursos
-                     */
-                    "courses-sections.ndjson": string;
-                    /**
-                     * Format: binary
-                     * @description Archivo JSON con historial de cuotas de cursos
-                     */
-                    "courses-quota-history.json": string;
-                };
+        content: {
+          "application/json": {
+            sigle: string;
+            name: string;
+            credits: number;
+            parsed_meta_data: {
+              has_prerequisites: boolean;
+              has_restrictions: boolean;
+              has_equivalences: boolean;
+              unlocks_courses: boolean;
+              /** @enum {string} */
+              connector?: "AND" | "OR";
+              restrictions?: {
+                /** @enum {string} */
+                type: "AND" | "OR";
+                restrictions: {
+                  /** @enum {string} */
+                  type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                  /** @enum {string} */
+                  operator: "=" | ">=" | "<>";
+                  value: string;
+                  raw?: string;
+                }[];
+                groups: {
+                  /** @enum {string} */
+                  type: "AND" | "OR";
+                  restrictions: {
+                    /** @enum {string} */
+                    type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                    /** @enum {string} */
+                    operator: "=" | ">=" | "<>";
+                    value: string;
+                    raw?: string;
+                  }[];
+                  groups: {
+                    /** @enum {string} */
+                    type: "AND" | "OR";
+                    restrictions: {
+                      /** @enum {string} */
+                      type: "programa" | "nivel" | "carrera" | "escuela" | "creditos";
+                      /** @enum {string} */
+                      operator: "=" | ">=" | "<>";
+                      value: string;
+                      raw?: string;
+                    }[];
+                    groups: [];
+                  }[];
+                }[];
+              };
+              prerequisites?: {
+                /** @enum {string} */
+                type: "AND" | "OR";
+                courses: {
+                  sigle: string;
+                  is_coreq: boolean;
+                }[];
+                groups: {
+                  /** @enum {string} */
+                  type: "AND" | "OR";
+                  courses: {
+                    sigle: string;
+                    is_coreq: boolean;
+                  }[];
+                  groups: {
+                    /** @enum {string} */
+                    type: "AND" | "OR";
+                    courses: {
+                      sigle: string;
+                      is_coreq: boolean;
+                    }[];
+                    groups: [];
+                  }[];
+                }[];
+              };
+              equivalences?: string[];
+              unlocks?: {
+                as_prerequisite: string[];
+                as_corequisite: string[];
+              };
             };
+            school: string;
+            area: string[];
+            categories: string[];
+            format: string[];
+            campus: string[];
+            is_removable: boolean[];
+            is_special: boolean[];
+            is_english: boolean[];
+            last_semester: string;
+            description?: string;
+          };
         };
-        responses: {
-            /** @description Archivos subidos exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        message: string;
-                        uploaded: {
-                            filename: string;
-                            size: number;
-                        }[];
-                    };
-                };
-            };
-            /** @description Error en la solicitud */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
+      };
+      /** @description Curso no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
     };
-    "postUploadSemester-json": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Archivo JSON en el campo "file" con uno de estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json */
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description Archivo JSON permitido: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json
-                     */
-                    file: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Archivo subido exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        message: string;
-                        filename: string;
-                        size: number;
-                        overwritten: boolean;
-                    };
-                };
-            };
-            /** @description Archivo inválido o JSON inválido */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-        };
+  };
+  "getDataQuota:sigle": {
+    parameters: {
+      query: {
+        /** @description Semestre a consultar */
+        semester: "2024-1" | "2024-2" | "2024-3" | "2025-1" | "2025-2" | "2026-1";
+        /** @description Hash del deploy para habilitar cache inmutable por 1 mes */
+        hash?: string;
+      };
+      header?: never;
+      path: {
+        /** @description Sigla del curso */
+        sigle: string;
+      };
+      cookie?: never;
     };
-    "postUploadCourse-name-map": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Historial de cuotas del curso */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        /** @description Archivo JSON en el campo "file" con nombre course-name-map.json */
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description Archivo JSON requerido: course-name-map.json
-                     */
-                    file: string;
+        content: {
+          "application/json": {
+            sigle: string;
+            /** @enum {string} */
+            semester: "2024-1" | "2024-2" | "2024-3" | "2025-1" | "2025-2" | "2026-1";
+            quota: {
+              [key: string]: {
+                timestamp: string;
+                data: {
+                  [key: string]: {
+                    nivel: string | null;
+                    escuela: string | null;
+                    programa: string | null;
+                    concentracion: string | null;
+                    cohorte: string | null;
+                    periodo_admision: string | null;
+                    ofrecidas: number;
+                    ocupadas: number;
+                    disponibles: number;
+                  };
                 };
+                agg: {
+                  total: number;
+                  disponibles: number;
+                  ocupados: number;
+                };
+              };
             };
+          };
         };
-        responses: {
-            /** @description Archivo subido exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        message: string;
-                        filename: string;
-                        size: number;
-                        overwritten: boolean;
-                    };
-                };
-            };
-            /** @description Archivo inválido, JSON inválido o estructura inválida */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
+      };
+      /** @description Semestre inválido o faltante */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Historial de cuotas no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
     };
-    "postUploadCourses-unified": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Archivo JSON en el campo "file" con nombre courses-unified.json */
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description Archivo JSON requerido: courses-unified.json
-                     */
-                    file: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Archivo subido exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        message: string;
-                        filename: string;
-                        size: number;
-                        overwritten: boolean;
-                    };
-                };
-            };
-            /** @description Archivo inválido o JSON inválido */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-        };
+  };
+  postUpload: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "getDownloadSemester-json:filename": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                filename: string;
-            };
-            cookie?: never;
+    /** @description Archivos a subir: courses-simplified-v2.json, courses-sections.ndjson y courses-quota-history.json */
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          /**
+           * Format: binary
+           * @description Archivo JSON con datos simplificados de cursos
+           */
+          "courses-simplified-v2.json": string;
+          /**
+           * Format: binary
+           * @description Archivo NDJSON con secciones de cursos
+           */
+          "courses-sections.ndjson": string;
+          /**
+           * Format: binary
+           * @description Archivo JSON con historial de cuotas de cursos
+           */
+          "courses-quota-history.json": string;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Archivo descargado exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Nombre de archivo inválido */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Archivo no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-        };
+      };
     };
-    "getDownloadCourses-unified": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Archivos subidos exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Archivo descargado exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Archivo no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
+        content: {
+          "application/json": {
+            message: string;
+            uploaded: {
+              filename: string;
+              size: number;
+            }[];
+          };
         };
+      };
+      /** @description Error en la solicitud */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
     };
-    "getDownloadCourses-simplified-v2": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Archivo descargado exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Archivo no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-        };
+  };
+  "postUploadSemester-json": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "getDownloadCourses-sections": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /** @description Archivo JSON en el campo "file" con uno de estos nombres: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json */
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          /**
+           * Format: binary
+           * @description Archivo JSON permitido: 2024-1.json, 2024-2.json, 2024-3.json, 2025-1.json, 2025-2.json, 2026-1.json
+           */
+          file: string;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Archivo descargado exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/x-ndjson": string;
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Archivo no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
-        };
+      };
     };
-    "getDownloadCourses-quota-history": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Archivo subido exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Archivo descargado exitosamente */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description No autorizado */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Archivo no encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                    };
-                };
-            };
-            /** @description Error interno del servidor */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error: string;
-                        details?: string;
-                    };
-                };
-            };
+        content: {
+          "application/json": {
+            message: string;
+            filename: string;
+            size: number;
+            overwritten: boolean;
+          };
         };
+      };
+      /** @description Archivo inválido o JSON inválido */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
     };
+  };
+  "postUploadCourse-name-map": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Archivo JSON en el campo "file" con nombre course-name-map.json */
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          /**
+           * Format: binary
+           * @description Archivo JSON requerido: course-name-map.json
+           */
+          file: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Archivo subido exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            message: string;
+            filename: string;
+            size: number;
+            overwritten: boolean;
+          };
+        };
+      };
+      /** @description Archivo inválido, JSON inválido o estructura inválida */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
+  "postUploadCourses-unified": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Archivo JSON en el campo "file" con nombre courses-unified.json */
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          /**
+           * Format: binary
+           * @description Archivo JSON requerido: courses-unified.json
+           */
+          file: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Archivo subido exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            message: string;
+            filename: string;
+            size: number;
+            overwritten: boolean;
+          };
+        };
+      };
+      /** @description Archivo inválido o JSON inválido */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
+  "getDownloadSemester-json:filename": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        filename: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Archivo descargado exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": string;
+        };
+      };
+      /** @description Nombre de archivo inválido */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Archivo no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
+  "getDownloadCourses-unified": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Archivo descargado exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": string;
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Archivo no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
+  "getDownloadCourses-simplified-v2": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Archivo descargado exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": string;
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Archivo no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
+  "getDownloadCourses-sections": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Archivo descargado exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/x-ndjson": string;
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Archivo no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
+  "getDownloadCourses-quota-history": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Archivo descargado exitosamente */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": string;
+        };
+      };
+      /** @description No autorizado */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Archivo no encontrado */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+          };
+        };
+      };
+      /** @description Error interno del servidor */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            error: string;
+            details?: string;
+          };
+        };
+      };
+    };
+  };
 }

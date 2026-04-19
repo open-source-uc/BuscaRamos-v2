@@ -107,7 +107,7 @@ export function ScheduleLegend({
         const displayName = useShortNames ? classInfo.short : classInfo.long;
 
         return (
-          <div key={type} className="flex items-center gap-2 text-sm">
+          <div key={type} className={`flex items-center gap-2 text-sm ${className}`}>
             <Pill
               variant={colorVariant}
               size="xs"

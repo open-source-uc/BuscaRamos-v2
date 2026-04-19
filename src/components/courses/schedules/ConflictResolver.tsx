@@ -189,7 +189,7 @@ export default function ConflictResolver({
                             </div>
 
                             {/* Arrow */}
-                            <div className="flex-shrink-0">
+                            <div className="shrink-0">
                               <SwapIcon className="text-muted-foreground h-4 w-4" />
                             </div>
 

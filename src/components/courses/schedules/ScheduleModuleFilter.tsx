@@ -64,7 +64,7 @@ export default function ScheduleModuleFilter({
         </div>
       </div>
 
-      <div className="border-border from-background to-accent/60 rounded-2xl border bg-gradient-to-br p-3 shadow-sm">
+      <div className="border-border from-background to-accent/60 rounded-2xl border bg-linear-to-br p-3 shadow-sm">
         <div className="mb-2 grid grid-cols-[44px_repeat(6,minmax(0,1fr))] gap-1.5 tablet:grid-cols-[60px_repeat(6,minmax(0,1fr))] tablet:gap-2">
           <div />
           {DAYS.map((day) => (
@@ -109,7 +109,7 @@ export default function ScheduleModuleFilter({
                       )}
                     />
                     {isSelected && (
-                      <span className="pointer-events-none absolute inset-[3px] rounded-[10px] ring-1 ring-white/18" />
+                      <span className="pointer-events-none absolute inset-0.75 rounded-[10px] ring-1 ring-white/18" />
                     )}
                   </button>
                 );

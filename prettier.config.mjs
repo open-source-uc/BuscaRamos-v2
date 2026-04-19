@@ -1,4 +1,4 @@
-export default {
+const config = {
   semi: true,
   singleQuote: false,
   tabWidth: 2,
@@ -6,3 +6,5 @@ export default {
   bracketSpacing: true,
   printWidth: 100,
 };
+
+export default config;

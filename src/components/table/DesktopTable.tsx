@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 
 export default function TableTable({ table }: { table: TableType<CourseScore> }) {
   return (
-    <div className="desktop:block hidden pt-4">
-      <div className="bg-accent border-border rounded-md border w-[90vw] max-w-[90vw] overflow-x-auto">
+    <div className="desktop:block w-full hidden pt-4">
+      <div className="bg-accent border-border rounded-md border overflow-x-auto">
         <Table className="table-fixed w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -49,7 +49,11 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
                       <a
                         href={`/${row.original.sigle}`}
                         className="block w-full h-full text-inherit no-underline"
-                        aria-label={index === 0 ? `Ver detalles del curso ${row.original.sigle} - ${row.original.name}` : undefined}
+                        aria-label={
+                          index === 0
+                            ? `Ver detalles del curso ${row.original.sigle} - ${row.original.name}`
+                            : undefined
+                        }
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </a>
@@ -67,7 +71,7 @@ export default function TableTable({ table }: { table: TableType<CourseScore> })
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 w-[90vw] max-w-[90vw]">
+      <div className="flex items-center justify-end space-x-2 py-4 w-full">
         <div className="text-foreground-muted-dark flex-1 text-sm">
           {table.getFilteredRowModel().rows.length} cursos encontrados
         </div>

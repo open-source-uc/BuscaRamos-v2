@@ -5,8 +5,8 @@ import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import { CourseScore } from "@/types/types";
 import { useSetCurrentSemester } from "@/context/semesterCtx";
 
-import { DataTable } from "./table/data-table";
-import DataTableSkeleton from "./table/DataTableSkeleton";
+import { DataTable } from "@/components/table/DataTable";
+import DataTableSkeleton from "@/components/table/DataTableSkeleton";
 
 export default function CoursesTable() {
   const { data, loading, error } = useNDJSONStream<CourseScore>(

@@ -90,7 +90,7 @@ export default function Review({
 
         {/* Botón de voto */}
         {hideLike || (
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <VoteButton
               initialVotes={review.votes}
               reviewId={review.id}
