@@ -1,4 +1,11 @@
-import type { CourseSections, ScheduleMatrix, ScheduleBlock } from "@/types/types.ts";
+import type {
+  CourseSections,
+  ScheduleMatrix,
+  ScheduleBlock,
+  Course,
+  CourseJSON,
+  CourseSection,
+} from "@/types/types.ts";
 import { isCurrentSemester } from "@/lib/currentSemester";
 
 // Mapeo de franjas horarias
@@ -105,7 +112,6 @@ export function createScheduleMatrix(
   for (const courseSelection of selectedCourses) {
     const [courseId, sectionId] = courseSelection.split("-");
 
-    const courseName = "test";
     // Obtener los datos de la sección del curso
     const courseData = courseSections[courseId];
     if (!courseData) continue;
@@ -210,15 +216,15 @@ export function getScheduleDisplay(
  * @param coursesJSON - Los datos de cursos en crudo del JSON
  * @returns Datos de secciones de cursos formateados
  */
-export function convertCourseDataToSections(coursesJSON: any): CourseSections {
+export function convertCourseDataToSections(coursesJSON: CourseJSON): CourseSections {
   const sections: CourseSections = {};
 
   for (const [courseId, courseData] of Object.entries(coursesJSON)) {
-    const course = courseData as any;
+    const course = courseData as Course;
     sections[courseId] = {};
 
     for (const [sectionId, sectionData] of Object.entries(course.sections)) {
-      const section = sectionData as any;
+      const section = sectionData as CourseSection;
       // Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
       const isEnglish = Array.isArray(section.is_english)
         ? (section.is_english[0] ?? false)
@@ -262,7 +268,7 @@ export function convertCourseDataToSections(coursesJSON: any): CourseSections {
  * @param coursesArray - Array de cursos desde NDJSON
  * @returns Datos de secciones de cursos formateados
  */
-export function convertNDJSONToSections(coursesArray: any[]): CourseSections {
+export function convertNDJSONToSections(coursesArray: Course[]): CourseSections {
   const sections: CourseSections = {};
   for (const course of coursesArray) {
     if (course.sigle && course.sections) {
@@ -274,13 +280,16 @@ export function convertNDJSONToSections(coursesArray: any[]): CourseSections {
         continue;
       }
 
-      const sectionsSource = course.sections[currentSem] as Record<string, any>;
+      const sectionsSource = course.sections[currentSem] as unknown as Record<
+        string,
+        CourseSection
+      >;
       if (!sectionsSource) continue;
 
       sections[course.sigle] = {};
 
       for (const [sectionId, sectionData] of Object.entries(sectionsSource)) {
-        const section = sectionData as any;
+        const section = sectionData as CourseSection;
         // Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
         const isEnglish = Array.isArray(section.is_english)
           ? (section.is_english[0] ?? false)
