@@ -20,7 +20,7 @@ import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { toast } from "sonner";
-import type { ScheduleMatrix, CourseSections } from "@/types/types";
+import type { ScheduleMatrix, CourseSections, CourseSection } from "@/types/types";
 import {
   createScheduleMatrix,
   TIME_SLOTS,
@@ -70,7 +70,7 @@ function ScheduleGrid({
   courseSigle: string;
   semester: string;
   onAddToSchedule: (courseId: string, success: boolean) => void;
-  sectionData?: any;
+  sectionData?: CourseSection;
 }) {
   const courseId = `${courseSigle}-${sectionId}`;
   const isInSchedule =
