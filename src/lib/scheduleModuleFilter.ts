@@ -1,4 +1,4 @@
-import { BLOCK_MAP } from "@/lib/scheduleMatrix";
+import { BLOCK_MAP } from "@/lib/scheduleMatrixConstants";
 import type { CourseSection } from "@/types/types";
 
 export type ScheduleModuleKey = `${string}-${string}`;
