@@ -23,7 +23,7 @@ import {
   addHiddenCourse,
   removeHiddenCourse,
 } from "@/lib/scheduleStorage";
-import type { ScheduleMatrix, CourseSections, CourseScore } from "@/types/types.ts";
+import type { ScheduleMatrix, CourseSections, CourseScore, Course } from "@/types/types.ts";
 import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
@@ -389,7 +389,7 @@ export default function ScheduleCreator() {
     async () => {
       const res = await fetch(`https://public.osuc.dev/${selectedSemester}.json`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json() as Promise<Record<string, any>>;
+      return res.json() as Promise<Record<string, Course>>;
     },
     { revalidateOnFocus: false }
   );
