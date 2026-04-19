@@ -1,7 +1,7 @@
 import { calculatePositivePercentage, calculateSentiment } from "@/lib/courseStats";
 import { CourseScore } from "@/types/types";
 import { Table } from "@tanstack/react-table";
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import TableCourseCampuses from "./TableCourseCampuses";
 import { AreaIcon, OpenInFullIcon, Sentiment } from "../icons";
 import { Pill } from "../ui/pill";
@@ -16,9 +16,10 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
   const [isLoading, setIsLoading] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  const allRows = table.getFilteredRowModel().rows;
+  const allRows = useMemo(() => table.getFilteredRowModel().rows, [table]);
   const visibleRows = allRows.slice(0, displayedItems);
   const hasMore = displayedItems < allRows.length;
+  const totalRows = allRows.length;
 
   const loadMore = useCallback(() => {
     if (isLoading || !hasMore) return;
@@ -59,8 +60,11 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
 
   // Reset displayed items when table data changes (e.g., filtering)
   useEffect(() => {
-    setDisplayedItems(itemsPerPage);
-  }, [table.getFilteredRowModel().rows.length, itemsPerPage]);
+    const frame = requestAnimationFrame(() => {
+      setDisplayedItems(itemsPerPage);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [totalRows, itemsPerPage]);
 
   return (
     <div className="desktop:hidden w-full pt-4">
@@ -96,7 +100,7 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
                   </div>
 
                   {/* Nombre del curso */}
-                  <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold break-words w-full overflow-hidden">
+                  <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold wrap-break-word w-full overflow-hidden">
                     {course.name}
                   </h3>
 
