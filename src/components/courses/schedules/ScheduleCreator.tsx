@@ -106,7 +106,7 @@ const DAY_LABELS: Record<string, string> = {
   s: "Sá",
 };
 
-function formatDays(schedule: Record<string, any>): string {
+function formatDays(schedule: Record<string, Array<string>>): string {
   const keys = Object.keys(schedule);
   if (!keys.length) return "Sin horario";
   const seen = new Set<string>();
