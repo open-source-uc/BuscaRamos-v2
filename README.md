@@ -84,17 +84,17 @@ Abrir [http://localhost:3000](http://localhost:3000) para ver la aplicación.
 
 ## 📦 Scripts Disponibles
 
-| Script                | Descripción                          |
-| --------------------- | ------------------------------------ |
-| `npm run dev`         | Servidor de desarrollo con Turbopack |
-| `npm run build`       | Build de producción                  |
-| `npm run start`       | Servidor de producción local         |
-| `npm run lint`        | Ejecutar ESLint                      |
-| `npm run lint:fix`    | Ejecutar ESLint con auto-fix         |
-| `npm run pages:build` | Build para Cloudflare Pages          |
-| `npm run preview`     | Preview local con Wrangler           |
-| `npm run deploy`      | Deploy a Cloudflare Pages            |
-| `npm run cf-typegen`  | Generar tipos de Cloudflare          |
+| Script               | Descripción                          |
+| -------------------- | ------------------------------------ |
+| `npm run dev`        | Servidor de desarrollo con Turbopack |
+| `npm run build`      | Build de producción                  |
+| `npm run start`      | Servidor de producción local         |
+| `npm run lint`       | Ejecutar ESLint                      |
+| `npm run lint:fix`   | Ejecutar ESLint con auto-fix         |
+| `npm run cf:build`   | Build para Cloudflare Pages          |
+| `npm run preview`    | Preview local con Wrangler           |
+| `npm run deploy`     | Deploy a Cloudflare Pages            |
+| `npm run cf-typegen` | Generar tipos de Cloudflare          |
 
 ## 🎨 Desarrollo Frontend
 
@@ -170,6 +170,12 @@ NEXT_PUBLIC_ENVIRONMENT=production
 ## 🧪 Testing y Calidad
 
 ### Linting
+
+> [!IMPORTANT]
+> **Existe un pre-commit configurado para asegurarse que los archivos se encuentren linteados correctamente (eslint + prettier).**
+
+> [!WARNING]
+> **Es posible saltarse el pre-commit utilizando `git commit -m "Mensaje" --no-verify`, pero no es recomendado.**
 
 ```bash
 # Verificar código
