@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 "use client";
 
 import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
@@ -7,13 +8,11 @@ import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import {
   createScheduleMatrix,
   detectScheduleConflicts,
-  TIME_SLOTS,
-  TIME_RANGES,
-  DAYS,
   convertCourseDataToSections,
   shuffleSections,
   getAvailableSections,
 } from "@/lib/scheduleMatrix";
+import { TIME_SLOTS, TIME_RANGES, DAYS } from "@/lib/scheduleMatrixConstants";
 import {
   getSavedCourses,
   saveCourses,
@@ -23,7 +22,13 @@ import {
   addHiddenCourse,
   removeHiddenCourse,
 } from "@/lib/scheduleStorage";
-import type { ScheduleMatrix, CourseSections, CourseScore } from "@/types/types.ts";
+import type {
+  ScheduleMatrix,
+  CourseSections,
+  CourseScore,
+  Course,
+  CourseSection,
+} from "@/types/types.ts";
 import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
@@ -389,7 +394,7 @@ export default function ScheduleCreator() {
     async () => {
       const res = await fetch(`https://public.osuc.dev/${selectedSemester}.json`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json() as Promise<Record<string, any>>;
+      return res.json() as Promise<Record<string, Course>>;
     },
     { revalidateOnFocus: false }
   );
@@ -461,9 +466,9 @@ export default function ScheduleCreator() {
           id: `${sigle}-${section}`,
           sigle,
           seccion: section,
-          nombre: (data as any).name || "Sin nombre",
-          nrc: (data as any).nrc || "N/A",
-          campus: (data as any).campus || "Sin campus",
+          nombre: (data as CourseSection).name || "Sin nombre",
+          nrc: (data as CourseSection).nrc || "N/A",
+          campus: (data as CourseSection).campus || "Sin campus",
         }))
       ),
     [courseSectionsData]
@@ -471,13 +476,15 @@ export default function ScheduleCreator() {
 
   // Hydrate state from storage after mount
   useEffect(() => {
-    setSelectedCourses(getSavedCourses(selectedSemester));
-    setHiddenCourses(getSavedHiddenCourses());
-  }, []);
+    const savedCourses = getSavedCourses(selectedSemester);
+    const savedHidden = getSavedHiddenCourses();
 
-  // When semester changes, load courses for the new semester
-  useEffect(() => {
-    setSelectedCourses(getSavedCourses(selectedSemester));
+    const frame = requestAnimationFrame(() => {
+      setSelectedCourses(savedCourses);
+      setHiddenCourses(savedHidden);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [selectedSemester]);
 
   // Fuzzy search over all courses for this semester
@@ -523,7 +530,7 @@ export default function ScheduleCreator() {
     const areas = new Set<string>();
     for (const sections of Object.values(courseSectionsData)) {
       for (const sectionData of Object.values(sections)) {
-        const area = (sectionData as any).area;
+        const area = (sectionData as CourseSection).area;
         if (area?.trim()) areas.add(area.trim());
       }
     }
@@ -536,16 +543,16 @@ export default function ScheduleCreator() {
     name: string;
     sectionId: string;
     courseId: string;
-    sectionData: any;
+    sectionData: CourseSection;
   };
   const ofgResults = useMemo<OFGSection[]>(() => {
     if (!ofgSelectedArea) return [];
     const baseConflicts = detectScheduleConflicts(scheduleMatrix).length;
     const results: OFGSection[] = [];
     for (const [sigle, sections] of Object.entries(courseSectionsData)) {
-      const courseName = (semesterData?.[sigle] as any)?.name || sigle;
+      const courseName = (semesterData?.[sigle] as Course)?.name || sigle;
       for (const [sectionId, rawData] of Object.entries(sections)) {
-        const s = rawData as any;
+        const s = rawData as CourseSection;
         if (s.area?.trim() !== ofgSelectedArea) continue;
         const courseId = `${sigle}-${sectionId}`;
         if (selectedCourses.includes(courseId)) continue;
@@ -651,7 +658,7 @@ export default function ScheduleCreator() {
     const lastDash = courseId.lastIndexOf("-");
     const sigle = courseId.substring(0, lastDash);
     const section = courseId.substring(lastDash + 1);
-    const sectionData = courseSectionsData[sigle]?.[section] as any;
+    const sectionData = courseSectionsData[sigle]?.[section] as CourseSection;
     return {
       sigle,
       seccion: section,
@@ -685,7 +692,11 @@ export default function ScheduleCreator() {
           options={semesterOptions}
           value={selectedSemester}
           onValueChange={(v) => {
-            if (v) setSelectedSemester(v as ValidSemester);
+            if (v) {
+              const nextSemester = v as ValidSemester;
+              setSelectedSemester(nextSemester);
+              setSelectedCourses(getSavedCourses(nextSemester));
+            }
           }}
           placeholder="Seleccionar semestre"
           searchPlaceholder="Buscar semestre..."

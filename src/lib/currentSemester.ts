@@ -58,8 +58,8 @@ export function getSectionsForSemester(
  * Wrapper conveniente que devuelve las secciones del semestre actual.
  */
 export function getSectionsForCurrentSemester(
-  sections: Record<string, Record<string, any>> | undefined
-): Record<string, any> {
+  sections: Record<string, Record<string, CourseSection>> | undefined
+): Record<string, CourseSection> {
   return getSectionsForSemester(sections, CURRENT_SEMESTER);
 }
 

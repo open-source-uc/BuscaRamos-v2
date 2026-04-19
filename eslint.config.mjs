@@ -7,7 +7,18 @@ import unusedImports from "eslint-plugin-unused-imports";
 
 export default defineConfig([
   {
-    ignores: [".git", ".next", ".vercel", ".wrangler", "node_modules", "dist", "build"],
+    ignores: [
+      ".git",
+      ".next",
+      ".vercel",
+      ".wrangler",
+      "node_modules",
+      "dist",
+      "build",
+      "public/workers/*.js",
+    ],
+  },
+  {
     linterOptions: {
       reportUnusedDisableDirectives: "error",
     },

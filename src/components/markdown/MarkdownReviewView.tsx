@@ -1,16 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { ComponentProps } from "react";
+import useSWR from "swr";
+import type { Element } from "hast";
+import type { ComponentProps, ReactNode } from "react";
 
 import { Pill } from "@/components/ui/pill";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { Components } from "react-markdown";
+import Image from "next/image";
 
 type PillVariant = ComponentProps<typeof Pill>["variant"];
 type PillSize = ComponentProps<typeof Pill>["size"];
+
+const fetcher = (url: string) =>
+  fetch(url).then((res) => {
+    if (!res.ok) throw new Error("Error al cargar markdown.");
+    return res.text();
+  });
 
 export function MarkdownReviewView({
   path,
@@ -19,29 +27,18 @@ export function MarkdownReviewView({
   path: string;
   imgAllow?: boolean;
 }) {
-  const [text, setText] = useState("Cargando...");
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    if (!path) {
-      setError(true);
-      return;
-    }
-
-    fetch(`/api/reviews?path=${encodeURIComponent(path)}`)
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Error al cargar markdown");
-        const content = await res.text();
-        setText(content);
-      })
-      .catch((err) => {
-        console.error("Error cargando Markdown:", err);
-        setError(true);
-      });
-  }, [path]);
+  const {
+    data: text,
+    error,
+    isLoading,
+  } = useSWR(path ? `/api/reviews?path=${encodeURIComponent(path)}` : null, fetcher);
 
   if (error) {
     return <blockquote>Error cargando contenido.</blockquote>;
+  }
+
+  if (isLoading) {
+    return <p>Cargando...</p>;
   }
 
   return (
@@ -51,7 +48,7 @@ export function MarkdownReviewView({
         remarkPlugins={[remarkGfm, remarkBreaks]}
         components={
           {
-            pill: ({ node, children }: any) => {
+            pill: ({ node, children }: { node: Element; children: ReactNode }) => {
               const props = node?.properties ?? {};
               return (
                 <Pill variant={props.variant as PillVariant} size={props.size as PillSize}>
@@ -59,11 +56,11 @@ export function MarkdownReviewView({
                 </Pill>
               );
             },
-            img: ({ node }: any) => {
+            img: ({ node }: { node: Element }) => {
               if (!imgAllow) return null;
               const { src, alt, title } = node?.properties || {};
               return (
-                <img
+                <Image
                   src={src as string}
                   alt={(alt as string) || ""}
                   title={title as string}
@@ -71,7 +68,7 @@ export function MarkdownReviewView({
                 />
               );
             },
-          } as any
+          } as Components
         }
       >
         {text}

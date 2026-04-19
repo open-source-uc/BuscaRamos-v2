@@ -1,7 +1,7 @@
 import { calculatePositivePercentage, calculateSentiment } from "@/lib/courseStats";
 import { CourseScore } from "@/types/types";
 import { Table } from "@tanstack/react-table";
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import TableCourseCampuses from "./TableCourseCampuses";
 import { AreaIcon, OpenInFullIcon, Sentiment } from "../icons";
 import { Pill } from "../ui/pill";
@@ -16,9 +16,10 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
   const [isLoading, setIsLoading] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  const allRows = table.getFilteredRowModel().rows;
+  const allRows = useMemo(() => table.getFilteredRowModel().rows, [table]);
   const visibleRows = allRows.slice(0, displayedItems);
   const hasMore = displayedItems < allRows.length;
+  const totalRows = allRows.length;
 
   const loadMore = useCallback(() => {
     if (isLoading || !hasMore) return;
@@ -59,8 +60,11 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
 
   // Reset displayed items when table data changes (e.g., filtering)
   useEffect(() => {
-    setDisplayedItems(itemsPerPage);
-  }, [table.getFilteredRowModel().rows.length, itemsPerPage]);
+    const frame = requestAnimationFrame(() => {
+      setDisplayedItems(itemsPerPage);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [totalRows, itemsPerPage]);
 
   return (
     <div className="desktop:hidden w-full pt-4">
@@ -86,7 +90,7 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
                 <a
                   key={row.id}
                   href={`/${course.sigle}`}
-                  className="border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full block no-underline"
+                  className="flex flex-col h-full border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full no-underline"
                   aria-label={`Ver detalles del curso ${course.sigle} - ${course.name}`}
                 >
                   {/* Header con sigla y créditos */}
@@ -96,7 +100,7 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
                   </div>
 
                   {/* Nombre del curso */}
-                  <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold break-words w-full overflow-hidden">
+                  <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold wrap-break-word w-full overflow-hidden">
                     {course.name}
                   </h3>
 
@@ -135,7 +139,7 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
                       )}
                     </div>
                   </div>
-                  <div className="text-muted-foreground mt-4 flex flex-row-reverse items-center gap-1 text-xs">
+                  <div className="text-muted-foreground mt-auto pt-4 flex flex-row-reverse items-center gap-1 text-xs">
                     <OpenInFullIcon className="inline-block h-4 w-4" /> Presiona para ver detalles
                   </div>
                 </a>

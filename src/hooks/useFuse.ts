@@ -72,7 +72,8 @@ export function useFuse<T>({
   const fuseRef = useRef<Fuse<T> | null>(null);
 
   useEffect(() => {
-    setResults(data);
+    const frame = requestAnimationFrame(() => setResults(data));
+    return () => cancelAnimationFrame(frame);
   }, [data]);
 
   useEffect(() => {
@@ -83,8 +84,8 @@ export function useFuse<T>({
       };
     } else {
       fuseRef.current = new Fuse<T>(data, {
-        keys: effectiveKeys as any,
-        ...(effectiveOptions as any),
+        keys: effectiveKeys,
+        ...effectiveOptions,
       });
       return () => {
         fuseRef.current = null;
@@ -98,12 +99,14 @@ export function useFuse<T>({
     }
 
     if (!effectiveQuery || effectiveQuery.trim() === "") {
-      setIsSearching(false);
-      setResults(data);
-      return;
+      const frame = requestAnimationFrame(() => {
+        setIsSearching(false);
+        setResults(data);
+      });
+      return () => cancelAnimationFrame(frame);
     }
 
-    setIsSearching(true);
+    const searchFrame = requestAnimationFrame(() => setIsSearching(true));
 
     debounceRef.current = window.setTimeout(async () => {
       searchInFlightRef.current = true;
@@ -122,6 +125,7 @@ export function useFuse<T>({
     }, debounceMs);
 
     return () => {
+      cancelAnimationFrame(searchFrame);
       if (debounceRef.current !== undefined) {
         clearTimeout(debounceRef.current);
       }
@@ -149,6 +153,6 @@ export function useFuse<T>({
 
   return useMemo(
     () => ({ results, isSearching, setQuery, abort, query: effectiveQuery }),
-    [results, isSearching, abort, effectiveQuery]
+    [results, isSearching, setQuery, abort, effectiveQuery]
   );
 }

@@ -79,6 +79,7 @@ export function DataTable({ data, externalSearchValue = "" }: DataTableProps) {
     return filteredWithoutSearch;
   }, [searchValue, fuseSearch.results, filteredWithoutSearch]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: filteredData,
     columns,

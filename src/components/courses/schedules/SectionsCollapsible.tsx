@@ -20,13 +20,9 @@ import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { toast } from "sonner";
-import type { ScheduleMatrix, CourseSections } from "@/types/types";
-import {
-  createScheduleMatrix,
-  TIME_SLOTS,
-  DAYS,
-  convertCourseDataToSections,
-} from "@/lib/scheduleMatrix";
+import type { ScheduleMatrix, CourseSections, CourseSection, Course } from "@/types/types";
+import { createScheduleMatrix, convertCourseDataToSections } from "@/lib/scheduleMatrix";
+import { TIME_SLOTS, DAYS } from "@/lib/scheduleMatrixConstants";
 import { addCourseToSchedule, isCourseInSchedule } from "@/lib/scheduleStorage";
 import {
   ScheduleLegend,
@@ -46,7 +42,7 @@ async function fetchSemesterSections(semester: string, sigle: string): Promise<C
   const res = await fetch(`https://public.osuc.dev/${semester}.json`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = (await res.json()) as Record<string, { sections?: unknown }>;
-  const courseData = data[sigle];
+  const courseData = data[sigle] as Course;
   return courseData?.sections ? convertCourseDataToSections({ [sigle]: courseData }) : {};
 }
 
@@ -70,7 +66,7 @@ function ScheduleGrid({
   courseSigle: string;
   semester: string;
   onAddToSchedule: (courseId: string, success: boolean) => void;
-  sectionData?: any;
+  sectionData?: CourseSection;
 }) {
   const courseId = `${courseSigle}-${sectionId}`;
   const isInSchedule =

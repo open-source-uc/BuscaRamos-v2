@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 export function SearchIcon({ className }: { className?: string }) {
   return (
     <svg

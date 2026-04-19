@@ -15,7 +15,15 @@ export default function ChangeStatusForm({ review }: { review: CourseReview }) {
   useEffect(() => {
     if (state.message === NULL_STRING) return;
 
-    state.success ? toast.success(state.message) : toast.error(state.message);
+    const frame = requestAnimationFrame(() => {
+      if (state.success) {
+        toast.success(state.message);
+      } else {
+        toast.error(state.message);
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [state.message, state.success]);
 
   return (

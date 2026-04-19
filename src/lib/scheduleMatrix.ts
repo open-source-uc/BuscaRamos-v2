@@ -1,92 +1,13 @@
-import type { CourseSections, ScheduleMatrix, ScheduleBlock } from "@/types/types.ts";
+import type {
+  CourseSections,
+  ScheduleMatrix,
+  ScheduleBlock,
+  Course,
+  CourseJSON,
+  CourseSection,
+} from "@/types/types.ts";
+import { TIME_SLOTS, DAYS, BLOCK_MAP } from "@/lib/scheduleMatrixConstants";
 import { isCurrentSemester } from "@/lib/currentSemester";
-
-// Mapeo de franjas horarias
-export const TIME_SLOTS = [
-  "08:20",
-  "09:40",
-  "11:00",
-  "12:20",
-  "14:50",
-  "16:10",
-  "17:30",
-  "18:50",
-  "20:10",
-];
-
-// Rango de duración de los módulos
-export const TIME_RANGES = {
-  "08:20": "09:30",
-  "09:40": "10:50",
-  "11:00": "12:10",
-  "12:20": "13:30",
-  "14:50": "16:00",
-  "16:10": "17:20",
-  "17:30": "18:40",
-  "18:50": "20:00",
-  "20:10": "21:20",
-};
-
-// Días de la semana (incluye sábado)
-export const DAYS = ["L", "M", "W", "J", "V", "S"];
-
-// Mapeo de bloques (L=Lunes, M=Martes, W=Miércoles, J=Jueves, V=Viernes, S=Sábado)
-export const BLOCK_MAP: Record<string, { dia: string; hora: string }> = {
-  l1: { dia: "L", hora: "08:20" },
-  l2: { dia: "L", hora: "09:40" },
-  l3: { dia: "L", hora: "11:00" },
-  l4: { dia: "L", hora: "12:20" },
-  l5: { dia: "L", hora: "14:50" },
-  l6: { dia: "L", hora: "16:10" },
-  l7: { dia: "L", hora: "17:30" },
-  l8: { dia: "L", hora: "18:50" },
-  l9: { dia: "L", hora: "20:10" },
-  m1: { dia: "M", hora: "08:20" },
-  m2: { dia: "M", hora: "09:40" },
-  m3: { dia: "M", hora: "11:00" },
-  m4: { dia: "M", hora: "12:20" },
-  m5: { dia: "M", hora: "14:50" },
-  m6: { dia: "M", hora: "16:10" },
-  m7: { dia: "M", hora: "17:30" },
-  m8: { dia: "M", hora: "18:50" },
-  m9: { dia: "M", hora: "20:10" },
-  w1: { dia: "W", hora: "08:20" },
-  w2: { dia: "W", hora: "09:40" },
-  w3: { dia: "W", hora: "11:00" },
-  w4: { dia: "W", hora: "12:20" },
-  w5: { dia: "W", hora: "14:50" },
-  w6: { dia: "W", hora: "16:10" },
-  w7: { dia: "W", hora: "17:30" },
-  w8: { dia: "W", hora: "18:50" },
-  w9: { dia: "W", hora: "20:10" },
-  j1: { dia: "J", hora: "08:20" },
-  j2: { dia: "J", hora: "09:40" },
-  j3: { dia: "J", hora: "11:00" },
-  j4: { dia: "J", hora: "12:20" },
-  j5: { dia: "J", hora: "14:50" },
-  j6: { dia: "J", hora: "16:10" },
-  j7: { dia: "J", hora: "17:30" },
-  j8: { dia: "J", hora: "18:50" },
-  j9: { dia: "J", hora: "20:10" },
-  v1: { dia: "V", hora: "08:20" },
-  v2: { dia: "V", hora: "09:40" },
-  v3: { dia: "V", hora: "11:00" },
-  v4: { dia: "V", hora: "12:20" },
-  v5: { dia: "V", hora: "14:50" },
-  v6: { dia: "V", hora: "16:10" },
-  v7: { dia: "V", hora: "17:30" },
-  v8: { dia: "V", hora: "18:50" },
-  v9: { dia: "V", hora: "20:10" },
-  s1: { dia: "S", hora: "08:20" },
-  s2: { dia: "S", hora: "09:40" },
-  s3: { dia: "S", hora: "11:00" },
-  s4: { dia: "S", hora: "12:20" },
-  s5: { dia: "S", hora: "14:50" },
-  s6: { dia: "S", hora: "16:10" },
-  s7: { dia: "S", hora: "17:30" },
-  s8: { dia: "S", hora: "18:50" },
-  s9: { dia: "S", hora: "20:10" },
-};
 
 /**
  * Crea una matriz de horarios a partir de las secciones de cursos
@@ -105,7 +26,6 @@ export function createScheduleMatrix(
   for (const courseSelection of selectedCourses) {
     const [courseId, sectionId] = courseSelection.split("-");
 
-    const courseName = "test";
     // Obtener los datos de la sección del curso
     const courseData = courseSections[courseId];
     if (!courseData) continue;
@@ -210,15 +130,15 @@ export function getScheduleDisplay(
  * @param coursesJSON - Los datos de cursos en crudo del JSON
  * @returns Datos de secciones de cursos formateados
  */
-export function convertCourseDataToSections(coursesJSON: any): CourseSections {
+export function convertCourseDataToSections(coursesJSON: CourseJSON): CourseSections {
   const sections: CourseSections = {};
 
   for (const [courseId, courseData] of Object.entries(coursesJSON)) {
-    const course = courseData as any;
+    const course = courseData as Course;
     sections[courseId] = {};
 
     for (const [sectionId, sectionData] of Object.entries(course.sections)) {
-      const section = sectionData as any;
+      const section = sectionData as CourseSection;
       // Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
       const isEnglish = Array.isArray(section.is_english)
         ? (section.is_english[0] ?? false)
@@ -262,7 +182,7 @@ export function convertCourseDataToSections(coursesJSON: any): CourseSections {
  * @param coursesArray - Array de cursos desde NDJSON
  * @returns Datos de secciones de cursos formateados
  */
-export function convertNDJSONToSections(coursesArray: any[]): CourseSections {
+export function convertNDJSONToSections(coursesArray: Course[]): CourseSections {
   const sections: CourseSections = {};
   for (const course of coursesArray) {
     if (course.sigle && course.sections) {
@@ -274,13 +194,16 @@ export function convertNDJSONToSections(coursesArray: any[]): CourseSections {
         continue;
       }
 
-      const sectionsSource = course.sections[currentSem] as Record<string, any>;
+      const sectionsSource = course.sections[currentSem] as unknown as Record<
+        string,
+        CourseSection
+      >;
       if (!sectionsSource) continue;
 
       sections[course.sigle] = {};
 
       for (const [sectionId, sectionData] of Object.entries(sectionsSource)) {
-        const section = sectionData as any;
+        const section = sectionData as CourseSection;
         // Convertir arrays booleanos a boolean (la API puede enviar [false] o [true])
         const isEnglish = Array.isArray(section.is_english)
           ? (section.is_english[0] ?? false)

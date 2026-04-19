@@ -101,4 +101,12 @@ export interface CourseSections {
   };
 }
 
+// Course data for a selected semester
+export interface Course {
+  sigle: string;
+  name: string;
+  sections: Record<string, CourseSection>;
+}
+
+export type CourseJSON = Record<string, Course>;
 export type ScheduleMatrix = ScheduleBlock[][][]; // [franjaHoraria][diaSemana][clases]

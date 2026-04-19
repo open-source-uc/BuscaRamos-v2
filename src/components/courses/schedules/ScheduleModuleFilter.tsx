@@ -1,6 +1,6 @@
 "use client";
 
-import { DAYS, TIME_SLOTS } from "@/lib/scheduleMatrix";
+import { TIME_SLOTS, DAYS } from "@/lib/scheduleMatrixConstants";
 import { buildScheduleModuleKey } from "@/lib/scheduleModuleFilter";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
