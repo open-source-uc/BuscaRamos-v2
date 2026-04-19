@@ -108,8 +108,5 @@ export interface Course {
   sections: Record<string, CourseSection>;
 }
 
-export interface CourseJSON {
-  courseId: Course;
-}
-
+export type CourseJSON = Record<string, Course>;
 export type ScheduleMatrix = ScheduleBlock[][][]; // [franjaHoraria][diaSemana][clases]

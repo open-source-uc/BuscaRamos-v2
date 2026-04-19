@@ -1,4 +1,4 @@
-import { TIME_SLOTS } from "@/lib/scheduleMatrix";
+import { TIME_SLOTS } from "@/lib/scheduleMatrixConstants";
 import { ACTUAL_SEMESTER } from "@/lib/academicCalendar";
 import { VCalendar, eventTemplate } from "@/lib/icsHorario";
 import { formatScheduleLocation } from "@/lib/scheduleLocation";

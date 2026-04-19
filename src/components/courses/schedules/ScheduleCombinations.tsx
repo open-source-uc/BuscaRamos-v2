@@ -9,11 +9,10 @@ import { toast } from "sonner";
 import type { CourseSections } from "@/types/types.ts";
 import {
   createScheduleMatrix,
-  TIME_SLOTS,
-  DAYS,
   detectScheduleConflicts,
   getAvailableSections,
 } from "@/lib/scheduleMatrix";
+import { TIME_SLOTS, DAYS } from "@/lib/scheduleMatrixConstants";
 import {
   getClassTypeColor,
   getClassTypeShort,

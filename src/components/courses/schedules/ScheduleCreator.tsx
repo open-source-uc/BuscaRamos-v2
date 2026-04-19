@@ -7,13 +7,11 @@ import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import {
   createScheduleMatrix,
   detectScheduleConflicts,
-  TIME_SLOTS,
-  TIME_RANGES,
-  DAYS,
   convertCourseDataToSections,
   shuffleSections,
   getAvailableSections,
 } from "@/lib/scheduleMatrix";
+import { TIME_SLOTS, TIME_RANGES, DAYS } from "@/lib/scheduleMatrixConstants";
 import {
   getSavedCourses,
   saveCourses,
