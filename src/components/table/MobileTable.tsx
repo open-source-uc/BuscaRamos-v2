@@ -90,7 +90,7 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
                 <a
                   key={row.id}
                   href={`/${course.sigle}`}
-                  className="border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full block no-underline"
+                  className="flex flex-col h-full border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full no-underline"
                   aria-label={`Ver detalles del curso ${course.sigle} - ${course.name}`}
                 >
                   {/* Header con sigla y créditos */}
@@ -139,7 +139,7 @@ export default function MobileTable({ table, itemsPerPage = 10 }: MobileTablePro
                       )}
                     </div>
                   </div>
-                  <div className="text-muted-foreground mt-4 flex flex-row-reverse items-center gap-1 text-xs">
+                  <div className="text-muted-foreground mt-auto pt-4 flex flex-row-reverse items-center gap-1 text-xs">
                     <OpenInFullIcon className="inline-block h-4 w-4" /> Presiona para ver detalles
                   </div>
                 </a>
