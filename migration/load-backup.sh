@@ -1,1 +1,1 @@
-npx wrangler d1 execute v2-ramos --local --file=./migration/.backup.sql
+npx wrangler d1 execute v2-ramos --local --file=./migration/sql/backup.sql
