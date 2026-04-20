@@ -17,8 +17,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
   ListItem,
-} from "@/components/header/NavigationMenu";
-import MobileHeader from "@/components/header/MobileHeader";
+} from "@/components/Layout/NavigationMenu";
+import MobileHeader from "@/components/Layout/MobileHeader";
 import logo from "@/public/logos/dark-osuc-logo.svg";
 
 const components: { title: string; href: string; description: string }[] = [
