@@ -1,7 +1,9 @@
+import "@/styles/global.css";
+
 import type { Metadata } from "next";
 import Script from "next/script";
-import "@/styles/global.css";
 import Header from "@/components/Layout/Header";
+import Footer from "@/components/Layout/Footer";
 import FloatingNavButton from "@/components/FloatingNavButton";
 import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
@@ -89,6 +91,7 @@ export default function RootLayout({
                 closeButton={true}
                 duration={4000}
               />
+              <Footer />
               <FloatingNavButton />
             </AuthProvider>
           </CourseNameMapProvider>
