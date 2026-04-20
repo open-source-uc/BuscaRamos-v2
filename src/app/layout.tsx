@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "@/styles/global.css";
-import Header from "@/components/header/Header";
+import Header from "@/components/Layout/Header";
 import FloatingNavButton from "@/components/FloatingNavButton";
 import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
