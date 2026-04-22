@@ -5,176 +5,123 @@ import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import TableCourseCampuses from "./TableCourseCampuses";
 import { AreaIcon, OpenInFullIcon, Sentiment } from "../icons";
 import { Pill } from "../ui/pill";
+import { Button } from "../ui/button";
 
 interface MobileTableProps {
-  table: Table<CourseScore>;
-  itemsPerPage?: number;
+    table: Table<CourseScore>;
+    itemsPerPage?: number;
 }
 
 export default function MobileTable({ table, itemsPerPage = 10 }: MobileTableProps) {
-  const [displayedItems, setDisplayedItems] = useState(itemsPerPage);
-  const [isLoading, setIsLoading] = useState(false);
-  const observerTarget = useRef<HTMLDivElement>(null);
 
-  const allRows = useMemo(() => table.getFilteredRowModel().rows, [table]);
-  const visibleRows = allRows.slice(0, displayedItems);
-  const hasMore = displayedItems < allRows.length;
-  const totalRows = allRows.length;
+    return (
+        <div className="desktop:hidden w-full pt-4">
+            {table.getRowModel().rows?.length ? (
+                <>
+                    <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4">
+                        {table.getRowModel().rows.map((row) => {
+                            const course = row.original;
+                            const totalReviews = course.likes + course.superlikes + course.dislikes;
+                            const sentimentType = calculateSentiment(
+                                course.likes,
+                                course.superlikes,
+                                course.dislikes
+                            );
+                            const positivePercentage = calculatePositivePercentage(
+                                course.likes,
+                                course.superlikes,
+                                course.dislikes
+                            );
 
-  const loadMore = useCallback(() => {
-    if (isLoading || !hasMore) return;
+                            return (
+                                /* Versión para móvil */
+                                <a
+                                    key={row.id}
+                                    href={`/${course.sigle}`}
+                                    className="flex flex-col h-full border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full no-underline"
+                                    aria-label={`Ver detalles del curso ${course.sigle} - ${course.name}`}
+                                >
+                                    {/* Header con sigla y créditos */}
+                                    <div className="mb-2 flex items-start justify-between">
+                                        <div className="text-foreground text-xs font-medium">{course.sigle}</div>
+                                        <div className="text-muted-foreground text-xs">{course.credits} créditos</div>
+                                    </div>
 
-    setIsLoading(true);
+                                    {/* Nombre del curso */}
+                                    <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold wrap-break-word w-full overflow-hidden">
+                                        {course.name}
+                                    </h3>
 
-    // Simulate loading delay (remove in production if not needed)
-    setTimeout(() => {
-      setDisplayedItems((prev) => Math.min(prev + itemsPerPage, allRows.length));
-      setIsLoading(false);
-    }, 300);
-  }, [isLoading, hasMore, itemsPerPage, allRows.length]);
+                                    <div className="flex flex-col gap-2">
+                                        {/* Campus */}
+                                        <div className="flex items-center">
+                                            <TableCourseCampuses
+                                                variant="with-icon"
+                                                campus={course.campus || []}
+                                                lastSemester={course.last_semester}
+                                            />
+                                        </div>
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
-          loadMore();
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "20px",
-      }
+                                        {/* Área de Formación General */}
+                                        {Array.isArray(course.area) &&
+                                            course.area.length > 0 &&
+                                            course.area.some((a) => a && String(a).trim() !== "") && (
+                                                <div className="flex items-center">
+                                                    <Pill variant="pink" size="sm" icon={AreaIcon}>
+                                                        {course.area.filter((a) => a && String(a).trim() !== "").join(", ")}
+                                                    </Pill>
+                                                </div>
+                                            )}
+                                        {/* Reseñas con componente Sentiment */}
+                                        <div className="flex items-center justify-between">
+                                            {totalReviews === 0 ? (
+                                                <Sentiment sentiment="question" size="xs" />
+                                            ) : (
+                                                <Sentiment
+                                                    sentiment={sentimentType}
+                                                    size="xs"
+                                                    percentage={positivePercentage}
+                                                    reviewCount={totalReviews}
+                                                    ariaLabel={`${positivePercentage}% de reseñas positivas de ${totalReviews} total`}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="text-muted-foreground mt-auto pt-4 flex flex-row-reverse items-center gap-1 text-xs">
+                                        <OpenInFullIcon className="inline-block h-4 w-4" /> Presiona para ver detalles
+                                    </div>
+                                </a>
+                            );
+                        })}
+                    </div>
+
+                </>
+            ) : (
+                <div className="text-muted-foreground py-8 text-center">No se encontraron cursos.</div>
+            )}
+            <div className="flex items-center justify-end space-x-2 py-4 w-full">
+                <div className="text-foreground-muted-dark flex-1 text-sm">
+                    {table.getFilteredRowModel().rows.length} cursos encontrados
+                </div>
+                <div className="space-x-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Anterior
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Siguiente
+                    </Button>
+                </div>
+            </div>
+        </div>
     );
-
-    const currentTarget = observerTarget.current;
-    if (currentTarget) {
-      observer.observe(currentTarget);
-    }
-
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
-    };
-  }, [loadMore, hasMore, isLoading]);
-
-  // Reset displayed items when table data changes (e.g., filtering)
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setDisplayedItems(itemsPerPage);
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [totalRows, itemsPerPage]);
-
-  return (
-    <div className="desktop:hidden w-full pt-4">
-      {visibleRows?.length ? (
-        <>
-          <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4">
-            {visibleRows.map((row) => {
-              const course = row.original;
-              const totalReviews = course.likes + course.superlikes + course.dislikes;
-              const sentimentType = calculateSentiment(
-                course.likes,
-                course.superlikes,
-                course.dislikes
-              );
-              const positivePercentage = calculatePositivePercentage(
-                course.likes,
-                course.superlikes,
-                course.dislikes
-              );
-
-              return (
-                /* Versión para móvil */
-                <a
-                  key={row.id}
-                  href={`/${course.sigle}`}
-                  className="flex flex-col h-full border-border hover:bg-muted/50 focus:bg-muted/50 focus:ring-ring cursor-pointer rounded-md border p-4 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none w-full no-underline"
-                  aria-label={`Ver detalles del curso ${course.sigle} - ${course.name}`}
-                >
-                  {/* Header con sigla y créditos */}
-                  <div className="mb-2 flex items-start justify-between">
-                    <div className="text-foreground text-xs font-medium">{course.sigle}</div>
-                    <div className="text-muted-foreground text-xs">{course.credits} créditos</div>
-                  </div>
-
-                  {/* Nombre del curso */}
-                  <h3 className="text-foreground mb-3 text-lg leading-tight font-semibold wrap-break-word w-full overflow-hidden">
-                    {course.name}
-                  </h3>
-
-                  <div className="flex flex-col gap-2">
-                    {/* Campus */}
-                    <div className="flex items-center">
-                      <TableCourseCampuses
-                        variant="with-icon"
-                        campus={course.campus || []}
-                        lastSemester={course.last_semester}
-                      />
-                    </div>
-
-                    {/* Área de Formación General */}
-                    {Array.isArray(course.area) &&
-                      course.area.length > 0 &&
-                      course.area.some((a) => a && String(a).trim() !== "") && (
-                        <div className="flex items-center">
-                          <Pill variant="pink" size="sm" icon={AreaIcon}>
-                            {course.area.filter((a) => a && String(a).trim() !== "").join(", ")}
-                          </Pill>
-                        </div>
-                      )}
-                    {/* Reseñas con componente Sentiment */}
-                    <div className="flex items-center justify-between">
-                      {totalReviews === 0 ? (
-                        <Sentiment sentiment="question" size="xs" />
-                      ) : (
-                        <Sentiment
-                          sentiment={sentimentType}
-                          size="xs"
-                          percentage={positivePercentage}
-                          reviewCount={totalReviews}
-                          ariaLabel={`${positivePercentage}% de reseñas positivas de ${totalReviews} total`}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <div className="text-muted-foreground mt-auto pt-4 flex flex-row-reverse items-center gap-1 text-xs">
-                    <OpenInFullIcon className="inline-block h-4 w-4" /> Presiona para ver detalles
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-
-          {/* Loading indicator and intersection observer target */}
-          {hasMore && (
-            <div ref={observerTarget} className="py-4 text-center">
-              {isLoading ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent"></div>
-                  <span className="text-muted-foreground text-sm">Cargando más cursos...</span>
-                </div>
-              ) : (
-                <div className="text-muted-foreground text-sm">
-                  Mostrando {displayedItems} de {allRows.length} cursos
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Show completion message when all items are loaded */}
-          {!hasMore && allRows.length > itemsPerPage && (
-            <div className="py-4 text-center">
-              <div className="text-muted-foreground text-sm">
-                Todos los {allRows.length} cursos han sido cargados
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="text-muted-foreground py-8 text-center">No se encontraron cursos.</div>
-      )}
-    </div>
-  );
 }
