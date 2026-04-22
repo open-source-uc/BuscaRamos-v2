@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import { CourseScore } from "@/types/types";
 import { useSetCurrentSemester } from "@/context/semesterCtx";
@@ -8,11 +9,10 @@ import { useSetCurrentSemester } from "@/context/semesterCtx";
 import { DataTable } from "@/components/table/DataTable";
 import DataTableSkeleton from "@/components/table/DataTableSkeleton";
 
-interface CoursesTableProps {
-  externalSearchValue: string;
-}
+export default function CoursesTable() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || "";
 
-export default function CoursesTable({ externalSearchValue }: CoursesTableProps) {
   const { data, loading, error } = useNDJSONStream<CourseScore>(
     "https://public.osuc.dev/courses-score.ndjson"
   );
@@ -31,7 +31,7 @@ export default function CoursesTable({ externalSearchValue }: CoursesTableProps)
   return (
     <>
       {loading && <DataTableSkeleton></DataTableSkeleton>}
-      {!loading && <DataTable data={data} externalSearchValue={externalSearchValue} />}
+      {!loading && <DataTable data={data} externalSearchValue={search} />}
     </>
   );
 }

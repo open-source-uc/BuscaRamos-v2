@@ -1,16 +1,12 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
+import { connection } from "next/server";
 import CoursesTable from "@/components/CoursesTable";
 
-export default function CatalogPage() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") || "";
-
+export default async function CatalogPage() {
+  await connection();
   return (
     <div className="flex justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
       <div className="w-full max-w-7xl">
-        <CoursesTable externalSearchValue={search} />
+        <CoursesTable />
       </div>
     </div>
   );
