@@ -8,7 +8,11 @@ import { useSetCurrentSemester } from "@/context/semesterCtx";
 import { DataTable } from "@/components/table/DataTable";
 import DataTableSkeleton from "@/components/table/DataTableSkeleton";
 
-export default function CoursesTable() {
+interface CoursesTableProps {
+  externalSearchValue: string;
+}
+
+export default function CoursesTable({ externalSearchValue }: CoursesTableProps) {
   const { data, loading, error } = useNDJSONStream<CourseScore>(
     "https://public.osuc.dev/courses-score.ndjson"
   );
@@ -27,7 +31,7 @@ export default function CoursesTable() {
   return (
     <>
       {loading && <DataTableSkeleton></DataTableSkeleton>}
-      {!loading && <DataTable data={data} />}
+      {!loading && <DataTable data={data} externalSearchValue={externalSearchValue} />}
     </>
   );
 }
