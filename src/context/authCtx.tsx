@@ -26,18 +26,21 @@ interface AuthProviderProps {
   initialUser?: AuthenticatedUser | null;
 }
 
-export function AuthProvider({ children, initialUser = null }: AuthProviderProps) {
-  const [user, setUser] = useState<AuthenticatedUser | null>(initialUser);
-  const [isLoading, setIsLoading] = useState(!initialUser);
-  const [isRoot, setIsRoot] = useState(false);
+export function AuthProvider({ children, initialUser }: AuthProviderProps) {
+  const alreadyResolved = initialUser !== undefined;
+  const [user, setUser] = useState<AuthenticatedUser | null>(initialUser ?? null);
+  const [isLoading, setIsLoading] = useState(!alreadyResolved);
+  const [isRoot, setIsRoot] = useState(
+    initialUser ? hasPermission(initialUser, OsucPermissions.userIsRoot) : false
+  );
+
   const refreshAuth = async () => {
     try {
       setIsLoading(true);
       const authenticatedUser = await authenticateUser();
-      if (authenticatedUser && hasPermission(authenticatedUser, OsucPermissions.userIsRoot)) {
-        setIsRoot(true);
-      }
-
+      setIsRoot(
+        authenticatedUser ? hasPermission(authenticatedUser, OsucPermissions.userIsRoot) : false
+      );
       setUser(authenticatedUser);
     } catch (error) {
       console.error("Error refreshing auth:", error);
@@ -47,15 +50,12 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
     }
   };
 
-  // Verificar autenticación al montar si no hay usuario inicial
   useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      if (!initialUser && !user) {
-        refreshAuth();
-      }
-    });
+    if (alreadyResolved) return;
+    const frame = requestAnimationFrame(() => refreshAuth());
     return () => cancelAnimationFrame(frame);
-  }, [initialUser, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const value: AuthContextType = {
     user,

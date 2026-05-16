@@ -5,10 +5,10 @@ let deployHash: string | null = null;
 
 const hashMiddleware: Middleware = {
   onRequest({ request }) {
-    if (!deployHash) return request;
     const url = new URL(request.url);
-    url.searchParams.set("hash", deployHash);
-    return new Request(url, request);
+    if (deployHash) url.searchParams.set("hash", deployHash);
+    // Cachear datos estáticos de cursos por 1 hora
+    return new Request(url, { ...request, next: { revalidate: 3600 } } as RequestInit);
   },
   onResponse({ response }) {
     const hash = response.headers.get("x-deploy-hash");

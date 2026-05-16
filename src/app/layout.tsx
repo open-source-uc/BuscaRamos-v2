@@ -6,6 +6,7 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import FloatingNavButton from "@/components/FloatingNavButton";
 import { AuthProvider } from "@/context/authCtx";
+import { authenticateUser } from "@/lib/auth/auth";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
@@ -64,11 +65,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await authenticateUser();
   return (
     <html lang="es-CL">
       <head>
@@ -81,7 +83,7 @@ export default function RootLayout({
       <body className="antialiased bg-background text-foreground min-h-screen">
         <SemesterProvider>
           <CourseNameMapProvider>
-            <AuthProvider>
+            <AuthProvider initialUser={user}>
               <Header />
               {children}
               <Toaster
