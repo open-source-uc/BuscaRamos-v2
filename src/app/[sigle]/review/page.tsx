@@ -8,13 +8,14 @@ import { notFound } from "next/navigation";
 
 export default async function WriteReview({ params }: { params: Promise<{ sigle: string }> }) {
   const resolvedParams = await params;
-  const course = await getCourseStaticData(resolvedParams.sigle);
 
-  if (!course) {
-    notFound();
-  }
+  const [course, user] = await Promise.all([
+    getCourseStaticData(resolvedParams.sigle),
+    authenticateUser(),
+  ]);
 
-  const user = await authenticateUser();
+  if (!course) notFound();
+
   let review: (CourseReview & { comment: string | null }) | undefined = undefined;
   if (user) {
     const r = (await getReviewBySigleAndUserId(course.sigle, user.userId)) ?? undefined;
