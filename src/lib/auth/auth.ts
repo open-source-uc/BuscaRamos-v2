@@ -57,14 +57,10 @@ export async function authenticateUser(): Promise<AuthenticatedUser | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("osuc_access")?.value;
 
-  if (!token) {
-    return null;
-  }
-
-  let payload = await verifyToken(token);
+  let payload = token ? await verifyToken(token) : null;
 
   if (!payload) {
-    // Token expirado o inválido — intentar refresh
+    // Token ausente, expirado o inválido — intentar refresh
     try {
       const allCookies = cookieStore
         .getAll()
