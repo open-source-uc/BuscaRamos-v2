@@ -80,20 +80,32 @@ export async function authenticateUser(): Promise<AuthenticatedUser | null> {
         return null;
       }
 
-      // Leer el nuevo access token de las cookies de respuesta
-      const newAccessCookie = refresh.headers
-        .getSetCookie()
-        .find((c) => c.startsWith("osuc_access="));
+      const setCookies = refresh.headers.getSetCookie();
 
-      if (!newAccessCookie) {
-        return null;
-      }
+      const newAccessCookie = setCookies.find((c) => c.startsWith("osuc_access="));
+      if (!newAccessCookie) return null;
 
-      const newToken = newAccessCookie.split("=")[1].split(";")[0];
+      const newToken = newAccessCookie.split(";")[0].split("=")[1];
       payload = await verifyToken(newToken);
+      if (!payload) return null;
 
-      if (!payload) {
-        return null;
+      for (const raw of setCookies) {
+        const parts = raw.split(";").map((s) => s.trim());
+        const [name, value] = parts[0].split("=");
+        const attrs: Record<string, string | boolean> = {};
+        for (let i = 1; i < parts.length; i++) {
+          const eq = parts[i].indexOf("=");
+          if (eq === -1) attrs[parts[i].toLowerCase()] = true;
+          else attrs[parts[i].slice(0, eq).toLowerCase()] = parts[i].slice(eq + 1);
+        }
+        cookieStore.set(name, value, {
+          httpOnly: attrs["httponly"] === true,
+          secure: attrs["secure"] === true,
+          path: (attrs["path"] as string) ?? "/",
+          sameSite: (attrs["samesite"] as "strict" | "lax" | "none") ?? "lax",
+          ...(attrs["max-age"] && { maxAge: parseInt(attrs["max-age"] as string) }),
+          ...(attrs["expires"] && { expires: new Date(attrs["expires"] as string) }),
+        });
       }
     } catch {
       return null;

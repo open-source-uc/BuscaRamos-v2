@@ -1,7 +1,6 @@
-import Review from "@/components/reviews/Review";
+import { ReviewWithCourse } from "@/components/reviews/ReviewWithCourse";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";
-import { getCourseStaticData } from "@/lib/coursesStaticData";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -17,13 +16,6 @@ export default async function Profile() {
   }
 
   const reviews = await getUserReviews(user.userId, 10);
-
-  const reviewsWithCourses = await Promise.all(
-    reviews.map(async (review) => {
-      const course = await getCourseStaticData(review.course_sigle);
-      return { review, course };
-    })
-  );
 
   const initials = user.username.slice(0, 2).toUpperCase();
 
@@ -79,22 +71,15 @@ export default async function Profile() {
           <span className="text-xs text-foreground/40">{reviews.length}</span>
         </div>
 
-        {reviewsWithCourses.length === 0 ? (
+        {reviews.length === 0 ? (
           <div className="border border-border border-dashed rounded-xl px-6 py-16 text-center space-y-2">
             <p className="text-sm font-medium text-foreground/50">Sin reseñas aún</p>
             <p className="text-xs text-foreground/35">Tus reseñas de cursos aparecerán aquí.</p>
           </div>
         ) : (
           <div className="space-y-3">
-            {reviewsWithCourses.map(({ review, course }) => (
-              <Review
-                key={review.id}
-                review={review}
-                status
-                editable
-                course={course || undefined}
-                hideLike
-              />
+            {reviews.map((review) => (
+              <ReviewWithCourse key={review.id} review={review} status editable hideLike />
             ))}
           </div>
         )}
