@@ -10,6 +10,12 @@
   "main": ".open-next/worker.js",
   "observability": {
     "enabled": true,
+    "logs": {
+      "enabled": true
+    },
+    "traces": {
+      "enabled": true
+    }
   },
   "assets": {
     "directory": ".open-next/assets",
