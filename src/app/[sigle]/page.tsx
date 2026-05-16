@@ -20,13 +20,11 @@ import CourseInformation from "@/components/ui/CourseInformation";
 import CourseRelationsSections from "@/components/courses/CourseRelationsSections";
 
 const getCoursePageData = cache(async (sigle: string) => {
-  const course = await getCourseStaticData(sigle);
+  const [course, stats] = await Promise.all([getCourseStaticData(sigle), getCourseStats(sigle)]);
 
   if (!course) {
     return null;
   }
-
-  const stats = await getCourseStats(course.sigle);
 
   return { course, stats };
 });
@@ -100,16 +98,16 @@ export async function generateMetadata({
 
 export default async function CoursePage({ params }: { params: Promise<{ sigle: string }> }) {
   const { sigle } = await params;
-  const data = await getCoursePageData(sigle);
+
+  const [data, reviews, userVotes] = await Promise.all([
+    getCoursePageData(sigle),
+    getCourseReviews(sigle.toUpperCase(), 100),
+    getVotesOnReviewsInCourseByUserID(sigle.toUpperCase()),
+  ]);
 
   if (!data) notFound();
 
   const { course, stats } = data;
-
-  const [reviews, userVotes] = await Promise.all([
-    getCourseReviews(course.sigle, 100),
-    getVotesOnReviewsInCourseByUserID(course.sigle),
-  ]);
 
   const sentiment = stats
     ? calculateSentiment(stats.likes, stats.superlikes, stats.dislikes)

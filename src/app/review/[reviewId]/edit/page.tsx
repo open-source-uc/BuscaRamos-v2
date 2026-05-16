@@ -21,15 +21,14 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
   }
 
   const review = await getCourseReviewById(data.data.reviewId);
-  if (!review) {
-    notFound();
-  }
+  if (!review) notFound();
 
-  const comment = await getReviewContent(review.comment_path);
-  const course = await getCourseStaticData(review.course_sigle);
-  if (!course) {
-    notFound();
-  }
+  const [comment, course] = await Promise.all([
+    getReviewContent(review.comment_path),
+    getCourseStaticData(review.course_sigle),
+  ]);
+
+  if (!course) notFound();
 
   return (
     <main className="p-4">

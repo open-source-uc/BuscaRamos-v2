@@ -4,8 +4,11 @@ import CourseInformation from "@/components/ui/CourseInformation";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { getCourseReviewById, getReviewContent } from "@/lib/reviews";
 import type { Metadata } from "next";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import z from "zod";
+
+const getReviewCached = cache(getCourseReviewById);
 
 const paramsSchema = z.object({
   reviewId: z
@@ -31,7 +34,7 @@ export async function generateMetadata({
     };
   }
 
-  const review = await getCourseReviewById(data.data.reviewId);
+  const review = await getReviewCached(data.data.reviewId);
 
   if (!review) {
     return {
@@ -40,7 +43,10 @@ export async function generateMetadata({
     };
   }
 
-  const course = await getCourseStaticData(review.course_sigle);
+  const [course, reviewSnippet] = await Promise.all([
+    getCourseStaticData(review.course_sigle),
+    getReviewContent(review.comment_path),
+  ]);
 
   if (!course) {
     return {
@@ -49,7 +55,6 @@ export async function generateMetadata({
     };
   }
 
-  // Get review sentiment emoji
   const getSentimentText = (likeDislike: number) => {
     switch (likeDislike) {
       case 1:
@@ -64,8 +69,6 @@ export async function generateMetadata({
   };
 
   const sentimentText = getSentimentText(review.like_dislike);
-  // For now, we'll use a generic description since comment content needs to be fetched separately
-  const reviewSnippet = await getReviewContent(review.comment_path);
 
   const title = `${sentimentText} | ${course.sigle} - ${course.name} | BuscaRamos`;
   const description = reviewSnippet ?? "Reseña no disponible";
@@ -120,19 +123,15 @@ export default async function FindReview({ params }: { params: Promise<{ reviewI
     notFound();
   }
 
-  const review = await getCourseReviewById(data.data.reviewId);
+  const review = await getReviewCached(data.data.reviewId);
+  if (!review) notFound();
 
-  if (!review) {
-    notFound();
-  }
+  const [course, vote] = await Promise.all([
+    getCourseStaticData(review.course_sigle),
+    getVoteOnReviewByUserId(review.id),
+  ]);
 
-  const course = await getCourseStaticData(review.course_sigle);
-
-  if (!course) {
-    notFound();
-  }
-
-  const vote = await getVoteOnReviewByUserId(review.id);
+  if (!course) notFound();
 
   return (
     <main className="p-4 space-y-6">
