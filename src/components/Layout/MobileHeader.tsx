@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { MenuIcon, CloseIcon } from "@/components/icons/icons";
+import { AuthContext } from "@/context/authCtx";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -33,6 +34,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, isLoading } = use(AuthContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -86,13 +88,23 @@ export default function MobileHeader() {
                 Cuenta OSUC
               </h3>
               <div className="space-y-3">
-                <a
-                  href={`https://auth.osuc.dev/?ref=${typeof window !== "undefined" ? new URL(window.location.href).toString() : ""}`}
-                  onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
-                >
-                  INICIAR SESIÓN
-                </a>
+                {user ? (
+                  <Link
+                    href="/profile"
+                    onClick={closeMenu}
+                    className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
+                  >
+                    MI PERFIL
+                  </Link>
+                ) : (
+                  <a
+                    href={`https://auth.osuc.dev/?ref=${typeof window !== "undefined" ? new URL(window.location.href).toString() : ""}`}
+                    onClick={closeMenu}
+                    className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
+                  >
+                    {isLoading ? "CARGANDO..." : "INICIAR SESIÓN"}
+                  </a>
+                )}
               </div>
             </section>
 
