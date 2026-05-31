@@ -45,6 +45,6 @@ const fetchCourseData = cache(async (sigle: string): Promise<CourseStaticData | 
 export async function getCourseStaticData(sigle: string): Promise<CourseStaticData | null> {
   const KV = getCloudflareContext().env.KV;
   const cacheKey = `course:${normalizeSigle(sigle)}`;
-  const data = (await KV.get(cacheKey)) as CourseStaticData | null;
+  const data = await KV.get<CourseStaticData>(cacheKey, "json");
   return data;
 }
