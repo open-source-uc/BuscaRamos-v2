@@ -3,6 +3,7 @@
 import { cache } from "react";
 import { staticDataClient } from "./static-data-api/client";
 import type { paths } from "./static-data-api/types";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 type APICourseData = paths["/data/{sigle}"]["get"]["responses"][200]["content"]["application/json"];
 export type ParsedMetaData = APICourseData["parsed_meta_data"];
@@ -42,5 +43,8 @@ const fetchCourseData = cache(async (sigle: string): Promise<CourseStaticData | 
 });
 
 export async function getCourseStaticData(sigle: string): Promise<CourseStaticData | null> {
-  return fetchCourseData(sigle);
+  const KV = getCloudflareContext().env.KV;
+  const cacheKey = `course:${normalizeSigle(sigle)}`;
+  const data = (await KV.get(cacheKey)) as CourseStaticData | null;
+  return data;
 }
