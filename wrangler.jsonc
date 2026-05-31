@@ -35,7 +35,13 @@
     },
     {
       "binding": "R2PUBLIC",
-      "bucket_name": "ousc-public",
-    },
+      "bucket_name": "ousc-public"
+    }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "271a043f1c7d4cddbbbd0810b9c2155f"
+    }
+  ]
 }
