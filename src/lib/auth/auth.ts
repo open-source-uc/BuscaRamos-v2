@@ -9,17 +9,7 @@ async function getPublicKey() {
   return _cachedKey;
 }
 
-interface Career {
-  id: number;
-  name: string;
-}
-
-interface Organization {
-  id: number;
-  name: string;
-  display_name: string;
-  role: string;
-}
+import type { Career, Organization } from "./auth.types";
 
 interface TokenPayload {
   userId: number;
@@ -40,8 +30,6 @@ export interface AuthenticatedUser {
   permissions: string[];
   organizations: Organization[];
 }
-
-export type { Career, Organization };
 
 async function verifyToken(token: string): Promise<TokenPayload | null> {
   try {
