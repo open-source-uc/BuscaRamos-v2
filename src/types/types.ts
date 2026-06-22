@@ -110,3 +110,29 @@ export interface Course {
 
 export type CourseJSON = Record<string, Course>;
 export type ScheduleMatrix = ScheduleBlock[][][]; // [franjaHoraria][diaSemana][clases]
+
+export type Campus =
+  | "San Joaquin"
+  | "Casa Central"
+  | "Lo Contador"
+  | "Villarrica"
+  | "Campus Externo";
+type Day = "l" | "m" | "w" | "j" | "v" | "s";
+type Block = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+export type UcModule = `${Day}${Block}`;
+
+type CourseAndSection = [string, number] | []; // [courseId, sectionId ]
+export type ClassroomSchedule = {
+  [K in UcModule]: CourseAndSection[]; // Lista de cursos y secciones que ocupan ese módulo en ese aula
+};
+
+export type ClassroomSchedules = {
+  [K in Campus]: {
+    [classroom: string]: ClassroomSchedule;
+  };
+};
+
+export type OccupiedStatus = {
+  Status: boolean;
+  Courses: CourseAndSection[];
+};
