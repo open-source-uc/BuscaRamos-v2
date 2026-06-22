@@ -1,16 +1,17 @@
-import json 
+import json
 #Mini script para transformar la data en un json con cada sala y su ocupacion por modulo
 
 
 #La fuente es el json original con toda la informacion de los cursos
-with open("file", "r") as f:
+
+with open("files/2025-2.json", "r") as f:
     data = json.load(f)
 
 k = list(data.keys())
 
 modulos = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7', 'w8', 'w9', 'j1', 'j2', 'j3', 'j4', 'j5', 'j6', 'j7', 'j8', 'j9', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9']
 salas = {
-    "San Joaqu\u00edn": set(),
+    "San Joaquin": set(),
     "Lo Contador": set(),
     "Casa Central": set(),
     "Oriente": set(),
@@ -34,8 +35,11 @@ for sigle in k:
             break
         
         for module in modulos:
+            campus = data[sigle]["sections"][str(i)]["campus"]
+            if campus == "San Joaqu\u00edn" or campus == "San Joaquín":
+                campus = "San Joaquin"
             if data[sigle]["sections"][str(i)]["schedule"].get(module):
-                salas[data[sigle]["sections"][str(i)]["campus"]].add(data[sigle]["sections"][str(i)]["schedule"].get(module)[1])
+                salas[campus].add(data[sigle]["sections"][str(i)]["schedule"].get(module)[1])
         i += 1
 
 
@@ -62,7 +66,8 @@ for sigle in k:
             if data[sigle]["sections"][str(i)]["schedule"].get(module) and data[sigle]["sections"][str(i)]["schedule"].get(module)[1] != "":
                 sala = data[sigle]["sections"][str(i)]["schedule"].get(module)[1]
                 campus = data[sigle]["sections"][str(i)]["campus"]
-                
+                if campus == "San Joaqu\u00edn" or campus == "San Joaquín":
+                    campus = "San Joaquin"
                 if sala == "SIN SALA":
                     continue
                 
