@@ -47,7 +47,7 @@ export async function getCourseStaticData(sigle: string): Promise<CourseStaticDa
   const cacheKey = `course:${normalizeSigle(sigle)}`;
   const data = await KV.get<CourseStaticData>(cacheKey, "json");
   if (data) {
-    data.description = "<NULL>";
+    data.description = "";
   }
   return data;
 }

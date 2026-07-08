@@ -35,7 +35,15 @@ import QuotaHistorySection, { type QuotaTimeline } from "@/components/courses/Qu
 import { sectionFitsScheduleModuleFilter } from "@/lib/scheduleModuleFilter";
 
 // Semestres válidos extraídos del tipo generado para /data/quota/{sigle}
-export const SEMESTERS = ["2026-1", "2025-2", "2025-1", "2024-3", "2024-2", "2024-1"] as const;
+export const SEMESTERS = [
+  "2026-2",
+  "2026-1",
+  "2025-2",
+  "2025-1",
+  "2024-3",
+  "2024-2",
+  "2024-1",
+] as const;
 export type ValidSemester = (typeof SEMESTERS)[number];
 
 async function fetchSemesterSections(semester: string, sigle: string): Promise<CourseSections> {
