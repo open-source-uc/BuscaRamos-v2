@@ -2,46 +2,13 @@
 import { importJWK, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { PUBLIC_JWK } from "./publicKey";
+import type { AuthenticatedUser, TokenPayload } from "./types";
 
 let _cachedKey: CryptoKey | Uint8Array | null = null;
 async function getPublicKey() {
   if (!_cachedKey) _cachedKey = await importJWK(PUBLIC_JWK, "RS256");
   return _cachedKey;
 }
-
-interface Career {
-  id: number;
-  name: string;
-}
-
-interface Organization {
-  id: number;
-  name: string;
-  display_name: string;
-  role: string;
-}
-
-interface TokenPayload {
-  userId: number;
-  username: string;
-  career: Career;
-  permissions: string[];
-  organizations: Organization[];
-  sessionId: number;
-  iat: number;
-  exp: number;
-}
-
-export interface AuthenticatedUser {
-  isAuthenticated: true;
-  userId: string;
-  username: string;
-  career: Career | null;
-  permissions: string[];
-  organizations: Organization[];
-}
-
-export type { Career, Organization };
 
 async function verifyToken(token: string): Promise<TokenPayload | null> {
   try {

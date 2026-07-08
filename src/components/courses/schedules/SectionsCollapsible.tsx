@@ -56,6 +56,7 @@ async function fetchSemesterSections(semester: string, sigle: string): Promise<C
 
 async function fetchQuotaTimeline(semester: ValidSemester, sigle: string): Promise<QuotaTimeline> {
   const { data } = await staticDataClient.GET("/data/quota/{sigle}", {
+    // @ts-expect-error: The static data API client types don't yet support query parameters, but the endpoint does accept them.
     params: { path: { sigle }, query: { semester } },
   });
   return (data?.quota ?? {}) as QuotaTimeline;

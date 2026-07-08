@@ -1,7 +1,8 @@
 // auth/context.tsx
 "use client";
 
-import { AuthenticatedUser, authenticateUser } from "@/lib/auth/auth";
+import { authenticateUser } from "@/lib/auth/auth";
+import type { AuthenticatedUser } from "@/lib/auth/types";
 import { hasPermission, OsucPermissions } from "@/lib/auth/permissions";
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 
