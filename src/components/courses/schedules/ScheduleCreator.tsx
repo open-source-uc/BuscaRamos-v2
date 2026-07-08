@@ -674,7 +674,7 @@ export default function ScheduleCreator() {
   }));
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 space-y-6">
+    <div className="mx-auto px-4 py-8 space-y-6">
       {/* Semester selector */}
       <div className="border-border bg-accent flex flex-col gap-4 rounded-lg border p-4 tablet:flex-row tablet:items-center tablet:justify-between">
         <div className="flex min-w-0 items-center gap-3">
@@ -706,340 +706,351 @@ export default function ScheduleCreator() {
         />
       </div>
 
-      {/* Course Search */}
-      <div className="border-border rounded-lg border bg-accent">
-        <div className="p-4 tablet:p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 shrink-0">
-              <SearchIcon className="h-5 w-5 fill-current" />
-            </div>
-            <div>
-              <h2 className="text-base tablet:text-lg font-semibold">Buscar curso</h2>
-              <p className="text-muted-foreground text-xs tablet:text-sm">
-                Busca y despliega las secciones para agregarlas a tu horario
-              </p>
-            </div>
-          </div>
+      {/* Workspace: explorar a la izquierda, horario fijo a la derecha */}
+      <div className="grid gap-6 desktop:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] desktop:items-start">
+        {/* LEFT — explorar y agregar */}
+        <div className="min-w-0 space-y-6">
+          {/* Course Search */}
+          <div className="border-border rounded-lg border bg-accent">
+            <div className="p-4 tablet:p-6">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 shrink-0">
+                  <SearchIcon className="h-5 w-5 fill-current" />
+                </div>
+                <div>
+                  <h2 className="text-base tablet:text-lg font-semibold">Buscar curso</h2>
+                  <p className="text-muted-foreground text-xs tablet:text-sm">
+                    Busca y despliega las secciones para agregarlas a tu horario
+                  </p>
+                </div>
+              </div>
 
-          <Search
-            onSearch={setSearchTerm}
-            placeholder="Buscar curso (ej: IIC2214, Matemáticas)"
-            initialValue={searchTerm}
-            value={searchTerm}
-            useFuzzySearch={true}
-            isSearching={fuseResult.isSearching}
-          />
-
-          <div className="mt-4">
-            <CourseFilters
-              courses={filterableCourses}
-              selectedArea={selectedAreaFilter}
-              selectedSchool={selectedSchoolFilter}
-              selectedCampus={selectedCampusFilter}
-              selectedFormat={selectedFormatFilter}
-              selectedSemester={selectedLastSemesterFilter}
-              showRetirableOnly={showRetirableOnly}
-              showEnglishOnly={showEnglishOnly}
-              selectedCategory={selectedCategoryFilter}
-              filtersOpen={filtersOpen}
-              onAreaChange={setSelectedAreaFilter}
-              onSchoolChange={setSelectedSchoolFilter}
-              onCampusChange={setSelectedCampusFilter}
-              onFormatChange={setSelectedFormatFilter}
-              onSemesterChange={setSelectedLastSemesterFilter}
-              onRetirableToggle={setShowRetirableOnly}
-              onEnglishToggle={setShowEnglishOnly}
-              onFiltersOpenChange={setFiltersOpen}
-              onCategoryChange={setSelectedCategoryFilter}
-              onClearFilters={handleClearSearchFilters}
-              additionalActiveFiltersCount={selectedScheduleModules.length > 0 ? 1 : 0}
-            >
-              <ScheduleModuleFilter
-                selectedModules={selectedScheduleModules}
-                onChange={setSelectedScheduleModules}
+              <Search
+                onSearch={setSearchTerm}
+                placeholder="Buscar curso (ej: IIC2214, Matemáticas)"
+                initialValue={searchTerm}
+                value={searchTerm}
+                useFuzzySearch={true}
+                isSearching={fuseResult.isSearching}
               />
-            </CourseFilters>
+
+              <div className="mt-4">
+                <CourseFilters
+                  courses={filterableCourses}
+                  selectedArea={selectedAreaFilter}
+                  selectedSchool={selectedSchoolFilter}
+                  selectedCampus={selectedCampusFilter}
+                  selectedFormat={selectedFormatFilter}
+                  selectedSemester={selectedLastSemesterFilter}
+                  showRetirableOnly={showRetirableOnly}
+                  showEnglishOnly={showEnglishOnly}
+                  selectedCategory={selectedCategoryFilter}
+                  filtersOpen={filtersOpen}
+                  onAreaChange={setSelectedAreaFilter}
+                  onSchoolChange={setSelectedSchoolFilter}
+                  onCampusChange={setSelectedCampusFilter}
+                  onFormatChange={setSelectedFormatFilter}
+                  onSemesterChange={setSelectedLastSemesterFilter}
+                  onRetirableToggle={setShowRetirableOnly}
+                  onEnglishToggle={setShowEnglishOnly}
+                  onFiltersOpenChange={setFiltersOpen}
+                  onCategoryChange={setSelectedCategoryFilter}
+                  onClearFilters={handleClearSearchFilters}
+                  additionalActiveFiltersCount={selectedScheduleModules.length > 0 ? 1 : 0}
+                >
+                  <ScheduleModuleFilter
+                    selectedModules={selectedScheduleModules}
+                    onChange={setSelectedScheduleModules}
+                  />
+                </CourseFilters>
+              </div>
+
+              {/* Search status */}
+              {isLoading && shouldShowSearchResults && (
+                <p className="text-muted-foreground mt-3 text-sm">Cargando cursos...</p>
+              )}
+              {!isLoading &&
+                shouldShowSearchResults &&
+                searchResults.length === 0 &&
+                !fuseResult.isSearching && (
+                  <p className="text-muted-foreground mt-3 text-sm">No se encontraron cursos</p>
+                )}
+            </div>
+
+            {/* Search results — outside the padding to go full-width */}
+            {shouldShowSearchResults && searchResults.length > 0 && (
+              <div className="border-border border-t">
+                <div className="border-border bg-background/55 border-b px-4 py-2 text-xs text-muted-foreground tablet:px-6">
+                  Mostrando {searchResults.length} de {totalSearchResults.length} curso
+                  {totalSearchResults.length !== 1 ? "s" : ""}
+                </div>
+                <div className="max-h-[70vh] overflow-y-auto overscroll-contain">
+                  {searchResults.map(({ sigle, name }, idx) => (
+                    <div
+                      key={sigle}
+                      className={cn(
+                        "px-4 tablet:px-6 py-3",
+                        idx < searchResults.length - 1 && "border-border border-b"
+                      )}
+                    >
+                      {/* Course header row */}
+                      <div className="mb-2 flex items-baseline gap-2">
+                        <span className="text-sm font-semibold">{sigle}</span>
+                        <span className="text-muted-foreground text-xs truncate">{name}</span>
+                      </div>
+                      <SectionsCollapsible
+                        courseSigle={sigle}
+                        externalSemester={selectedSemester}
+                        onCourseAdded={handleCourseAdded}
+                        defaultSectionsOpen={false}
+                        allowedScheduleModules={selectedScheduleModules}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Search status */}
-          {isLoading && shouldShowSearchResults && (
-            <p className="text-muted-foreground mt-3 text-sm">Cargando cursos...</p>
-          )}
-          {!isLoading &&
-            shouldShowSearchResults &&
-            searchResults.length === 0 &&
-            !fuseResult.isSearching && (
-              <p className="text-muted-foreground mt-3 text-sm">No se encontraron cursos</p>
-            )}
-        </div>
+          {/* OFG Finder */}
+          <div className="border-border overflow-hidden rounded-lg border bg-accent">
+            <button
+              onClick={() => setShowOFGFinder(!showOFGFinder)}
+              className="hover:bg-muted/30 flex w-full items-center justify-between p-4 text-left transition-colors tablet:p-5"
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="bg-pink-light text-pink border-pink/20 shrink-0 rounded-lg border p-2">
+                  <AreaIcon className="h-5 w-5 fill-current" />
+                </div>
+                <div className="min-w-0">
+                  <h2 className="text-base font-semibold tablet:text-lg">Buscar OFG sin tope</h2>
+                  <p className="text-muted-foreground text-xs tablet:text-sm">
+                    Encuentra opciones de formación general que no choquen con tu horario
+                  </p>
+                </div>
+              </div>
+              <ChevronDownIcon
+                className={cn(
+                  "text-muted-foreground ml-4 h-5 w-5 shrink-0 transition-transform duration-200",
+                  showOFGFinder && "rotate-180"
+                )}
+              />
+            </button>
 
-        {/* Search results — outside the padding to go full-width */}
-        {shouldShowSearchResults && searchResults.length > 0 && (
-          <div className="border-border border-t">
-            <div className="border-border bg-background/55 border-b px-4 py-2 text-xs text-muted-foreground tablet:px-6">
-              Mostrando {searchResults.length} de {totalSearchResults.length} curso
-              {totalSearchResults.length !== 1 ? "s" : ""}
-            </div>
-            <div className="max-h-[70vh] overflow-y-auto overscroll-contain">
-              {searchResults.map(({ sigle, name }, idx) => (
-                <div
-                  key={sigle}
-                  className={cn(
-                    "px-4 tablet:px-6 py-3",
-                    idx < searchResults.length - 1 && "border-border border-b"
-                  )}
-                >
-                  {/* Course header row */}
-                  <div className="mb-2 flex items-baseline gap-2">
-                    <span className="text-sm font-semibold">{sigle}</span>
-                    <span className="text-muted-foreground text-xs truncate">{name}</span>
-                  </div>
-                  <SectionsCollapsible
-                    courseSigle={sigle}
-                    externalSemester={selectedSemester}
-                    onCourseAdded={handleCourseAdded}
-                    defaultSectionsOpen={false}
-                    allowedScheduleModules={selectedScheduleModules}
+            {showOFGFinder && (
+              <div className="border-border border-t p-4 tablet:p-5">
+                {/* Area selector */}
+                <div className="mb-4">
+                  <p className="text-muted-foreground mb-2 text-xs font-medium">
+                    Selecciona un área de formación general
+                  </p>
+                  <Combobox
+                    options={availableAreas.map((a) => ({ value: a, label: a }))}
+                    value={ofgSelectedArea}
+                    onValueChange={(v) => setOfgSelectedArea(v || "")}
+                    placeholder="Seleccionar área…"
+                    searchPlaceholder="Buscar área…"
+                    emptyMessage={isLoading ? "Cargando…" : "No se encontraron áreas."}
+                    buttonClassName="w-full max-w-xs h-9 text-sm"
+                    aria-label="Área de formación general"
                   />
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
 
-      {/* OFG Finder */}
-      <div className="border-border overflow-hidden rounded-lg border bg-accent">
-        <button
-          onClick={() => setShowOFGFinder(!showOFGFinder)}
-          className="hover:bg-muted/30 flex w-full items-center justify-between p-4 text-left transition-colors tablet:p-5"
-        >
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="bg-pink-light text-pink border-pink/20 shrink-0 rounded-lg border p-2">
-              <AreaIcon className="h-5 w-5 fill-current" />
-            </div>
-            <div className="min-w-0">
-              <h2 className="text-base font-semibold tablet:text-lg">Buscar OFG sin tope</h2>
-              <p className="text-muted-foreground text-xs tablet:text-sm">
-                Encuentra opciones de formación general que no choquen con tu horario
-              </p>
-            </div>
-          </div>
-          <ChevronDownIcon
-            className={cn(
-              "text-muted-foreground ml-4 h-5 w-5 shrink-0 transition-transform duration-200",
-              showOFGFinder && "rotate-180"
-            )}
-          />
-        </button>
+                {/* Results */}
+                {ofgSelectedArea && ofgResults.length === 0 && (
+                  <p className="text-muted-foreground py-4 text-sm">
+                    No hay secciones disponibles sin tope para esta área.
+                  </p>
+                )}
 
-        {showOFGFinder && (
-          <div className="border-border border-t p-4 tablet:p-5">
-            {/* Area selector */}
-            <div className="mb-4">
-              <p className="text-muted-foreground mb-2 text-xs font-medium">
-                Selecciona un área de formación general
-              </p>
-              <Combobox
-                options={availableAreas.map((a) => ({ value: a, label: a }))}
-                value={ofgSelectedArea}
-                onValueChange={(v) => setOfgSelectedArea(v || "")}
-                placeholder="Seleccionar área…"
-                searchPlaceholder="Buscar área…"
-                emptyMessage={isLoading ? "Cargando…" : "No se encontraron áreas."}
-                buttonClassName="w-full max-w-xs h-9 text-sm"
-                aria-label="Área de formación general"
-              />
-            </div>
-
-            {/* Results */}
-            {ofgSelectedArea && ofgResults.length === 0 && (
-              <p className="text-muted-foreground py-4 text-sm">
-                No hay secciones disponibles sin tope para esta área.
-              </p>
-            )}
-
-            {ofgByCourse.length > 0 && (
-              <div className="space-y-3">
-                <p className="text-muted-foreground text-xs">
-                  {ofgResults.length} sección{ofgResults.length !== 1 ? "es" : ""} ·{" "}
-                  {ofgByCourse.length} curso{ofgByCourse.length !== 1 ? "s" : ""}
-                </p>
-                {ofgByCourse.map(({ sigle, name, sections }) => (
-                  <div
-                    key={sigle}
-                    className="bg-background border-border rounded-lg border p-3 tablet:p-4"
-                  >
-                    <div className="mb-2.5 flex items-baseline gap-2">
-                      <span className="text-sm font-semibold">{sigle}</span>
-                      <span className="text-muted-foreground truncate text-xs">{name}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {sections.map(({ sectionId, sectionData, courseId }) => (
-                        <div
-                          key={sectionId}
-                          className="bg-accent border-border flex items-center gap-3 rounded-md border px-3 py-2"
-                        >
-                          <div className="min-w-0">
-                            <div className="text-xs font-medium">Sección {sectionId}</div>
-                            <div className="text-muted-foreground text-[11px]">
-                              {formatDays(sectionData.schedule || {})} ·{" "}
-                              {sectionData.campus || "Sin campus"}
-                            </div>
-                            <div className="text-muted-foreground text-[11px]">
-                              NRC {sectionData.nrc || "—"} · {sectionData.format || ""}
-                            </div>
-                          </div>
-                          <Button
-                            variant="ghost_blue"
-                            size="xs"
-                            icon={PlusIcon}
-                            onClick={() => handleOFGAdd(courseId)}
-                          >
-                            Agregar
-                          </Button>
+                {ofgByCourse.length > 0 && (
+                  <div className="space-y-3">
+                    <p className="text-muted-foreground text-xs">
+                      {ofgResults.length} sección{ofgResults.length !== 1 ? "es" : ""} ·{" "}
+                      {ofgByCourse.length} curso{ofgByCourse.length !== 1 ? "s" : ""}
+                    </p>
+                    {ofgByCourse.map(({ sigle, name, sections }) => (
+                      <div
+                        key={sigle}
+                        className="bg-background border-border rounded-lg border p-3 tablet:p-4"
+                      >
+                        <div className="mb-2.5 flex items-baseline gap-2">
+                          <span className="text-sm font-semibold">{sigle}</span>
+                          <span className="text-muted-foreground truncate text-xs">{name}</span>
                         </div>
-                      ))}
-                    </div>
+                        <div className="flex flex-wrap gap-2">
+                          {sections.map(({ sectionId, sectionData, courseId }) => (
+                            <div
+                              key={sectionId}
+                              className="bg-accent border-border flex items-center gap-3 rounded-md border px-3 py-2"
+                            >
+                              <div className="min-w-0">
+                                <div className="text-xs font-medium">Sección {sectionId}</div>
+                                <div className="text-muted-foreground text-[11px]">
+                                  {formatDays(sectionData.schedule || {})} ·{" "}
+                                  {sectionData.campus || "Sin campus"}
+                                </div>
+                                <div className="text-muted-foreground text-[11px]">
+                                  NRC {sectionData.nrc || "—"} · {sectionData.format || ""}
+                                </div>
+                              </div>
+                              <Button
+                                variant="ghost_blue"
+                                size="xs"
+                                icon={PlusIcon}
+                                onClick={() => handleOFGAdd(courseId)}
+                              >
+                                Agregar
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* Selected Courses */}
-      {selectedCourses.length > 0 && (
-        <div className="border-border rounded-lg border bg-accent p-4 tablet:p-6">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 shrink-0">
-                <SelectionIcon className="h-5 w-5 fill-current" />
-              </div>
-              <div className="min-w-0">
-                <h2 className="text-base tablet:text-lg font-semibold">Cursos seleccionados</h2>
-                <p className="text-muted-foreground text-xs tablet:text-sm">
-                  {selectedCourses.length} curso{selectedCourses.length > 1 ? "s" : ""} · semestre{" "}
-                  {selectedSemester}
-                </p>
-              </div>
-            </div>
-            {hasShufflableCourses && (
-              <Button
-                onClick={handleShuffleSections}
-                variant="ghost_border"
-                size="icon"
-                disabled={isShuffling}
-                title="Mezclar secciones al azar"
-                className={cn(isShuffling && "animate-pulse")}
-              >
-                <ShuffleIcon
-                  className={cn("text-muted-foreground h-5 w-5", isShuffling && "animate-spin")}
-                />
-              </Button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {selectedCourses.map((courseId) => {
-              const info = getCourseInfo(courseId);
-              return (
-                <div
-                  key={courseId}
-                  className="bg-background border-border flex items-center gap-2 rounded-lg border px-3 py-2 text-sm"
-                >
-                  <div className="flex min-w-0 flex-col">
-                    <span className="font-medium">
-                      {info.sigle} — Sección {info.seccion}
-                    </span>
-                    <span className="text-muted-foreground text-xs">{info.nombre}</span>
-                    <span className="text-muted-foreground text-xs">
-                      NRC {info.nrc} · {info.campus}
-                    </span>
+          {/* Selected Courses */}
+          {selectedCourses.length > 0 && (
+            <div className="border-border rounded-lg border bg-accent p-4 tablet:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 shrink-0">
+                    <SelectionIcon className="h-5 w-5 fill-current" />
                   </div>
-                  <button
-                    onClick={() => handleCourseRemove(courseId)}
-                    className="hover:bg-muted flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors"
-                    aria-label={`Eliminar ${courseId}`}
-                  >
-                    <CloseIcon className="h-3 w-3" />
-                  </button>
+                  <div className="min-w-0">
+                    <h2 className="text-base tablet:text-lg font-semibold">Cursos seleccionados</h2>
+                    <p className="text-muted-foreground text-xs tablet:text-sm">
+                      {selectedCourses.length} curso{selectedCourses.length > 1 ? "s" : ""} ·
+                      semestre {selectedSemester}
+                    </p>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Schedule Grid */}
-      <div className="border-border overflow-hidden rounded-lg border bg-accent">
-        <div className="border-border border-b px-4 tablet:px-6 py-4">
-          <div className="flex flex-col tablet:flex-row gap-3 items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2">
-                <CalendarIcon className="h-5 w-5 fill-current" />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold">Tu Horario</h2>
-                <p className="text-muted-foreground text-sm">Semestre {selectedSemester}</p>
-              </div>
-            </div>
-            {selectedCourses.length > 0 && availableClassTypes.length > 0 && (
-              <DropdownMenu
-                trigger={
-                  <>
-                    <CalendarIcon className="h-5 w-5" />
-                    Exportar a .ics
-                  </>
-                }
-              >
-                <DropdownMenuItem
-                  onClick={() => generateICSFromSchedule({ matrix: scheduleMatrix, hiddenCourses })}
-                >
-                  Exportar todo
-                </DropdownMenuItem>
-                {availableClassTypes.map((type) => (
-                  <DropdownMenuItem
-                    key={type}
-                    onClick={() =>
-                      generateICSFromSchedule({
-                        matrix: scheduleMatrix,
-                        hiddenCourses,
-                        filterType: type,
-                      })
-                    }
+                {hasShufflableCourses && (
+                  <Button
+                    onClick={handleShuffleSections}
+                    variant="ghost_border"
+                    size="icon"
+                    disabled={isShuffling}
+                    title="Mezclar secciones al azar"
+                    className={cn(isShuffling && "animate-pulse")}
                   >
-                    Exportar {getClassTypeLong(type)}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenu>
-            )}
-          </div>
-        </div>
+                    <ShuffleIcon
+                      className={cn("text-muted-foreground h-5 w-5", isShuffling && "animate-spin")}
+                    />
+                  </Button>
+                )}
+              </div>
 
-        <div className="p-4 tablet:p-6">
-          {selectedCourses.length > 0 ? (
-            <ScheduleGrid
-              matrix={scheduleMatrix}
-              selectedCourses={selectedCourses}
-              courseSectionsData={courseSectionsData}
-              courseOptions={courseOptions}
-              hiddenCourses={hiddenCourses}
-              onApplySuggestions={handleApplySuggestions}
-              onHiddenCoursesChange={setHiddenCourses}
-            />
-          ) : (
-            <div className="py-12 text-center">
-              <CalendarIcon className="text-muted-foreground mx-auto mb-4 h-12 w-12 opacity-40" />
-              <p className="text-muted-foreground mb-1 text-base font-medium">
-                Aún no hay cursos seleccionados
-              </p>
-              <p className="text-muted-foreground text-sm">
-                Busca un curso arriba y agrega secciones a tu horario
-              </p>
+              <div className="flex flex-wrap gap-2">
+                {selectedCourses.map((courseId) => {
+                  const info = getCourseInfo(courseId);
+                  return (
+                    <div
+                      key={courseId}
+                      className="bg-background border-border flex items-center gap-2 rounded-lg border px-3 py-2 text-sm"
+                    >
+                      <div className="flex min-w-0 flex-col">
+                        <span className="font-medium">
+                          {info.sigle} — Sección {info.seccion}
+                        </span>
+                        <span className="text-muted-foreground text-xs">{info.nombre}</span>
+                        <span className="text-muted-foreground text-xs">
+                          NRC {info.nrc} · {info.campus}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => handleCourseRemove(courseId)}
+                        className="hover:bg-muted flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors"
+                        aria-label={`Eliminar ${courseId}`}
+                      >
+                        <CloseIcon className="h-3 w-3" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
+        </div>
+
+        {/* RIGHT — tu horario, fijo para verlo mientras buscas */}
+        <div className="min-w-0 desktop:sticky desktop:top-24 desktop:self-start">
+          {/* Schedule Grid */}
+          <div className="border-border overflow-hidden rounded-lg border bg-accent">
+            <div className="border-border border-b px-4 tablet:px-6 py-4">
+              <div className="flex flex-col tablet:flex-row gap-3 items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2">
+                    <CalendarIcon className="h-5 w-5 fill-current" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">Tu Horario</h2>
+                    <p className="text-muted-foreground text-sm">Semestre {selectedSemester}</p>
+                  </div>
+                </div>
+                {selectedCourses.length > 0 && availableClassTypes.length > 0 && (
+                  <DropdownMenu
+                    trigger={
+                      <>
+                        <CalendarIcon className="h-5 w-5" />
+                        Exportar a .ics
+                      </>
+                    }
+                  >
+                    <DropdownMenuItem
+                      onClick={() =>
+                        generateICSFromSchedule({ matrix: scheduleMatrix, hiddenCourses })
+                      }
+                    >
+                      Exportar todo
+                    </DropdownMenuItem>
+                    {availableClassTypes.map((type) => (
+                      <DropdownMenuItem
+                        key={type}
+                        onClick={() =>
+                          generateICSFromSchedule({
+                            matrix: scheduleMatrix,
+                            hiddenCourses,
+                            filterType: type,
+                          })
+                        }
+                      >
+                        Exportar {getClassTypeLong(type)}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenu>
+                )}
+              </div>
+            </div>
+
+            <div className="p-4 tablet:p-6">
+              {selectedCourses.length > 0 ? (
+                <ScheduleGrid
+                  matrix={scheduleMatrix}
+                  selectedCourses={selectedCourses}
+                  courseSectionsData={courseSectionsData}
+                  courseOptions={courseOptions}
+                  hiddenCourses={hiddenCourses}
+                  onApplySuggestions={handleApplySuggestions}
+                  onHiddenCoursesChange={setHiddenCourses}
+                />
+              ) : (
+                <div className="py-12 text-center">
+                  <CalendarIcon className="text-muted-foreground mx-auto mb-4 h-12 w-12 opacity-40" />
+                  <p className="text-muted-foreground mb-1 text-base font-medium">
+                    Aún no hay cursos seleccionados
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    Busca un curso y agrega secciones para verlas aparecer aquí
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

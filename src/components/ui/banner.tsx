@@ -99,16 +99,19 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
     const finalBannerId = generateBannerId();
     const storageKey = `banner-dismissed-${finalBannerId}`;
 
-    // Check if banner was previously dismissed
-    const [isVisible, setIsVisible] = React.useState(() => {
-      if (typeof window === "undefined") return true; // SSR fallback
+    // Start visible so the first client render matches the server-rendered HTML,
+    // then reconcile with localStorage after mount to avoid a hydration mismatch.
+    const [isVisible, setIsVisible] = React.useState(true);
+
+    React.useEffect(() => {
       try {
-        const dismissed = localStorage.getItem(storageKey);
-        return dismissed !== "true";
+        if (localStorage.getItem(storageKey) === "true") {
+          setIsVisible(false);
+        }
       } catch {
-        return true; // Fallback if localStorage is not available
+        // Ignore if localStorage is not available
       }
-    });
+    }, [storageKey]);
 
     const iconSize =
       size === "sm" ? "h-4 w-4" : size === "lg" ? "h-6 w-6" : size === "xl" ? "h-7 w-7" : "h-5 w-5";
