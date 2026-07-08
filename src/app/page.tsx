@@ -1,7 +1,6 @@
 import AdvantagesInfo from "@/components/Landing/AdvantagesInfo";
 import GettingStarted from "@/components/Landing/GettingStarted";
 import LandingSearch from "@/components/Landing/LandingSearch";
-import { Banner } from "@/components/ui/banner";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -52,21 +51,6 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   return (
     <main className="flex bg-white justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
-      <section className="w-full max-w-7xl">
-        <Banner
-          variant="orange"
-          size="md"
-          icon="CalendarIcon"
-          dismissible
-          bannerId="horarios-2026-2-preliminar"
-          className="mb-4 rounded-lg"
-        >
-          <strong>Horarios 2026-2 disponibles</strong> — Ya puedes explorar la oferta del segundo
-          semestre y armar tu horario ideal. Ten en cuenta que son <strong>preliminares</strong> y
-          las secciones aún podrían ajustarse, así que revísalos con calma antes de confirmar.
-        </Banner>
-      </section>
-
       <section className="w-full max-w-7xl">
         <LandingSearch />
       </section>
