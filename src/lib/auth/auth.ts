@@ -29,10 +29,12 @@ export async function authenticateUser(): Promise<AuthenticatedUser | null> {
   if (!payload) {
     // Token ausente, expirado o inválido — intentar refresh
     try {
-      const allCookies = cookieStore
-        .getAll()
-        .map((c) => `${c.name}=${c.value}`)
-        .join("; ");
+      const cookies = cookieStore.getAll();
+      // Sin cookies no hay refresh token que enviar (ej. bots/crawlers):
+      // evitamos un subrequest inútil a auth.osuc.dev en cada visita.
+      if (cookies.length === 0) return null;
+
+      const allCookies = cookies.map((c) => `${c.name}=${c.value}`).join("; ");
 
       const refresh = await fetch("https://auth.osuc.dev/api/refresh", {
         method: "POST",
