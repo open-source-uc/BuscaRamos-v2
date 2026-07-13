@@ -1,10 +1,10 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { Button } from "../ui/Button";
-import { SwapVertIcon } from "../icons/icons";
-import { Sentiment } from "../icons/sentiment";
+import { SwapVertIcon } from "../icons/Icons";
+import { Sentiment } from "../icons/Sentiment";
 import { calculateSentiment, calculatePositivePercentage } from "@/lib/courseStats";
 import TableCourseCampuses from "./TableCourseCampuses";
 import { CourseScore } from "@/types/types";

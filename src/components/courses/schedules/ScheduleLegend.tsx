@@ -1,4 +1,4 @@
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { cn } from "@/lib/utils";
 
 // Dictionary of class types with short (3 char) and long versions

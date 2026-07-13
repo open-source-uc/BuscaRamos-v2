@@ -9,16 +9,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import {
   findConflictResolution,
   applySectionSuggestions,
   type ConflictResolutionResult,
 } from "@/lib/scheduleMatrix";
 import type { CourseSections } from "@/types/types.ts";
-import { FixIcon, SwapIcon, AlertIcon, CheckIcon } from "@/components/icons/icons";
+import { FixIcon, SwapIcon, AlertIcon, CheckIcon } from "@/components/icons/Icons";
 import { cn } from "@/lib/utils";
 
 interface ConflictResolverProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { columns } from "./columns";
+import { columns } from "./Columns";
 import { useFuse } from "@/hooks/useFuse";
 
 import {

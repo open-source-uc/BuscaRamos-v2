@@ -7,7 +7,7 @@ import {
   OSUCIcon,
   TelegramIcon,
   WhatsAppIcon,
-} from "@/components/icons/icons";
+} from "@/components/icons/Icons";
 import { SOCIAL_LINKS } from "@/data/social-links";
 import { ROUTES, FOOTER_SECTIONS } from "@/lib/routes";
 

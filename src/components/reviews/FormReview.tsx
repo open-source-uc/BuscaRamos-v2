@@ -17,9 +17,9 @@ import {
   WorkloadIcon,
 } from "../icons";
 import { useEffect, useMemo } from "react";
-import { ButtonInput } from "../ui/button-input";
-import { NumericInput } from "../ui/numeric-input";
-import { SelectInput } from "../ui/select-input";
+import { ButtonInput } from "../ui/ButtonInput";
+import { NumericInput } from "../ui/NumericInput";
+import { SelectInput } from "../ui/SelectInput";
 import { parseSemester } from "@/lib/currentSemester";
 import { useCurrentSemester } from "@/context/semesterCtx";
 import Link from "next/link";

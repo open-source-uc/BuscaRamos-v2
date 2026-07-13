@@ -2,7 +2,7 @@
 
 import { use, useState, Suspense } from "react";
 import { getCourseStaticData, CourseStaticData } from "@/lib/coursesStaticData";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 import Review from "./Review";
 import { CourseReview } from "@/types/types";
 

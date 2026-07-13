@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { CalendarIcon, BookIcon } from "@/components/icons/icons";
+import { CalendarIcon, BookIcon } from "@/components/icons/Icons";
 import { ROUTES } from "@/lib/routes";
 
 const BACK_KEY = "fab_back_url";

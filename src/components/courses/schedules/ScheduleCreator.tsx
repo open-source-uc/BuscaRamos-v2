@@ -29,9 +29,9 @@ import type {
   Course,
   CourseSection,
 } from "@/types/types.ts";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { Button } from "@/components/ui/Button";
-import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, type ComboboxOption } from "@/components/ui/Combobox";
 import { toast } from "sonner";
 import {
   SearchIcon,
@@ -42,14 +42,14 @@ import {
   AreaIcon,
   ChevronDownIcon,
   PlusIcon,
-} from "@/components/icons/icons";
+} from "@/components/icons/Icons";
 import { cn } from "@/lib/utils";
 import { formatScheduleLocation } from "@/lib/scheduleLocation";
 import { getClassTypeLong, getClassTypeColor } from "@/components/courses/schedules/ScheduleLegend";
 import generateICSFromSchedule from "@/lib/generateICSFromSchedule";
 import { Search } from "@/components/search/SearchInput";
 import { useFuse } from "@/hooks/useFuse";
-import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuItem } from "@/components/ui/DropdownMenu";
 import { useCurrentSemester } from "@/context/semesterCtx";
 import { CourseFilters } from "@/components/ui/CourseFilters";
 import ScheduleModuleFilter from "@/components/courses/schedules/ScheduleModuleFilter";

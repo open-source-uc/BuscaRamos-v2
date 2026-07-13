@@ -10,7 +10,7 @@ import {
   ThumbUpIcon,
   WorkloadIcon,
 } from "../icons";
-import { Pill } from "../ui/pill";
+import { Pill } from "../ui/Pill";
 import { CourseReview } from "@/types/types";
 import ShareButton from "./ShareButton";
 import ReportButton from "./ReportButton";

@@ -1,14 +1,14 @@
 "use client";
 
-import { ChevronDownIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDownIcon } from "@/components/icons/Icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { XAxis, YAxis, CartesianGrid, Area, AreaChart, ReferenceLine } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart";
+} from "@/components/ui/Chart";
 import { useMemo, type ComponentProps } from "react";
 import { milestones } from "../../lib/milestones";
 

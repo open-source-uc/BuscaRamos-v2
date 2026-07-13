@@ -1,5 +1,5 @@
-import { Pill } from "@/components/ui/pill";
-import { DocsIcon, DeceasedIcon, TextureIcon, OpenInFullIcon } from "@/components/icons/icons";
+import { Pill } from "@/components/ui/Pill";
+import { DocsIcon, DeceasedIcon, TextureIcon, OpenInFullIcon } from "@/components/icons/Icons";
 import { useCourseNameMap } from "@/context/courseNameMapCtx";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 

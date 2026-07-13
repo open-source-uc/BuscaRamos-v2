@@ -1,9 +1,9 @@
-import { DocsIcon, ChevronDownIcon, TextureIcon, DeceasedIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { DocsIcon, ChevronDownIcon, TextureIcon, DeceasedIcon } from "@/components/icons/Icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
 import { RestrictionsDisplay } from "./RestrictionsDisplay";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 type ApiPrerequisiteGroup = NonNullable<CourseStaticData["parsed_meta_data"]["prerequisites"]>;
 type ApiRestrictionGroup = NonNullable<CourseStaticData["parsed_meta_data"]["restrictions"]>;

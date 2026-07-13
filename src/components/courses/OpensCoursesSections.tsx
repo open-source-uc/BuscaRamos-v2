@@ -1,7 +1,7 @@
-import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/Icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { OpensCoursesDisplay } from "@/components/courses/OpensCoursesDisplay";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 
 type ApiUnlocks = NonNullable<CourseStaticData["parsed_meta_data"]["unlocks"]>;

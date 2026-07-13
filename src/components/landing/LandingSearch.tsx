@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { Button } from "@/components/ui/Button";
 import { Search } from "@/components/search/SearchInput";
-import { BuildingIcon, AreaIcon, HourglassIcon, ResourcesIcon } from "@/components/icons/icons";
+import { BuildingIcon, AreaIcon, HourglassIcon, ResourcesIcon } from "@/components/icons/Icons";
 import { ROUTES } from "@/lib/routes";
 
 export default function LandingSearch() {

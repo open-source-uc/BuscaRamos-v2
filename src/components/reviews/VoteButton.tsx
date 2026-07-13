@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { VoteArrow } from "../icons/icons";
+import { VoteArrow } from "../icons/Icons";
 import { interactWithCourseReview } from "@/actions/user.reviews";
 import { toast } from "sonner";
 
