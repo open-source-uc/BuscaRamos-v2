@@ -64,7 +64,7 @@ export function Combobox({
             role="combobox"
             aria-expanded={open}
             aria-label={ariaLabel}
-            className={cn("w-full", buttonClassName)}
+            className={cn("w-(--radix-popover-trigger-width) justify-between", buttonClassName)}
             disabled={disabled}
           >
             <span className="flex-1 min-w-0 truncate text-left">
