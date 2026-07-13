@@ -2,7 +2,7 @@ import * as React from "react";
 import { CheckIcon, ChevronDownIcon } from "@/components/icons/icons";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
   Command,
   CommandEmpty,

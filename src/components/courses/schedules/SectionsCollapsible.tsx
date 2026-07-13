@@ -17,7 +17,7 @@ import {
 } from "@/components/icons/icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Pill } from "@/components/ui/pill";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { toast } from "sonner";
 import type { ScheduleMatrix, CourseSections, CourseSection, Course } from "@/types/types";

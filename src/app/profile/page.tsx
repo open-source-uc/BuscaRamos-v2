@@ -2,7 +2,7 @@ import { ReviewWithCourse } from "@/components/reviews/ReviewWithCourse";
 import { authenticateUser } from "@/lib/auth/auth";
 import { getUserReviews } from "@/lib/reviews";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default async function Profile() {
   const user = await authenticateUser();

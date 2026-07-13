@@ -1,7 +1,7 @@
 "use client";
 
 import { CourseReview } from "@/types/types";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { TrashIcon } from "lucide-react";
 import { deleteCourseReview } from "@/actions/user.reviews";
 import { toast } from "sonner";

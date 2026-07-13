@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { Pill } from "@/components/ui/pill";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { SwapVertIcon } from "../icons/icons";
 import { Sentiment } from "../icons/sentiment";
 import { calculateSentiment, calculatePositivePercentage } from "@/lib/courseStats";

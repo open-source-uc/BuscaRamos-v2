@@ -2,7 +2,7 @@ import { CourseScore } from "@/types/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { flexRender, Table as TableType } from "@tanstack/react-table";
 import { columns } from "./columns";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { cn } from "@/lib/utils";
 
 export default function TableTable({ table }: { table: TableType<CourseScore> }) {

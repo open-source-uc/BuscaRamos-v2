@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Pill } from "@/components/ui/pill";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Search } from "@/components/search/SearchInput";
 import { BuildingIcon, AreaIcon, HourglassIcon, ResourcesIcon } from "@/components/icons/icons";
 import { ROUTES } from "@/lib/routes";

@@ -1,5 +1,5 @@
 import { UsersIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/pill";
 export default async function AdminPage() {
   // Aqui no hay proteccion de login pues esta en el middleware
