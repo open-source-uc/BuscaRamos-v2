@@ -8,29 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import logo from "@/public/logos/dark-osuc-logo.svg";
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Sobre las Áreas de Formación General",
-    href: "https://formaciongeneral.uc.cl/sobre-la-formacion-general/#conoce-las-%c3%a1reas-formativas",
-    description: "Conoce las áreas de formación general y cómo se relacionan con los cursos.",
-  },
-  {
-    title: "Preguntas Frecuentes",
-    href: "https://registrosacademicos.uc.cl/informacion-para-estudiantes/inscripcion-y-retiro-de-cursos/preguntas-frecuentes/",
-    description: "Resuelve tus dudas sobre los cursos: inscripciones, retiros y más.",
-  },
-  {
-    title: "Inscripción de Cursos",
-    href: "https://registration9.uc.cl/StudentRegistrationSsb/ssb/registration",
-    description: "Añade o elimina clases según tu horario asignado por banner.",
-  },
-  {
-    title: "Buscacursos UC",
-    href: "https://buscacursos.uc.cl/",
-    description: "La fuente oficial de la universidad para revisar la programación académica.",
-  },
-];
+import { ROUTES, HEADER_LINKS, FAQ_SECTIONS } from "@/lib/routes";
 
 export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,7 +68,7 @@ export default function MobileHeader() {
               <div className="space-y-3">
                 {user ? (
                   <Link
-                    href="/profile"
+                    href={ROUTES.PROFILE}
                     onClick={closeMenu}
                     className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
                   >
@@ -112,27 +90,16 @@ export default function MobileHeader() {
             <section className="border-border rounded-md border p-6">
               <h3 className="text-foreground mb-4 text-lg font-semibold">Navegación</h3>
               <div className="space-y-3">
-                <Link
-                  href="/catalogo"
-                  onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
-                >
-                  CATÁLOGO
-                </Link>
-                <Link
-                  href="/horario"
-                  onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
-                >
-                  HORARIO
-                </Link>
-                <Link
-                  href="/contribuidores"
-                  onClick={closeMenu}
-                  className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
-                >
-                  CONTRIBUIDORES
-                </Link>
+                {HEADER_LINKS.map(({ label, href }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={closeMenu}
+                    className="bg-background text-input border-border hover:bg-primary-foreground hover:text-primary hover:border-primary inline-block w-full rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors duration-200"
+                  >
+                    {label.toUpperCase()}
+                  </Link>
+                ))}
               </div>
             </section>
 
@@ -140,18 +107,18 @@ export default function MobileHeader() {
             <section className="border-border rounded-md border p-6">
               <h3 className="text-foreground mb-4 text-lg font-semibold">FAQ</h3>
               <div className="space-y-3">
-                {components.map((component) => (
+                {FAQ_SECTIONS.map((section) => (
                   <a
-                    key={component.title}
-                    href={component.href}
+                    key={section.title}
+                    href={section.href}
                     onClick={closeMenu}
                     className="border-border hover:bg-primary-light hover:text-primary hover:border-primary block rounded-md border p-4 transition-colors"
                   >
                     <div className="text-foreground text-sm leading-none font-medium">
-                      {component.title}
+                      {section.title}
                     </div>
                     <p className="text-muted-foreground mt-2 text-sm leading-snug">
-                      {component.description}
+                      {section.description}
                     </p>
                   </a>
                 ))}

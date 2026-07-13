@@ -5,6 +5,7 @@ import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
 import { Search } from "@/components/search/SearchInput";
 import { BuildingIcon, AreaIcon, HourglassIcon, ResourcesIcon } from "@/components/icons/icons";
+import { ROUTES } from "@/lib/routes";
 
 export default function LandingSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,9 +13,9 @@ export default function LandingSearch() {
   const handleSearch = (e: React.SubmitEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      window.location.href = `/catalogo?search=${encodeURIComponent(searchTerm.trim())}`;
+      window.location.href = `${ROUTES.CATALOG}?search=${encodeURIComponent(searchTerm.trim())}`;
     } else {
-      window.location.href = "/catalogo";
+      window.location.href = ROUTES.CATALOG;
     }
   };
 
@@ -123,7 +124,7 @@ export default function LandingSearch() {
             className="bg-white shadow-sm"
             variant="outline"
             size="lg"
-            onClick={() => (window.location.href = "/catalogo")}
+            onClick={() => (window.location.href = ROUTES.CATALOG)}
             aria-label="Ver todos los cursos disponibles en el catálogo"
           >
             Ver todos los cursos
@@ -133,7 +134,7 @@ export default function LandingSearch() {
             className="bg-white shadow-sm"
             variant="outline"
             size="lg"
-            onClick={() => (window.location.href = "https://osuc.dev/")}
+            onClick={() => (window.location.href = ROUTES.OSUC)}
             aria-label="Conocer más información acerca de nosotros"
           >
             Conocer más acerca de nosotros
