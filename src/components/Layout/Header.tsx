@@ -18,31 +18,9 @@ import {
   navigationMenuTriggerStyle,
   ListItem,
 } from "@/components/Layout/NavigationMenu";
+import { ROUTES, HEADER_LINKS, FAQ_SECTIONS } from "@/lib/routes";
 import MobileHeader from "@/components/Layout/MobileHeader";
 import logo from "@/public/logos/dark-osuc-logo.svg";
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Sobre las Áreas de Formación General",
-    href: "https://formaciongeneral.uc.cl/sobre-la-formacion-general/#conoce-las-%c3%a1reas-formativas",
-    description: "Conoce las áreas de formación general y cómo se relacionan con los cursos.",
-  },
-  {
-    title: "Preguntas Frecuentes",
-    href: "https://registrosacademicos.uc.cl/informacion-para-estudiantes/inscripcion-y-retiro-de-cursos/preguntas-frecuentes/",
-    description: "Resuelve tus dudas sobre los cursos: inscripciones, retiros y más.",
-  },
-  {
-    title: "Inscripción de Cursos",
-    href: "https://registration9.uc.cl/StudentRegistrationSsb/ssb/registration",
-    description: "Añade o elimina clases según tu horario asignado por banner.",
-  },
-  {
-    title: "Buscacursos UC",
-    href: "https://buscacursos.uc.cl/",
-    description: "La fuente oficial de la universidad para revisar la programación académica.",
-  },
-];
 
 export default function HeaderPage() {
   const router = useRouter();
@@ -53,7 +31,7 @@ export default function HeaderPage() {
       router.push("https://auth.osuc.dev?ref=" + window.location.href);
       return;
     }
-    router.push("/profile");
+    router.push(ROUTES.PROFILE);
   };
 
   return (
@@ -80,34 +58,22 @@ export default function HeaderPage() {
       <nav className="hidden tablet:flex flex-1 p-4">
         <NavigationMenu>
           <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                <Link href="/catalogo" className="hover:bg-muted">
-                  CATÁLOGO
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                <Link href="/horario" className="hover:bg-muted">
-                  HORARIO
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                <Link href="/contribuidores" className="hover:bg-muted">
-                  CONTRIBUIDORES
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            {HEADER_LINKS.map(({ label, href }) => (
+              <NavigationMenuItem key={href}>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link href={href} className="hover:bg-muted">
+                    {label.toUpperCase()}
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
             <NavigationMenuItem>
               <NavigationMenuTrigger>FAQ</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150">
-                  {components.map((component) => (
-                    <ListItem key={component.title} title={component.title} href={component.href}>
-                      {component.description}
+                  {FAQ_SECTIONS.map((section) => (
+                    <ListItem key={section.title} title={section.title} href={section.href}>
+                      {section.description}
                     </ListItem>
                   ))}
                 </ul>

@@ -9,92 +9,37 @@ import {
   WhatsAppIcon,
 } from "@/components/icons/icons";
 import { SOCIAL_LINKS } from "@/data/social-links";
+import { ROUTES, FOOTER_SECTIONS } from "@/lib/routes";
 
 export default function Footer() {
   return (
     <footer className="border-border mt-auto border-t py-12">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-2 items-start gap-8 md:grid-cols-4">
-          <Link href="https://osuc.dev/" className="flex font-semibold gap-4 items-center">
+          <Link href={ROUTES.OSUC} className="flex font-semibold gap-4 items-center">
             <span className={`w-10 h-10 rounded-lg flex items-center justify-center`}>
               <OSUCIcon color="black" />
             </span>
             <span className="text-5xl font-bold -translate-y-1">osuc</span>
           </Link>
 
-          <div className="flex flex-col space-y-3">
-            <h3 className="text-foreground text-sm font-medium">Plataforma</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/catalogo"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Catálogo
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contribuidores"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Contribuidores
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col space-y-3">
-            <h3 className="text-foreground text-sm font-medium">Información OSUC</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="https://osuc.dev/about/"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Acerca de
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://osuc.dev/conduct/"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Código de conducta
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col space-y-3">
-            <h3 className="text-foreground text-sm font-medium">Soporte</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="mailto:coord@osuc.dev"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Contacto
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="mailto:help@osuc.dev"
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  Ayuda
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {FOOTER_SECTIONS.map((section) => (
+            <div key={section.title} className="flex flex-col space-y-3">
+              <h3 className="text-foreground text-sm font-medium">{section.title}</h3>
+              <ul className="space-y-2">
+                {section.links.map(({ label, href }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="border-border mt-12 flex flex-col justify-between space-y-4 border-t pt-8 md:flex-row md:items-center md:space-y-0">
