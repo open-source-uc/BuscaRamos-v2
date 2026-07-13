@@ -64,10 +64,12 @@ export function Combobox({
             role="combobox"
             aria-expanded={open}
             aria-label={ariaLabel}
-            className={cn("w-full justify-between", buttonClassName)}
+            className={cn("w-full", buttonClassName)}
             disabled={disabled}
           >
-            <span className="truncate">{selectedOption ? selectedOption.label : placeholder}</span>
+            <span className="flex-1 min-w-0 truncate text-left">
+              {selectedOption ? selectedOption.label : placeholder}
+            </span>
             <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>

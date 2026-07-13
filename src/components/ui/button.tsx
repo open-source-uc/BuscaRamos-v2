@@ -139,8 +139,8 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         {loadingText}
       </span>
     ) : (
-      <span className="inline-flex items-center">
-        {Icon && <Icon className={`mr-2 -ml-1 h-4 w-4 ${getIconColor()}`} />}
+      <span className="inline-flex items-center w-full min-w-0">
+        {Icon && <Icon className={`mr-2 -ml-1 h-4 w-4 shrink-0 ${getIconColor()}`} />}
         {children}
       </span>
     );
