@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
-import { getCourseReviews } from "../../actions/reviews";
-import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 import {
   calculatePositivePercentage,
   calculateSentiment,
@@ -14,8 +12,8 @@ import {
 import { getCourseStats } from "@/lib/courses";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
-import Review from "@/components/reviews/Review";
 import MakeReviewButton from "@/components/reviews/MakeReviewButton";
+import CourseReviews from "@/components/reviews/CourseReviews";
 import CourseInformation from "@/components/ui/CourseInformation";
 import CourseRelationsSections from "@/components/courses/CourseRelationsSections";
 
@@ -99,11 +97,7 @@ export async function generateMetadata({
 export default async function CoursePage({ params }: { params: Promise<{ sigle: string }> }) {
   const { sigle } = await params;
 
-  const [data, reviews, userVotes] = await Promise.all([
-    getCoursePageData(sigle),
-    getCourseReviews(sigle.toUpperCase(), 100),
-    getVotesOnReviewsInCourseByUserID(sigle.toUpperCase()),
-  ]);
+  const data = await getCoursePageData(sigle);
 
   if (!data) notFound();
 
@@ -204,22 +198,10 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
       <section>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Reseñas ({reviews.length})</h2>
+            <h2 className="text-2xl font-semibold">Reseñas ({totalReviews})</h2>
             <MakeReviewButton sigle={course.sigle} />
           </div>
-          {reviews.length === 0 ? (
-            <p className="text-gray-500">No hay reseñas para este curso.</p>
-          ) : (
-            <div className="space-y-4">
-              {reviews.map((review) => (
-                <Review
-                  key={review.id}
-                  review={review}
-                  initialVote={(userVotes as Record<number, 1 | -1>)[review.id] ?? null}
-                />
-              ))}
-            </div>
-          )}
+          <CourseReviews sigle={course.sigle} />
         </div>
       </section>
     </main>

@@ -249,6 +249,64 @@ export const getCourseReviews = async (sigle: string, limit: number = 40) => {
   return result.results;
 };
 
+type CourseReviewWithUserVote = CourseReview & {
+  user_vote: 1 | -1 | null;
+};
+
+export async function getCourseReviewsPage(
+  sigle: string,
+  userId: string | null,
+  limit: number,
+  offset: number
+) {
+  const result = await DB()
+    .prepare(
+      `
+    SELECT
+      course_reviews.id,
+      course_reviews.user_id,
+      course_reviews.course_sigle,
+      course_reviews.like_dislike,
+      course_reviews.workload_vote,
+      course_reviews.attendance_type,
+      course_reviews.weekly_hours,
+      course_reviews.year_taken,
+      course_reviews.semester_taken,
+      course_reviews.comment_path,
+      course_reviews.status,
+      course_reviews.created_at,
+      course_reviews.updated_at,
+      course_reviews.votes,
+      user_vote_review.vote AS user_vote
+    FROM course_reviews
+    LEFT JOIN user_vote_review
+      ON user_vote_review.review_id = course_reviews.id
+      AND user_vote_review.user_id = ?
+    WHERE course_reviews.course_sigle = ? AND course_reviews.status != 3
+    ORDER BY course_reviews.votes DESC, course_reviews.created_at DESC
+    LIMIT ? OFFSET ?
+  `
+    )
+    .bind(userId ?? "", sigle, limit + 1, offset)
+    .all<CourseReviewWithUserVote>();
+
+  const rows = result.results.slice(0, limit);
+  const userVotes: Record<number, 1 | -1> = {};
+  const reviews = rows.map(({ user_vote: userVote, ...review }) => {
+    if (userVote === 1 || userVote === -1) {
+      userVotes[review.id] = userVote;
+    }
+    return review;
+  });
+
+  return {
+    reviews,
+    userVotes,
+    hasMore: result.results.length > limit,
+    nextOffset: offset + reviews.length,
+  };
+}
+
 export async function getReviewContent(filePath: string | null) {
   if (!filePath) return null;
   try {
