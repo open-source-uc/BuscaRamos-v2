@@ -1,12 +1,14 @@
-import { connection } from "next/server";
+import { Suspense } from "react";
 import CoursesTable from "@/components/CoursesTable";
+import DataTableSkeleton from "@/components/table/DataTableSkeleton";
 
-export default async function CatalogPage() {
-  await connection();
+export default function CatalogPage() {
   return (
     <div className="flex justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
       <div className="w-full max-w-7xl">
-        <CoursesTable />
+        <Suspense fallback={<DataTableSkeleton />}>
+          <CoursesTable />
+        </Suspense>
       </div>
     </div>
   );
