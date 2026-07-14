@@ -124,7 +124,7 @@ export default function LandingSearch() {
             className="bg-white shadow-sm"
             variant="outline"
             size="lg"
-            onClick={() => (window.location.href = ROUTES.CATALOG)}
+            href={ROUTES.CATALOG}
             aria-label="Ver todos los cursos disponibles en el catálogo"
           >
             Ver todos los cursos
