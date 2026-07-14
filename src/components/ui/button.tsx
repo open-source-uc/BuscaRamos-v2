@@ -146,9 +146,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     );
 
     if (asChild) {
+      // Slot aplica las clases a su hijo directo, que debe ser el children original (ej. <Link>)
       return (
         <Slot {...commonProps} {...props} ref={ref}>
-          {content}
+          {children}
         </Slot>
       );
     }

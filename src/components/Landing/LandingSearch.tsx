@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Pill } from "@/components/ui/pill";
 import { Button } from "@/components/ui/button";
@@ -120,14 +121,13 @@ export default function LandingSearch() {
           role="group"
           aria-label="Acciones de navegación"
         >
-          <Button
-            className="bg-white shadow-sm"
-            variant="outline"
-            size="lg"
-            href={ROUTES.CATALOG}
-            aria-label="Ver todos los cursos disponibles en el catálogo"
-          >
-            Ver todos los cursos
+          <Button asChild className="bg-white shadow-sm" variant="outline" size="lg">
+            <Link
+              href={ROUTES.CATALOG}
+              aria-label="Ver todos los cursos disponibles en el catálogo"
+            >
+              Ver todos los cursos
+            </Link>
           </Button>
 
           <Button

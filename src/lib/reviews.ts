@@ -414,3 +414,30 @@ export async function changeStatusReview(status: 0 | 1 | 2 | 3, reviewId: number
     .bind(status, reviewId)
     .run();
 }
+
+export async function getReviewCountsByStatus() {
+  const result = await DB()
+    .prepare("SELECT status, COUNT(*) as count FROM course_reviews GROUP BY status")
+    .all<{ status: number; count: number }>();
+
+  const counts = { pending: 0, approved: 0, reported: 0, hidden: 0, total: 0 };
+  for (const row of result.results) {
+    if (row.status === 0) counts.pending = row.count;
+    else if (row.status === 1) counts.approved = row.count;
+    else if (row.status === 2) counts.reported = row.count;
+    else if (row.status === 3) counts.hidden = row.count;
+    counts.total += row.count;
+  }
+  return counts;
+}
+
+export async function getRecentReviews(limit: number = 10) {
+  const result = await DB()
+    .prepare(
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews ORDER BY created_at DESC LIMIT ?"
+    )
+    .bind(limit)
+    .all<CourseReview>();
+
+  return result.results;
+}

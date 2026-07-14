@@ -1,5 +1,6 @@
 import { ReviewWithCourse } from "@/components/reviews/ReviewWithCourse";
 import { authenticateUser } from "@/lib/auth/auth";
+import { hasPermission, OsucPermissions } from "@/lib/auth/permissions";
 import { getUserReviews } from "@/lib/reviews";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ export default async function Profile() {
   const reviews = await getUserReviews(user.userId, 10);
 
   const initials = user.username.slice(0, 2).toUpperCase();
+  const isRoot = hasPermission(user, OsucPermissions.userIsRoot);
 
   return (
     <main className="max-w-3xl mx-auto px-4 tablet:px-6 py-10 space-y-10">
@@ -54,12 +56,19 @@ export default async function Profile() {
           )}
         </div>
 
-        {/* Settings link */}
-        <Button asChild variant="outline" size="sm" className="shrink-0 self-start">
-          <Link href="https://auth.osuc.dev/" target="_blank" rel="noopener noreferrer">
-            Configuración de cuenta
-          </Link>
-        </Button>
+        {/* Acciones */}
+        <div className="shrink-0 self-start flex flex-col gap-2 w-full tablet:w-auto">
+          {isRoot && (
+            <Button asChild size="sm">
+              <Link href="/admin">Ir al panel de administración</Link>
+            </Button>
+          )}
+          <Button asChild variant="outline" size="sm">
+            <Link href="https://auth.osuc.dev/" target="_blank" rel="noopener noreferrer">
+              Configuración de cuenta
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* Reviews section */}

@@ -3,6 +3,7 @@ export const BASE_URL = "https://buscaramos.osuc.dev";
 export const ROUTES = {
   HOME: "/",
   CATALOG: "/catalog",
+  REVIEWS: "/reviews",
   PROGRAMS: "/programs",
   SCHEDULE: "/schedule",
   CONTRIBUTORS: "/contributors",
@@ -16,7 +17,7 @@ export const ROUTES = {
 
 export const HEADER_LINKS = [
   { label: "Catálogo", href: ROUTES.CATALOG },
-  { label: "Carreras", href: ROUTES.PROGRAMS },
+  { label: "Reseñas", href: ROUTES.REVIEWS },
   { label: "Horario", href: ROUTES.SCHEDULE },
   { label: "Contribuidores", href: ROUTES.CONTRIBUTORS },
 ];
@@ -27,6 +28,7 @@ export const FOOTER_SECTIONS = [
     links: [
       { label: "Inicio", href: ROUTES.HOME },
       { label: "Catálogo", href: ROUTES.CATALOG },
+      { label: "Reseñas", href: ROUTES.REVIEWS },
       { label: "Contribuidores", href: ROUTES.CONTRIBUTORS },
     ],
   },
