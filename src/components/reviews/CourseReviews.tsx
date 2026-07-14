@@ -3,6 +3,7 @@
 import useSWRInfinite from "swr/infinite";
 
 import type { CourseReview } from "@/types/types";
+import { ChevronDownIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Review from "./Review";
@@ -102,12 +103,14 @@ export default function CourseReviews({ sigle }: { sigle: string }) {
       {(lastPage?.hasMore || error) && (
         <div className="flex justify-center pt-2">
           <Button
-            variant="outline"
+            size="lg"
+            icon={error ? undefined : ChevronDownIcon}
+            className="w-full tablet:max-w-md font-semibold"
             onClick={() => (error ? void mutate() : void setSize(size + 1))}
             loading={isLoadingMore}
-            loadingText="Cargando..."
+            loadingText="Cargando más reseñas..."
           >
-            {error ? "Reintentar" : "Ver más"}
+            {error ? "Reintentar" : "Ver más reseñas"}
           </Button>
         </div>
       )}

@@ -12,8 +12,9 @@ export interface LatestReviewsPage {
 const CACHE_TTL_SECONDS = 5 * 60;
 
 /**
- * Returns approved reviews ordered by publication date. Each page is cached in
- * Workers KV so repeated visits do not run the same D1 query for five minutes.
+ * Returns reviews that are neither reported nor hidden, ordered by publication
+ * date. Each page is cached in Workers KV so repeated visits do not run the same
+ * D1 query for five minutes.
  */
 export async function getLatestReviewsPage(
   page: number,
@@ -21,7 +22,7 @@ export async function getLatestReviewsPage(
 ): Promise<LatestReviewsPage> {
   const { env } = getCloudflareContext();
   const offset = (page - 1) * limit;
-  const cacheKey = `reviews:latest:v1:page:${page}:limit:${limit}`;
+  const cacheKey = `reviews:latest:v2:page:${page}:limit:${limit}`;
   const cachedPage = await env.KV.get<LatestReviewsPage>(cacheKey, "json");
 
   if (cachedPage) {
@@ -46,7 +47,7 @@ export async function getLatestReviewsPage(
         updated_at,
         votes
       FROM course_reviews
-      WHERE status = 1
+      WHERE status NOT IN (2, 3)
       ORDER BY created_at DESC, id DESC
       LIMIT ? OFFSET ?
     `
