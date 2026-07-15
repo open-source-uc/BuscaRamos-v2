@@ -18,7 +18,7 @@ export const ROUTES = {
 export const HEADER_LINKS = [
   { label: "Catálogo", href: ROUTES.CATALOG },
   { label: "Reseñas", href: ROUTES.REVIEWS },
-  { label: "Reseñas", href: ROUTES.REVIEWS },
+  { label: "Mallas", href: ROUTES.CURRICULUM },
   { label: "Horario", href: ROUTES.SCHEDULE },
   { label: "Contribuidores", href: ROUTES.CONTRIBUTORS },
 ];
