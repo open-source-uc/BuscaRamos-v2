@@ -4,7 +4,7 @@ export const ROUTES = {
   HOME: "/",
   CATALOG: "/catalog",
   REVIEWS: "/reviews",
-  PROGRAMS: "/programs",
+  CURRICULUM: "/curriculum",
   SCHEDULE: "/schedule",
   CONTRIBUTORS: "/contributors",
   ABOUT: "https://osuc.dev/about/",
@@ -18,6 +18,7 @@ export const ROUTES = {
 export const HEADER_LINKS = [
   { label: "Catálogo", href: ROUTES.CATALOG },
   { label: "Reseñas", href: ROUTES.REVIEWS },
+  { label: "Mallas", href: ROUTES.CURRICULUM },
   { label: "Horario", href: ROUTES.SCHEDULE },
   { label: "Contribuidores", href: ROUTES.CONTRIBUTORS },
 ];

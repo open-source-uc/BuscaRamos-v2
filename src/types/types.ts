@@ -1,3 +1,5 @@
+import { CourseStaticData } from "@/lib/coursesStaticData";
+
 /**
  * Tipo que representa los datos que llegan del archivo courses-score.ndjson
  * Solo incluye los campos que se usan en el frontend para la tabla de cursos
@@ -111,3 +113,19 @@ export interface Course {
 
 export type CourseJSON = Record<string, Course>;
 export type ScheduleMatrix = ScheduleBlock[][][]; // [franjaHoraria][diaSemana][clases]
+
+// Program data
+export interface Program {
+  id: string;
+  name: string;
+  school: string;
+  level: string;
+  campus: string;
+  semesters: Semester[];
+}
+
+export interface Semester {
+  number: number;
+  courseCodes: string[];
+  courses: (CourseStaticData | null)[];
+}
