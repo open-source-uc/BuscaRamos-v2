@@ -1,0 +1,58 @@
+{
+  "id": "ADP",
+  "name": "Administración Pública",
+  "school": "Gobierno",
+  "level": "Pregrado",
+  "campus": "San Joaquín",
+  "semesters": [
+    {
+      "number": 1,
+      "courseCodes": [
+        "MAT1000",
+        "ICP0101",
+        "ADP002G",
+        "ADP001G",
+        "FIL2001",
+        "VRA100C",
+        "VRA2000",
+        "VRA4000"
+      ]
+    },
+    {
+      "number": 2,
+      "courseCodes": ["MAT1100", "EAE110A", "ADP001S", "ADP001D", "FG-FTEO"]
+    },
+    {
+      "number": 3,
+      "courseCodes": ["EYP1010", "ADP001E", "ADP003G", "GOB1001", "FG-LIB"]
+    },
+    {
+      "number": 4,
+      "courseCodes": ["ADP004G", "ADP002E", "ICP0103", "ADP002D", "FG-LIB"]
+    },
+    {
+      "number": 5,
+      "courseCodes": ["ADP005G", "MAJOR", "MAJOR", "MAJOR", "FG-LIB"]
+    },
+    {
+      "number": 6,
+      "courseCodes": ["MAJOR", "MAJOR", "MAJOR", "MINOR", "FG-LIB"]
+    },
+    {
+      "number": 7,
+      "courseCodes": ["MAJOR", "MAJOR", "MINOR", "MINOR", "FG-LIB"]
+    },
+    {
+      "number": 8,
+      "courseCodes": ["MAJOR", "MAJOR", "MINOR", "MINOR", "FG-LIB"]
+    },
+    {
+      "number": 9,
+      "courseCodes": ["ADP301G", "ADP302G", "ADP301E", "ADP303G", "MINOR", "MINOR"]
+    },
+    {
+      "number": 10,
+      "courseCodes": ["ADP306G", "ADP305G", "ADP304G"]
+    }
+  ]
+}
