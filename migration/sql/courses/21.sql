@@ -1,399 +1,399 @@
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA305E', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7270', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA306D', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7355', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3101', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7360', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3112', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7375', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3113', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7380', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3119', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7460', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA317A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7470', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3201', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7525', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3210', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7535', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3215', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7665', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3218', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7675', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA321B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7710', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3220', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7815', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3223', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7825', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3226', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7875', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA322A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7885', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3230', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7915', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3236', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7925', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3241', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7955', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3255', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT7960', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA325B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8025', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA326B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8035', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3290', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8065', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3315', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8075', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA331A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8110', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3341', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8165', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA334B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8175', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3351', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8310', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA335A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8315', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3361', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8415', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3381', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8425', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3382', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT8455', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA338B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9002', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA338C', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9004', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA338H', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9015', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3391', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9035', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3392', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9045', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA339E', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9055', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA339H', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9056', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3401', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9065', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3402', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9100', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3405', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9105', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3406', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9335', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3410', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('DPT9336', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3411', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA100P', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA349B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA110A', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3500', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA1110', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3501', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA1210', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3601', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA1220', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA361A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA1510', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA3707', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA1520', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA375A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA162C', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA396A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA163C', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4000', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA200E', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4004', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA200P', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4005', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2018', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4007', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA201E', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4008', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2071', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4009', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2072', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4010', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2075', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4012', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2079', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4014', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA207C', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4015', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2080', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4016', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2081', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4017', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA208E', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4019', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2091', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4020', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2092', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4021', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2095', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4022', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA209C', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4023', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA209L', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAA4024', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2105', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE102S', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA210E', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE105A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2110', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE110A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA218A', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE110S', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA220B', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE1110', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2210', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE120S', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2220', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE1210', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2225', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE1220', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA222F', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2110', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2230', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2113', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2234', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2120', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2235', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2130', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA223A', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2210', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2240', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2215', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2245', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2216', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA224A', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2220', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2260', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2221', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2310', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2223', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2320', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2228', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2402', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2275', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA240A', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2301', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2410', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2305', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2420', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2306', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2461', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE239A', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA251A', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE240B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2710', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE241C', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2811', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2510', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2831', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE253B', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA2841', 0)
 ON CONFLICT (sigle) DO NOTHING;
 
-INSERT INTO course_summary (sigle, likes, superlikes, dislikes, votes_low_workload, votes_medium_workload, votes_high_workload, votes_mandatory_attendance, votes_optional_attendance, avg_weekly_hours, sort_index)
-VALUES ('EAE2615', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0)
+INSERT INTO course_summary (sigle, sort_index)
+VALUES ('EAA284A', 0)
 ON CONFLICT (sigle) DO NOTHING;

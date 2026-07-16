@@ -16,6 +16,8 @@ export default defineConfig([
       "dist",
       "build",
       "public/workers/*.js",
+      // Dataset generado de ~6.6MB; lintearlo tarda demasiado
+      "src/lib/courses-unified.ts",
     ],
   },
   {
