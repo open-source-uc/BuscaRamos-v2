@@ -12,6 +12,7 @@ import {
   ThumbUpIcon,
   UsersIcon,
 } from "@/components/icons";
+import RegenerateCatalogButton from "@/components/admin/RegenerateCatalogButton";
 import { Pill } from "@/components/ui/pill";
 import { getRecentReviews, getReviewCountsByStatus } from "@/lib/reviews";
 import { CourseReview } from "@/types/types";
@@ -157,6 +158,19 @@ export default async function AdminPage() {
           icon={CheckIcon}
           accent="fill-green"
         />
+      </section>
+
+      {/* Mantenimiento */}
+      <section className="border-border mb-8 rounded-md border px-6 py-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">Catálogo de cursos</h2>
+            <p className="text-muted-foreground mt-1 text-sm">
+              Regenera courses-score.ndjson (se actualiza automáticamente cada 8 horas)
+            </p>
+          </div>
+          <RegenerateCatalogButton />
+        </div>
       </section>
 
       {/* Actividad Reciente */}

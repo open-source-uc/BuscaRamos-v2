@@ -5,6 +5,7 @@ import Script from "next/script";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import FloatingNavButton from "@/components/FloatingNavButton";
+import CoursesUnifiedPreloader from "@/components/CoursesUnifiedPreloader";
 import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
@@ -107,6 +108,7 @@ export default function RootLayout({
               />
               <Footer />
               <FloatingNavButton />
+              <CoursesUnifiedPreloader />
             </AuthProvider>
           </CourseNameMapProvider>
         </SemesterProvider>

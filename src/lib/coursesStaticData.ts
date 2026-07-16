@@ -1,53 +1,47 @@
 "use server";
 
-import { cache } from "react";
-import { staticDataClient } from "./static-data-api/client";
-import type { paths } from "./static-data-api/types";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import {
+  COURSES_UNIFIED_URL,
+  type CoursesUnifiedMap,
+  type ParsedMetaData,
+  type UnifiedCourse,
+} from "@/types/coursesUnified";
 
-type APICourseData = paths["/data/{sigle}"]["get"]["responses"][200]["content"]["application/json"];
-export type ParsedMetaData = APICourseData["parsed_meta_data"];
-export type CourseStaticData = APICourseData;
+export type { ParsedMetaData };
+export type CourseStaticData = UnifiedCourse & { description?: string };
+
+const CACHE_TTL_MS = 30 * 60 * 1000;
+
+let mapPromise: Promise<CoursesUnifiedMap> | null = null;
+let loadedAt = 0;
+
+function loadCoursesUnified(): Promise<CoursesUnifiedMap> {
+  if (!mapPromise || Date.now() - loadedAt > CACHE_TTL_MS) {
+    loadedAt = Date.now();
+    mapPromise = fetch(COURSES_UNIFIED_URL)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error fetching courses-unified.json: HTTP ${res.status}`);
+        }
+        return res.json() as Promise<CoursesUnifiedMap>;
+      })
+      .catch((error) => {
+        // No cachear fallos: el próximo request reintenta
+        mapPromise = null;
+        throw error;
+      });
+  }
+  return mapPromise;
+}
 
 const normalizeSigle = (sigle: string) => sigle.trim().toUpperCase();
 
-const fetchCourseData = cache(async (sigle: string): Promise<CourseStaticData | null> => {
-  const normalizedSigle = normalizeSigle(sigle);
-
+export async function getCourseStaticData(sigle: string): Promise<CourseStaticData | null> {
   try {
-    const { data, error, response } = await staticDataClient.GET("/data/{sigle}", {
-      params: { path: { sigle: normalizedSigle } },
-    });
-
-    if (response.status === 404) {
-      return null;
-    }
-
-    if (!response.ok || error || !data) {
-      console.error(
-        `Error fetching course data for ${normalizedSigle}: HTTP ${response.status} ${response.statusText}`
-      );
-      return null;
-    }
-
-    if (!data.sigle || !data.name) {
-      console.error(`Invalid API response for ${normalizedSigle}: missing required fields`);
-      return null;
-    }
-
-    return data as APICourseData;
+    const map = await loadCoursesUnified();
+    return map[normalizeSigle(sigle)] ?? null;
   } catch (error) {
-    console.error(`Error fetching course data for ${normalizedSigle}:`, error);
+    console.error(`Error loading course data for ${sigle}:`, error);
     return null;
   }
-});
-
-export async function getCourseStaticData(sigle: string): Promise<CourseStaticData | null> {
-  const KV = getCloudflareContext().env.KV;
-  const cacheKey = `course:${normalizeSigle(sigle)}`;
-  const data = await KV.get<CourseStaticData>(cacheKey, "json");
-  if (data) {
-    data.description = "";
-  }
-  return data;
 }

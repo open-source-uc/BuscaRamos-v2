@@ -7,15 +7,19 @@
   "name": "buscaramos-v2-worker",
   "compatibility_date": "2026-03-01",
   "compatibility_flags": ["nodejs_compat"],
-  "main": ".open-next/worker.js",
+  "main": "custom-worker.ts",
+  "triggers": {
+    // Regenera courses-score.ndjson cada 8 horas (UTC)
+    "crons": ["0 */8 * * *"],
+  },
   "observability": {
     "enabled": true,
     "logs": {
-      "enabled": true
+      "enabled": true,
     },
     "traces": {
-      "enabled": true
-    }
+      "enabled": true,
+    },
   },
   "assets": {
     "directory": ".open-next/assets",
@@ -35,13 +39,13 @@
     },
     {
       "binding": "R2PUBLIC",
-      "bucket_name": "ousc-public"
-    }
+      "bucket_name": "ousc-public",
+    },
   ],
   "kv_namespaces": [
     {
       "binding": "KV",
-      "id": "271a043f1c7d4cddbbbd0810b9c2155f"
-    }
-  ]
+      "id": "271a043f1c7d4cddbbbd0810b9c2155f",
+    },
+  ],
 }

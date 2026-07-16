@@ -26,9 +26,10 @@ export type CourseScore = {
   // Arrays de características
   format: string[];
   campus: string[];
-  is_removable: boolean[];
-  is_special: boolean[];
-  is_english: boolean[];
+  /** por sección del semestre más reciente; null = desconocido */
+  is_removable: (boolean | null)[];
+  is_special: (boolean | null)[];
+  is_english: (boolean | null)[];
   area: string[];
   categories: string[];
 };

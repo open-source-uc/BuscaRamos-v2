@@ -30,5 +30,12 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    ".open-next",
+    ".wrangler",
+    // custom-worker.ts importa .open-next/worker.js (bundle generado de varios MB);
+    // si tsc lo sigue se queda sin memoria. Lo compila wrangler por su cuenta.
+    "custom-worker.ts"
+  ]
 }
