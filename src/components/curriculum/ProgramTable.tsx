@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { useFuse } from "@/hooks/useFuse";
-import { usePrograms } from "@/hooks/usePrograms";
 import { applyProgramFilters } from "@/lib/programFilters";
 
 import { Search } from "@/components/search/SearchInput";
@@ -10,11 +9,12 @@ import { ProgramFilters } from "./ProgramFilters";
 import ProgramCard from "./ProgramCard";
 import { Program } from "@/types/types";
 
-export default function ProgramTable() {
-  const { programs, loading } = usePrograms();
-  const [searchValue, setSearchValue] = useState("");
-  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
+interface ProgramCurriculumProps {
+  programs: Program[];
+}
 
+export default function ProgramCurriculum({ programs }: ProgramCurriculumProps) {
+  const [searchValue, setSearchValue] = useState("");
   const [selectedSchool, setSelectedSchool] = useState("all");
   const [selectedLevel, setSelectedLevel] = useState("all");
   const [selectedCampus, setSelectedCampus] = useState("all");

@@ -1,3 +1,5 @@
+import { CourseStaticData } from "@/lib/coursesStaticData";
+
 /**
  * Tipo que representa los datos que llegan del archivo courses-score.ndjson
  * Solo incluye los campos que se usan en el frontend para la tabla de cursos
@@ -124,4 +126,5 @@ export interface Program {
 export interface Semester {
   number: number;
   courseCodes: string[];
+  courses: (CourseStaticData | null)[];
 }

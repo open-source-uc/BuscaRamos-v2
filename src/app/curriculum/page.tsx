@@ -1,6 +1,17 @@
 import ProgramTable from "@/components/curriculum/ProgramTable";
+import { getProgramWithCourses } from "@/lib/programCurriculum";
+import { getPrograms } from "@/lib/programs";
 
-export default function CurriculumPage() {
+export default async function CurriculumPage() {
+  const programs = getPrograms();
+
+  const programsWithCourses = await Promise.all(
+    programs.map(async (program) => ({
+      ...program,
+      semesters: await getProgramWithCourses(program),
+    }))
+  );
+
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 py-8 tablet:px-6">
       <header className="space-y-2">
@@ -11,7 +22,7 @@ export default function CurriculumPage() {
         </p>
       </header>
 
-      <ProgramTable />
+      <ProgramTable programs={programsWithCourses} />
     </main>
   );
 }
