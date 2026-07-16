@@ -3,13 +3,10 @@
 import {
   COURSES_UNIFIED_URL,
   type CoursesUnifiedMap,
-  type ParsedMetaData,
   type UnifiedCourse,
 } from "@/types/coursesUnified";
 
-export type { ParsedMetaData };
 export type CourseStaticData = UnifiedCourse & { description?: string };
-
 const CACHE_TTL_MS = 30 * 60 * 1000;
 
 let mapPromise: Promise<CoursesUnifiedMap> | null = null;
