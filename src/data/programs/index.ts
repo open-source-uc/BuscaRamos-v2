@@ -1,12 +1,14 @@
-import licc from "./licc.json";
-import adp from "./administracion_publica.json";
-import act from "./actuacion.json";
-import agr from "./agronomia.json";
+import LICC from "./licc";
+import ADP from "./administracion_publica";
+import ACT from "./actuacion";
+import AGR from "./agronomia";
+import CDD from "./cdd";
 import { parseProgram } from "@/lib/programParser";
 
 export const programs = [
-  parseProgram(licc),
-  parseProgram(adp),
-  parseProgram(act),
-  parseProgram(agr),
+  parseProgram(LICC),
+  parseProgram(ADP),
+  parseProgram(ACT),
+  parseProgram(AGR),
+  parseProgram(CDD),
 ].sort((a, b) => a.name.localeCompare(b.name));

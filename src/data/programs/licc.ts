@@ -1,0 +1,52 @@
+const licc = {
+  id: "LICC",
+  name: "Licenciatura en Ingeniería en Ciencia de la Computación",
+  school: "Ingeniería",
+  level: "Pregrado",
+  campus: "San Joaquín",
+  semesters: [
+    {
+      number: 1,
+      courseCodes: [
+        "IIC1103",
+        "IIC1001",
+        "MAT1107",
+        "MAT1207",
+        "FIL2001",
+        "VRA100C",
+        "VRA2010",
+        "VRA4000",
+      ],
+    },
+    {
+      number: 2,
+      courseCodes: ["IIC1253", "IIC2233", "OPT-CS", "MAT1610", "FG-FTEO", "VRA3010"],
+    },
+    {
+      number: 3,
+      courseCodes: ["IIC2133", "IIC2413", "MAT1620", "MAT1203", "FG-ARTS"],
+    },
+    {
+      number: 4,
+      courseCodes: ["EYP1025", "IIC2143", "IIC2224", "IIC2343", "FG-CSOC"],
+    },
+    {
+      number: 5,
+      courseCodes: ["IIC2560", "IIC2214", "IIC2513", "IIC2333", "FG-EISU"],
+    },
+    {
+      number: 6,
+      courseCodes: ["IIC2613", "IIC2283", "IIC2531", "ETI1001", "FG-HUMS"],
+    },
+    {
+      number: 7,
+      courseCodes: ["IIC2523", "IIC2182", "MINOR", "MINOR", "FG-SBIE", "IIC2002"],
+    },
+    {
+      number: 8,
+      courseCodes: ["IIC2164", "MINOR", "MINOR", "MINOR", "FG-LIB"],
+    },
+  ],
+};
+
+export default licc;
