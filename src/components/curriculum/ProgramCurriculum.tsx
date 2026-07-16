@@ -32,6 +32,7 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
                   <Link
                     key={course.sigle}
                     href={`/${course.sigle}`}
+                    target="_blank"
                     className="rounded-md border bg-accent px-3 py-2 text-xs hover:bg-muted transition-colors min-w-35"
                   >
                     <div className="flex flex-col gap-1">
