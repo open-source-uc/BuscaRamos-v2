@@ -1,10 +1,10 @@
-import { coursesUnified } from "./courses-unified";
+import type { CoursesUnifiedMap } from "@/types/coursesUnified";
 import type { CourseScore } from "@/types/types";
 
 /**
  * Regenera courses-score.ndjson en R2PUBLIC cruzando course_summary (D1)
- * con los datos estáticos embebidos en courses-unified.ts. Lo invocan la
- * ruta /api/courses (que a su vez llama el cron cada 8h) y la acción
+ * con courses-unified.json (leído del mismo bucket R2PUBLIC). Lo invocan
+ * la ruta /api/courses (que a su vez llama el cron cada 8h) y la acción
  * manual del panel admin.
  */
 
@@ -23,6 +23,7 @@ type CourseSummaryRow = {
   sort_index: number;
 };
 
+const UNIFIED_KEY = "courses-unified.json";
 const NDJSON_KEY = "courses-score.ndjson";
 
 async function getCourseSummaries(db: D1Database): Promise<CourseSummaryRow[]> {
@@ -51,7 +52,10 @@ async function getCourseSummaries(db: D1Database): Promise<CourseSummaryRow[]> {
   return result.results ?? [];
 }
 
-function createCoursesScoreNdjson(summaries: CourseSummaryRow[]): {
+function createCoursesScoreNdjson(
+  summaries: CourseSummaryRow[],
+  staticCourses: CoursesUnifiedMap
+): {
   ndjson: string;
   processed: number;
   skipped: number;
@@ -60,7 +64,7 @@ function createCoursesScoreNdjson(summaries: CourseSummaryRow[]): {
   let skipped = 0;
 
   for (const summary of summaries) {
-    const staticData = coursesUnified[summary.sigle.trim().toUpperCase()];
+    const staticData = staticCourses[summary.sigle.trim().toUpperCase()];
 
     if (!staticData) {
       console.warn(`Course data not found for ${summary.sigle}, skipping...`);
@@ -101,8 +105,17 @@ function createCoursesScoreNdjson(summaries: CourseSummaryRow[]): {
 export async function regenerateCoursesScoreNdjson(
   env: CloudflareEnv
 ): Promise<{ processed: number; skipped: number }> {
-  const summaries = await getCourseSummaries(env.DB);
-  const { ndjson, processed, skipped } = createCoursesScoreNdjson(summaries);
+  const unifiedObject = await env.R2PUBLIC.get(UNIFIED_KEY);
+  if (!unifiedObject) {
+    throw new Error(`${UNIFIED_KEY} not found in R2PUBLIC`);
+  }
+
+  const [staticCourses, summaries] = await Promise.all([
+    unifiedObject.json<CoursesUnifiedMap>(),
+    getCourseSummaries(env.DB),
+  ]);
+
+  const { ndjson, processed, skipped } = createCoursesScoreNdjson(summaries, staticCourses);
 
   if (processed === 0) {
     throw new Error("No courses processed, aborting NDJSON upload");
