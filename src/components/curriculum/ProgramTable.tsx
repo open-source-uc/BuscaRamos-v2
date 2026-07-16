@@ -8,10 +8,12 @@ import { applyProgramFilters } from "@/lib/programFilters";
 import { Search } from "@/components/search/SearchInput";
 import { ProgramFilters } from "./ProgramFilters";
 import ProgramCard from "./ProgramCard";
+import { Program } from "@/types/types";
 
 export default function ProgramTable() {
   const { programs, loading } = usePrograms();
   const [searchValue, setSearchValue] = useState("");
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
 
   const [selectedSchool, setSelectedSchool] = useState("all");
   const [selectedLevel, setSelectedLevel] = useState("all");
