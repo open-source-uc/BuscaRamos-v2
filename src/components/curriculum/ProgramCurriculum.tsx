@@ -1,3 +1,5 @@
+"use client";
+
 import { useNDJSONStream } from "@/hooks/useNDJSONStream";
 import { getWorkloadLabel } from "@/lib/courseStats";
 import { customCodeParser } from "@/lib/programs";
