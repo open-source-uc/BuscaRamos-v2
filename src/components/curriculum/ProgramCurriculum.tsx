@@ -1,5 +1,5 @@
 import { useNDJSONStream } from "@/hooks/useNDJSONStream";
-import { calculateSentiment } from "@/lib/courseStats";
+import { getWorkloadLabel } from "@/lib/courseStats";
 import { customCodeParser } from "@/lib/programs";
 import { cn } from "@/lib/utils";
 import type { CourseScore, Program } from "@/types/types";
@@ -18,6 +18,30 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
 
   return (
     <div className="mt-4 overflow-x-auto">
+      <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
+        <span className="font-medium">Dificultad:</span>
+
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded bg-green-light border border-green/20" />
+          <span>Baja</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded bg-orange-light border border-orange/20" />
+          <span>Media</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded bg-red-light border border-red/20" />
+          <span>Alta</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded border bg-accent" />
+          <span>Sin datos</span>
+        </div>
+      </div>
+
       <div className="flex gap-4 min-w-max">
         {program.semesters.map((semester) => (
           <div key={semester.number} className="border rounded-md p-4">
@@ -26,21 +50,23 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
             <div className="grid gap-2">
               {semester.courses.map((course, index) => {
                 const courseCode = semester.courseCodes[index];
-                const score = courseScoreMap.get(courseCode);
-                let sentiment = score
-                  ? calculateSentiment(score.likes, score.superlikes, score.dislikes)
-                  : null;
-                if (sentiment == "question") sentiment = null;
+                const stats = courseScoreMap.get(courseCode);
+                const workloadLabel = stats
+                  ? getWorkloadLabel(
+                      stats.votes_low_workload,
+                      stats.votes_medium_workload,
+                      stats.votes_high_workload
+                    )
+                  : "Sin datos";
 
-                const sentimentColors = {
-                  veryHappy: "bg-green-light text-green border border-green/20 hover:bg-green/60",
-                  happy: "bg-green-light text-green border border-green/20 hover:bg-green/60",
-                  neutral: "bg-orange-light text-orange border border-orange/20 hover:bg-orange/60",
-                  sad: "bg-red-light text-red border border-red/20 hover:bg-red/60",
-                  verySad: "bg-red-light text-red border border-red/20 hover:bg-red/60",
+                const workloadColors: Record<string, string> = {
+                  "Sin datos": "",
+                  Baja: "bg-green-light text-green border border-green/20 hover:bg-green/60",
+                  Media: "bg-orange-light text-orange border border-orange/20 hover:bg-orange/60",
+                  Alta: "bg-red-light text-red border border-red/20 hover:bg-red/60",
                 };
 
-                const color = sentiment ? sentimentColors[sentiment] : null;
+                const color = workloadColors[workloadLabel];
 
                 if (!course?.sigle)
                   return (
@@ -65,12 +91,7 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
                     <div className="flex flex-col gap-1">
                       <span className="font-semibold leading-tight text-center">{course.name}</span>
 
-                      <div
-                        className={cn(
-                          "flex justify-between items-center text-xs mt-2",
-                          !color && "text-muted-foreground"
-                        )}
-                      >
+                      <div className="flex justify-between items-center text-muted-foreground text-xs mt-2">
                         <span>{course.sigle}</span>
                         <span>{course.credits} cr</span>
                       </div>
