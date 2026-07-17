@@ -71,7 +71,7 @@ export function Search({
         </div>
         <Input
           autoComplete="off"
-          type="search"
+          type="text"
           name="search"
           enterKeyHint="search"
           inputMode="search"
@@ -94,7 +94,7 @@ export function Search({
             variant="ghost"
             size="sm"
             onClick={clearSearch}
-            className="hover:bg-muted absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 p-0"
+            className="hover:bg-muted absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2"
           >
             ✕
           </Button>
