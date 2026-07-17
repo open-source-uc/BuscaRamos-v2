@@ -15,7 +15,11 @@ export default async function CurriculumPage() {
   );
 
   const user = await authenticateUser();
-  const program = programsWithCourses.find((p) => p.name === user?.career?.name);
+  const collator = new Intl.Collator("es", { sensitivity: "base" });
+
+  const program = programsWithCourses.find(
+    (p) => collator.compare(p.name, user?.career?.name ?? "") === 0
+  );
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 py-8 tablet:px-6">
