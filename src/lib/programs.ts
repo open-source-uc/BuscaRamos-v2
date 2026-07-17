@@ -26,6 +26,7 @@ export function customCodeParser(customCode: string) {
   }
 
   if (customCode == "OPR") return "Optativo de Profundización";
+  if (customCode == "FG") return "Formación general";
 
   return customCode.toUpperCase();
 }

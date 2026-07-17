@@ -1,4 +1,4 @@
-const licc = {
+const LICC = {
   id: "LICC",
   name: "Licenciatura en Ingeniería en Ciencia de la Computación",
   school: "Ingeniería",
@@ -49,4 +49,4 @@ const licc = {
   ],
 };
 
-export default licc;
+export default LICC;

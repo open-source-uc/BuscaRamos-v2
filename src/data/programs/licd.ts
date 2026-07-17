@@ -1,6 +1,6 @@
-const CDD = {
-  id: "CDD",
-  name: "Ciencia de Datos",
+const LICD = {
+  id: "LICD",
+  name: "Licenciatura en Ingeniería en Ciencia de Datos",
   school: "Matemáticas",
   level: "Pregrado",
   campus: "San Joaquín",
@@ -40,4 +40,4 @@ const CDD = {
   ],
 };
 
-export default CDD;
+export default LICD;
