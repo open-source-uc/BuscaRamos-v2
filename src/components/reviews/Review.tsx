@@ -40,7 +40,7 @@ export default function Review({
 }) {
   if (editable === undefined) {
     const { user, isRoot } = use(AuthContext);
-    editable = isRoot || user?.userId === review.user_id;
+    editable = isRoot || String(user?.userId) === String(review.user_id);
   }
 
   return (
