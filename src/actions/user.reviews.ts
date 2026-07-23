@@ -66,7 +66,10 @@ export const deleteCourseReview = async (reviewId: number) => {
     };
   }
 
-  if (review.user_id !== user.userId && !hasPermission(user, OsucPermissions.userIsRoot)) {
+  if (
+    String(review.user_id) !== String(user.userId) &&
+    !hasPermission(user, OsucPermissions.userIsRoot)
+  ) {
     return {
       message: "La reseña no te pertenece",
     };
@@ -316,7 +319,10 @@ export const updateCourseReview = async (reviewId: number, formData: FormData) =
     };
   }
 
-  if (review.user_id !== user.userId && !hasPermission(user, OsucPermissions.userIsRoot)) {
+  if (
+    String(review.user_id) !== String(user.userId) &&
+    !hasPermission(user, OsucPermissions.userIsRoot)
+  ) {
     return {
       message: "La reseña no te pertenece",
     };
