@@ -22,6 +22,7 @@ import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";
 import Link from "next/link";
+import { GraduationCap } from "lucide-react";
 
 export default function Review({
   review,
@@ -109,6 +110,11 @@ export default function Review({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
         {/* Pills */}
         <div className="flex flex-wrap gap-2">
+          {review.user_career && (
+            <Pill variant="ghost_blue" size="sm" icon={GraduationCap}>
+              Estudiante de {review.user_career}
+            </Pill>
+          )}
           <Pill variant="ghost_green" size="sm" icon={CalendarIcon}>
             {review.year_taken} - {review.semester_taken === 1 ? "1er" : "2do"} sem
           </Pill>
