@@ -1,19 +1,31 @@
 "use client";
 import { SearchIcon } from "lucide-react";
-import { useState } from "react";
-import { getClassroomSchedule } from "@/lib/classroomSchedule";
+import { useState, useMemo } from "react";
+import { getClassroomSchedule, getAllClassroomsWithCampus } from "@/lib/classroomSchedule";
 import ModuleGrid from "./ModuleGrid";
-import type { ClassroomSchedule } from "@/types/types";
+import type { ClassroomSchedule, Campus } from "@/types/types";
 
 export function ClassroomSearch() {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
   const [results, setResults] = useState<ClassroomSchedule | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  async function handleSearch(query: string) {
+  const allClassroomsWithCampus = useMemo(() => getAllClassroomsWithCampus(), []);
+
+  const suggestions = useMemo(() => {
+    return query
+      ? allClassroomsWithCampus.filter((item) =>
+          item.classroom.toLowerCase().includes(query.toLowerCase())
+        )
+      : [];
+  }, [query, allClassroomsWithCampus]);
+
+  async function handleSearch(classroomName: string, campus: Campus) {
     setLoading(true);
     try {
-      const schedule = await getClassroomSchedule("San Joaquin", query.toUpperCase());
+      const schedule = await getClassroomSchedule(campus, classroomName.toUpperCase());
       setResults(schedule);
     } catch (error) {
       console.error("Error fetching classroom schedule:", error);
@@ -24,7 +36,16 @@ export function ClassroomSearch() {
 
   function clearSearch() {
     setQuery("");
+    setSelectedCampus(null);
     setResults(null);
+    setShowSuggestions(false);
+  }
+
+  function selectSuggestion(classroom: string, campus: Campus) {
+    setQuery(classroom);
+    setSelectedCampus(campus);
+    setShowSuggestions(false);
+    handleSearch(classroom, campus);
   }
 
   return (
@@ -45,17 +66,53 @@ export function ClassroomSearch() {
         <label className="block space-y-2">
           <span className="text-sm font-medium">Sala</span>
           <div className="flex gap-2">
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar sala, edificio o número"
-              className="border-border bg-background placeholder:text-muted-foreground/70 focus-visible:ring-ring h-11 w-full rounded-xl border pl-4 pr-4 text-sm outline-none focus-visible:ring-2"
-            />
+            <div className="relative flex-1">
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                placeholder="Buscar sala, edificio o número"
+                className="border-border bg-background placeholder:text-muted-foreground/70 focus-visible:ring-ring h-11 w-full rounded-xl border pl-4 pr-4 text-sm outline-none focus-visible:ring-2"
+              />
+              {showSuggestions && query.length > 0 && suggestions.length > 0 && (
+                <ul className="border-border bg-background absolute top-full left-0 right-0 z-50 mt-1 list-none border rounded-lg shadow-lg max-h-48 overflow-auto">
+                  {suggestions.slice(0, 10).map((item) => (
+                    <li key={`${item.campus}-${item.classroom}`}>
+                      <button
+                        type="button"
+                        onClick={() => selectSuggestion(item.classroom, item.campus)}
+                        className="text-foreground hover:bg-accent/70 w-full px-4 py-2 text-left text-sm"
+                      >
+                        <div className="font-medium">{item.classroom}</div>
+                        <div className="text-xs text-muted-foreground">{item.campus}</div>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <button
               type="button"
-              onClick={() => handleSearch(query)}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white"
+              onClick={() => {
+                if (!selectedCampus) {
+                  // Search in first available campus if none selected
+                  const firstMatch = allClassroomsWithCampus.find(
+                    (item) => item.classroom.toUpperCase() === query.toUpperCase()
+                  );
+                  if (firstMatch) {
+                    handleSearch(query, firstMatch.campus);
+                  }
+                } else {
+                  handleSearch(query, selectedCampus);
+                }
+              }}
+              disabled={!query || loading}
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
             >
               {loading ? "Cargando..." : "Buscar"}
             </button>
@@ -68,6 +125,13 @@ export function ClassroomSearch() {
             </button>
           </div>
         </label>
+
+        {results && selectedCampus && (
+          <div className="text-muted-foreground text-xs">
+            Resultados para <span className="font-medium">{query.toUpperCase()}</span> en{" "}
+            <span className="font-medium">{selectedCampus}</span>
+          </div>
+        )}
 
         <div className="space-y-4">
           <ModuleGrid schedule={results} />

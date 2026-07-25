@@ -28,9 +28,9 @@ type Props = {
 };
 
 export default function ModuleGrid({ schedule }: Props) {
-  const [selectedDay, setSelectedDay] = useState<string>("");
+  const [selectedDay, setSelectedDay] = useState<string>("l");
 
-  const displayedDays = selectedDay === "" ? DAYS : DAYS.filter((d) => d.short === selectedDay);
+  const displayedDays = DAYS.filter((d) => d.short === selectedDay);
   const gridTemplate = `64px repeat(${displayedDays.length}, minmax(0,1fr))`;
 
   return (

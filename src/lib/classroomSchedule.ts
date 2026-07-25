@@ -32,6 +32,16 @@ export async function getFreeClassroomsPerModule(
   return freeRooms;
 }
 
+export function getAllClassroomsWithCampus(): Array<{ classroom: string; campus: Campus }> {
+  const classrooms: Array<{ classroom: string; campus: Campus }> = [];
+  for (const [campus, rooms] of Object.entries(classroomData)) {
+    for (const classroom of Object.keys(rooms)) {
+      classrooms.push({ classroom, campus: campus as Campus });
+    }
+  }
+  return classrooms;
+}
+
 export function getOccupiedStatus(
   campus: Campus,
   module: UcModule,
