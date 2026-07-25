@@ -1,9 +1,14 @@
 "use client";
 import { SearchIcon } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getClassroomSchedule, getAllClassroomsWithCampus } from "@/lib/classroomSchedule";
 import ModuleGrid from "./ModuleGrid";
 import type { ClassroomSchedule, Campus } from "@/types/types";
+
+type ClassroomOption = {
+  classroom: string;
+  campus: Campus;
+};
 
 export function ClassroomSearch() {
   const [loading, setLoading] = useState(false);
@@ -11,21 +16,40 @@ export function ClassroomSearch() {
   const [selectedCampus, setSelectedCampus] = useState<Campus | null>(null);
   const [results, setResults] = useState<ClassroomSchedule | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [allClassroomsWithCampus, setAllClassroomsWithCampus] = useState<ClassroomOption[]>([]);
 
-  const allClassroomsWithCampus = useMemo(() => getAllClassroomsWithCampus(), []);
+  useEffect(() => {
+    let isActive = true;
+
+    async function loadClassrooms() {
+      const classrooms = await getAllClassroomsWithCampus();
+      if (isActive) {
+        setAllClassroomsWithCampus(classrooms);
+      }
+    }
+
+    void loadClassrooms();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   const suggestions = useMemo(() => {
-    return query
-      ? allClassroomsWithCampus.filter((item) =>
-          item.classroom.toLowerCase().includes(query.toLowerCase())
-        )
-      : [];
-  }, [query, allClassroomsWithCampus]);
+    if (!query) {
+      return [];
+    }
+
+    const normalizedQuery = query.toLowerCase();
+    return allClassroomsWithCampus.filter((item) =>
+      item.classroom.toLowerCase().includes(normalizedQuery)
+    );
+  }, [allClassroomsWithCampus, query]);
 
   async function handleSearch(classroomName: string, campus: Campus) {
     setLoading(true);
     try {
-      const schedule = await getClassroomSchedule(campus, classroomName.toUpperCase());
+      const schedule = await getClassroomSchedule(campus, classroomName.trim().toUpperCase());
       setResults(schedule);
     } catch (error) {
       console.error("Error fetching classroom schedule:", error);
@@ -100,11 +124,12 @@ export function ClassroomSearch() {
               type="button"
               onClick={() => {
                 if (!selectedCampus) {
-                  // Search in first available campus if none selected
                   const firstMatch = allClassroomsWithCampus.find(
-                    (item) => item.classroom.toUpperCase() === query.toUpperCase()
+                    (item) => item.classroom.toUpperCase() === query.trim().toUpperCase()
                   );
+
                   if (firstMatch) {
+                    setSelectedCampus(firstMatch.campus);
                     handleSearch(query, firstMatch.campus);
                   }
                 } else {
