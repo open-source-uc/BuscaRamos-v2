@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, use } from "react";
+import { useState, useEffect, useCallback, useRef, use } from "react";
 import { MenuIcon, CloseIcon } from "@/components/icons/icons";
 import { AuthContext } from "@/context/authCtx";
 
@@ -12,9 +12,24 @@ import { ROUTES, HEADER_LINKS, FAQ_SECTIONS } from "@/lib/routes";
 
 export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  // Distancia desde el top del viewport hasta el borde inferior del header.
+  // Se mide en runtime porque el header puede estar desplazado por el Banner.
+  const [menuTop, setMenuTop] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
   const { user, isLoading } = use(AuthContext);
 
+  const measureMenuTop = useCallback(() => {
+    const element = headerRef.current;
+    if (!element) return;
+
+    // El header sticky externo agrega padding alrededor de este; medimos ese
+    // para que el overlay arranque justo bajo el borde visible.
+    const outerHeader = element.parentElement?.closest("header") ?? element;
+    setMenuTop(outerHeader.getBoundingClientRect().bottom);
+  }, []);
+
   const toggleMenu = () => {
+    if (!isOpen) measureMenuTop();
     setIsOpen(!isOpen);
   };
 
@@ -22,8 +37,26 @@ export default function MobileHeader() {
     setIsOpen(false);
   };
 
+  // Con el menú abierto bloqueamos el scroll: si la página se moviera, el header
+  // sticky subiría y el overlay (fixed) quedaría desalineado.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("resize", measureMenuTop);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("resize", measureMenuTop);
+    };
+  }, [isOpen, measureMenuTop]);
+
   return (
-    <header className="tablet:hidden border-background flex w-full items-center px-4 py-4">
+    <header
+      ref={headerRef}
+      className="tablet:hidden border-background flex w-full items-center px-4 py-4"
+    >
       <div className="flex w-full justify-between">
         <Link className="flex items-center gap-2 shrink-0 z-110" href={"/"} onClick={closeMenu}>
           <Image
@@ -57,7 +90,10 @@ export default function MobileHeader() {
       </div>
 
       {isOpen && (
-        <div className="tablet:hidden bg-background fixed inset-x-0 bottom-0 top-24 flex flex-col">
+        <div
+          className="tablet:hidden bg-background fixed inset-x-0 bottom-0 z-100 flex flex-col"
+          style={{ top: menuTop }}
+        >
           {/* Menu content - scrollable */}
           <div className="flex flex-1 flex-col space-y-8 overflow-y-auto p-6">
             {/* Account section */}

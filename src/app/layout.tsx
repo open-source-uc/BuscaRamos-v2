@@ -90,8 +90,8 @@ export default function RootLayout({
             bannerId="semester-2026-2-01"
             className=""
           >
-            🎉 <strong>+1.118 usuarios</strong> y <strong>+1.013 reseñas</strong> ya confían en
-            nosotros. ¡Gracias infinitas por tu apoyo!
+            🎉 <strong>+1.118 usuarios</strong> y <strong>+1.013 reseñas</strong> ya son parte de
+            esto. ¡Gracias infinitas por tu confianza!
           </Banner>
         </section>
         <SemesterProvider>

@@ -1,9 +1,20 @@
 import Link from "next/link";
+import Image from "next/image";
 
-import contributors from "@/data/contributors.json";
+import contributorsData from "@/data/contributors.json";
 import acknowledgements from "@/data/acknowledgments.json";
 
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
+
+type Contributor = {
+  name: string;
+  career: string;
+  github?: string;
+  linkedin?: string;
+  image?: string;
+};
+
+const contributors = contributorsData as Contributor[];
 
 export default function ContributorsPage() {
   return (
@@ -25,6 +36,16 @@ export default function ContributorsPage() {
                 className="border-border bg-background rounded-md border p-6"
               >
                 <div className="flex items-start gap-4">
+                  {contributor.image && (
+                    <Image
+                      src={contributor.image}
+                      alt={`Foto de ${contributor.name}`}
+                      width={112}
+                      height={112}
+                      unoptimized
+                      className="border-border h-20 w-20 shrink-0 rounded-md border object-cover"
+                    />
+                  )}
                   <div className="min-w-0 flex-1 justify-between">
                     <section>
                       <h3 className="text-foreground text-xl font-semibold text-wrap">
