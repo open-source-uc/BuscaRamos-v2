@@ -121,7 +121,7 @@ type Day = "l" | "m" | "w" | "j" | "v" | "s";
 type Block = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 export type UcModule = `${Day}${Block}`;
 
-type CourseAndSection = [string, number] | []; // [courseId, sectionId ]
+export type CourseAndSection = [string, number] | []; // [courseId, sectionId ]
 export type ClassroomSchedule = {
   [K in UcModule]: CourseAndSection[]; // Lista de cursos y secciones que ocupan ese módulo en ese aula
 };

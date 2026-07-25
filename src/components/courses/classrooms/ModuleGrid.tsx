@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import type { ClassroomSchedule, UcModule } from "@/types/types";
+import type { ClassroomSchedule, UcModule, CourseAndSection } from "@/types/types";
 
 const DAYS = [
   { label: "Lunes", short: "l" },
@@ -74,7 +74,8 @@ export default function ModuleGrid({ schedule }: Props) {
 
                 {displayedDays.map((d) => {
                   const code = `${d.short}${i + 1}` as UcModule;
-                  const items: unknown[] = (schedule && (schedule[code] as unknown[])) || [];
+                  const items: CourseAndSection[] =
+                    (schedule && (schedule[code] as CourseAndSection[])) || [];
                   return (
                     <div
                       key={code}
@@ -93,7 +94,9 @@ export default function ModuleGrid({ schedule }: Props) {
                                 className="leading-tight break-words whitespace-normal"
                                 title={String(Array.isArray(it) ? (it as unknown[]).join("-") : it)}
                               >
-                                {Array.isArray(it) ? (it as unknown[]).join("-") : String(it)}
+                                {Array.isArray(it)
+                                  ? (it as CourseAndSection[]).join("-")
+                                  : String(it)}
                               </li>
                             ))}
                           </ul>

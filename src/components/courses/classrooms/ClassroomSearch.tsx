@@ -21,6 +21,12 @@ export function ClassroomSearch() {
       setLoading(false);
     }
   }
+
+  function clearSearch() {
+    setQuery("");
+    setResults(null);
+  }
+
   return (
     <div className="border-border rounded-2xl border bg-accent shadow-sm">
       <div className="space-y-4 p-4 tablet:p-6">
@@ -31,7 +37,7 @@ export function ClassroomSearch() {
           <div>
             <h2 className="text-base font-semibold tablet:text-lg">Buscar sala</h2>
             <p className="text-muted-foreground text-xs tablet:text-sm">
-              Escribe el nombre de una sala para verla en la estructura.
+              Escribe el nombre de una sala para ver las clases que se dictan en ella por módulo.
             </p>
           </div>
         </div>
@@ -52,6 +58,13 @@ export function ClassroomSearch() {
               className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white"
             >
               {loading ? "Cargando..." : "Buscar"}
+            </button>
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent/70"
+            >
+              Limpiar
             </button>
           </div>
         </label>

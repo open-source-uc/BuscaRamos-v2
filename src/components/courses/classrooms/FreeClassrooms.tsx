@@ -34,9 +34,12 @@ export default function FreeClassrooms() {
   const [results, setResults] = useState<string[]>([]);
   const [query, setQuery] = useState("");
 
-  const allModuleOptions = TIMES.flatMap((time, i) =>
-    DAYS.map((d) => ({ code: `${d.short}${i + 1}`, label: `${d.label} ${i + 1} • ${time}` }))
-  );
+  const allModuleOptions = DAYS.flatMap((d) => {
+    return TIMES.map((time, i) => ({
+      code: `${d.short}${i + 1}`,
+      label: `${d.label} ${i + 1} • ${time}`,
+    }));
+  });
 
   async function displayedFreeClassrooms(selectedCampus: Campus, selectedModule: string) {
     setLoading(true);
@@ -51,6 +54,11 @@ export default function FreeClassrooms() {
   }
 
   const filtered = results.filter((r) => r.toLowerCase().includes(query.toLowerCase()));
+
+  function clearSearch() {
+    setQuery("");
+    setResults([]);
+  }
 
   return (
     <div className="border-border rounded-2xl border bg-card p-4 shadow-sm">
@@ -107,6 +115,13 @@ export default function FreeClassrooms() {
           className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white"
         >
           {loading ? "Cargando..." : "Buscar"}
+        </button>
+        <button
+          type="button"
+          onClick={clearSearch}
+          className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent/70"
+        >
+          Limpiar
         </button>
       </div>
 
