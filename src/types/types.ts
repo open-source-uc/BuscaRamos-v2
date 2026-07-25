@@ -68,6 +68,7 @@ export interface CourseReview {
   created_at: string;
   updated_at: string;
   votes: number;
+  user_career?: string | null;
 }
 
 export const NULL_STRING = "IHHUQWUPIQWEEWHPQEPIUEWUJWQEPQPWJP";

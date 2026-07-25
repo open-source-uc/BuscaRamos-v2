@@ -226,6 +226,7 @@ export const createCourseReview = async (formData: FormData) => {
         weekly_hours: data.weekly_hours,
         year_taken: data.year_taken,
         semester_taken: data.semester_taken,
+        user_career: (typeof user.career === "string" ? user.career : user.career?.name) ?? null,
       },
       data.comment?.trim() || null
     );
@@ -246,6 +247,7 @@ export const createCourseReview = async (formData: FormData) => {
         weekly_hours: data.weekly_hours,
         year_taken: data.year_taken,
         semester_taken: data.semester_taken,
+        user_career: (typeof user.career === "string" ? user.career : user.career?.name) ?? null,
       },
       data.comment?.trim() || null
     );
@@ -341,6 +343,7 @@ export const updateCourseReview = async (reviewId: number, formData: FormData) =
       weekly_hours: data.weekly_hours,
       year_taken: data.year_taken,
       semester_taken: data.semester_taken,
+      user_career: (typeof user.career === "string" ? user.career : user.career?.name) ?? null,
     },
     data.comment?.trim() || null
   );

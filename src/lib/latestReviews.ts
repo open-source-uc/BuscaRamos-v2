@@ -22,7 +22,7 @@ export async function getLatestReviewsPage(
 ): Promise<LatestReviewsPage> {
   const { env } = getCloudflareContext();
   const offset = (page - 1) * limit;
-  const cacheKey = `reviews:latest:v2:page:${page}:limit:${limit}`;
+  const cacheKey = `reviews:latest:v3:page:${page}:limit:${limit}`;
   const cachedPage = await env.KV.get<LatestReviewsPage>(cacheKey, "json");
 
   if (cachedPage) {
@@ -45,7 +45,8 @@ export async function getLatestReviewsPage(
         status,
         created_at,
         updated_at,
-        votes
+        votes,
+        user_career
       FROM course_reviews
       WHERE status NOT IN (2, 3)
       ORDER BY created_at DESC, id DESC

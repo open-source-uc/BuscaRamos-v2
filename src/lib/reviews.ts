@@ -45,7 +45,7 @@ async function uploadMarkdownToR2(markdownContent: string, filePath: string) {
 export async function getReviewBySigleAndUserId(course_sigle: string, userId: string) {
   const result = await DB()
     .prepare(
-      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews WHERE user_id = ? AND course_sigle = ?"
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes, user_career FROM course_reviews WHERE user_id = ? AND course_sigle = ?"
     )
     .bind(userId, course_sigle)
     .first<CourseReview>();
@@ -74,8 +74,8 @@ export async function createCourseReview(
   const result = await DB()
     .prepare(
       `INSERT INTO course_reviews 
-        (user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        (user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, user_career) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
       review.user_id,
@@ -86,7 +86,8 @@ export async function createCourseReview(
       review.weekly_hours,
       review.year_taken,
       review.semester_taken,
-      filePath
+      filePath,
+      review.user_career ?? null
     )
     .run();
   console.info("Created review with ID:", result.meta);
@@ -96,7 +97,7 @@ export async function createCourseReview(
 export async function getCourseReviewById(reviewId: number) {
   const result = await DB()
     .prepare(
-      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes  FROM course_reviews WHERE id = ?"
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes, user_career FROM course_reviews WHERE id = ?"
     )
     .bind(reviewId)
     .first<CourseReview>();
@@ -211,7 +212,7 @@ export async function getVotesOnReviewsInCourseByUserID(sigle: string, userId: s
 export async function getUserReviews(userId: string, limit: number = 40) {
   const results = await DB()
     .prepare(
-      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews WHERE user_id = ? ORDER BY created_at DESC LIMIT ?"
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes, user_career FROM course_reviews WHERE user_id = ? ORDER BY created_at DESC LIMIT ?"
     )
     .bind(userId, limit)
     .all<CourseReview>();
@@ -236,7 +237,8 @@ export const getCourseReviews = async (sigle: string, limit: number = 40) => {
       comment_path,
       created_at,
       updated_at,
-            votes
+      votes,
+      user_career
     FROM course_reviews 
     WHERE course_sigle = ? AND status != 3
     ORDER BY votes DESC, created_at DESC
@@ -277,6 +279,7 @@ export async function getCourseReviewsPage(
       course_reviews.created_at,
       course_reviews.updated_at,
       course_reviews.votes,
+      course_reviews.user_career,
       user_vote_review.vote AS user_vote
     FROM course_reviews
     LEFT JOIN user_vote_review
@@ -354,6 +357,7 @@ export async function updateCourseReview(
         year_taken = ?,
         semester_taken = ?,
         comment_path = ?,
+        user_career = ?,
         updated_at = CURRENT_TIMESTAMP,
         status = CASE 
             WHEN status = 1 THEN 0  -- Si estaba aprobado, vuelve a pending
@@ -370,6 +374,7 @@ export async function updateCourseReview(
       review.year_taken,
       review.semester_taken,
       filePath, // si es null, lo pone en NULL en la DB
+      review.user_career ?? null,
       reviewId
     )
     .run();
@@ -394,7 +399,7 @@ export async function getVoteCountByReviewId(reviewId: number) {
 export async function getReviewsByStatus(status: 0 | 1 | 2 | 3, limit: number = 40) {
   const result = await DB()
     .prepare(
-      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews WHERE status = ? ORDER BY created_at DESC LIMIT ?"
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes, user_career FROM course_reviews WHERE status = ? ORDER BY created_at DESC LIMIT ?"
     )
     .bind(status, limit)
     .all<CourseReview>();
@@ -434,7 +439,7 @@ export async function getReviewCountsByStatus() {
 export async function getRecentReviews(limit: number = 10) {
   const result = await DB()
     .prepare(
-      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews ORDER BY created_at DESC LIMIT ?"
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes, user_career FROM course_reviews ORDER BY created_at DESC LIMIT ?"
     )
     .bind(limit)
     .all<CourseReview>();

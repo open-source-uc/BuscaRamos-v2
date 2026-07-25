@@ -36,6 +36,7 @@ CREATE TABLE course_reviews (
 
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP, votes INTEGER DEFAULT 0,
+    user_career TEXT,
 
     FOREIGN KEY (course_sigle) REFERENCES course_summary(sigle)
 );
