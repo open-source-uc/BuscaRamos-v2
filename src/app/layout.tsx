@@ -6,6 +6,7 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import FloatingNavButton from "@/components/FloatingNavButton";
 import CoursesUnifiedPreloader from "@/components/CoursesUnifiedPreloader";
+import ChunkErrorRecovery from "@/components/ChunkErrorRecovery";
 import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
@@ -81,6 +82,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
+        <ChunkErrorRecovery />
         <section className="w-full flex justify-center items-center">
           <Banner
             variant="orange"

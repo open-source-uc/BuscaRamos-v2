@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import {
+  isChunkLoadError,
+  recentlyRecovered,
+  recoverFromChunkError,
+} from "@/lib/chunkErrorRecovery";
 
 export default function GlobalError({
   error,
@@ -9,7 +15,17 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  // Se decide en el primer render para que nadie alcance a ver la pantalla de
+  // error crítico cuando en realidad solo hay que tomar el build nuevo.
+  const [isRecovering] = useState(() => isChunkLoadError(error) && !recentlyRecovered());
+
   useEffect(() => {
+    if (isRecovering) {
+      console.warn("♻️ Chunk desactualizado tras un deploy, recargando…", error.message);
+      recoverFromChunkError();
+      return;
+    }
+
     console.error("🚨 Global Error:", error);
     console.error("Error digest:", error.digest);
     console.error("Stack trace:", error.stack);
@@ -33,7 +49,20 @@ export default function GlobalError({
     };
 
     clearAllCaches();
-  }, [error]);
+  }, [error, isRecovering]);
+
+  if (isRecovering) {
+    return (
+      <html lang="es-CL">
+        <body>
+          <p>🔄 Actualizando BuscaRamos a la última versión…</p>
+          <p>
+            <small>Si esta pantalla no desaparece sola, recarga la página.</small>
+          </p>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html>
