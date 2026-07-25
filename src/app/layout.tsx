@@ -10,6 +10,7 @@ import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
+import { Banner } from "@/components/ui/banner";
 
 export const metadata: Metadata = {
   title: {
@@ -80,20 +81,19 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
-        {/* <section className="w-full flex justify-center items-center">
+        <section className="w-full flex justify-center items-center">
           <Banner
             variant="orange"
             size="md"
             icon="CalendarIcon"
             dismissible
-            bannerId="horarios-2026-2-preliminar"
+            bannerId="semester-2026-2-01"
             className=""
           >
-            <strong>Horarios 2026-2 disponibles</strong> — Ya puedes explorar la oferta del segundo
-            semestre y armar tu horario ideal. Ten en cuenta que son <strong>preliminares</strong> y
-            las secciones aún podrían ajustarse, así que revísalos con calma antes de confirmar.
+            🎉 <strong>+1.118 usuarios</strong> y <strong>+1.013 reseñas</strong> ya confían en
+            nosotros. ¡Gracias infinitas por tu apoyo!
           </Banner>
-        </section> */}
+        </section>
         <SemesterProvider>
           <CourseNameMapProvider>
             <AuthProvider>
