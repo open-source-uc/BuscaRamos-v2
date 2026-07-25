@@ -102,6 +102,13 @@ export default function HeaderPage() {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
+              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                <Link href="/salas" className="hover:bg-muted">
+                  SALAS
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <NavigationMenuTrigger>FAQ</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150">
