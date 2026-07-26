@@ -1,0 +1,55 @@
+:root,
+[data-theme="light"] {
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+
+  --card: var(--color-white);
+  --card-foreground: var(--color-white);
+
+  --pop-over: var(--color-white);
+  --pop-over-foreground: var(--color-black);
+
+  --primary: var(--blue-500);
+  --primary-foreground: var(--blue-100);
+
+  --muted: var(--gray-50);
+  --muted-foreground: var(--gray-700);
+
+  --accent: var(--color-white);
+  --accent-border: var(--gray-100);
+  --accent-foreground: var(--gray-700);
+
+  --border: var(--gray-50);
+  --input: var(--gray-400);
+  --ring: var(--blue-500);
+
+  --red: var(--red-100);
+  --red-hover: var(--red-200);
+  --red-border: var(--red-300);
+  --red-foreground: var(--red-500);
+
+  --green: var(--green-100);
+  --green-hover: var(--green-200);
+  --green-border: var(--green-300);
+  --green-foreground: var(--green-500);
+
+  --blue: var(--blue-100);
+  --blue-hover: var(--blue-200);
+  --blue-border: var(--blue-300);
+  --blue-foreground: var(--blue-500);
+
+  --purple: var(--purple-100);
+  --purple-hover: var(--purple-200);
+  --purple-border: var(--purple-300);
+  --purple-foreground: var(--purple-500);
+
+  --pink: var(--pink-100);
+  --pink-hover: var(--pink-200);
+  --pink-border: var(--pink-300);
+  --pink-foreground: var(--pink-500);
+
+  --orange: var(--orange-100);
+  --orange-hover: var(--orange-200);
+  --orange-border: var(--orange-300);
+  --orange-foreground: var(--orange-500);
+}
