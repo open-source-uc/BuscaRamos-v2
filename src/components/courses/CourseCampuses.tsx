@@ -18,16 +18,16 @@ export default function CourseCampuses({ campus, lastSemester }: CourseCampusesP
   const prefixText =
     lastSemester === currentSemester ? "Actualmente ofrecido en" : "Previamente ofrecido en";
 
+  const campusText = campus.join(", ");
+
   return (
     <>
-      {campus.map((campusName) => (
-        <Pill key={campusName} variant="blue" icon={LocationIcon}>
-          <div className="flex flex-col">
-            <span className="text-xs font-medium opacity-80">{prefixText}</span>
-            <span>{campusName}</span>
-          </div>
-        </Pill>
-      ))}
+      <Pill key={campusText} variant="blue" icon={LocationIcon}>
+        <div className="flex flex-col">
+          <span className="text-xs font-medium opacity-80">{prefixText}</span>
+          <span>{campusText}</span>
+        </div>
+      </Pill>
     </>
   );
 }
