@@ -123,7 +123,7 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(
           >
             {label}
             {required && (
-              <span className="text-red-foreground ml-1" aria-label="required">
+              <span className="text-destructive ml-1" aria-label="required">
                 *
               </span>
             )}
@@ -170,7 +170,7 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(
 
         {/* Error Message */}
         {errorMessage && (
-          <p id={errorId} className="text-red-foreground text-sm" role="alert">
+          <p id={errorId} className="text-destructive text-sm" role="alert">
             {errorMessage}
           </p>
         )}

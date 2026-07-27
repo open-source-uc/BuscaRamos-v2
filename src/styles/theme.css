@@ -65,6 +65,8 @@
   --color-yellow-border: var(--yellow-border);
   --color-yellow-foreground: var(--yellow-foreground);
 
+  --color-destructive: var(--destructive);
+
   /* Custom breakpoints */
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1154px;
