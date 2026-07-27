@@ -55,7 +55,7 @@ export default function FormReview({
     <div className="mx-auto px-2 py-4 sm:px-4 sm:py-8">
       <div className="border-border rounded-md border p-3 sm:p-6">
         <h3 className="text-foreground mb-3 flex items-center gap-2 font-medium">
-          <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 font-medium">
+          <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-2 font-medium">
             <EditIcon className="h-4 w-4 fill-current" />
           </div>
           Consejos para una buena reseña
@@ -117,7 +117,7 @@ export default function FormReview({
 
             <div className="border-border rounded-md border p-3 sm:p-6">
               <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                <div className="bg-green-light text-green border-green/20 rounded-lg border p-2">
+                <div className="bg-green text-green-foreground border-green-border rounded-lg border p-2">
                   <HappyIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 </div>
                 Valoración General
@@ -170,7 +170,7 @@ export default function FormReview({
             <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
               <div className="border-border rounded-md border p-3 sm:p-6">
                 <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                  <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2">
+                  <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-2">
                     <WorkloadIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                   </div>
                   Nivel de Dificultad
@@ -225,7 +225,7 @@ export default function FormReview({
 
               <div className="border-border rounded-md border p-3 sm:p-6">
                 <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                  <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-2">
+                  <div className="bg-purple text-purple-foreground border-purple-border rounded-lg border p-2">
                     <AttendanceIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                   </div>
                   Tipo de Asistencia
@@ -266,7 +266,7 @@ export default function FormReview({
 
             <div className="border-border rounded-md border p-3 sm:p-6">
               <h3 className="mb-6 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                <div className="bg-green-light text-green border-green/20 rounded-lg border p-2">
+                <div className="bg-green text-green-foreground border-green-border rounded-lg border p-2">
                   <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 </div>
                 Detalles del Curso
@@ -317,7 +317,7 @@ export default function FormReview({
 
             <div className="border-border rounded-md border p-3 sm:p-6">
               <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-2">
+                <div className="bg-purple text-purple-foreground border-purple-border rounded-lg border p-2">
                   <EditIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 </div>
                 Comentario (Opcional)

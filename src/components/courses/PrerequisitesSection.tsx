@@ -80,7 +80,7 @@ export default function PrerequisitesSection({
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-pink-light text-pink border-purple/20 shrink-0 rounded-lg border p-2">
+              <div className="bg-pink text-pink-foreground border-pink-border shrink-0 rounded-lg border p-2">
                 <DocsIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0 flex-1">
@@ -135,11 +135,11 @@ export default function PrerequisitesSection({
             <div className="border-border mt-4 w-full border-t pt-4">
               <div className="text-muted-foreground flex flex-wrap gap-4 text-xs">
                 <div className="flex items-center gap-2">
-                  <div className="bg-blue border-blue-light h-4 w-4 shrink-0 rounded border"></div>
+                  <div className="bg-blue border-blue-border h-4 w-4 shrink-0 rounded border"></div>
                   <span>Prerrequisito regular</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="bg-orange border-orange-light flex h-4 w-4 shrink-0 items-center justify-center rounded border">
+                  <div className="bg-orange border-orange-border flex h-4 w-4 shrink-0 items-center justify-center rounded border">
                     <TextureIcon className="text-background h-3 w-3" />
                   </div>
                   <span>Co-requisito (puedes inscribir el curso al mismo tiempo)</span>

@@ -106,7 +106,7 @@ export default function QuotaHistorySection({ quotaTimeline = {}, className = ""
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-blue-light text-blue border-blue/20 shrink-0 rounded-lg border p-2">
+              <div className="bg-blue text-blue-foreground border-blue-border shrink-0 rounded-lg border p-2">
                 <svg
                   className="h-5 w-5 fill-current"
                   viewBox="0 0 24 24"

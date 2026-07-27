@@ -212,7 +212,7 @@ function CombinationGrid({
                         key={`${day}-${timeIndex}`}
                         className={cn(
                           "tablet:min-h-8 tablet:px-1 flex min-h-6 flex-col items-center justify-center gap-0.5 px-0.5 py-1",
-                          hasConflict && "bg-red-light/30 border-red/20 rounded border"
+                          hasConflict && "bg-red border-red-border rounded border"
                         )}
                       >
                         {classes.map((classInfo, classIndex) => (
@@ -306,7 +306,7 @@ export default function ScheduleCombinations({
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-purple-light text-purple border-purple/20 shrink-0 rounded-lg border p-2">
+              <div className="bg-purple text-purple-foreground border-purple-border shrink-0 rounded-lg border p-2">
                 <CalendarIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0 flex-1">

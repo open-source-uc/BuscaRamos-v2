@@ -63,10 +63,10 @@ export default function Review({
           <div
             className={`flex gap-2 items-center p-2 border rounded-lg w-max ${
               review.like_dislike === 2
-                ? "bg-green-light text-green border-green/20"
+                ? "bg-green text-green-foreground border-green-border"
                 : review.like_dislike === 1
-                  ? "bg-blue-light text-blue border-blue/20"
-                  : "bg-red-light text-red border-red/20"
+                  ? "bg-blue text-blue-foreground border-blue-border"
+                  : "bg-red text-red-foreground border-red-border"
             }`}
           >
             {review.like_dislike === 2 ? (

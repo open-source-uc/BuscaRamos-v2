@@ -334,7 +334,7 @@ export default function SectionsCollapsible({
       {!externalSemester && (
         <div className="bg-accent border-border mb-3 flex flex-col gap-3 rounded-md border px-4 py-3 tablet:flex-row tablet:items-center tablet:justify-between tablet:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="bg-orange-light text-orange border-orange/20 shrink-0 rounded-lg border p-2">
+            <div className="bg-orange text-orange-foreground border-orange-border shrink-0 rounded-lg border p-2">
               <CalendarIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0">

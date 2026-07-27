@@ -123,8 +123,8 @@ export default function ConflictResolver({
                 className={cn(
                   "flex items-start gap-3 rounded-lg border p-4",
                   resolution.canResolve
-                    ? "bg-green-light border-green/20 text-green"
-                    : "bg-red-light border-red/20 text-red"
+                    ? "bg-green border-green-border text-green-foreground"
+                    : "bg-red border-red-border text-red-foreground"
                 )}
               >
                 <div className="mt-0.5">
@@ -210,7 +210,7 @@ export default function ConflictResolver({
 
               {/* Remaining Conflicts Warning */}
               {resolution.remainingConflicts.length > 0 && (
-                <div className="bg-yellow-light border-yellow/20 rounded-lg border p-3">
+                <div className="bg-yellow border-yellow-border rounded-lg border p-3">
                   <div className="flex items-start gap-2">
                     <AlertIcon className="text-yellow mt-0.5 h-4 w-4" />
                     <div className="text-yellow text-sm">

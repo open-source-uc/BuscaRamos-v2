@@ -240,7 +240,7 @@ function ScheduleGrid({
                         key={`${day}-${timeIndex}`}
                         className={cn(
                           "tablet:min-h-18.5 flex min-h-14.5 flex-col items-center justify-center gap-1 px-1 py-1.5 tablet:gap-1.5 tablet:px-2 tablet:py-2",
-                          hasConflict && "bg-red-light border-red/20"
+                          hasConflict && "bg-red border-red-border"
                         )}
                       >
                         {classes.map((classInfo, index) => {
@@ -334,12 +334,12 @@ function ScheduleGrid({
       </div>
 
       {hasConflicts && (
-        <div className="bg-red-light/20 border-red/20 border-t p-4">
+        <div className="bg-red border-red-border border-t p-4">
           <div className="tablet:flex-row tablet:items-center tablet:gap-3 flex flex-col justify-between gap-8">
             <div className="flex items-center gap-2">
-              <div className="bg-red h-2 w-2 rounded-full"></div>
+              <div className="bg-red-foreground h-2 w-2 rounded-full"></div>
               <div>
-                <span className="text-red text-sm font-medium">
+                <span className="text-red-foreground text-sm font-medium">
                   Conflictos detectados: {conflicts.length}
                 </span>
                 <p className="text-red/80 mt-1 text-xs">
@@ -678,7 +678,7 @@ export default function ScheduleCreator() {
       {/* Semester selector */}
       <div className="border-border bg-accent flex flex-col gap-4 rounded-lg border p-4 tablet:flex-row tablet:items-center tablet:justify-between">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2 shrink-0">
+          <div className="bg-orange text-orange-foreground border-orange-border rounded-lg border p-2 shrink-0">
             <CalendarIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0">
@@ -714,7 +714,7 @@ export default function ScheduleCreator() {
           <div className="border-border rounded-lg border bg-accent">
             <div className="p-4 tablet:p-6">
               <div className="mb-4 flex items-center gap-3">
-                <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 shrink-0">
+                <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-2 shrink-0">
                   <SearchIcon className="h-5 w-5 fill-current" />
                 </div>
                 <div>
@@ -819,7 +819,7 @@ export default function ScheduleCreator() {
               className="hover:bg-muted/30 flex w-full items-center justify-between p-4 text-left transition-colors tablet:p-5"
             >
               <div className="flex min-w-0 items-center gap-3">
-                <div className="bg-pink-light text-pink border-pink/20 shrink-0 rounded-lg border p-2">
+                <div className="bg-pink text-pink-foreground border-pink-border shrink-0 rounded-lg border p-2">
                   <AreaIcon className="h-5 w-5 fill-current" />
                 </div>
                 <div className="min-w-0">
@@ -918,7 +918,7 @@ export default function ScheduleCreator() {
             <div className="border-border rounded-lg border bg-accent p-4 tablet:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 shrink-0">
+                  <div className="bg-green text-green-foreground border-green-border rounded-lg border p-2 shrink-0">
                     <SelectionIcon className="h-5 w-5 fill-current" />
                   </div>
                   <div className="min-w-0">
@@ -984,7 +984,7 @@ export default function ScheduleCreator() {
             <div className="border-border border-b px-4 tablet:px-6 py-4">
               <div className="flex flex-col tablet:flex-row gap-3 items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="bg-orange-light text-orange border-orange/20 rounded-lg border p-2">
+                  <div className="bg-orange text-orange-foreground border-orange-border rounded-lg border p-2">
                     <CalendarIcon className="h-5 w-5 fill-current" />
                   </div>
                   <div>

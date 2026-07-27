@@ -29,7 +29,9 @@ export default function VoteButtons({
     <div className="bg-card/90 border-border flex flex-col items-center rounded-lg border p-1 shadow-sm backdrop-blur-sm">
       <button
         className={`hover:bg-muted rounded-md p-1.5 transition-all duration-150 ${
-          userVote === "up" ? "text-green bg-green-light" : "text-muted-foreground hover:text-green"
+          userVote === "up"
+            ? "text-green-foreground bg-green"
+            : "text-muted-foreground hover:text-green-foreground"
         }`}
         onClick={() => {
           interactWithCourseReview("up", parseInt(reviewId.toString())).then((res) => {
@@ -48,14 +50,16 @@ export default function VoteButtons({
       </button>
 
       <span
-        className={`min-w-[24px] px-1 py-0.5 text-center text-xs font-semibold transition-colors ${getVoteCountColor()}`}
+        className={`min-w-6 px-1 py-0.5 text-center text-xs font-semibold transition-colors ${getVoteCountColor()}`}
       >
         {votes > 0 ? `+${votes}` : votes}
       </span>
 
       <button
         className={`hover:bg-muted rounded-md p-1.5 transition-all duration-150 ${
-          userVote === "down" ? "text-red bg-red-light" : "text-muted-foreground hover:text-red"
+          userVote === "down"
+            ? "text-red-foreground bg-red"
+            : "text-muted-foreground hover:text-red-foreground"
         }`}
         onClick={() => {
           interactWithCourseReview("down", parseInt(reviewId.toString())).then((res) => {
