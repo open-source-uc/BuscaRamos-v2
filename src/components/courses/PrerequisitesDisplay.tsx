@@ -1,5 +1,5 @@
-import { Pill } from "@/components/ui/pill";
-import { DocsIcon, DeceasedIcon, TextureIcon, OpenInFullIcon } from "@/components/icons/icons";
+import { Pill } from "@/components/ui/Pill";
+import { DocsIcon, DeceasedIcon, TextureIcon, OpenInFullIcon } from "@/components/icons/Icons";
 import { useCourseNameMap } from "@/context/courseNameMapCtx";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 
@@ -22,7 +22,7 @@ export const PrerequisitesDisplay = ({
     return (
       <div className={`w-full py-6 ${className}`}>
         <div className="text-muted-foreground flex items-center gap-3">
-          <div className="bg-green-light text-green border-green/20 shrink-0 rounded-lg border p-2">
+          <div className="bg-green text-green-foreground border-green-border shrink-0 rounded-lg border p-2">
             <DocsIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0 flex-1">
@@ -123,8 +123,8 @@ const PrerequisiteGroupComponent = ({
         <div
           className={`rounded-full border px-3 py-1 text-xs font-bold ${
             separatorType === "AND"
-              ? "bg-blue-light text-blue border-blue/20"
-              : "bg-green-light text-green border-green/20"
+              ? "bg-blue text-blue-foreground border-blue-border"
+              : "bg-green text-green-foreground border-green-border"
           }`}
         >
           {separatorText}
@@ -141,7 +141,7 @@ const PrerequisiteGroupComponent = ({
       {isNested && hasMultipleItems && (
         <div className="border-border flex w-full items-center gap-3 border-b px-2 pb-3">
           <div
-            className={`h-2 w-2 shrink-0 rounded-full ${group.type === "AND" ? "bg-primary" : "bg-green"}`}
+            className={`h-2 w-2 shrink-0 rounded-full ${group.type === "AND" ? "bg-primary" : "bg-green-foreground"}`}
           ></div>
           <span className={`text-muted-foreground min-w-0 flex-1 text-sm font-semibold`}>
             {groupLabel}

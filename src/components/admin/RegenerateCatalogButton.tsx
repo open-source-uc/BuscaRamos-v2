@@ -5,7 +5,7 @@ import { RefreshCwIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { regenerateCoursesCatalog } from "@/actions/admin";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default function RegenerateCatalogButton() {
   const [pending, setPending] = useState(false);

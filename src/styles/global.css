@@ -4,10 +4,10 @@
 @import "@fontsource-variable/instrument-sans";
 
 /* Import our CSS components */
+@import "./palette.css";
 @import "./variables.css";
+@import "./themes/light.css";
+@import "./theme.css";
 @import "./base.css";
-@import "./themes/dark.css";
-@import "./themes/high-contrast.css";
-@import "./themes/high-contrast-dark.css";
 @import "./components/markdown.css";
 @import "./utilities.css";

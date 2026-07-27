@@ -11,7 +11,7 @@ import {
   SwapIcon,
   StarIcon,
 } from "../icons";
-import { Pill } from "./pill";
+import { Pill } from "./Pill";
 import Link from "next/link";
 
 export default function CourseInformation({

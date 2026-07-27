@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { CourseReview, NULL_STRING } from "@/types/types";
 import useForm from "@/hooks/useForm";
 import { changeStatusReview } from "@/actions/user.reviews";

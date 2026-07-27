@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Program } from "@/types/types";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { ChevronDownIcon, ChevronUpIcon } from "@/components/icons";
 import ProgramCurriculum from "./ProgramCurriculum";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, use } from "react";
-import { MenuIcon, CloseIcon } from "@/components/icons/icons";
+import { MenuIcon, CloseIcon } from "@/components/icons/Icons";
 import { AuthContext } from "@/context/authCtx";
 
 import Link from "next/link";
@@ -148,7 +148,7 @@ export default function MobileHeader() {
                     key={section.title}
                     href={section.href}
                     onClick={closeMenu}
-                    className="border-border hover:bg-primary-light hover:text-primary hover:border-primary block rounded-md border p-4 transition-colors"
+                    className="border-border hover:bg-primary-foreground hover:text-primary hover:border-primary block rounded-md border p-4 transition-colors"
                   >
                     <div className="text-foreground text-sm leading-none font-medium">
                       {section.title}

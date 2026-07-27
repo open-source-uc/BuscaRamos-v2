@@ -1,0 +1,41 @@
+:root {
+  --gray-50: oklch(0.95 0 0);
+  --gray-100: oklch(0.88 0 0);
+  --gray-400: oklch(0.535 0 0);
+  --gray-700: oklch(0.33 0 0);
+
+  --red-100: oklch(0.95 0.3 20);
+  --red-200: oklch(0.7 0.2 12);
+  --red-300: oklch(0.65 0.18 12);
+  --red-500: oklch(0.18 0.3 20);
+
+  --green-100: oklch(0.92 0.16 139);
+  --green-200: oklch(0.85 0.15 139);
+  --green-300: oklch(0.79 0.14 139);
+  --green-500: oklch(0.4 0.3 139.2308);
+
+  --blue-100: oklch(0.92 0.06 216);
+  --blue-200: oklch(0.85 0.06 215);
+  --blue-300: oklch(0.78 0.05 216);
+  --blue-500: oklch(0.4 0.3 260);
+
+  --purple-100: oklch(0.95 0.3 285.31);
+  --purple-200: oklch(0.8 0.08 308);
+  --purple-300: oklch(0.73 0.07 309);
+  --purple-500: oklch(0.3 0.3 285.31);
+
+  --pink-100: oklch(0.98 0.3 349.85);
+  --pink-200: oklch(0.74 0.18 327);
+  --pink-300: oklch(0.68 0.16 328);
+  --pink-500: oklch(0.18 0.3 349.85);
+
+  --orange-100: oklch(0.98 0.3 54);
+  --orange-200: oklch(0.75 0.16 75);
+  --orange-300: oklch(0.69 0.14 75);
+  --orange-500: oklch(0.257 0.3 54);
+
+  --yellow-100: oklch(0.94 0.13 102);
+  --yellow-200: oklch(0.87 0.12 103);
+  --yellow-300: oklch(0.79 0.11 103);
+  --yellow-500: oklch(0.48 0.114 62);
+}

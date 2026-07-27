@@ -1,8 +1,8 @@
 import { ClockIcon } from "@/components/icons";
 import ChangeStatusForm from "@/components/reviews/FormChangeStatus";
 import Review from "@/components/reviews/Review";
-import { Button } from "@/components/ui/button";
-import { Pill } from "@/components/ui/pill";
+import { Button } from "@/components/ui/Button";
+import { Pill } from "@/components/ui/Pill";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { getReviewsByStatus } from "@/lib/reviews";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Pill } from "@/components/ui/pill";
-import { LocationIcon } from "@/components/icons/icons";
+import { Pill } from "@/components/ui/Pill";
+import { LocationIcon } from "@/components/icons/Icons";
 import { useCurrentSemester } from "@/context/semesterCtx";
 
 interface CourseCampusesProps {

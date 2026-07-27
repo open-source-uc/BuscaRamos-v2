@@ -7,11 +7,11 @@ const numericInputVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-border focus:border-primary focus:ring-primary/20",
-        success: "border-green-300 focus:border-green-500 focus:ring-green/20",
-        warning: "border-orange-300 focus:border-orange-500 focus:ring-orange/20",
-        error: "border-red-300 focus:border-red-500 focus:ring-red/20",
-        info: "border-blue-300 focus:border-blue-500 focus:ring-blue/20",
+        default: "border-border focus:border-primary focus:ring-primary",
+        success: "border-green-border focus:border-green-foreground focus:ring-green",
+        warning: "border-orange-border focus:border-orange-foreground focus:ring-orange",
+        error: "border-red-border focus:border-red-foreground focus:ring-red",
+        info: "border-blue-border focus:border-blue-foreground focus:ring-blue",
       },
       size: {
         sm: "px-3 py-2 text-sm",

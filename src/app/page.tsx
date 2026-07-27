@@ -1,6 +1,6 @@
-import AdvantagesInfo from "@/components/Landing/AdvantagesInfo";
-import GettingStarted from "@/components/Landing/GettingStarted";
-import LandingSearch from "@/components/Landing/LandingSearch";
+import AdvantagesInfo from "@/components/landing/AdvantagesInfo";
+import GettingStarted from "@/components/landing/GettingStarted";
+import LandingSearch from "@/components/landing/LandingSearch";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

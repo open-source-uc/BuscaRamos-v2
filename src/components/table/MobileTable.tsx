@@ -3,8 +3,8 @@ import { CourseScore } from "@/types/types";
 import { Table } from "@tanstack/react-table";
 import TableCourseCampuses from "./TableCourseCampuses";
 import { AreaIcon, OpenInFullIcon, Sentiment } from "../icons";
-import { Pill } from "../ui/pill";
-import { Button } from "../ui/button";
+import { Pill } from "../ui/Pill";
+import { Button } from "../ui/Button";
 
 interface MobileTableProps {
   table: Table<CourseScore>;

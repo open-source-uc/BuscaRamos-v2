@@ -1,0 +1,73 @@
+/* Theme variables and color definitions */
+@theme static inline {
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Semantic colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-border: var(--accent-border);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-red: var(--red);
+  --color-red-hover: var(--red-hover);
+  --color-red-border: var(--red-border);
+  --color-red-foreground: var(--red-foreground);
+
+  --color-green: var(--green);
+  --color-green-hover: var(--green-hover);
+  --color-green-border: var(--green-border);
+  --color-green-foreground: var(--green-foreground);
+
+  --color-blue: var(--blue);
+  --color-blue-hover: var(--blue-hover);
+  --color-blue-border: var(--blue-border);
+  --color-blue-foreground: var(--blue-foreground);
+
+  --color-purple: var(--purple);
+  --color-purple-hover: var(--purple-hover);
+  --color-purple-border: var(--purple-border);
+  --color-purple-foreground: var(--purple-foreground);
+
+  --color-pink: var(--pink);
+  --color-pink-hover: var(--pink-hover);
+  --color-pink-border: var(--pink-border);
+  --color-pink-foreground: var(--pink-foreground);
+
+  --color-orange: var(--orange);
+  --color-orange-hover: var(--orange-hover);
+  --color-orange-border: var(--orange-border);
+  --color-orange-foreground: var(--orange-foreground);
+
+  --color-yellow: var(--yellow);
+  --color-yellow-hover: var(--yellow-hover);
+  --color-yellow-border: var(--yellow-border);
+  --color-yellow-foreground: var(--yellow-foreground);
+
+  --color-destructive: var(--destructive);
+
+  /* Custom breakpoints */
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1154px;
+}

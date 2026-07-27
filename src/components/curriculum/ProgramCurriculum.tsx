@@ -24,22 +24,22 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
         <span className="font-medium">Dificultad:</span>
 
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded bg-green-light border border-green/20" />
+          <div className="h-3 w-3 rounded bg-green border border-green-border" />
           <span>Baja</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded bg-orange-light border border-orange/20" />
+          <div className="h-3 w-3 rounded bg-orange border border-orange-border" />
           <span>Media</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded bg-red-light border border-red/20" />
+          <div className="h-3 w-3 rounded bg-red border border-red-border" />
           <span>Alta</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded border bg-accent" />
+          <div className="h-3 w-3 rounded bg-accent border border-accent-border" />
           <span>Sin datos</span>
         </div>
       </div>
@@ -63,9 +63,10 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
 
                 const workloadColors: Record<string, string> = {
                   "Sin datos": "",
-                  Baja: "bg-green-light text-green border border-green/20 hover:bg-green/60",
-                  Media: "bg-orange-light text-orange border border-orange/20 hover:bg-orange/60",
-                  Alta: "bg-red-light text-red border border-red/20 hover:bg-red/60",
+                  Baja: "bg-green text-green-foreground border border-green-border hover:bg-green-hover",
+                  Media:
+                    "bg-orange text-orange-foreground border border-orange-border hover:bg-orange-hover",
+                  Alta: "bg-red text-red-foreground border border-red-border hover:bg-red-hover",
                 };
 
                 const color = workloadColors[workloadLabel];
@@ -74,7 +75,7 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
                   return (
                     <p
                       key={`${courseCode}-${index}`}
-                      className="rounded border bg-accent font-semibold leading-tight text-center px-3 py-5 text-xs hover:bg-muted"
+                      className="rounded-md border bg-accent font-semibold leading-tight text-center px-3 py-5 text-xs border-accent-border hover:bg-muted"
                     >
                       {customCodeParser(courseCode)}
                     </p>
@@ -86,7 +87,7 @@ export default function ProgramCurriculum({ program }: ProgramCurriculumProps) {
                     href={`/${course.sigle}`}
                     target="_blank"
                     className={cn(
-                      "rounded-md border bg-accent px-3 py-2 text-xs hover:bg-muted transition-colors min-w-35",
+                      "rounded-md border border-accent-border bg-accent px-3 py-2 text-xs hover:bg-muted transition-colors min-w-35",
                       color
                     )}
                   >

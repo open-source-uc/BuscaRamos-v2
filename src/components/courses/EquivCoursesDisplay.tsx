@@ -1,5 +1,5 @@
-import { Pill } from "@/components/ui/pill";
-import { DocsIcon, OpenInFullIcon, DeceasedIcon } from "@/components/icons/icons";
+import { Pill } from "@/components/ui/Pill";
+import { DocsIcon, OpenInFullIcon, DeceasedIcon } from "@/components/icons/Icons";
 import { useCourseNameMap } from "@/context/courseNameMapCtx";
 
 interface EquivalentsDisplayProps {
@@ -15,7 +15,7 @@ export const EquivCoursesDisplay = ({ equivalences, className = "" }: Equivalent
     return (
       <div className={`w-full py-6 ${className}`}>
         <div className="text-muted-foreground flex items-center gap-3">
-          <div className="bg-green-light text-green border-green/20 shrink-0 rounded-lg border p-2">
+          <div className="bg-green text-green-foreground border-green-border shrink-0 rounded-lg border p-2">
             <DocsIcon className="h-5 w-5 fill-current" />
           </div>
           <div className="min-w-0 flex-1">

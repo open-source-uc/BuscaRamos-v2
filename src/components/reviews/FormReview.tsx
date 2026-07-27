@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import useForm from "@/hooks/useForm";
 import { CourseReview, NULL_STRING } from "@/types/types";
 import {
@@ -17,9 +17,9 @@ import {
   WorkloadIcon,
 } from "../icons";
 import { useEffect, useMemo } from "react";
-import { ButtonInput } from "../ui/button-input";
-import { NumericInput } from "../ui/numeric-input";
-import { SelectInput } from "../ui/select-input";
+import { InputWithButton } from "../ui/InputWithButton";
+import { NumericInput } from "../ui/NumericInput";
+import { SelectInput } from "../ui/SelectInput";
 import { parseSemester } from "@/lib/currentSemester";
 import { useCurrentSemester } from "@/context/semesterCtx";
 import Link from "next/link";
@@ -55,7 +55,7 @@ export default function FormReview({
     <div className="mx-auto px-2 py-4 sm:px-4 sm:py-8">
       <div className="border-border rounded-md border p-3 sm:p-6">
         <h3 className="text-foreground mb-3 flex items-center gap-2 font-medium">
-          <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 font-medium">
+          <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-2 font-medium">
             <EditIcon className="h-4 w-4 fill-current" />
           </div>
           Consejos para una buena reseña
@@ -117,13 +117,13 @@ export default function FormReview({
 
             <div className="border-border rounded-md border p-3 sm:p-6">
               <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                <div className="bg-green-light text-green border-green/20 rounded-lg border p-2">
+                <div className="bg-green text-green-foreground border-green-border rounded-lg border p-2">
                   <HappyIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 </div>
                 Valoración General
               </h3>
               <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
-                <ButtonInput
+                <InputWithButton
                   variant="red"
                   icon={ThumbDownIcon}
                   title="No lo recomiendo"
@@ -137,7 +137,7 @@ export default function FormReview({
                   }}
                 />
 
-                <ButtonInput
+                <InputWithButton
                   variant="blue"
                   icon={ThumbUpIcon}
                   title="Lo recomiendo"
@@ -151,7 +151,7 @@ export default function FormReview({
                   }}
                 />
 
-                <ButtonInput
+                <InputWithButton
                   variant="green"
                   icon={StarIcon}
                   title="Lo super recomiendo"
@@ -170,13 +170,13 @@ export default function FormReview({
             <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
               <div className="border-border rounded-md border p-3 sm:p-6">
                 <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                  <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2">
+                  <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-2">
                     <WorkloadIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                   </div>
                   Nivel de Dificultad
                 </h3>
                 <div className="space-y-3">
-                  <ButtonInput
+                  <InputWithButton
                     variant="green"
                     size="sm"
                     icon={HourglassIcon}
@@ -191,7 +191,7 @@ export default function FormReview({
                     }}
                   />
 
-                  <ButtonInput
+                  <InputWithButton
                     variant="orange"
                     size="sm"
                     icon={HourglassIcon}
@@ -206,7 +206,7 @@ export default function FormReview({
                     }}
                   />
 
-                  <ButtonInput
+                  <InputWithButton
                     variant="red"
                     size="sm"
                     icon={HourglassIcon}
@@ -225,13 +225,13 @@ export default function FormReview({
 
               <div className="border-border rounded-md border p-3 sm:p-6">
                 <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                  <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-2">
+                  <div className="bg-purple text-purple-foreground border-purple-border rounded-lg border p-2">
                     <AttendanceIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                   </div>
                   Tipo de Asistencia
                 </h3>
                 <div className="space-y-3">
-                  <ButtonInput
+                  <InputWithButton
                     variant="red"
                     size="sm"
                     icon={AttendanceIcon}
@@ -246,7 +246,7 @@ export default function FormReview({
                     }}
                   />
 
-                  <ButtonInput
+                  <InputWithButton
                     variant="green"
                     size="sm"
                     icon={AttendanceIcon}
@@ -266,7 +266,7 @@ export default function FormReview({
 
             <div className="border-border rounded-md border p-3 sm:p-6">
               <h3 className="mb-6 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                <div className="bg-green-light text-green border-green/20 rounded-lg border p-2">
+                <div className="bg-green text-green-foreground border-green-border rounded-lg border p-2">
                   <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 </div>
                 Detalles del Curso
@@ -317,7 +317,7 @@ export default function FormReview({
 
             <div className="border-border rounded-md border p-3 sm:p-6">
               <h3 className="mb-4 flex items-center gap-2 text-base sm:text-lg font-semibold">
-                <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-2">
+                <div className="bg-purple text-purple-foreground border-purple-border rounded-lg border p-2">
                   <EditIcon className="h-4 w-4 sm:h-5 sm:w-5 fill-current" />
                 </div>
                 Comentario (Opcional)

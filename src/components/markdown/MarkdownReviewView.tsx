@@ -4,7 +4,7 @@ import useSWR from "swr";
 import type { Element } from "hast";
 import type { ComponentProps, ReactNode } from "react";
 
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
