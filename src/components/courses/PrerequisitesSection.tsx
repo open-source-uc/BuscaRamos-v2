@@ -3,7 +3,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
 import { RestrictionsDisplay } from "./RestrictionsDisplay";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 type ApiPrerequisiteGroup = NonNullable<CourseStaticData["parsed_meta_data"]["prerequisites"]>;
 type ApiRestrictionGroup = NonNullable<CourseStaticData["parsed_meta_data"]["restrictions"]>;

@@ -3,7 +3,7 @@
 import { use, useState, Suspense } from "react";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 import { getCourseStaticDataClient } from "@/lib/coursesUnifiedClient";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 import Review from "./Review";
 import { CourseReview } from "@/types/types";
 

@@ -19,7 +19,7 @@ import {
 import { useEffect, useMemo } from "react";
 import { InputWithButton } from "../ui/InputWithButton";
 import { NumericInput } from "../ui/NumericInput";
-import { SelectInput } from "../ui/select-input";
+import { SelectInput } from "../ui/SelectInput";
 import { parseSemester } from "@/lib/currentSemester";
 import { useCurrentSemester } from "@/context/semesterCtx";
 import Link from "next/link";

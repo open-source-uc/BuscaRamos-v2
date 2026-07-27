@@ -5,7 +5,7 @@ import useSWRInfinite from "swr/infinite";
 import type { CourseReview } from "@/types/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 import Review from "./Review";
 
 interface ReviewsPage {
