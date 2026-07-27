@@ -2,21 +2,21 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const buttonInputVariants = cva(
+const inputWithButtonVariants = cva(
   "relative cursor-pointer group block focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 transition-all",
   {
     variants: {
       variant: {
         default:
           "border border-border rounded-md hover:border-primary has-[:checked]:border-primary has-[:checked]:bg-primary-foreground has-[:checked]:text-primary",
-        blue: "border border-border rounded-md hover:border-blue has-[:checked]:border-blue has-[:checked]:bg-blue-light has-[:checked]:text-blue",
+        blue: "border border-border rounded-md hover:border-blue-border has-[:checked]:border-blue-border has-[:checked]:bg-blue has-[:checked]:text-blue-foreground",
         green:
-          "border border-border rounded-md hover:border-green has-[:checked]:border-green has-[:checked]:bg-green-light has-[:checked]:text-green",
-        red: "border border-border rounded-md hover:border-red has-[:checked]:border-red has-[:checked]:bg-red-light has-[:checked]:text-red",
+          "border border-border rounded-md hover:border-green-border has-[:checked]:border-green-border has-[:checked]:bg-green has-[:checked]:text-green-foreground",
+        red: "border border-border rounded-md hover:border-red-border has-[:checked]:border-red-border has-[:checked]:bg-red has-[:checked]:text-red-foreground",
         orange:
-          "border border-border rounded-md hover:border-orange has-[:checked]:border-orange has-[:checked]:bg-orange-light has-[:checked]:text-orange",
+          "border border-border rounded-md hover:border-orange-border has-[:checked]:border-orange-border has-[:checked]:bg-orange has-[:checked]:text-orange-foreground",
         purple:
-          "border border-border rounded-md hover:border-purple has-[:checked]:border-purple has-[:checked]:bg-purple-light has-[:checked]:text-purple",
+          "border border-border rounded-md hover:border-purple-border has-[:checked]:border-purple-border has-[:checked]:bg-purple has-[:checked]:text-purple-foreground",
       },
       size: {
         default: "p-4",
@@ -37,14 +37,14 @@ const iconContainerVariants = cva("rounded-lg flex items-center justify-center b
     variant: {
       default:
         "bg-transparent text-primary border-primary/20 group-has-[:checked]:bg-primary group-has-[:checked]:text-primary-foreground",
-      blue: "bg-transparent text-blue-600 border-blue/20 group-has-[:checked]:bg-blue group-has-[:checked]:text-white",
+      blue: "bg-transparent text-blue-foreground border-blue-border group-has-[:checked]:bg-blue group-has-[:checked]:text-white",
       green:
-        "bg-transparent text-green-600 border-green/20 group-has-[:checked]:bg-green group-has-[:checked]:text-white",
-      red: "bg-transparent text-red-600 border-red/20 group-has-[:checked]:bg-red group-has-[:checked]:text-white",
+        "bg-transparent text-green-foreground border-green-border group-has-[:checked]:bg-green-foreground group-has-[:checked]:text-white",
+      red: "bg-transparent text-red-foreground border-red-border group-has-[:checked]:bg-red-foreground group-has-[:checked]:text-white",
       orange:
-        "bg-transparent text-orange-600 border-orange/20 group-has-[:checked]:bg-orange group-has-[:checked]:text-white",
+        "bg-transparent text-orange-foreground border-orange-border group-has-[:checked]:bg-orange-foreground group-has-[:checked]:text-white",
       purple:
-        "bg-transparent text-purple-600 border-purple/20 group-has-[:checked]:bg-purple group-has-[:checked]:text-white",
+        "bg-transparent text-purple-foreground border-purple-border group-has-[:checked]:bg-purple-foreground group-has-[:checked]:text-white",
     },
     size: {
       default: "p-2",
@@ -73,10 +73,10 @@ const iconVariants = cva("fill-current", {
   },
 });
 
-export interface ButtonInputProps
+export interface InputWithButtonProps
   extends
     Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "htmlFor">,
-    VariantProps<typeof buttonInputVariants> {
+    VariantProps<typeof inputWithButtonVariants> {
   icon?: React.ComponentType<{ className?: string }>;
   title: string;
   subtitle?: string;
@@ -85,7 +85,7 @@ export interface ButtonInputProps
   "aria-describedby"?: string;
 }
 
-const ButtonInput = React.forwardRef<HTMLLabelElement, ButtonInputProps>(
+const InputWithButton = React.forwardRef<HTMLLabelElement, InputWithButtonProps>(
   (
     {
       className,
@@ -119,7 +119,7 @@ const ButtonInput = React.forwardRef<HTMLLabelElement, ButtonInputProps>(
         ref={ref}
         htmlFor={inputId}
         className={cn(
-          buttonInputVariants({ variant, size, className }),
+          inputWithButtonVariants({ variant, size, className }),
           isDisabled && "pointer-events-none cursor-not-allowed opacity-50"
         )}
         aria-describedby={describedBy}
@@ -144,14 +144,14 @@ const ButtonInput = React.forwardRef<HTMLLabelElement, ButtonInputProps>(
           <div className="min-w-0 flex-1">
             <div
               id={titleId}
-              className="text-foreground group-has-[:checked]:text-foreground font-medium"
+              className="text-foreground group-has-checked:text-foreground font-medium"
             >
               {title}
             </div>
             {subtitle && (
               <div
                 id={subtitleId}
-                className="text-muted-foreground group-has-[:checked]:text-muted-foreground text-sm"
+                className="text-muted-foreground group-has-checked:text-muted-foreground text-sm"
               >
                 {subtitle}
               </div>
@@ -164,6 +164,6 @@ const ButtonInput = React.forwardRef<HTMLLabelElement, ButtonInputProps>(
     );
   }
 );
-ButtonInput.displayName = "ButtonInput";
+InputWithButton.displayName = "InputWithButton";
 
-export { ButtonInput, buttonInputVariants, iconContainerVariants, iconVariants };
+export { InputWithButton, inputWithButtonVariants, iconContainerVariants, iconVariants };
