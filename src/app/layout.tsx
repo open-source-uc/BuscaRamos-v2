@@ -11,7 +11,7 @@ import { AuthProvider } from "@/context/authCtx";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
-import { Banner } from "@/components/ui/banner";
+import { Banner } from "@/components/ui/Banner";
 
 export const metadata: Metadata = {
   title: {

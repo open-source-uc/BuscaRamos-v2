@@ -36,11 +36,11 @@ const bannerVariants = cva("w-full flex items-center border font-medium", {
   variants: {
     variant: {
       blue: "bg-primary-foreground text-primary border-primary/20",
-      pink: "bg-pink-light text-pink border-pink/20",
-      green: "bg-green-light text-green border-green/20",
-      purple: "bg-purple-light text-purple border-purple/20",
-      orange: "bg-orange-light text-orange border-orange/20",
-      red: "bg-red-light text-red border-red/20",
+      pink: "bg-pink text-pink-foreground border-pink-border",
+      green: "bg-green text-green-foreground border-green-border",
+      purple: "bg-purple text-purple-foreground border-purple-border",
+      orange: "bg-orange text-orange-foreground border-orange-border",
+      red: "bg-red text-red-fpreground border-red-border",
       ghost_blue: "bg-transparent text-muted-foreground border-border",
       ghost_pink: "bg-transparent text-muted-foreground border-border",
       ghost_green: "bg-transparent text-muted-foreground border-border",
@@ -160,14 +160,12 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
 
     return (
       <div className={cn(bannerVariants({ variant, size, className }))} ref={ref} {...props}>
-        {IconComponent && (
-          <IconComponent className={`${iconSize} ${getIconColor()} flex-shrink-0`} />
-        )}
+        {IconComponent && <IconComponent className={`${iconSize} ${getIconColor()} shrink-0`} />}
         <div className="flex-1">{children}</div>
         {dismissible && (
           <button
             onClick={handleDismiss}
-            className={`${iconSize} ml-2 flex-shrink-0 rounded-sm transition-opacity hover:opacity-70 focus:ring-2 focus:ring-current focus:ring-offset-2 focus:outline-none`}
+            className={`${iconSize} ml-2 shrink-0 rounded-sm transition-opacity hover:opacity-70 focus:ring-2 focus:ring-current focus:ring-offset-2 focus:outline-none`}
             aria-label="Cerrar Banner"
           >
             <svg
