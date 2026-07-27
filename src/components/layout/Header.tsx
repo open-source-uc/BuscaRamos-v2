@@ -17,9 +17,9 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
   ListItem,
-} from "@/components/Layout/NavigationMenu";
+} from "@/components/layout/NavigationMenu";
 import { ROUTES, HEADER_LINKS, FAQ_SECTIONS } from "@/lib/routes";
-import MobileHeader from "@/components/Layout/MobileHeader";
+import MobileHeader from "@/components/layout/MobileHeader";
 import logo from "@/public/logos/dark-osuc-logo.svg";
 
 export default function HeaderPage() {
