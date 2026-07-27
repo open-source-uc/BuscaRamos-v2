@@ -56,7 +56,7 @@ export function DropdownMenu({ children, trigger, className }: DropdownMenuProps
       {isOpen && (
         <div
           className={cn(
-            "absolute left-0 tablet:right-0 tablet:left-auto z-50 mt-1 min-w-[180px] rounded-md border",
+            "absolute left-0 tablet:right-0 tablet:left-auto z-50 mt-1 min-w-45 rounded-md border",
             "bg-popover text-popover-foreground shadow-md",
             "animate-in fade-in-0 zoom-in-95",
             "w-auto"
@@ -84,7 +84,7 @@ export function DropdownMenuItem({ children, onClick, className }: DropdownMenuI
         "px-2 py-1.5 text-sm outline-none transition-colors",
         "hover:bg-blue-600 hover:text-background",
         "focus:bg-accent focus:text-accent-foreground",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}
     >

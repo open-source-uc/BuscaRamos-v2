@@ -49,7 +49,7 @@ import { getClassTypeLong, getClassTypeColor } from "@/components/courses/schedu
 import generateICSFromSchedule from "@/lib/generateICSFromSchedule";
 import { Search } from "@/components/search/SearchInput";
 import { useFuse } from "@/hooks/useFuse";
-import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuItem } from "@/components/ui/DropdownMenu";
 import { useCurrentSemester } from "@/context/semesterCtx";
 import { CourseFilters } from "@/components/ui/CourseFilters";
 import ScheduleModuleFilter from "@/components/courses/schedules/ScheduleModuleFilter";
