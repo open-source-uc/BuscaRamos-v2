@@ -8,7 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart";
+} from "@/components/ui/Chart";
 import { useMemo, type ComponentProps } from "react";
 import { milestones } from "../../lib/milestones";
 
