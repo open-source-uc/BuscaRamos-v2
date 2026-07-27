@@ -135,7 +135,7 @@ Basados en **Radix UI** y **shadcn/ui** para máxima accesibilidad:
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components/ui/Card";
 ```
 
 ### Optimizaciones
