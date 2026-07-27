@@ -33,4 +33,9 @@
   --orange-200: oklch(0.75 0.16 75);
   --orange-300: oklch(0.69 0.14 75);
   --orange-500: oklch(0.257 0.3 54);
+
+  --yellow-100: oklch(0.94 0.13 102);
+  --yellow-200: oklch(0.87 0.12 103);
+  --yellow-300: oklch(0.79 0.11 103);
+  --yellow-500: oklch(0.48 0.114 62);
 }

@@ -52,4 +52,9 @@
   --orange-hover: var(--orange-200);
   --orange-border: var(--orange-300);
   --orange-foreground: var(--orange-500);
+
+  --yellow: var(--yellow-100);
+  --yellow-hover: var(--yellow-200);
+  --yellow-border: var(--yellow-300);
+  --yellow-foreground: var(--yellow-500);
 }

@@ -60,6 +60,11 @@
   --color-orange-border: var(--orange-border);
   --color-orange-foreground: var(--orange-foreground);
 
+  --color-yellow: var(--yellow);
+  --color-yellow-hover: var(--yellow-hover);
+  --color-yellow-border: var(--yellow-border);
+  --color-yellow-foreground: var(--yellow-foreground);
+
   /* Custom breakpoints */
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1154px;
