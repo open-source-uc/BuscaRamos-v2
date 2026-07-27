@@ -1,5 +1,5 @@
 import { Skeleton } from "../ui/Skeleton";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/Table";
 
 export default function DataTableSkeleton() {
   return (

@@ -1,5 +1,5 @@
 import { CourseScore } from "@/types/types";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/Table";
 import { flexRender, Table as TableType } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { Button } from "../ui/button";
