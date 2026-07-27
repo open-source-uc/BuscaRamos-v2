@@ -17,7 +17,7 @@ import {
   WorkloadIcon,
 } from "../icons";
 import { useEffect, useMemo } from "react";
-import { ButtonInput } from "../ui/button-input";
+import { InputWithButton } from "../ui/InputWithButton";
 import { NumericInput } from "../ui/numeric-input";
 import { SelectInput } from "../ui/select-input";
 import { parseSemester } from "@/lib/currentSemester";
@@ -123,7 +123,7 @@ export default function FormReview({
                 Valoración General
               </h3>
               <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
-                <ButtonInput
+                <InputWithButton
                   variant="red"
                   icon={ThumbDownIcon}
                   title="No lo recomiendo"
@@ -137,7 +137,7 @@ export default function FormReview({
                   }}
                 />
 
-                <ButtonInput
+                <InputWithButton
                   variant="blue"
                   icon={ThumbUpIcon}
                   title="Lo recomiendo"
@@ -151,7 +151,7 @@ export default function FormReview({
                   }}
                 />
 
-                <ButtonInput
+                <InputWithButton
                   variant="green"
                   icon={StarIcon}
                   title="Lo super recomiendo"
@@ -176,7 +176,7 @@ export default function FormReview({
                   Nivel de Dificultad
                 </h3>
                 <div className="space-y-3">
-                  <ButtonInput
+                  <InputWithButton
                     variant="green"
                     size="sm"
                     icon={HourglassIcon}
@@ -191,7 +191,7 @@ export default function FormReview({
                     }}
                   />
 
-                  <ButtonInput
+                  <InputWithButton
                     variant="orange"
                     size="sm"
                     icon={HourglassIcon}
@@ -206,7 +206,7 @@ export default function FormReview({
                     }}
                   />
 
-                  <ButtonInput
+                  <InputWithButton
                     variant="red"
                     size="sm"
                     icon={HourglassIcon}
@@ -231,7 +231,7 @@ export default function FormReview({
                   Tipo de Asistencia
                 </h3>
                 <div className="space-y-3">
-                  <ButtonInput
+                  <InputWithButton
                     variant="red"
                     size="sm"
                     icon={AttendanceIcon}
@@ -246,7 +246,7 @@ export default function FormReview({
                     }}
                   />
 
-                  <ButtonInput
+                  <InputWithButton
                     variant="green"
                     size="sm"
                     icon={AttendanceIcon}
