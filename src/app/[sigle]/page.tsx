@@ -148,7 +148,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-blue-light text-blue border border-blue/20 rounded-lg">
+            <div className="p-2 bg-blue text-blue-foreground border border-blue-border rounded-lg">
               <WorkloadIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -161,7 +161,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-purple-light text-purple border border-purple/20 rounded-lg">
+            <div className="p-2 bg-purple text-purple-foreground border border-purple-border rounded-lg">
               <AttendanceIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -178,7 +178,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-green-light text-green border border-green/20 rounded-lg">
+            <div className="p-2 bg-green text-green-foreground border border-green-border rounded-lg">
               <ThumbUpIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -187,8 +187,10 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
             </div>
           </div>
           <div className="flex gap-2 text-sm">
-            <span className="text-green">{(stats?.likes ?? 0) + (stats?.superlikes ?? 0)} ↑</span>
-            <span className="text-red">{stats?.dislikes ?? 0} ↓</span>
+            <span className="text-green-foreground">
+              {(stats?.likes ?? 0) + (stats?.superlikes ?? 0)} ↑
+            </span>
+            <span className="text-red-foreground">{stats?.dislikes ?? 0} ↓</span>
           </div>
         </div>
       </section>

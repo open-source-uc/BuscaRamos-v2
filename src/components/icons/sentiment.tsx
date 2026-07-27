@@ -6,12 +6,12 @@ import { VeryHappyIcon, HappyIcon, NeutralIcon, SadIcon, VerySadIcon, QuestionIc
 const sentimentVariants = cva("inline-flex items-center gap-3 rounded-lg transition-colors", {
   variants: {
     sentiment: {
-      veryHappy: "bg-green-light text-green border border-green/20",
-      happy: "bg-green-light text-green border border-green/20",
-      neutral: "bg-orange-light text-orange border border-orange/20",
-      sad: "bg-red-light text-red border border-red/20",
-      verySad: "bg-red-light text-red border border-red/20",
-      question: "bg-muted text-muted-foreground border border-muted-foreground/20",
+      veryHappy: "bg-green text-green-foreground border border-green-border",
+      happy: "bg-green text-green-foreground border border-green-border",
+      neutral: "bg-orange text-orange-foreground border border-orange-border",
+      sad: "bg-red text-red-foreground border border-red-border",
+      verySad: "bg-red text-red-foreground border border-red-border",
+      question: "bg-muted text-muted-foreground border border-muted-foreground",
     },
     size: {
       xs: "p-1.5",
