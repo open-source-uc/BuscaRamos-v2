@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import type { Program } from "@/types/types";
 import { Combobox, ComboboxOption } from "../ui/combobox";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/Collapsible";
 import { ChevronDownIcon, ChevronUpIcon } from "../icons";
 import { Button } from "../ui/button";
 

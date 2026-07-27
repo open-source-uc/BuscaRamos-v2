@@ -1,5 +1,5 @@
 import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { OpensCoursesDisplay } from "@/components/courses/OpensCoursesDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { CourseStaticData } from "@/lib/coursesStaticData";

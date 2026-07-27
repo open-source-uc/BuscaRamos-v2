@@ -1,5 +1,5 @@
 import { DocsIcon, ChevronDownIcon, TextureIcon, DeceasedIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 import { PrerequisitesDisplay } from "./PrerequisitesDisplay";
 import { RestrictionsDisplay } from "./RestrictionsDisplay";
