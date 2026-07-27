@@ -85,12 +85,12 @@ export default function HeaderPage() {
 
       {/* Derecha: botón de perfil */}
       <Button
-        className="hidden tablet:flex shrink-0 font-bold px-4"
+        className="hidden tablet:flex shrink-0 font-semibold px-4"
         size="sm"
-        variant="black"
+        variant="ghost_border"
         onClick={handleGoToProfile}
       >
-        {isLoading ? "Cargando..." : user ? "MI PERFIL" : "INICIAR SESIÓN"}
+        {isLoading ? "Cargando..." : user ? "Mi perfil" : "Iniciar sesión"}
       </Button>
     </header>
   );
