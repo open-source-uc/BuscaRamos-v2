@@ -342,7 +342,7 @@ function ScheduleGrid({
                 <span className="text-red-foreground text-sm font-medium">
                   Conflictos detectados: {conflicts.length}
                 </span>
-                <p className="text-red/80 mt-1 text-xs">
+                <p className="text-red-foreground mt-1 text-xs">
                   Hay {conflicts.length} conflicto{conflicts.length > 1 ? "s" : ""} de horario en tu
                   selección
                 </p>

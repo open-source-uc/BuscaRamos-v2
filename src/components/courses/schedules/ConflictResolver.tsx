@@ -92,7 +92,7 @@ export default function ConflictResolver({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={handleOpenDialog} variant="orange" size="sm">
+        <Button onClick={handleOpenDialog} variant="destructive" size="sm">
           <FixIcon className="mr-2 h-4 w-4" />
           Resolver Conflictos
         </Button>
