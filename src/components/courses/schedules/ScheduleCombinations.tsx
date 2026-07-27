@@ -4,7 +4,7 @@ import { useDeferredValue, useMemo } from "react";
 import { CalendarIcon, ChevronDownIcon, SwapIcon, CheckIcon } from "@/components/icons/Icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { Pill } from "@/components/ui/Pill";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import type { CourseSections } from "@/types/types.ts";
 import {

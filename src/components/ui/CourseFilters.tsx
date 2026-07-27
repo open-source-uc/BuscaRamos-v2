@@ -8,7 +8,7 @@ import { Combobox, ComboboxOption } from "./Combobox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./Collapsible";
 import { ChevronDownIcon, ChevronUpIcon } from "../icons";
 import { Switch } from "./Switch";
-import { Button } from "./button";
+import { Button } from "./Button";
 
 interface CourseFiltersProps {
   courses: CourseScore[];

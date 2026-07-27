@@ -14,24 +14,25 @@ const buttonVariants = cva(
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-border bg-accent hover:bg-muted hover:text-muted-foreground",
         secondary: "bg-muted text-muted-foreground hover:bg-muted/80",
-        orange: "bg-orange text-background hover:bg-orange/90 border-orange/20",
-        green: "bg-green text-background hover:bg-green/90 border-green/20",
-        red: "bg-red text-background hover:bg-red/90 border-red/20",
-        black: "bg-black text-background hover:bg-black/80",
+        orange: "bg-orange text-background hover:bg-orange-hover border-orange-border",
+        green: "bg-green text-background hover:bg-green-hover border-green-border",
+        red: "bg-red text-background hover:bg-red-hover border-red-border",
+        black: "bg-black text-background hover:bg-black/90",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         ghost_border: "border border-border hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         ghost_blue:
           "bg-transparent text-primary border border-border hover:bg-primary-foreground hover:text-primary",
         ghost_pink:
-          "bg-transparent text-pink border border-border hover:bg-pink-light hover:text-pink",
+          "bg-transparent text-pink-foreground border border-border hover:bg-pink hover:text-pink-foreground",
         ghost_green:
-          "bg-transparent text-green border border-border hover:bg-green-light hover:text-green",
+          "bg-transparent text-green-foreground border border-border hover:bg-green hover:text-green-foreground",
         ghost_purple:
-          "bg-transparent text-purple border border-border hover:bg-purple-light hover:text-purple",
+          "bg-transparent text-purple-foreground border border-border hover:bg-purple hover:text-purple-foreground",
         ghost_orange:
-          "bg-transparent text-orange border border-border hover:bg-orange-light hover:text-orange",
-        ghost_red: "bg-transparent text-red border border-border hover:bg-red-light hover:text-red",
+          "bg-transparent text-orange-foreground border border-border hover:bg-orange hover:text-orange-foreground",
+        ghost_red:
+          "bg-transparent text-red-foreground border border-border hover:bg-red hover:text-red-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";
 import { useRouter } from "next/navigation";

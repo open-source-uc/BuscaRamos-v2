@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Review from "@/components/reviews/Review";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { getLatestReviewsPage } from "@/lib/latestReviews";
 import { ROUTES } from "@/lib/routes";

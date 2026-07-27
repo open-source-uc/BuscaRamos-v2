@@ -30,7 +30,7 @@ import type {
   CourseSection,
 } from "@/types/types.ts";
 import { Pill } from "@/components/ui/Pill";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Combobox, type ComboboxOption } from "@/components/ui/Combobox";
 import { toast } from "sonner";
 import {

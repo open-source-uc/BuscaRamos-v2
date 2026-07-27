@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Pill } from "@/components/ui/Pill";
 import {
   findConflictResolution,

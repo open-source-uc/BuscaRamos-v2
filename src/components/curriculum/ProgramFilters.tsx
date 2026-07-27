@@ -6,7 +6,7 @@ import type { Program } from "@/types/types";
 import { Combobox, ComboboxOption } from "../ui/Combobox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/Collapsible";
 import { ChevronDownIcon, ChevronUpIcon } from "../icons";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 
 interface ProgramFiltersProps {
   programs: Program[];

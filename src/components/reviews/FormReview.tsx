@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import useForm from "@/hooks/useForm";
 import { CourseReview, NULL_STRING } from "@/types/types";
 import {
