@@ -11,7 +11,7 @@ const sentimentVariants = cva("inline-flex items-center gap-3 rounded-lg transit
       neutral: "bg-orange text-orange-foreground border border-orange-border",
       sad: "bg-red text-red-foreground border border-red-border",
       verySad: "bg-red text-red-foreground border border-red-border",
-      question: "bg-muted text-muted-foreground border border-muted-foreground",
+      question: "bg-muted text-muted-foreground border border-accent-border",
     },
     size: {
       xs: "p-1.5",
