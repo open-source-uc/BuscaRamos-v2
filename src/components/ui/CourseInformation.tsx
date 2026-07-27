@@ -79,7 +79,11 @@ export default function CourseInformation({
             course.area.length > 0 &&
             course.area.some((a) => a && String(a).trim() !== "") && (
               <Pill variant="pink" icon={AreaIcon}>
-                <span>{course.area.filter((a) => a && String(a).trim() !== "").join(", ")}</span>
+                <span>
+                  {course.area.length > 6
+                    ? "Interárea"
+                    : course.area.filter((a) => a && String(a).trim() !== "").join(", ")}
+                </span>
               </Pill>
             )}
           {Array.isArray(course.is_removable) &&

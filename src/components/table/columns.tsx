@@ -115,12 +115,15 @@ export const columns: ColumnDef<CourseScore>[] = [
     },
     cell: ({ row }) => {
       const area = row.original.area;
+
       if (
         Array.isArray(area) &&
         area.length > 0 &&
         area.some((a) => a && String(a).trim() !== "")
       ) {
         const validAreas = area.filter((a) => a && String(a).trim() !== "");
+        if (validAreas.length > 6) return <Pill variant="pink">Interárea</Pill>;
+
         return <Pill variant="pink">{validAreas.join(", ")}</Pill>;
       }
       return null;
