@@ -7,7 +7,7 @@ import { CourseScore } from "@/types/types";
 import { Combobox, ComboboxOption } from "./Combobox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./Collapsible";
 import { ChevronDownIcon, ChevronUpIcon } from "../icons";
-import { Switch } from "./switch";
+import { Switch } from "./Switch";
 import { Button } from "./button";
 
 interface CourseFiltersProps {
