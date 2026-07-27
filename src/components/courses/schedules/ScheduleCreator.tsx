@@ -31,7 +31,7 @@ import type {
 } from "@/types/types.ts";
 import { Pill } from "@/components/ui/Pill";
 import { Button } from "@/components/ui/button";
-import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, type ComboboxOption } from "@/components/ui/Combobox";
 import { toast } from "sonner";
 import {
   SearchIcon,
