@@ -55,7 +55,7 @@ export default function MobileHeader() {
   return (
     <header
       ref={headerRef}
-      className="tablet:hidden border-background flex w-full items-center px-4 py-4"
+      className="tablet:hidden border-background flex w-full items-center px-4"
     >
       <div className="flex w-full justify-between">
         <Link className="flex items-center gap-2 shrink-0 z-110" href={"/"} onClick={closeMenu}>

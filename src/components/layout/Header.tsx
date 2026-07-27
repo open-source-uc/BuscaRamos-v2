@@ -35,7 +35,7 @@ export default function HeaderPage() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white p-5 flex items-center justify-between shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white p-5 flex items-center justify-between">
       <MobileHeader />
 
       {/* Izquierda: título y subtítulo */}
@@ -55,7 +55,7 @@ export default function HeaderPage() {
         </div>
       </Link>
 
-      <nav className="hidden tablet:flex flex-1 p-4">
+      <nav className="hidden tablet:flex flex-1 px-4">
         <NavigationMenu>
           <NavigationMenuList>
             {HEADER_LINKS.map(({ label, href }) => (
