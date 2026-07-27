@@ -13,7 +13,7 @@ import { ROUTES, FOOTER_SECTIONS } from "@/lib/routes";
 
 export default function Footer() {
   return (
-    <footer className="border-border mt-auto border-t py-12">
+    <footer className="bg-surface border-border mt-auto border-t py-12">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-2 items-start gap-8 md:grid-cols-4">
           <Link href={ROUTES.OSUC} className="flex font-semibold gap-4 items-center">

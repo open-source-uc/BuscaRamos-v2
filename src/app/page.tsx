@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   return (
-    <main className="flex bg-white justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
+    <main className="flex bg-background justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
       <section className="w-full max-w-7xl">
         <LandingSearch />
       </section>

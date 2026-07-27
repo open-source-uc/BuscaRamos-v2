@@ -35,7 +35,7 @@ export default function HeaderPage() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white p-5 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-surface p-5 flex items-center justify-between">
       <MobileHeader />
 
       {/* Izquierda: título y subtítulo */}
@@ -68,7 +68,9 @@ export default function HeaderPage() {
               </NavigationMenuItem>
             ))}
             <NavigationMenuItem>
-              <NavigationMenuTrigger>FAQ</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="data-[state=open]:bg-muted hover:bg-muted">
+                FAQ
+              </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150">
                   {FAQ_SECTIONS.map((section) => (
