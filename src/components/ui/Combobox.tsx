@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckIcon, ChevronDownIcon } from "@/components/icons/icons";
+import { CheckIcon, ChevronDownIcon } from "@/components/icons/Icons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

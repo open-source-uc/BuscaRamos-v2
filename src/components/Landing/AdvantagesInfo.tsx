@@ -1,4 +1,4 @@
-import { ThumbUpIcon, WorkloadIcon, ResourcesIcon } from "@/components/icons/icons";
+import { ThumbUpIcon, WorkloadIcon, ResourcesIcon } from "@/components/icons/Icons";
 
 export default function AdvantagesInfo() {
   return (

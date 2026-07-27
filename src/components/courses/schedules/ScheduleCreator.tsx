@@ -42,7 +42,7 @@ import {
   AreaIcon,
   ChevronDownIcon,
   PlusIcon,
-} from "@/components/icons/icons";
+} from "@/components/icons/Icons";
 import { cn } from "@/lib/utils";
 import { formatScheduleLocation } from "@/lib/scheduleLocation";
 import { getClassTypeLong, getClassTypeColor } from "@/components/courses/schedules/ScheduleLegend";

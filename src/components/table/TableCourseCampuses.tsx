@@ -2,7 +2,7 @@
 
 import { Pill } from "@/components/ui/Pill";
 import { useCurrentSemester } from "@/context/semesterCtx";
-import { LocationIcon } from "@/components/icons/icons";
+import { LocationIcon } from "@/components/icons/Icons";
 
 interface TableCourseCampusesProps {
   campus: string[];

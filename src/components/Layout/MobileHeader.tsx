@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, use } from "react";
-import { MenuIcon, CloseIcon } from "@/components/icons/icons";
+import { MenuIcon, CloseIcon } from "@/components/icons/Icons";
 import { AuthContext } from "@/context/authCtx";
 
 import Link from "next/link";

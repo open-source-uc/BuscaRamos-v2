@@ -1,4 +1,4 @@
-import { SearchIcon, ThumbUpIcon, EditIcon } from "@/components/icons/icons";
+import { SearchIcon, ThumbUpIcon, EditIcon } from "@/components/icons/Icons";
 
 export default function GettingStarted() {
   return (

@@ -1,4 +1,4 @@
-import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/icons";
+import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/Icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { OpensCoursesDisplay } from "@/components/courses/OpensCoursesDisplay";
 import { Skeleton } from "@/components/ui/Skeleton";

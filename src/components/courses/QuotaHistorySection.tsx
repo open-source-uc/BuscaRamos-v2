@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "@/components/icons/icons";
+import { ChevronDownIcon } from "@/components/icons/Icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { XAxis, YAxis, CartesianGrid, Area, AreaChart, ReferenceLine } from "recharts";
 import {

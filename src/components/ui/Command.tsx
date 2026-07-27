@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
-import { SearchIcon } from "@/components/icons/icons";
+import { SearchIcon } from "@/components/icons/Icons";
 
 import { cn } from "@/lib/utils";
 import {

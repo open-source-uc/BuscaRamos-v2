@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { VeryHappyIcon, HappyIcon, NeutralIcon, SadIcon, VerySadIcon, QuestionIcon } from "./icons";
+import { VeryHappyIcon, HappyIcon, NeutralIcon, SadIcon, VerySadIcon, QuestionIcon } from "./Icons";
 
 const sentimentVariants = cva("inline-flex items-center gap-3 rounded-lg transition-colors", {
   variants: {

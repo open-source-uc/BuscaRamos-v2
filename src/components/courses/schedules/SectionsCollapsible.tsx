@@ -14,7 +14,7 @@ import {
   LanguageIcon,
   StarIcon,
   AreaIcon,
-} from "@/components/icons/icons";
+} from "@/components/icons/Icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { Pill } from "@/components/ui/Pill";
 import { Button } from "@/components/ui/button";

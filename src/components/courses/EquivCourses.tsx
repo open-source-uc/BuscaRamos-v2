@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ShuffleIcon } from "@/components/icons/icons";
+import { ChevronDownIcon, ShuffleIcon } from "@/components/icons/Icons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { EquivCoursesDisplay } from "./EquivCoursesDisplay";
 import { Skeleton } from "@/components/ui/Skeleton";

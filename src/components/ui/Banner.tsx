@@ -14,7 +14,7 @@ import {
   HappyIcon,
   ClockIcon,
   PlusIcon,
-} from "@/components/icons/icons";
+} from "@/components/icons/Icons";
 
 // Icon mapping for the Banner component
 const iconMap = {
