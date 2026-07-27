@@ -139,7 +139,7 @@ export default function QuotaHistorySection({ quotaTimeline = {}, className = ""
                     Total cupos disponibles: {totalCupos}
                   </p>
                 </div>
-                <ChartContainer config={chartConfig} className="h-[300px] w-full">
+                <ChartContainer config={chartConfig} className="h-75 w-full">
                   <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
                     <defs>
                       <linearGradient id="colorOcupados" x1="0" y1="0" x2="0" y2="1">
