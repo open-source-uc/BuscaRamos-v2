@@ -22,6 +22,7 @@ import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";
 import Link from "next/link";
+import GraduationCapIcon from "../icons/Icons";
 
 export default function Review({
   review,
@@ -52,9 +53,16 @@ export default function Review({
           {/* Pill */}
           {course && (
             <section>
-              <Link href={`/${course.sigle}`}>
-                <p className="text-sm underline">{course.sigle}</p>
-              </Link>
+              <Pill
+                className="hover:bg-muted"
+                variant="ghost_blue"
+                size="xs"
+                icon={GraduationCapIcon}
+              >
+                <Link href={`/${course.sigle}`}>
+                  <p className="text-xs">{course.sigle}</p>
+                </Link>
+              </Pill>
               <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
               </div>
