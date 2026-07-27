@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import {
   findConflictResolution,
   applySectionSuggestions,

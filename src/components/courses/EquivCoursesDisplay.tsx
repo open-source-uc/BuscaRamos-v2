@@ -1,4 +1,4 @@
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { DocsIcon, OpenInFullIcon, DeceasedIcon } from "@/components/icons/icons";
 import { useCourseNameMap } from "@/context/courseNameMapCtx";
 

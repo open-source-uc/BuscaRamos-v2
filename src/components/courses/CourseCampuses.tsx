@@ -1,6 +1,6 @@
 "use client";
 
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { LocationIcon } from "@/components/icons/icons";
 import { useCurrentSemester } from "@/context/semesterCtx";
 

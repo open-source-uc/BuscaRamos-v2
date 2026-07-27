@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { Button } from "@/components/ui/button";
 import { Search } from "@/components/search/SearchInput";
 import { BuildingIcon, AreaIcon, HourglassIcon, ResourcesIcon } from "@/components/icons/icons";

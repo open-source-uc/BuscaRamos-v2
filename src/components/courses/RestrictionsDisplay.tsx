@@ -1,4 +1,4 @@
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 
 type ApiRestrictionGroup = NonNullable<CourseStaticData["parsed_meta_data"]["restrictions"]>;

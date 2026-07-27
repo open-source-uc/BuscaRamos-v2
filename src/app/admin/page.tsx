@@ -13,7 +13,7 @@ import {
   UsersIcon,
 } from "@/components/icons";
 import RegenerateCatalogButton from "@/components/admin/RegenerateCatalogButton";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { getRecentReviews, getReviewCountsByStatus } from "@/lib/reviews";
 import { CourseReview } from "@/types/types";
 

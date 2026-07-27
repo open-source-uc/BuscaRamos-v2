@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import { Button } from "../ui/button";
 import { SwapVertIcon } from "../icons/icons";
 import { Sentiment } from "../icons/sentiment";
