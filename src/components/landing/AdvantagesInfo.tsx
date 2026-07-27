@@ -16,7 +16,7 @@ export default function AdvantagesInfo() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         <div className="border-border bg-card rounded-md border p-6 transition-shadow duration-300 hover:shadow-lg">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-green-light text-green border-green/20 rounded-lg border p-3">
+            <div className="bg-green text-green-foreground border-green-border rounded-lg border p-3">
               <ThumbUpIcon className="h-6 w-6 fill-current" />
             </div>
             <h3 className="text-xl font-semibold">Reseñas auténticas</h3>
@@ -29,7 +29,7 @@ export default function AdvantagesInfo() {
 
         <div className="border-border bg-card rounded-md border p-6 transition-shadow duration-300 hover:shadow-lg">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-3">
+            <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-3">
               <WorkloadIcon className="h-6 w-6 fill-current" />
             </div>
             <h3 className="text-xl font-semibold">Información precisa</h3>
@@ -42,7 +42,7 @@ export default function AdvantagesInfo() {
 
         <div className="border-border bg-card rounded-md border p-6 transition-shadow duration-300 hover:shadow-lg">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-3">
+            <div className="bg-purple text-purple-foreground border-purple-border rounded-lg border p-3">
               <ResourcesIcon className="h-6 w-6 fill-current" />
             </div>
             <h3 className="text-xl font-semibold">Recursos académicos</h3>

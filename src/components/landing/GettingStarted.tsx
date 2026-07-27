@@ -31,7 +31,7 @@ export default function GettingStarted() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="border-border hover:border-green/30 group rounded-md border p-6 transition-all duration-300">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-green-light text-green border-green/20 rounded-lg border p-2 transition-transform duration-300 group-hover:scale-110">
+            <div className="bg-green text-green-foreground border-green-border rounded-lg border p-2 transition-transform duration-300 group-hover:scale-110">
               <SearchIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -43,15 +43,15 @@ export default function GettingStarted() {
             Utiliza nuestro buscador inteligente para encontrar el curso que te interesa. Busca por
             nombre o sigla.
           </div>
-          <div className="text-green flex items-center gap-2 text-xs font-medium">
-            <div className="bg-green h-2 w-2 rounded-full"></div>
+          <div className="text-green-foreground flex items-center gap-2 text-xs font-medium">
+            <div className="bg-green-foreground h-2 w-2 rounded-full"></div>
             Búsqueda instantánea
           </div>
         </div>
 
         <div className="border-border hover:border-blue/30 group rounded-md border p-6 transition-all duration-300">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 transition-transform duration-300 group-hover:scale-110">
+            <div className="bg-blue text-blue-foreground border-blue-border rounded-lg border p-2 transition-transform duration-300 group-hover:scale-110">
               <ThumbUpIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -63,15 +63,15 @@ export default function GettingStarted() {
             Explora reseñas auténticas y estadísticas detalladas. Toma decisiones informadas con
             datos reales.
           </div>
-          <div className="text-blue flex items-center gap-2 text-xs font-medium">
-            <div className="bg-blue h-2 w-2 rounded-full"></div>
+          <div className="text-blue-foreground flex items-center gap-2 text-xs font-medium">
+            <div className="bg-blue-foreground h-2 w-2 rounded-full"></div>
             Datos co-creados
           </div>
         </div>
 
         <div className="border-border hover:border-purple/30 group rounded-md border p-6 transition-all duration-300">
           <div className="mb-4 flex items-center gap-3">
-            <div className="bg-purple-light text-purple border-purple/20 rounded-lg border p-2 transition-transform duration-300 group-hover:scale-110">
+            <div className="bg-purple text-purple-foreground border-purple-border rounded-lg border p-2 transition-transform duration-300 group-hover:scale-110">
               <EditIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -83,8 +83,8 @@ export default function GettingStarted() {
             Después de cursar tu ramo, ayuda a otros estudiantes compartiendo tu experiencia y tips
             en una reseña.
           </div>
-          <div className="text-purple flex items-center gap-2 text-xs font-medium">
-            <div className="bg-purple h-2 w-2 rounded-full"></div>
+          <div className="text-purple-foreground flex items-center gap-2 text-xs font-medium">
+            <div className="bg-purple-foreground h-2 w-2 rounded-full"></div>
             Contribuye a la comunidad
           </div>
         </div>
