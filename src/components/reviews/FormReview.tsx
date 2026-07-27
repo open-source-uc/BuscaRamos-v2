@@ -18,7 +18,7 @@ import {
 } from "../icons";
 import { useEffect, useMemo } from "react";
 import { InputWithButton } from "../ui/InputWithButton";
-import { NumericInput } from "../ui/numeric-input";
+import { NumericInput } from "../ui/NumericInput";
 import { SelectInput } from "../ui/select-input";
 import { parseSemester } from "@/lib/currentSemester";
 import { useCurrentSemester } from "@/context/semesterCtx";
