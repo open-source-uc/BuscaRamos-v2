@@ -20,8 +20,8 @@ export default function VoteButtons({
   );
 
   const getVoteCountColor = () => {
-    if (votes > 0) return "text-green";
-    if (votes < 0) return "text-red";
+    if (votes > 0) return "text-green-foreground";
+    if (votes < 0) return "text-red-foreground";
     return "text-muted-foreground";
   };
 
