@@ -19,7 +19,7 @@ const pillVariants = cva("inline-flex items-center rounded-lg border font-medium
       ghost_purple: "bg-transparent text-muted-foreground border-border",
       ghost_orange: "bg-transparent text-muted-foreground border-border",
       ghost_red: "bg-transparent text-muted-foreground border-border",
-      ghost_yellow: "bg-transparent text-yellow-600 border-yellow-400",
+      ghost_yellow: "bg-transparent text-muted-foreground border-border",
       schedule_blue: "bg-primary-foreground text-primary border-primary/20 rounded-sm",
       schedule_pink: "bg-pink text-pink-foreground border-pink-border rounded-sm",
       schedule_green: "bg-green text-green-foreground border-green-border rounded-sm",
