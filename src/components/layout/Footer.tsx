@@ -16,8 +16,8 @@ export default function Footer() {
     <footer className="bg-surface border-border mt-auto border-t py-12">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-2 items-start gap-8 md:grid-cols-4">
-          <Link href={ROUTES.OSUC} className="flex font-semibold gap-4 items-center">
-            <span className={`w-10 h-10 rounded-lg flex items-center justify-center`}>
+          <Link href={ROUTES.OSUC} className="flex font-semibold gap-4 items-center shrink-0">
+            <span className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center`}>
               <OSUCIcon color="black" />
             </span>
             <span className="text-5xl font-bold -translate-y-1">osuc</span>
