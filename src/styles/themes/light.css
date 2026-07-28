@@ -60,4 +60,5 @@
   --yellow-foreground: var(--yellow-500);
 
   --destructive: var(--red-500);
+  --osuc: var(--blue-osuc);
 }

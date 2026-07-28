@@ -7,7 +7,7 @@ import { AuthContext } from "@/context/authCtx";
 import Link from "next/link";
 import Image from "next/image";
 
-import logo from "@/public/logos/dark-osuc-logo.svg";
+import logo from "@/public/logos/buscaramos-logo.svg";
 import { ROUTES, HEADER_LINKS, FAQ_SECTIONS } from "@/lib/routes";
 
 export default function MobileHeader() {
@@ -55,10 +55,10 @@ export default function MobileHeader() {
   return (
     <header
       ref={headerRef}
-      className="tablet:hidden border-background flex w-full items-center px-4"
+      className="tablet:hidden border-background flex w-full items-center px-2"
     >
       <div className="flex w-full justify-between">
-        <Link className="flex items-center gap-2 shrink-0 z-110" href={"/"} onClick={closeMenu}>
+        <Link className="flex items-center gap-1 shrink-0 z-110" href={"/"} onClick={closeMenu}>
           <Image
             src={logo}
             alt="BuscaRamos - Logotipo principal"
@@ -67,10 +67,10 @@ export default function MobileHeader() {
           />
 
           <div className="flex flex-col justify-center">
-            <h1 className="text-xl font-semibold leading-none">BuscaRamos</h1>
-            <span className="text-xs font-semibold leading-none">
-              by <span className="text-blue-500">OSUC</span>
-            </span>
+            <h1 className="text-2xl font-semibold leading-none">
+              Busca
+              <span className="text-osuc">Ramos</span>
+            </h1>
           </div>
         </Link>
 

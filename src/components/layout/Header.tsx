@@ -20,7 +20,7 @@ import {
 } from "@/components/layout/NavigationMenu";
 import { ROUTES, HEADER_LINKS, FAQ_SECTIONS } from "@/lib/routes";
 import MobileHeader from "@/components/layout/MobileHeader";
-import logo from "@/public/logos/dark-osuc-logo.svg";
+import logo from "@/public/logos/buscaramos-logo.svg";
 
 export default function HeaderPage() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function HeaderPage() {
       <MobileHeader />
 
       {/* Izquierda: título y subtítulo */}
-      <Link className="hidden tablet:flex items-center gap-2 shrink-0" href={"/"}>
+      <Link className="hidden tablet:flex items-center gap-1 shrink-0" href={"/"}>
         <Image
           src={logo}
           alt="BuscaRamos - Logotipo principal"
@@ -48,10 +48,10 @@ export default function HeaderPage() {
         />
 
         <div className="flex flex-col justify-center">
-          <h1 className="text-xl font-semibold leading-none">BuscaRamos</h1>
-          <span className="text-xs font-semibold leading-none">
-            by <span className="text-blue-500">OSUC</span>
-          </span>
+          <h1 className="text-2xl font-semibold leading-none">
+            Busca
+            <span className="text-osuc">Ramos</span>
+          </h1>
         </div>
       </Link>
 

@@ -67,6 +67,7 @@
   --color-yellow-foreground: var(--yellow-foreground);
 
   --color-destructive: var(--destructive);
+  --color-osuc: var(--osuc);
 
   /* Custom breakpoints */
   --breakpoint-tablet: 768px;
