@@ -46,6 +46,7 @@ function ReviewsSkeleton() {
 interface CourseReviewsProps {
   reviews: CourseReview[];
   markdowns?: Map<number, string>;
+  searchValue?: string;
   markdownLoading: boolean;
   markdownError: boolean;
   userVotes: Record<number, 1 | -1>;
@@ -60,6 +61,7 @@ interface CourseReviewsProps {
 export default function CourseReviews({
   reviews,
   markdowns,
+  searchValue = "",
   markdownLoading,
   markdownError,
   userVotes,
@@ -86,7 +88,20 @@ export default function CourseReviews({
   }
 
   if (reviews.length === 0) {
-    return <p className="text-gray-500">No hay reseñas para este curso.</p>;
+    if (searchValue?.trim()) {
+      return (
+        <div className="rounded-lg border border-border bg-accent px-6 py-10 text-center">
+          <p className="font-medium">No se encontraron reseñas.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Prueba con otras palabras clave.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="rounded-lg border border-border bg-accent px-6 py-10 text-center">
+        <p className="font-medium">No encontramos reseñas para el curso.</p>
+      </div>
+    );
   }
 
   return (

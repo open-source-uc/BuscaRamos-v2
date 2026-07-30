@@ -67,9 +67,15 @@ export default function CourseReviewsSection({ course, totalReviews }: CourseRev
           placeholder="Busca por palabras claves..."
           initialValue={searchValue}
         />
+
+        <div className="text-sm text-gray-600">
+          Mostrando {filteredReviews.length} de {reviews.length} reseñas
+        </div>
+
         <CourseReviews
           reviews={filteredReviews}
           markdowns={markdowns}
+          searchValue={searchValue}
           userVotes={userVotes}
           hasMore={hasMore}
           isLoading={isLoading}
