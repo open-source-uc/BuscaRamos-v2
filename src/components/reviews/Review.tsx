@@ -31,6 +31,9 @@ export default function Review({
   hideLike = false,
   editable,
   course,
+  markdown = "",
+  markdownLoading,
+  markdownError,
 }: {
   review: CourseReview;
   initialVote?: -1 | 1 | null;
@@ -38,6 +41,9 @@ export default function Review({
   editable?: boolean;
   course?: CourseStaticData;
   hideLike?: boolean;
+  markdown?: string;
+  markdownLoading: boolean;
+  markdownError: boolean;
 }) {
   if (editable === undefined) {
     const { user, isRoot } = use(AuthContext);
@@ -110,7 +116,11 @@ export default function Review({
 
       {review.comment_path && (
         <div className="content-markdown max-w-full">
-          <MarkdownReviewView path={review.comment_path} />
+          <MarkdownReviewView
+            markdown={markdown}
+            markdownLoading={markdownLoading}
+            markdownError={markdownError}
+          />
         </div>
       )}
 

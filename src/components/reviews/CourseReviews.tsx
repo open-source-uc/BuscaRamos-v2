@@ -1,27 +1,10 @@
 "use client";
 
-import useSWRInfinite from "swr/infinite";
-
 import type { CourseReview } from "@/types/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import Review from "./Review";
-
-interface ReviewsPage {
-  reviews: CourseReview[];
-  userVotes: Record<number, 1 | -1>;
-  hasMore: boolean;
-  nextOffset: number;
-}
-
-const fetcher = async (url: string): Promise<ReviewsPage> => {
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error("No se pudieron cargar las reseñas");
-  }
-  return response.json() as Promise<ReviewsPage>;
-};
 
 function ReviewsSkeleton() {
   return (
@@ -45,45 +28,44 @@ function ReviewsSkeleton() {
   );
 }
 
-export default function CourseReviews({ sigle }: { sigle: string }) {
-  const getKey = (pageIndex: number, previousPage: ReviewsPage | null) => {
-    if (previousPage && !previousPage.hasMore) return null;
-    const offset = pageIndex === 0 ? 0 : previousPage?.nextOffset;
-    if (offset === undefined) return null;
-    return `/api/courses/${encodeURIComponent(sigle)}/reviews?offset=${offset}`;
-  };
+interface CourseReviewsProps {
+  reviews: CourseReview[];
+  markdowns?: Map<number, string>;
+  searchValue?: string;
+  markdownLoading: boolean;
+  markdownError: boolean;
+  userVotes: Record<number, 1 | -1>;
+  hasMore: boolean;
+  isValidating: boolean;
+  isLoading: boolean;
+  error: boolean;
+  onLoadMore: () => void;
+  onRetry: () => void;
+}
 
-  const { data, error, isLoading, isValidating, size, setSize, mutate } =
-    useSWRInfinite<ReviewsPage>(getKey, fetcher, {
-      revalidateFirstPage: false,
-      revalidateOnFocus: false,
-    });
-
-  if (isLoading && !data) {
+export default function CourseReviews({
+  reviews,
+  markdowns,
+  searchValue = "",
+  markdownLoading,
+  markdownError,
+  userVotes,
+  hasMore,
+  isValidating,
+  isLoading,
+  error,
+  onLoadMore,
+  onRetry,
+}: CourseReviewsProps) {
+  if (isLoading && !reviews) {
     return <ReviewsSkeleton />;
   }
-
-  const pages = data ?? [];
-  const seen = new Set<number>();
-  const reviews = pages.flatMap((page) =>
-    page.reviews.filter((review) => {
-      if (seen.has(review.id)) return false;
-      seen.add(review.id);
-      return true;
-    })
-  );
-  const userVotes = Object.assign({}, ...pages.map((page) => page.userVotes)) as Record<
-    number,
-    1 | -1
-  >;
-  const lastPage = pages.at(-1);
-  const isLoadingMore = isValidating && size > pages.length;
 
   if (error && reviews.length === 0) {
     return (
       <div className="border border-border border-dashed rounded-md px-6 py-10 text-center space-y-4">
         <p className="text-sm text-muted-foreground">No se pudieron cargar las reseñas.</p>
-        <Button variant="outline" onClick={() => void mutate()} loading={isValidating}>
+        <Button variant="outline" onClick={onRetry} loading={isValidating}>
           Reintentar
         </Button>
       </div>
@@ -91,23 +73,43 @@ export default function CourseReviews({ sigle }: { sigle: string }) {
   }
 
   if (reviews.length === 0) {
-    return <p className="text-gray-500">No hay reseñas para este curso.</p>;
+    if (searchValue?.trim()) {
+      return (
+        <div className="rounded-lg border border-border bg-accent px-6 py-10 text-center">
+          <p className="font-medium">No se encontraron reseñas.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Prueba con otras palabras clave.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="rounded-lg border border-border bg-accent px-6 py-10 text-center">
+        <p className="font-medium">No encontramos reseñas para el curso.</p>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
       {reviews.map((review) => (
-        <Review key={review.id} review={review} initialVote={userVotes[review.id] ?? null} />
+        <Review
+          key={review.id}
+          review={review}
+          markdown={markdowns?.get(review.id)}
+          markdownLoading={markdownLoading}
+          markdownError={markdownError}
+          initialVote={userVotes[review.id] ?? null}
+        />
       ))}
 
-      {(lastPage?.hasMore || error) && (
+      {(hasMore || error) && (
         <div className="flex justify-center pt-2">
           <Button
             size="lg"
             icon={error ? undefined : ChevronDownIcon}
             className="w-full tablet:max-w-md font-semibold"
-            onClick={() => (error ? void mutate() : void setSize(size + 1))}
-            loading={isLoadingMore}
+            onClick={onLoadMore}
+            loading={isValidating}
             loadingText="Cargando más reseñas..."
           >
             {error ? "Reintentar" : "Ver más reseñas"}
