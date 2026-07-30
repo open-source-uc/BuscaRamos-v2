@@ -69,7 +69,7 @@ export default function CourseReviewsSection({ course, totalReviews }: CourseRev
         />
 
         <div className="text-sm text-gray-600">
-          Mostrando {filteredReviews.length} de {reviews.length} reseñas
+          Mostrando {filteredReviews.length} de {totalReviews} reseñas
         </div>
 
         <CourseReviews
