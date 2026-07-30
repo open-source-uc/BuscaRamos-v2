@@ -8,9 +8,10 @@ import { toast } from "sonner";
 
 interface TrashProps {
   review: CourseReview;
+  variant?: "red" | "ghost_red";
 }
 
-export default function Trash({ review }: TrashProps) {
+export default function Trash({ review, variant = "red" }: TrashProps) {
   async function handleDelete() {
     if (
       !confirm(
@@ -29,7 +30,7 @@ export default function Trash({ review }: TrashProps) {
         e.preventDefault();
         handleDelete();
       }}
-      variant="ghost_red"
+      variant={variant}
     >
       <TrashIcon />
     </Button>

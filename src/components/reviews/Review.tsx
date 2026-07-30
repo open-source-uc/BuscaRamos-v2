@@ -167,7 +167,7 @@ export default function Review({
         <div className="flex flex-wrap items-center gap-2 max-w-full">
           {editable && (
             <>
-              <TrashButton review={review}></TrashButton>
+              <TrashButton review={review} variant="ghost_red"></TrashButton>
               <EditableButton reviewId={review.id}></EditableButton>
             </>
           )}

@@ -37,7 +37,7 @@ const iconContainerVariants = cva("rounded-lg flex items-center justify-center b
     variant: {
       default:
         "bg-transparent text-primary border-primary/20 group-has-[:checked]:bg-primary group-has-[:checked]:text-primary-foreground",
-      blue: "bg-transparent text-blue-foreground border-blue-border group-has-[:checked]:bg-blue group-has-[:checked]:text-white",
+      blue: "bg-transparent text-blue-foreground border-blue-border group-has-[:checked]:bg-blue-foreground group-has-[:checked]:text-white",
       green:
         "bg-transparent text-green-foreground border-green-border group-has-[:checked]:bg-green-foreground group-has-[:checked]:text-white",
       red: "bg-transparent text-red-foreground border-red-border group-has-[:checked]:bg-red-foreground group-has-[:checked]:text-white",
