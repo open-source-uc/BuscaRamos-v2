@@ -6,21 +6,6 @@ import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import Review from "./Review";
 
-interface ReviewsPage {
-  reviews: CourseReview[];
-  userVotes: Record<number, 1 | -1>;
-  hasMore: boolean;
-  nextOffset: number;
-}
-
-const fetcher = async (url: string): Promise<ReviewsPage> => {
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error("No se pudieron cargar las reseñas");
-  }
-  return response.json() as Promise<ReviewsPage>;
-};
-
 function ReviewsSkeleton() {
   return (
     <div className="space-y-4" aria-label="Cargando reseñas" aria-busy="true">
