@@ -26,6 +26,7 @@ import GraduationCapIcon from "../icons/Icons";
 
 export default function Review({
   review,
+  searchValue = "",
   status = false,
   initialVote = null,
   hideLike = false,
@@ -36,6 +37,7 @@ export default function Review({
   markdownError,
 }: {
   review: CourseReview;
+  searchValue?: string;
   initialVote?: -1 | 1 | null;
   status?: boolean;
   editable?: boolean;
@@ -118,6 +120,7 @@ export default function Review({
         <div className="content-markdown max-w-full">
           <MarkdownReviewView
             markdown={markdown}
+            searchValue={searchValue}
             markdownLoading={markdownLoading}
             markdownError={markdownError}
           />

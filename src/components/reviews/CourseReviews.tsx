@@ -95,6 +95,7 @@ export default function CourseReviews({
         <Review
           key={review.id}
           review={review}
+          searchValue={searchValue}
           markdown={markdowns?.get(review.id)}
           markdownLoading={markdownLoading}
           markdownError={markdownError}
