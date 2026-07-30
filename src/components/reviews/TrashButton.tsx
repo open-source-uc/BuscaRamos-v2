@@ -29,7 +29,7 @@ export default function Trash({ review }: TrashProps) {
         e.preventDefault();
         handleDelete();
       }}
-      variant="red"
+      variant="ghost_red"
     >
       <TrashIcon />
     </Button>
