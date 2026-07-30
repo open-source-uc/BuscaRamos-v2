@@ -1,6 +1,5 @@
 "use client";
 
-import useSWR from "swr";
 import type { Element } from "hast";
 import type { ComponentProps, ReactNode } from "react";
 
@@ -14,30 +13,22 @@ import Image from "next/image";
 type PillVariant = ComponentProps<typeof Pill>["variant"];
 type PillSize = ComponentProps<typeof Pill>["size"];
 
-const fetcher = (url: string) =>
-  fetch(url).then((res) => {
-    if (!res.ok) throw new Error("Error al cargar markdown.");
-    return res.text();
-  });
-
 export function MarkdownReviewView({
-  path,
+  markdown,
   imgAllow = false,
+  markdownLoading,
+  markdownError,
 }: {
-  path: string;
+  markdown: string;
   imgAllow?: boolean;
+  markdownLoading: boolean;
+  markdownError: boolean;
 }) {
-  const {
-    data: text,
-    error,
-    isLoading,
-  } = useSWR(path ? `/api/reviews?path=${encodeURIComponent(path)}` : null, fetcher);
-
-  if (error) {
+  if (markdownError) {
     return <blockquote>Error cargando contenido.</blockquote>;
   }
 
-  if (isLoading) {
+  if (markdownLoading) {
     return <p>Cargando...</p>;
   }
 
@@ -58,7 +49,9 @@ export function MarkdownReviewView({
             },
             img: ({ node }: { node: Element }) => {
               if (!imgAllow) return null;
+
               const { src, alt, title } = node?.properties || {};
+
               return (
                 <Image
                   src={src as string}
@@ -71,7 +64,7 @@ export function MarkdownReviewView({
           } as Components
         }
       >
-        {text}
+        {markdown}
       </ReactMarkdown>
     </article>
   );

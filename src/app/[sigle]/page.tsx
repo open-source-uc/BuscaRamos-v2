@@ -12,10 +12,9 @@ import {
 import { getCourseStats } from "@/lib/courses";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
-import MakeReviewButton from "@/components/reviews/MakeReviewButton";
-import CourseReviews from "@/components/reviews/CourseReviews";
 import CourseInformation from "@/components/ui/CourseInformation";
 import CourseRelationsSections from "@/components/courses/CourseRelationsSections";
+import CourseReviewsSection from "@/components/reviews/CourseReviewsSection";
 
 const getCoursePageData = cache(async (sigle: string) => {
   const [course, stats] = await Promise.all([getCourseStaticData(sigle), getCourseStats(sigle)]);
@@ -197,15 +196,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
       <CourseRelationsSections course={course} />
 
-      <section>
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Reseñas ({totalReviews})</h2>
-            <MakeReviewButton sigle={course.sigle} />
-          </div>
-          <CourseReviews sigle={course.sigle} />
-        </div>
-      </section>
+      <CourseReviewsSection course={course} totalReviews={totalReviews} />
     </main>
   );
 }
