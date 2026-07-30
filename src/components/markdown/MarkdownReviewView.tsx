@@ -10,6 +10,7 @@ import remarkBreaks from "remark-breaks";
 import ReactMarkdown, { Components } from "react-markdown";
 import Image from "next/image";
 import { visit } from "unist-util-visit";
+import useSWR from "swr";
 
 type PillVariant = ComponentProps<typeof Pill>["variant"];
 type PillSize = ComponentProps<typeof Pill>["size"];
@@ -51,24 +52,49 @@ const rehypeHighlightSearch = (searchValue: string) => {
   };
 };
 
+const fetcher = (url: string) =>
+  fetch(url).then((res) => {
+    if (!res.ok) throw new Error("Error al cargar markdown.");
+    return res.text();
+  });
+
 export function MarkdownReviewView({
   markdown,
   searchValue = "",
   imgAllow = false,
   markdownLoading,
   markdownError,
+  markdownLoaded,
+  commentPath,
 }: {
   markdown: string;
   searchValue?: string;
   imgAllow?: boolean;
   markdownLoading: boolean;
   markdownError: boolean;
+  markdownLoaded: boolean;
+  commentPath?: string;
 }) {
-  if (markdownError) {
+  const { data, error, isLoading } = useSWR(
+    commentPath && !markdownLoaded ? `/api/reviews?path=${encodeURIComponent(commentPath)}` : null,
+    fetcher
+  );
+
+  let comment = markdown;
+  let mdError = markdownError;
+  let mdIsLoading = markdownLoading;
+
+  if (!markdownLoaded) {
+    comment = data ?? "";
+    mdError = error;
+    mdIsLoading = isLoading;
+  }
+
+  if (mdError) {
     return <blockquote>Error cargando contenido.</blockquote>;
   }
 
-  if (markdownLoading) {
+  if (mdIsLoading) {
     return <p>Cargando...</p>;
   }
 
@@ -107,7 +133,7 @@ export function MarkdownReviewView({
           } as Components
         }
       >
-        {markdown}
+        {comment}
       </ReactMarkdown>
     </article>
   );

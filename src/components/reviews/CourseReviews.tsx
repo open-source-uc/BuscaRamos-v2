@@ -99,6 +99,7 @@ export default function CourseReviews({
           markdown={markdowns?.get(review.id)}
           markdownLoading={markdownLoading}
           markdownError={markdownError}
+          markdownLoaded={true}
           initialVote={userVotes[review.id] ?? null}
         />
       ))}

@@ -52,6 +52,7 @@ function ReviewContent({
       status={status}
       editable={editable}
       hideLike={hideLike}
+      markdownLoaded={false}
     />
   );
 }

@@ -33,8 +33,9 @@ export default function Review({
   editable,
   course,
   markdown = "",
-  markdownLoading,
-  markdownError,
+  markdownLoading = false,
+  markdownError = false,
+  markdownLoaded = false,
 }: {
   review: CourseReview;
   searchValue?: string;
@@ -44,8 +45,9 @@ export default function Review({
   course?: CourseStaticData;
   hideLike?: boolean;
   markdown?: string;
-  markdownLoading: boolean;
-  markdownError: boolean;
+  markdownLoading?: boolean;
+  markdownError?: boolean;
+  markdownLoaded?: boolean;
 }) {
   if (editable === undefined) {
     const { user, isRoot } = use(AuthContext);
@@ -123,6 +125,8 @@ export default function Review({
             searchValue={searchValue}
             markdownLoading={markdownLoading}
             markdownError={markdownError}
+            markdownLoaded={markdownLoaded}
+            commentPath={review.comment_path}
           />
         </div>
       )}
