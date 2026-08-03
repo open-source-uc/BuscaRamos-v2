@@ -117,14 +117,15 @@ export const yearSchedule2026 = {
       { date: "2026-09-17", name: "Receso de docencia - Jueves", type: "custom" },
       { date: "2026-09-18", name: "Receso de docencia - Viernes", type: "custom" },
       { date: "2026-09-19", name: "Receso de docencia - Sábado", type: "custom" },
-
+      
+      // [No hay evaluaciones pero si clases]
       // Semana Universitaria
-      { date: "2026-08-17", name: "Semana Universitaria - Lunes", type: "custom" },
-      { date: "2026-08-18", name: "Semana Universitaria - Martes", type: "custom" },
-      { date: "2026-08-19", name: "Semana Universitaria - Miércoles", type: "custom" },
-      { date: "2026-08-20", name: "Semana Universitaria - Jueves", type: "custom" },
-      { date: "2026-08-21", name: "Semana Universitaria - Viernes", type: "custom" },
-      { date: "2026-08-22", name: "Semana Universitaria - Sábado", type: "custom" },
+      // { date: "2026-08-17", name: "Semana Universitaria - Lunes", type: "custom" },
+      // { date: "2026-08-18", name: "Semana Universitaria - Martes", type: "custom" },
+      // { date: "2026-08-19", name: "Semana Universitaria - Miércoles", type: "custom" },
+      // { date: "2026-08-20", name: "Semana Universitaria - Jueves", type: "custom" },
+      // { date: "2026-08-21", name: "Semana Universitaria - Viernes", type: "custom" },
+      // { date: "2026-08-22", name: "Semana Universitaria - Sábado", type: "custom" },
 
       // Fin de clases
       { date: "2026-11-27", name: "Finalización de clases segundo semestre", type: "custom" },
