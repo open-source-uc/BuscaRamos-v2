@@ -9,7 +9,9 @@ export default function ContributeCard() {
         <GitHubIcon className="h-7 w-7" />
       </div>
 
-      <h2 className="text-foreground mb-3 text-3xl font-bold">Construyamos esto juntos</h2>
+      <h2 className="tablet:text-3xl text-foreground mb-3 text-xl font-bold">
+        Construyamos esto juntos
+      </h2>
 
       <p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-lg">
         Esta plataforma existe gracias a estudiantes que aportan ideas, código y mejoras. Si te
