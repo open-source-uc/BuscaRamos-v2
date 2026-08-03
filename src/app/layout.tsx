@@ -1,6 +1,7 @@
 import "@/styles/global.css";
 
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import Script from "next/script";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -12,6 +13,10 @@ import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
 import { Banner } from "@/components/ui/Banner";
+
+const geist = Geist({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -81,7 +86,7 @@ export default function RootLayout({
           data-cf-beacon='{"token": "7874d2302e154e14ab08e25ea85909f9"}'
         />
       </head>
-      <body className="antialiased bg-background text-foreground min-h-screen">
+      <body className={`${geist.className} antialiased bg-background text-foreground min-h-screen`}>
         <ChunkErrorRecovery />
         <section className="w-full flex justify-center items-center">
           <Banner

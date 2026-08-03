@@ -10,6 +10,7 @@ interface SearchProps {
   onSearch: (searchTerm: string) => void;
   placeholder?: string;
   className?: string;
+  inputClassName?: string;
   initialValue?: string;
   normalizeText?: boolean; // Option to enable/disable text normalization
   isSearching?: boolean; // New prop to indicate loading state
@@ -30,6 +31,7 @@ export function Search({
   onSearch,
   placeholder = "Buscar por nombre o sigla...",
   className = "",
+  inputClassName = "",
   initialValue = "",
   normalizeText = true, // Default to true for better search experience
   isSearching = false, // Default to false
@@ -86,7 +88,7 @@ export function Search({
           value={displayValue}
           onChange={(e) => handleSearch(e.target.value)}
           onKeyDown={onKeyDown}
-          className="bg-white pl-10"
+          className={`bg-white pl-10 ${inputClassName}`}
         />
         {displayValue && (
           <Button

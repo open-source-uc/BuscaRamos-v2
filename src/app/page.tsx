@@ -50,16 +50,16 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   return (
-    <main className="flex bg-background justify-center items-center p-4 flex-col w-full max-w-full overflow-hidden">
-      <section className="w-full max-w-7xl">
+    <main className="flex bg-background justify-center items-center flex-col w-full max-w-full overflow-hidden">
+      <section className="w-full max-w-7xl px-4">
         <LandingSearch />
       </section>
 
-      <section className="tablet:pt-32 tablet:pb-20 mx-auto max-w-6xl px-4 pt-24 pb-16">
+      <section className="bg-slate-50 tablet:py-20 mx-auto w-full px-8 pt-12 pb-16">
         <AdvantagesInfo />
       </section>
 
-      <section className="tablet:py-20 mx-auto max-w-6xl px-4 py-16">
+      <section className="tablet:py-20 mx-auto max-w-6xl px-8 py-16">
         <GettingStarted />
       </section>
     </main>

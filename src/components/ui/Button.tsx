@@ -58,6 +58,7 @@ export interface ButtonProps
   target?: string;
   rel?: string;
   icon?: React.ComponentType<{ className?: string }>;
+  iconClassName?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
@@ -75,6 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       target,
       rel,
       icon: Icon,
+      iconClassName,
       ...props
     },
     ref
@@ -141,7 +143,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       </span>
     ) : (
       <span className="inline-flex items-center justify-center w-full min-w-0 leading-none">
-        {Icon && <Icon className={`mr-2 -ml-1 h-4 w-4 shrink-0 ${getIconColor()}`} />}
+        {Icon && (
+          <Icon className={cn("mr-2 -ml-1 h-4 w-4 shrink-0", getIconColor(), iconClassName)} />
+        )}
         {children}
       </span>
     );

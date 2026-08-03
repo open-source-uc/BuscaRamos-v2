@@ -5,8 +5,16 @@ import { useState } from "react";
 import { Pill } from "@/components/ui/Pill";
 import { Button } from "@/components/ui/Button";
 import { Search } from "@/components/search/SearchInput";
-import { BuildingIcon, AreaIcon, HourglassIcon, ResourcesIcon } from "@/components/icons/Icons";
+import {
+  BuildingIcon,
+  AreaIcon,
+  HourglassIcon,
+  ResourcesIcon,
+  ThumbUpIcon,
+  CalendarIcon,
+} from "@/components/icons/Icons";
 import { ROUTES } from "@/lib/routes";
+import { Users } from "lucide-react";
 
 export default function LandingSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,34 +37,48 @@ export default function LandingSearch() {
       icon: BuildingIcon,
       text: "Facultades",
       variant: "blue" as const,
-      position: "top-0 left-8",
+      position: "top-0 left-0",
       delay: "0s",
     },
     {
       icon: AreaIcon,
       text: "Áreas",
       variant: "pink" as const,
-      position: "top-0 right-8",
+      position: "top-0 right-0",
       delay: "0.2s",
+    },
+    {
+      icon: ThumbUpIcon,
+      text: "Reseñas",
+      variant: "purple" as const,
+      position: "top-12 left-32",
+      delay: "0.4s",
+    },
+    {
+      icon: CalendarIcon,
+      text: "Horarios",
+      variant: "green" as const,
+      position: "top-12 right-32",
+      delay: "0.6s",
     },
     {
       icon: HourglassIcon,
       text: "Créditos",
       variant: "green" as const,
-      position: "top-24 left-12",
-      delay: "0.4s",
+      position: "top-24 left-8",
+      delay: "0.8s",
     },
     {
       icon: ResourcesIcon,
       text: "Recursos",
       variant: "blue" as const,
-      position: "top-24 right-12",
+      position: "top-24 right-8",
       delay: "1.2s",
     },
   ];
 
   return (
-    <div className="tablet:my-12 desktop:my-16 tablet:px-6 desktop:px-8 relative mx-auto mt-24 mb-8 w-full max-w-4xl px-4">
+    <div className="tablet:my-12 desktop:my-16 relative mx-auto mt-24 mb-8 w-full max-w-5xl px-2">
       {/* Floating Pills - Only visible on desktop */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {floatingPills.map((pill, index) => (
@@ -82,12 +104,12 @@ export default function LandingSearch() {
 
       {/* Main Content */}
       <div className="relative z-10 mx-auto max-w-2xl">
-        <div className="tablet:mb-10 desktop:mb-12 mb-8 text-center">
+        <div className="mb-8 text-center">
           <h1 className="tablet:text-4xl desktop:text-5xl text-foreground tablet:mb-4 from-foreground to-muted-foreground mb-3 bg-linear-to-br bg-clip-text text-3xl leading-tight font-bold">
-            ¿En qué curso estás pensando?
+            ¿Qué curso buscas?
           </h1>
-          <p className="tablet:text-lg desktop:text-xl text-muted-foreground tablet:px-0 mx-auto max-w-xl px-4">
-            Descubre opiniones, información y recursos de miles de cursos de la UC
+          <p className="text-lg text-muted-foreground tablet:px-0 mx-auto max-w-xl px-4">
+            Todo lo que necesitas para elegir tus cursos en la UC.
           </p>
         </div>
 
@@ -104,8 +126,8 @@ export default function LandingSearch() {
                 placeholder="Buscar por nombre o sigla del curso..."
                 initialValue={searchTerm}
                 className="w-full shadow-md"
+                inputClassName="h-12"
               />
-              <div className="from-primary/5 to-pink/5 pointer-events-none absolute inset-0 rounded-md bg-linear-to-r opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             </div>
             <div id="search-instructions" className="sr-only">
               Escribe el nombre o sigla del curso que buscas y presiona Enter para buscar
@@ -117,7 +139,7 @@ export default function LandingSearch() {
         </div>
 
         <div
-          className="tablet:flex-row tablet:mt-8 tablet:gap-4 mt-6 flex flex-col justify-center gap-3 pt-4"
+          className="tablet:flex-row tablet:gap-4 mt-4 flex flex-col justify-center gap-3 pt-4"
           role="group"
           aria-label="Acciones de navegación"
         >
@@ -134,10 +156,11 @@ export default function LandingSearch() {
             className="bg-white shadow-sm"
             variant="outline"
             size="lg"
-            onClick={() => (window.location.href = ROUTES.OSUC)}
-            aria-label="Conocer más información acerca de nosotros"
+            onClick={() => (window.location.href = ROUTES.CONTRIBUTORS)}
+            aria-label="Contribuye al proyecto"
+            icon={Users}
           >
-            Conocer más acerca de nosotros
+            Contribuye al proyecto
           </Button>
         </div>
       </div>
