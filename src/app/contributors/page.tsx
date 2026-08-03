@@ -5,6 +5,7 @@ import contributorsData from "@/data/contributors.json";
 import acknowledgements from "@/data/acknowledgments.json";
 
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
+import ContributeCard from "@/components/contributors/ContributeCard";
 
 type Contributor = {
   name: string;
@@ -20,9 +21,13 @@ export default function ContributorsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <section className="border-border mb-8 overflow-hidden rounded-md border">
+        <ContributeCard />
+      </section>
+
+      <section className="border-border mb-8 overflow-hidden rounded-md border">
         <div className="border-border border-b px-6 py-6">
-          <h2 className="text-foreground text-3xl font-bold">Contribuidores de BuscaRamos</h2>
-          <p className="text-md text-muted-foreground mt-1">
+          <h2 className="text-foreground text-2xl font-bold">Contribuidores de BuscaRamos</h2>
+          <p className="text-sm text-muted-foreground mt-1">
             BuscaRamos no sería posible sin la dedicación y el esfuerzo de los muchos estudiantes
             que han colaborado a lo largo de los años. A continuación, se muestra una lista de
             quienes han aportado al proyecto.
