@@ -211,6 +211,16 @@ export const createCourseReview = async (formData: FormData) => {
       message: "El curso no existe",
     };
   }
+
+  if (data.comment) {
+    const review = await reviews.moderateReviewComment(data.comment);
+    if (review.flagged) {
+      return {
+        message: "El comentario contiene contenido inapropiado y no puede ser publicado",
+      };
+    }
+  }
+
   const review = await reviews.getReviewBySigleAndUserId(course.sigle, user.userId);
   if (review) {
     if (review.comment_path) await R2().delete(review.comment_path.toString());
