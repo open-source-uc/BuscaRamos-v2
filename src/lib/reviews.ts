@@ -441,3 +441,39 @@ export async function getRecentReviews(limit: number = 10) {
 
   return result.results;
 }
+
+export async function moderateReviewComment(comment: string) {
+  try {
+    const response = await fetch("https://api.mistral.ai/v1/moderations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.MISTRAL_API_KEY}`,
+        // TODO: use cloudflare env instead
+      },
+      body: JSON.stringify({ model: "mistral-moderation-2603", input: comment }),
+    });
+
+    if (!response.ok) {
+      console.error("Error al moderar el comentario:", response.status, response.statusText);
+      return { flagged: false, categories: {} };
+    }
+
+    const data = (await response.json()) as {
+      results: Array<{
+        categories: Record<string, boolean>;
+      }>;
+    };
+
+    return {
+      flagged: Object.values(data.results[0].categories).some(Boolean),
+      categories: data.results[0].categories,
+    };
+  } catch (error) {
+    console.error("Error al moderar el comentario:", error);
+    return {
+      flagged: false,
+      categories: {},
+    };
+  }
+}
