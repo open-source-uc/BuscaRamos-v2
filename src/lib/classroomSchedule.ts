@@ -5,7 +5,7 @@ import {
   OccupiedStatus,
   UcModule,
 } from "@/types/types";
-import rawClassroomData from "@/data/horario_por_sala.json";
+import rawClassroomData from "@/data/horario-por-sala.json";
 
 const classroomData = rawClassroomData as unknown as ClassroomSchedules;
 

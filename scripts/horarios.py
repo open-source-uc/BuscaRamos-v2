@@ -1,4 +1,5 @@
 import json
+
 #Mini script para transformar la data en un json con cada sala y su ocupacion por modulo
 
 
@@ -45,7 +46,7 @@ for sigle in k:
 
 
 #Crear placeholder de horarios_por_sala
-for campus in salas.keys():
+for campus in salas:
     for sala in salas[campus]:
         if sala == "" or sala == "SIN SALA":
             continue
