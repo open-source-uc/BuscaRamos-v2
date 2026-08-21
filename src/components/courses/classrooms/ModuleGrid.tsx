@@ -38,8 +38,11 @@ export default function ModuleGrid({ schedule }: Props) {
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-base font-semibold">Módulos</h3>
         <div>
-          <label className="sr-only">Seleccionar día</label>
+          <label htmlFor="classroom-day" className="sr-only">
+            Seleccionar día
+          </label>
           <select
+            id="classroom-day"
             value={selectedDay}
             onChange={(e) => setSelectedDay(e.target.value)}
             className="rounded-md border border-border bg-background px-2 py-1 text-sm"

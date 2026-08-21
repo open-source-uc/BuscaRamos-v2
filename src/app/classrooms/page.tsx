@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { ClassroomSearch } from "@/components/courses/classrooms/ClassroomSearch";
 import FreeClassrooms from "@/components/courses/classrooms/FreeClassrooms";
+
+export const metadata: Metadata = {
+  title: "Salas",
+  description: "Consulta salas libres y revisa su ocupación por módulo.",
+};
 
 export default function ClassroomsPage() {
   return (

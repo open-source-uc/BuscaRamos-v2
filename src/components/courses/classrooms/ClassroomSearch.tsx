@@ -95,7 +95,7 @@ export function ClassroomSearch() {
 
         <label className="block space-y-2">
           <span className="text-sm font-medium">Sala</span>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 tablet:flex-row">
             <div className="relative flex-1">
               <input
                 type="search"
@@ -171,9 +171,17 @@ export function ClassroomSearch() {
           </div>
         )}
 
-        <div className="space-y-4">
-          <ModuleGrid schedule={results} />
-        </div>
+        {results ? (
+          <div className="space-y-4">
+            <ModuleGrid schedule={results} />
+          </div>
+        ) : (
+          !error && (
+            <p className="text-muted-foreground py-6 text-center text-sm">
+              Selecciona una sala para revisar sus módulos.
+            </p>
+          )
+        )}
       </div>
     </div>
   );

@@ -132,7 +132,7 @@ export default function FreeClassrooms() {
         </select>
       </div>
 
-      <div className="mt-3 flex gap-2">
+      <div className="mt-3 flex flex-col gap-2 tablet:flex-row">
         <input
           placeholder="Filtrar aulas (ej. A1)"
           value={query}
@@ -163,17 +163,17 @@ export default function FreeClassrooms() {
           <div className="text-muted-foreground text-sm">
             No hay aulas libres para el módulo seleccionado.
           </div>
-        ) : results.length > 0 ? (
+        ) : results.length > 0 && filtered.length === 0 ? (
+          <div className="text-muted-foreground text-sm">
+            No hay salas que coincidan con el filtro.
+          </div>
+        ) : filtered.length > 0 ? (
           <div className="grid auto-rows-fr grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
             {filtered.map((room) => (
-              <button
-                key={room}
-                type="button"
-                className="rounded-lg border border-border p-3 text-sm text-left hover:bg-accent/70"
-              >
+              <div key={room} className="rounded-lg border border-border p-3 text-left text-sm">
                 <div className="font-semibold">{room}</div>
                 <div className="text-muted-foreground text-xs">Libre</div>
-              </button>
+              </div>
             ))}
           </div>
         ) : null}
