@@ -1,7 +1,7 @@
-import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDownIcon, OpenInFullIcon, TextureIcon } from "@/components/icons/Icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { OpensCoursesDisplay } from "@/components/courses/OpensCoursesDisplay";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 import type { CourseStaticData } from "@/lib/coursesStaticData";
 
 type ApiUnlocks = NonNullable<CourseStaticData["parsed_meta_data"]["unlocks"]>;
@@ -42,7 +42,7 @@ export default function OpensCoursesSection({ unlocks, className = "", loading =
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-green-light text-green border-green/20 shrink-0 rounded-lg border p-2">
+              <div className="bg-green text-green-foreground border-green-border shrink-0 rounded-lg border p-2">
                 <OpenInFullIcon className="h-5 w-5 fill-current" />
               </div>
               <div className="min-w-0 flex-1">
@@ -78,11 +78,11 @@ export default function OpensCoursesSection({ unlocks, className = "", loading =
                 <div className="border-border mt-4 w-full border-t pt-4">
                   <div className="text-muted-foreground flex flex-wrap gap-4 text-xs">
                     <div className="flex items-center gap-2">
-                      <div className="bg-green border-green-light h-4 w-4 shrink-0 rounded border"></div>
+                      <div className="bg-green border-green-border h-4 w-4 shrink-0 rounded border"></div>
                       <span>Prerrequisitos ({safeUnlocks.as_prerequisite.length})</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="bg-orange border-orange-light flex h-4 w-4 shrink-0 items-center justify-center rounded border">
+                      <div className="bg-orange border-orange-border flex h-4 w-4 shrink-0 items-center justify-center rounded border">
                         <TextureIcon className="text-background h-3 w-3" />
                       </div>
                       <span>

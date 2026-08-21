@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Campus, UcModule } from "@/types/types";
-import { getFreeClassroomsPerModule } from "@/lib/classroomSchedule";
-
-const CAMPUSES: Campus[] = ["San Joaquin", "Casa Central", "Lo Contador", "Villarrica"];
+import { getAvailableCampuses, getFreeClassroomsPerModule } from "@/lib/classroomSchedule";
 
 const DAYS = [
   { label: "Lunes", short: "l" },
@@ -28,11 +26,36 @@ const TIMES = [
 ] as const;
 
 export default function FreeClassrooms() {
-  const [campus, setCampus] = useState<Campus>(CAMPUSES[0]);
+  const [campuses, setCampuses] = useState<Campus[]>([]);
+  const [campus, setCampus] = useState<Campus | null>(null);
   const [module, setModule] = useState<string>(`${DAYS[0].short}1`);
   const [loading, setLoading] = useState(false);
+  const [loadingCampuses, setLoadingCampuses] = useState(true);
   const [results, setResults] = useState<string[]>([]);
   const [query, setQuery] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isActive = true;
+
+    getAvailableCampuses()
+      .then((availableCampuses) => {
+        if (!isActive) return;
+        setCampuses(availableCampuses);
+        setCampus(availableCampuses[0] ?? null);
+      })
+      .catch(() => {
+        if (isActive) setError("No se pudieron cargar los campus disponibles.");
+      })
+      .finally(() => {
+        if (isActive) setLoadingCampuses(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   const allModuleOptions = DAYS.flatMap((d) => {
     return TIMES.map((time, i) => ({
@@ -43,11 +66,14 @@ export default function FreeClassrooms() {
 
   async function displayedFreeClassrooms(selectedCampus: Campus, selectedModule: string) {
     setLoading(true);
+    setError(null);
+    setHasSearched(true);
     try {
       const rooms = await getFreeClassroomsPerModule(selectedCampus, selectedModule as UcModule);
       setResults(rooms);
     } catch {
       setResults([]);
+      setError("No se pudieron cargar las salas libres. Inténtalo nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -58,6 +84,8 @@ export default function FreeClassrooms() {
   function clearSearch() {
     setQuery("");
     setResults([]);
+    setHasSearched(false);
+    setError(null);
   }
 
   return (
@@ -77,11 +105,13 @@ export default function FreeClassrooms() {
       <div className="grid gap-2 sm:grid-cols-2">
         <select
           aria-label="Seleccionar campus"
-          value={campus}
+          value={campus ?? ""}
           onChange={(e) => setCampus(e.target.value as Campus)}
+          disabled={loadingCampuses || campuses.length === 0}
           className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
         >
-          {CAMPUSES.map((c) => (
+          {loadingCampuses && <option value="">Cargando campus...</option>}
+          {campuses.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
@@ -111,8 +141,9 @@ export default function FreeClassrooms() {
         />
         <button
           type="button"
-          onClick={() => displayedFreeClassrooms(campus, module)}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white"
+          onClick={() => campus && displayedFreeClassrooms(campus, module)}
+          disabled={!campus || loading}
+          className="bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
         >
           {loading ? "Cargando..." : "Buscar"}
         </button>
@@ -125,12 +156,14 @@ export default function FreeClassrooms() {
         </button>
       </div>
 
+      {error && <p className="text-red-foreground mt-3 text-sm">{error}</p>}
+
       <div className="mt-4 grid gap-2">
-        {results.length === 0 && !loading ? (
+        {hasSearched && results.length === 0 && !loading && !error ? (
           <div className="text-muted-foreground text-sm">
             No hay aulas libres para el módulo seleccionado.
           </div>
-        ) : (
+        ) : results.length > 0 ? (
           <div className="grid auto-rows-fr grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
             {filtered.map((room) => (
               <button
@@ -143,7 +176,7 @@ export default function FreeClassrooms() {
               </button>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
 "use client";
 
-import { ChevronDownIcon } from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDownIcon } from "@/components/icons/Icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
 import { XAxis, YAxis, CartesianGrid, Area, AreaChart, ReferenceLine } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart";
+} from "@/components/ui/Chart";
 import { useMemo, type ComponentProps } from "react";
 import { milestones } from "../../lib/milestones";
 
@@ -106,7 +106,7 @@ export default function QuotaHistorySection({ quotaTimeline = {}, className = ""
         <Collapsible>
           <CollapsibleTrigger className="bg-accent hover:bg-muted/50 group focus:ring-primary flex w-full items-center justify-between px-6 py-4 text-left transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="bg-blue-light text-blue border-blue/20 shrink-0 rounded-lg border p-2">
+              <div className="bg-blue text-blue-foreground border-blue-border shrink-0 rounded-lg border p-2">
                 <svg
                   className="h-5 w-5 fill-current"
                   viewBox="0 0 24 24"
@@ -139,7 +139,7 @@ export default function QuotaHistorySection({ quotaTimeline = {}, className = ""
                     Total cupos disponibles: {totalCupos}
                   </p>
                 </div>
-                <ChartContainer config={chartConfig} className="h-[300px] w-full">
+                <ChartContainer config={chartConfig} className="h-75 w-full">
                   <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
                     <defs>
                       <linearGradient id="colorOcupados" x1="0" y1="0" x2="0" y2="1">

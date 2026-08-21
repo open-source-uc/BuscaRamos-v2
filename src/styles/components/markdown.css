@@ -1,34 +1,34 @@
 /* Markdown content styles */
 .content-markdown,
 .mdxeditor-diff-source-wrapper {
-  @apply overflow-hidden break-words;
+  @apply overflow-hidden wrap-break-word;
   word-wrap: break-word;
   hyphens: auto;
 }
 
 .content-markdown h1,
 .mdxeditor-diff-source-wrapper h1 {
-  @apply text-foreground mb-4 text-xl font-bold break-words sm:text-2xl;
+  @apply text-foreground mb-4 text-xl font-bold wrap-break-word sm:text-2xl;
 }
 
 .content-markdown h2,
 .mdxeditor-diff-source-wrapper h2 {
-  @apply text-foreground mt-6 mb-3 text-lg font-semibold break-words sm:text-xl;
+  @apply text-foreground mt-6 mb-3 text-lg font-semibold wrap-break-word sm:text-xl;
 }
 
 .content-markdown h3,
 .mdxeditor-diff-source-wrapper h3 {
-  @apply text-foreground mt-4 mb-2 text-base font-medium break-words sm:text-lg;
+  @apply text-foreground mt-4 mb-2 text-base font-medium wrap-break-word sm:text-lg;
 }
 
 .content-markdown h4,
 .mdxeditor-diff-source-wrapper h4 {
-  @apply text-foreground mt-3 mb-2 text-sm font-medium break-words sm:text-base;
+  @apply text-foreground mt-3 mb-2 text-sm font-medium wrap-break-word sm:text-base;
 }
 
 .content-markdown p,
 .mdxeditor-diff-source-wrapper p {
-  @apply text-foreground mb-4 leading-relaxed break-words;
+  @apply text-foreground mb-4 leading-relaxed wrap-break-word;
 }
 
 .content-markdown ul,
@@ -50,7 +50,7 @@
 
 .content-markdown li,
 .mdxeditor-diff-source-wrapper li {
-  @apply mb-1 break-words;
+  @apply mb-1 wrap-break-word;
 }
 
 .content-markdown li::marker,
@@ -60,13 +60,13 @@
 
 .content-markdown a,
 .mdxeditor-diff-source-wrapper a {
-  @apply text-blue break-words hover:underline;
+  @apply text-blue-foreground wrap-break-word hover:underline;
   word-break: break-all;
 }
 
 .content-markdown blockquote,
 .mdxeditor-diff-source-wrapper blockquote {
-  @apply border-blue text-muted-foreground mb-4 border-l-4 pl-4 break-words italic;
+  @apply border-blue-border text-muted-foreground mb-4 border-l-4 pl-4 wrap-break-word italic;
 }
 
 .content-markdown code,
@@ -97,7 +97,7 @@
 .content-markdown td,
 .mdxeditor-diff-source-wrapper th,
 .mdxeditor-diff-source-wrapper td {
-  @apply border-border border px-2 py-2 text-left break-words sm:px-4;
+  @apply border-border border px-2 py-2 text-left wrap-break-word sm:px-4;
 }
 
 .content-markdown th,
@@ -168,17 +168,17 @@
   --basePageBg: var(--background) !important;
 
   /* Accent colors (primary) */
-  --accentBase: var(--blue-light) !important;
-  --accentBgSubtle: var(--blue-light) !important;
-  --accentBg: var(--blue-light) !important;
-  --accentBgHover: var(--blue) !important;
-  --accentBgActive: var(--blue) !important;
-  --accentLine: var(--blue) !important;
-  --accentBorder: var(--blue) !important;
-  --accentBorderHover: var(--blue) !important;
-  --accentSolid: var(--blue) !important;
-  --accentSolidHover: var(--blue) !important;
-  --accentText: var(--blue) !important;
+  --accentBase: var(--blue) !important;
+  --accentBgSubtle: var(--blue) !important;
+  --accentBg: var(--blue) !important;
+  --accentBgHover: var(--blue-foreground) !important;
+  --accentBgActive: var(--blue-foreground) !important;
+  --accentLine: var(--blue-foreground) !important;
+  --accentBorder: var(--blue-foreground) !important;
+  --accentBorderHover: var(--blue-foreground) !important;
+  --accentSolid: var(--blue-foreground) !important;
+  --accentSolidHover: var(--blue-foreground) !important;
+  --accentText: var(--blue-foreground) !important;
   --accentTextContrast: var(--background) !important;
 
   /* Background page color */
@@ -186,14 +186,14 @@
   color: var(--foreground) !important;
 
   /* Admonition colors */
-  --admonitionTipBg: var(--blue-light) !important;
-  --admonitionTipBorder: var(--blue) !important;
-  --admonitionInfoBg: var(--green-light) !important;
-  --admonitionInfoBorder: var(--green) !important;
-  --admonitionCautionBg: var(--orange-light) !important;
-  --admonitionCautionBorder: var(--orange) !important;
-  --admonitionDangerBg: var(--red-light) !important;
-  --admonitionDangerBorder: var(--red) !important;
+  --admonitionTipBg: var(--blue) !important;
+  --admonitionTipBorder: var(--blue-foreground) !important;
+  --admonitionInfoBg: var(--green) !important;
+  --admonitionInfoBorder: var(--green-foreground) !important;
+  --admonitionCautionBg: var(--orange) !important;
+  --admonitionCautionBorder: var(--orange-foreground) !important;
+  --admonitionDangerBg: var(--red) !important;
+  --admonitionDangerBorder: var(--red-foreground) !important;
   --admonitionNoteBg: var(--muted) !important;
   --admonitionNoteBorder: var(--border) !important;
 

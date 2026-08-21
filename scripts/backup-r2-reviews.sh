@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # rclone remote name configured for Cloudflare R2 (e.g. "r2" in ~/.config/rclone/rclone.conf)
-RCLONE_REMOTE="${RCLONE_REMOTE:-r2}"
+RCLONE_REMOTE="${RCLONE_REMOTE:-osuc}"
 BUCKET="v2-ramos"
 DATE=$(date +%Y-%m-%d)
 OUTPUT=".backup-r2-${DATE}.zip"

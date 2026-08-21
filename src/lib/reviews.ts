@@ -249,6 +249,64 @@ export const getCourseReviews = async (sigle: string, limit: number = 40) => {
   return result.results;
 };
 
+type CourseReviewWithUserVote = CourseReview & {
+  user_vote: 1 | -1 | null;
+};
+
+export async function getCourseReviewsPage(
+  sigle: string,
+  userId: string | null,
+  limit: number,
+  offset: number
+) {
+  const result = await DB()
+    .prepare(
+      `
+    SELECT
+      course_reviews.id,
+      course_reviews.user_id,
+      course_reviews.course_sigle,
+      course_reviews.like_dislike,
+      course_reviews.workload_vote,
+      course_reviews.attendance_type,
+      course_reviews.weekly_hours,
+      course_reviews.year_taken,
+      course_reviews.semester_taken,
+      course_reviews.comment_path,
+      course_reviews.status,
+      course_reviews.created_at,
+      course_reviews.updated_at,
+      course_reviews.votes,
+      user_vote_review.vote AS user_vote
+    FROM course_reviews
+    LEFT JOIN user_vote_review
+      ON user_vote_review.review_id = course_reviews.id
+      AND user_vote_review.user_id = ?
+    WHERE course_reviews.course_sigle = ? AND course_reviews.status != 3
+    ORDER BY course_reviews.votes DESC, course_reviews.created_at DESC
+    LIMIT ? OFFSET ?
+  `
+    )
+    .bind(userId ?? "", sigle, limit + 1, offset)
+    .all<CourseReviewWithUserVote>();
+
+  const rows = result.results.slice(0, limit);
+  const userVotes: Record<number, 1 | -1> = {};
+  const reviews = rows.map(({ user_vote: userVote, ...review }) => {
+    if (userVote === 1 || userVote === -1) {
+      userVotes[review.id] = userVote;
+    }
+    return review;
+  });
+
+  return {
+    reviews,
+    userVotes,
+    hasMore: result.results.length > limit,
+    nextOffset: offset + reviews.length,
+  };
+}
+
 export async function getReviewContent(filePath: string | null) {
   if (!filePath) return null;
   try {
@@ -355,4 +413,31 @@ export async function changeStatusReview(status: 0 | 1 | 2 | 3, reviewId: number
     )
     .bind(status, reviewId)
     .run();
+}
+
+export async function getReviewCountsByStatus() {
+  const result = await DB()
+    .prepare("SELECT status, COUNT(*) as count FROM course_reviews GROUP BY status")
+    .all<{ status: number; count: number }>();
+
+  const counts = { pending: 0, approved: 0, reported: 0, hidden: 0, total: 0 };
+  for (const row of result.results) {
+    if (row.status === 0) counts.pending = row.count;
+    else if (row.status === 1) counts.approved = row.count;
+    else if (row.status === 2) counts.reported = row.count;
+    else if (row.status === 3) counts.hidden = row.count;
+    counts.total += row.count;
+  }
+  return counts;
+}
+
+export async function getRecentReviews(limit: number = 10) {
+  const result = await DB()
+    .prepare(
+      "SELECT id, user_id, course_sigle, like_dislike, workload_vote, attendance_type, weekly_hours, year_taken, semester_taken, comment_path, status, created_at, updated_at, votes FROM course_reviews ORDER BY created_at DESC LIMIT ?"
+    )
+    .bind(limit)
+    .all<CourseReview>();
+
+  return result.results;
 }

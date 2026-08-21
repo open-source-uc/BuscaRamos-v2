@@ -1,18 +1,56 @@
 "use client";
 
-import useSWR from "swr";
-import type { Element } from "hast";
+import type { Element, Text as HastText, Node } from "hast";
 import type { ComponentProps, ReactNode } from "react";
 
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@/components/ui/Pill";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 import ReactMarkdown, { Components } from "react-markdown";
 import Image from "next/image";
+import { visit } from "unist-util-visit";
+import useSWR from "swr";
 
 type PillVariant = ComponentProps<typeof Pill>["variant"];
 type PillSize = ComponentProps<typeof Pill>["size"];
+
+const rehypeHighlightSearch = (searchValue: string) => {
+  return (tree: Node) => {
+    if (!searchValue.trim()) return;
+
+    const escapedSearch = searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escapedSearch})`, "gi");
+
+    visit(tree, "text", (node: HastText, index, parent: Element) => {
+      if (!parent || typeof index !== "number") return;
+
+      if (["code", "mark", "script", "style", "a"].includes(parent.tagName)) return;
+
+      const text = node.value;
+      if (!regex.test(text)) return;
+
+      const parts = text.split(regex);
+
+      const newNodes = parts
+        .map((part): Element | HastText => {
+          if (part.toLowerCase() === searchValue.toLowerCase()) {
+            return {
+              type: "element",
+              tagName: "mark",
+              properties: { className: ["highlight"] },
+              children: [{ type: "text", value: part }],
+            };
+          }
+          return { type: "text", value: part };
+        })
+        .filter((n) => n.type === "element" || (n as HastText).value !== "");
+      parent.children.splice(index, 1, ...newNodes);
+
+      return index + newNodes.length;
+    });
+  };
+};
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -21,30 +59,49 @@ const fetcher = (url: string) =>
   });
 
 export function MarkdownReviewView({
-  path,
+  markdown,
+  searchValue = "",
   imgAllow = false,
+  markdownLoading,
+  markdownError,
+  markdownLoaded,
+  commentPath,
 }: {
-  path: string;
+  markdown: string;
+  searchValue?: string;
   imgAllow?: boolean;
+  markdownLoading: boolean;
+  markdownError: boolean;
+  markdownLoaded: boolean;
+  commentPath?: string;
 }) {
-  const {
-    data: text,
-    error,
-    isLoading,
-  } = useSWR(path ? `/api/reviews?path=${encodeURIComponent(path)}` : null, fetcher);
+  const { data, error, isLoading } = useSWR(
+    commentPath && !markdownLoaded ? `/api/reviews?path=${encodeURIComponent(commentPath)}` : null,
+    fetcher
+  );
 
-  if (error) {
+  let comment = markdown;
+  let mdError = markdownError;
+  let mdIsLoading = markdownLoading;
+
+  if (!markdownLoaded) {
+    comment = data ?? "";
+    mdError = error;
+    mdIsLoading = isLoading;
+  }
+
+  if (mdError) {
     return <blockquote>Error cargando contenido.</blockquote>;
   }
 
-  if (isLoading) {
+  if (mdIsLoading) {
     return <p>Cargando...</p>;
   }
 
   return (
     <article className="prose max-w-none">
       <ReactMarkdown
-        rehypePlugins={[rehypeRaw]}
+        rehypePlugins={[rehypeRaw, () => rehypeHighlightSearch(searchValue)]}
         remarkPlugins={[remarkGfm, remarkBreaks]}
         components={
           {
@@ -58,7 +115,9 @@ export function MarkdownReviewView({
             },
             img: ({ node }: { node: Element }) => {
               if (!imgAllow) return null;
+
               const { src, alt, title } = node?.properties || {};
+
               return (
                 <Image
                   src={src as string}
@@ -68,10 +127,13 @@ export function MarkdownReviewView({
                 />
               );
             },
+            mark: ({ children }) => (
+              <mark className="bg-green text-black rounded-sm px-1">{children}</mark>
+            ),
           } as Components
         }
       >
-        {text}
+        {comment}
       </ReactMarkdown>
     </article>
   );

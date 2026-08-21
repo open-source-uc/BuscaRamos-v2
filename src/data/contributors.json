@@ -1,9 +1,10 @@
 [
   {
-    "name": "Vicente Muñoz",
+    "name": "Rocka - Vicente Muñoz",
     "career": "Licenciatura en Ingeniería en Ciencia de Datos",
     "github": "Utmite",
-    "linkedin": "vicente-vml"
+    "linkedin": "vicente-vml",
+    "image": "/media/gojo-rocka.jpg"
   },
   {
     "name": "Ignacio Palma",
@@ -15,7 +16,8 @@
     "name": "Pablo Cruzat",
     "career": "Licenciatura en Ingeniería en Ciencia de la Computación",
     "github": "pablocruzval",
-    "linkedin": "pablocruzval"
+    "linkedin": "pablocruzval",
+    "image": "https://avatars.githubusercontent.com/u/137650549"
   },
   {
     "name": "Vicente Cuitiño",

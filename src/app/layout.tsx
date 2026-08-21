@@ -1,15 +1,22 @@
 import "@/styles/global.css";
 
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import Script from "next/script";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import FloatingNavButton from "@/components/FloatingNavButton";
+import CoursesUnifiedPreloader from "@/components/CoursesUnifiedPreloader";
+import ChunkErrorRecovery from "@/components/ChunkErrorRecovery";
 import { AuthProvider } from "@/context/authCtx";
-import { authenticateUser } from "@/lib/auth/auth";
 import { CourseNameMapProvider } from "@/context/courseNameMapCtx";
 import { SemesterProvider } from "@/context/semesterCtx";
 import { Toaster } from "sonner";
+import { Banner } from "@/components/ui/Banner";
+
+const geist = Geist({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -65,12 +72,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await authenticateUser();
   return (
     <html lang="es-CL">
       <head>
@@ -80,10 +86,24 @@ export default async function RootLayout({
           data-cf-beacon='{"token": "7874d2302e154e14ab08e25ea85909f9"}'
         />
       </head>
-      <body className="antialiased bg-background text-foreground min-h-screen">
+      <body className={`${geist.className} antialiased bg-background text-foreground min-h-screen`}>
+        <ChunkErrorRecovery />
+        <section className="w-full flex justify-center items-center">
+          <Banner
+            variant="orange"
+            size="md"
+            icon="CalendarIcon"
+            dismissible
+            bannerId="semester-2026-2-01"
+            className=""
+          >
+            🎉 <strong>+1.118 usuarios</strong> y <strong>+1.013 reseñas</strong> ya son parte de
+            esto. ¡Gracias infinitas por tu confianza!
+          </Banner>
+        </section>
         <SemesterProvider>
           <CourseNameMapProvider>
-            <AuthProvider initialUser={user}>
+            <AuthProvider>
               <Header />
               {children}
               <Toaster
@@ -95,6 +115,7 @@ export default async function RootLayout({
               />
               <Footer />
               <FloatingNavButton />
+              <CoursesUnifiedPreloader />
             </AuthProvider>
           </CourseNameMapProvider>
         </SemesterProvider>

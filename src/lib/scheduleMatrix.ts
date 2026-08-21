@@ -130,6 +130,15 @@ export function getScheduleDisplay(
  * @param coursesJSON - Los datos de cursos en crudo del JSON
  * @returns Datos de secciones de cursos formateados
  */
+/**
+ * Normaliza un campo de texto que la API puede enviar como string o como array
+ * (ej. "Ciencias", ["Ciencias"] o []). Devuelve el primer string no vacío o undefined.
+ */
+function firstString(value: unknown): string | undefined {
+  const raw = Array.isArray(value) ? value[0] : value;
+  return typeof raw === "string" && raw.trim() !== "" ? raw : undefined;
+}
+
 export function convertCourseDataToSections(coursesJSON: CourseJSON): CourseSections {
   const sections: CourseSections = {};
 
@@ -160,10 +169,10 @@ export function convertCourseDataToSections(coursesJSON: CourseJSON): CourseSect
         schedule: section.schedule || {},
         nrc: section.nrc || undefined,
         section: section.section || undefined,
-        format: section.format || undefined,
-        campus: section.campus || undefined,
-        category: section.category || undefined,
-        area: section.area || undefined,
+        format: firstString(section.format),
+        campus: firstString(section.campus),
+        category: firstString(section.category),
+        area: firstString(section.area),
         is_english: isEnglish,
         is_removable: isRemovable,
         is_special: isSpecial,
@@ -225,10 +234,10 @@ export function convertNDJSONToSections(coursesArray: Course[]): CourseSections 
           schedule: section.schedule || {},
           nrc: section.nrc || undefined,
           section: section.section || undefined,
-          format: section.format || undefined,
-          campus: section.campus || undefined,
-          category: section.category || undefined,
-          area: section.area || undefined,
+          format: firstString(section.format),
+          campus: firstString(section.campus),
+          category: firstString(section.category),
+          area: firstString(section.area),
           is_english: isEnglish,
           is_removable: isRemovable,
           is_special: isSpecial,

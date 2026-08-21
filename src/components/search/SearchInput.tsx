@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import type { KeyboardEvent } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { SearchIcon, LoadingIcon } from "@/components/icons/icons";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { SearchIcon, LoadingIcon } from "@/components/icons/Icons";
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;
   placeholder?: string;
   className?: string;
+  inputClassName?: string;
   initialValue?: string;
   normalizeText?: boolean; // Option to enable/disable text normalization
   isSearching?: boolean; // New prop to indicate loading state
@@ -30,6 +31,7 @@ export function Search({
   onSearch,
   placeholder = "Buscar por nombre o sigla...",
   className = "",
+  inputClassName = "",
   initialValue = "",
   normalizeText = true, // Default to true for better search experience
   isSearching = false, // Default to false
@@ -71,7 +73,7 @@ export function Search({
         </div>
         <Input
           autoComplete="off"
-          type="search"
+          type="text"
           name="search"
           enterKeyHint="search"
           inputMode="search"
@@ -86,7 +88,7 @@ export function Search({
           value={displayValue}
           onChange={(e) => handleSearch(e.target.value)}
           onKeyDown={onKeyDown}
-          className="bg-white pl-10"
+          className={`bg-white pl-10 ${inputClassName}`}
         />
         {displayValue && (
           <Button
@@ -94,7 +96,7 @@ export function Search({
             variant="ghost"
             size="sm"
             onClick={clearSearch}
-            className="hover:bg-muted absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 p-0"
+            className="hover:bg-muted absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2"
           >
             ✕
           </Button>

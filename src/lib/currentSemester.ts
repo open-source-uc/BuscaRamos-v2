@@ -8,6 +8,9 @@ export function computeCurrentSemester(): string {
   const now = new Date();
   const month = now.getMonth() + 1; // 1-12
   const year = now.getFullYear();
+  const day = now.getDate();
+  // Override hardcodeado: desde el 8 de julio hasta fin de septiembre de 2026 -> 2026-2
+  if (year === 2026 && ((month === 7 && day >= 8) || month === 8 || month === 9)) return "2026-2";
   if (month >= 3 && month <= 7) return `${year}-1`;
   if (month >= 8) return `${year}-2`;
   // enero o febrero: TAV del año anterior

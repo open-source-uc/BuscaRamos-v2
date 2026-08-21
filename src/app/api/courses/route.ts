@@ -1,22 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextRequest, NextResponse } from "next/server";
-import { R2PUBLIC } from "@/lib/binding";
-import { getCourseStaticData } from "@/lib/coursesStaticData";
-import { CourseDB } from "@/types/types";
-
-async function createCoursesNDJSON_v1(courses: CourseDB[]): Promise<string> {
-  const lines = (
-    await Promise.all(
-      courses.map(async (course) => {
-        const data = await getCourseStaticData(course.sigle);
-        if (!data) return null;
-        return JSON.stringify({ ...course, ...data });
-      })
-    )
-  ).filter((line): line is string => line !== null);
-
-  return lines.join("\n");
-}
+import { regenerateCoursesScoreNdjson } from "@/lib/coursesScore";
 
 export async function GET(request: NextRequest) {
   const API_SECRET = process.env.API_SECRET;
@@ -32,47 +16,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const courses = await getCourseSummaries();
-    const ndjson = await createCoursesNDJSON_v1(courses);
-
-    await R2PUBLIC().put("courses-score.ndjson", ndjson, {
-      httpMetadata: {
-        contentType: "application/x-ndjson; charset=utf-8",
-      },
-    });
-
-    return new Response("Updated", {
-      status: 200,
-      headers: {
-        "Content-Type": "application/x-ndjson; charset=utf-8",
-      },
-    });
+    const { processed, skipped } = await regenerateCoursesScoreNdjson(getCloudflareContext().env);
+    return NextResponse.json({ message: "Updated", processed, skipped });
   } catch (error) {
     console.error("Error in GET handler:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-}
-
-async function getCourseSummaries(): Promise<CourseDB[]> {
-  const DB = getCloudflareContext().env.DB;
-  const result = await DB.prepare(
-    `
-        SELECT 
-        id,
-        sigle,
-        superlikes, 
-        likes,
-        dislikes,
-        votes_low_workload,
-        votes_medium_workload,
-        votes_high_workload,
-        votes_mandatory_attendance,
-        votes_optional_attendance,
-        avg_weekly_hours,
-        sort_index
-        FROM course_summary ORDER BY sort_index DESC, id
-    `
-  ).all<CourseDB>();
-
-  return result.results;
 }

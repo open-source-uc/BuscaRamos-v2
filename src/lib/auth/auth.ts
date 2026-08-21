@@ -2,33 +2,12 @@
 import { importJWK, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { PUBLIC_JWK } from "./publicKey";
+import type { AuthenticatedUser, TokenPayload } from "./types";
 
 let _cachedKey: CryptoKey | Uint8Array | null = null;
 async function getPublicKey() {
   if (!_cachedKey) _cachedKey = await importJWK(PUBLIC_JWK, "RS256");
   return _cachedKey;
-}
-
-import type { Career, Organization } from "./auth.types";
-
-interface TokenPayload {
-  userId: number;
-  username: string;
-  career: Career;
-  permissions: string[];
-  organizations: Organization[];
-  sessionId: number;
-  iat: number;
-  exp: number;
-}
-
-export interface AuthenticatedUser {
-  isAuthenticated: true;
-  userId: string;
-  username: string;
-  career: Career | null;
-  permissions: string[];
-  organizations: Organization[];
 }
 
 async function verifyToken(token: string): Promise<TokenPayload | null> {
@@ -50,10 +29,12 @@ export async function authenticateUser(): Promise<AuthenticatedUser | null> {
   if (!payload) {
     // Token ausente, expirado o inválido — intentar refresh
     try {
-      const allCookies = cookieStore
-        .getAll()
-        .map((c) => `${c.name}=${c.value}`)
-        .join("; ");
+      const cookies = cookieStore.getAll();
+      // Sin cookies no hay refresh token que enviar (ej. bots/crawlers):
+      // evitamos un subrequest inútil a auth.osuc.dev en cada visita.
+      if (cookies.length === 0) return null;
+
+      const allCookies = cookies.map((c) => `${c.name}=${c.value}`).join("; ");
 
       const refresh = await fetch("https://auth.osuc.dev/api/refresh", {
         method: "POST",

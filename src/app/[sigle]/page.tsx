@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
-import { getCourseReviews } from "../../actions/reviews";
-import { getVotesOnReviewsInCourseByUserID } from "@/actions/user.reviews";
 import {
   calculatePositivePercentage,
   calculateSentiment,
@@ -14,10 +12,9 @@ import {
 import { getCourseStats } from "@/lib/courses";
 import { getCourseStaticData } from "@/lib/coursesStaticData";
 import { AttendanceIcon, Sentiment, ThumbUpIcon, WorkloadIcon } from "@/components/icons";
-import Review from "@/components/reviews/Review";
-import MakeReviewButton from "@/components/reviews/MakeReviewButton";
 import CourseInformation from "@/components/ui/CourseInformation";
 import CourseRelationsSections from "@/components/courses/CourseRelationsSections";
+import CourseReviewsSection from "@/components/reviews/CourseReviewsSection";
 
 const getCoursePageData = cache(async (sigle: string) => {
   const [course, stats] = await Promise.all([getCourseStaticData(sigle), getCourseStats(sigle)]);
@@ -99,11 +96,7 @@ export async function generateMetadata({
 export default async function CoursePage({ params }: { params: Promise<{ sigle: string }> }) {
   const { sigle } = await params;
 
-  const [data, reviews, userVotes] = await Promise.all([
-    getCoursePageData(sigle),
-    getCourseReviews(sigle.toUpperCase(), 100),
-    getVotesOnReviewsInCourseByUserID(sigle.toUpperCase()),
-  ]);
+  const data = await getCoursePageData(sigle);
 
   if (!data) notFound();
 
@@ -154,7 +147,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-blue-light text-blue border border-blue/20 rounded-lg">
+            <div className="p-2 bg-blue text-blue-foreground border border-blue-border rounded-lg">
               <WorkloadIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -167,7 +160,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-purple-light text-purple border border-purple/20 rounded-lg">
+            <div className="p-2 bg-purple text-purple-foreground border border-purple-border rounded-lg">
               <AttendanceIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -184,7 +177,7 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
 
         <div className="border border-border bg-accent rounded-md p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-green-light text-green border border-green/20 rounded-lg">
+            <div className="p-2 bg-green text-green-foreground border border-green-border rounded-lg">
               <ThumbUpIcon className="h-5 w-5 fill-current" />
             </div>
             <div>
@@ -193,35 +186,17 @@ export default async function CoursePage({ params }: { params: Promise<{ sigle: 
             </div>
           </div>
           <div className="flex gap-2 text-sm">
-            <span className="text-green">{(stats?.likes ?? 0) + (stats?.superlikes ?? 0)} ↑</span>
-            <span className="text-red">{stats?.dislikes ?? 0} ↓</span>
+            <span className="text-green-foreground">
+              {(stats?.likes ?? 0) + (stats?.superlikes ?? 0)} ↑
+            </span>
+            <span className="text-red-foreground">{stats?.dislikes ?? 0} ↓</span>
           </div>
         </div>
       </section>
 
       <CourseRelationsSections course={course} />
 
-      <section>
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Reseñas ({reviews.length})</h2>
-            <MakeReviewButton sigle={course.sigle} />
-          </div>
-          {reviews.length === 0 ? (
-            <p className="text-gray-500">No hay reseñas para este curso.</p>
-          ) : (
-            <div className="space-y-4">
-              {reviews.map((review) => (
-                <Review
-                  key={review.id}
-                  review={review}
-                  initialVote={(userVotes as Record<number, 1 | -1>)[review.id] ?? null}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      <CourseReviewsSection course={course} totalReviews={totalReviews} />
     </main>
   );
 }

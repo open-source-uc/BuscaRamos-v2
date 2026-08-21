@@ -1,3 +1,5 @@
+import { CourseStaticData } from "@/lib/coursesStaticData";
+
 /**
  * Tipo que representa los datos que llegan del archivo courses-score.ndjson
  * Solo incluye los campos que se usan en el frontend para la tabla de cursos
@@ -24,9 +26,10 @@ export type CourseScore = {
   // Arrays de características
   format: string[];
   campus: string[];
-  is_removable: boolean[];
-  is_special: boolean[];
-  is_english: boolean[];
+  /** por sección del semestre más reciente; null = desconocido */
+  is_removable: (boolean | null)[];
+  is_special: (boolean | null)[];
+  is_english: (boolean | null)[];
   area: string[];
   categories: string[];
 };
@@ -121,13 +124,13 @@ type Day = "l" | "m" | "w" | "j" | "v" | "s";
 type Block = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 export type UcModule = `${Day}${Block}`;
 
-export type CourseAndSection = [string, number] | []; // [courseId, sectionId ]
+export type CourseAndSection = [string, number]; // [courseId, sectionId]
 export type ClassroomSchedule = {
   [K in UcModule]: CourseAndSection[]; // Lista de cursos y secciones que ocupan ese módulo en ese aula
 };
 
 export type ClassroomSchedules = {
-  [K in Campus]: {
+  [K in Campus]?: {
     [classroom: string]: ClassroomSchedule;
   };
 };
@@ -136,3 +139,19 @@ export type OccupiedStatus = {
   Status: boolean;
   Courses: CourseAndSection[];
 };
+
+// Program data
+export interface Program {
+  id: string;
+  name: string;
+  school: string;
+  level: string;
+  campus: string;
+  semesters: Semester[];
+}
+
+export interface Semester {
+  number: number;
+  courseCodes: string[];
+  courses: (CourseStaticData | null)[];
+}

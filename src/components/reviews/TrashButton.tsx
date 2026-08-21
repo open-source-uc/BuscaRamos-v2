@@ -1,16 +1,17 @@
 "use client";
 
 import { CourseReview } from "@/types/types";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { TrashIcon } from "lucide-react";
 import { deleteCourseReview } from "@/actions/user.reviews";
 import { toast } from "sonner";
 
 interface TrashProps {
   review: CourseReview;
+  variant?: "red" | "ghost_red";
 }
 
-export default function Trash({ review }: TrashProps) {
+export default function Trash({ review, variant = "red" }: TrashProps) {
   async function handleDelete() {
     if (
       !confirm(
@@ -29,7 +30,7 @@ export default function Trash({ review }: TrashProps) {
         e.preventDefault();
         handleDelete();
       }}
-      variant="red"
+      variant={variant}
     >
       <TrashIcon />
     </Button>

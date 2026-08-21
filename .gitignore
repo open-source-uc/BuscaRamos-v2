@@ -55,3 +55,4 @@ next-env.d.ts
 .open-next/**
 CLAUDE.md
 .backup*
+.agents/

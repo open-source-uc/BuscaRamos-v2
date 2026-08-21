@@ -1,4 +1,4 @@
-import {
+import type {
   Campus,
   ClassroomSchedule,
   ClassroomSchedules,
@@ -28,7 +28,17 @@ function getClassroomData(): Promise<ClassroomSchedules> {
 
 async function getCampusData(campus: Campus) {
   const data = await getClassroomData();
-  return data[campus];
+  const campusData = data[campus];
+  if (!campusData) {
+    throw new Error(`Campus ${campus} not found in classroom data`);
+  }
+
+  return campusData;
+}
+
+export async function getAvailableCampuses(): Promise<Campus[]> {
+  const data = await getClassroomData();
+  return Object.keys(data) as Campus[];
 }
 
 export async function getClassroomSchedule(
@@ -53,7 +63,7 @@ export async function getFreeClassroomsPerModule(
   const freeRooms: string[] = [];
 
   for (const [classroom, schedule] of Object.entries(campusData)) {
-    if (schedule[module].length === 0) {
+    if ((schedule[module]?.length ?? 0) === 0) {
       freeRooms.push(classroom);
     }
   }
@@ -88,7 +98,7 @@ export async function getOccupiedStatus(
   const schedule = await getClassroomSchedule(campus, classroom);
 
   return {
-    Status: schedule[module].length > 0,
-    Courses: schedule[module],
+    Status: (schedule[module]?.length ?? 0) > 0,
+    Courses: schedule[module] ?? [],
   };
 }

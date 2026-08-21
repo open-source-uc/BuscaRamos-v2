@@ -11,8 +11,9 @@ import {
   SwapIcon,
   StarIcon,
 } from "../icons";
-import { Pill } from "./pill";
+import { Pill } from "./Pill";
 import Link from "next/link";
+import GraduationCapIcon from "../icons/Icons";
 
 export default function CourseInformation({
   course,
@@ -25,9 +26,11 @@ export default function CourseInformation({
 }) {
   return (
     <section className="border border-border rounded-md bg-accent px-6 py-8">
-      <Link href={`/${course.sigle}`}>
-        <p className="text-sm underline">{course.sigle}</p>
-      </Link>
+      <Pill className="hover:bg-muted" variant="ghost_blue" size="sm" icon={GraduationCapIcon}>
+        <Link href={`/${course.sigle}`}>
+          <p className="text-xs">{course.sigle}</p>
+        </Link>
+      </Pill>
 
       <div className="pt-2 flex items-center justify-between">
         <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
@@ -76,7 +79,11 @@ export default function CourseInformation({
             course.area.length > 0 &&
             course.area.some((a) => a && String(a).trim() !== "") && (
               <Pill variant="pink" icon={AreaIcon}>
-                <span>{course.area.filter((a) => a && String(a).trim() !== "").join(", ")}</span>
+                <span>
+                  {course.area.length > 6
+                    ? "Interárea"
+                    : course.area.filter((a) => a && String(a).trim() !== "").join(", ")}
+                </span>
               </Pill>
             )}
           {Array.isArray(course.is_removable) &&

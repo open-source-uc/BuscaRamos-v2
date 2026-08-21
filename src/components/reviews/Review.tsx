@@ -10,7 +10,7 @@ import {
   ThumbUpIcon,
   WorkloadIcon,
 } from "../icons";
-import { Pill } from "../ui/pill";
+import { Pill } from "../ui/Pill";
 import { CourseReview } from "@/types/types";
 import ShareButton from "./ShareButton";
 import ReportButton from "./ReportButton";
@@ -22,25 +22,36 @@ import TrashButton from "./TrashButton";
 import { AuthContext } from "@/context/authCtx";
 import { use } from "react";
 import Link from "next/link";
+import GraduationCapIcon from "../icons/Icons";
 
 export default function Review({
   review,
+  searchValue = "",
   status = false,
   initialVote = null,
   hideLike = false,
   editable,
   course,
+  markdown = "",
+  markdownLoading = false,
+  markdownError = false,
+  markdownLoaded = false,
 }: {
   review: CourseReview;
+  searchValue?: string;
   initialVote?: -1 | 1 | null;
   status?: boolean;
   editable?: boolean;
   course?: CourseStaticData;
   hideLike?: boolean;
+  markdown?: string;
+  markdownLoading?: boolean;
+  markdownError?: boolean;
+  markdownLoaded?: boolean;
 }) {
   if (editable === undefined) {
     const { user, isRoot } = use(AuthContext);
-    editable = isRoot || user?.userId === review.user_id;
+    editable = isRoot || String(user?.userId) === String(review.user_id);
   }
 
   return (
@@ -52,9 +63,16 @@ export default function Review({
           {/* Pill */}
           {course && (
             <section>
-              <Link href={`/${course.sigle}`}>
-                <p className="text-sm underline">{course.sigle}</p>
-              </Link>
+              <Pill
+                className="hover:bg-muted"
+                variant="ghost_blue"
+                size="xs"
+                icon={GraduationCapIcon}
+              >
+                <Link href={`/${course.sigle}`}>
+                  <p className="text-xs">{course.sigle}</p>
+                </Link>
+              </Pill>
               <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold mb-2 max-w-[75%]">{course.name}</h1>
               </div>
@@ -63,10 +81,10 @@ export default function Review({
           <div
             className={`flex gap-2 items-center p-2 border rounded-lg w-max ${
               review.like_dislike === 2
-                ? "bg-green-light text-green border-green/20"
+                ? "bg-green text-green-foreground border-green-border"
                 : review.like_dislike === 1
-                  ? "bg-blue-light text-blue border-blue/20"
-                  : "bg-red-light text-red border-red/20"
+                  ? "bg-blue text-blue-foreground border-blue-border"
+                  : "bg-red text-red-foreground border-red-border"
             }`}
           >
             {review.like_dislike === 2 ? (
@@ -102,7 +120,14 @@ export default function Review({
 
       {review.comment_path && (
         <div className="content-markdown max-w-full">
-          <MarkdownReviewView path={review.comment_path} />
+          <MarkdownReviewView
+            markdown={markdown}
+            searchValue={searchValue}
+            markdownLoading={markdownLoading}
+            markdownError={markdownError}
+            markdownLoaded={markdownLoaded}
+            commentPath={review.comment_path}
+          />
         </div>
       )}
 
@@ -142,7 +167,7 @@ export default function Review({
         <div className="flex flex-wrap items-center gap-2 max-w-full">
           {editable && (
             <>
-              <TrashButton review={review}></TrashButton>
+              <TrashButton review={review} variant="ghost_red"></TrashButton>
               <EditableButton reviewId={review.id}></EditableButton>
             </>
           )}

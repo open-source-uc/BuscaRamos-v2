@@ -1,7 +1,7 @@
 "use client";
 
-import { Pill } from "@/components/ui/pill";
-import { LocationIcon } from "@/components/icons/icons";
+import { Pill } from "@/components/ui/Pill";
+import { LocationIcon } from "@/components/icons/Icons";
 import { useCurrentSemester } from "@/context/semesterCtx";
 
 interface CourseCampusesProps {
@@ -18,16 +18,16 @@ export default function CourseCampuses({ campus, lastSemester }: CourseCampusesP
   const prefixText =
     lastSemester === currentSemester ? "Actualmente ofrecido en" : "Previamente ofrecido en";
 
+  const campusText = campus.join(", ");
+
   return (
     <>
-      {campus.map((campusName) => (
-        <Pill key={campusName} variant="blue" icon={LocationIcon}>
-          <div className="flex flex-col">
-            <span className="text-xs font-medium opacity-80">{prefixText}</span>
-            <span>{campusName}</span>
-          </div>
-        </Pill>
-      ))}
+      <Pill key={campusText} variant="blue" icon={LocationIcon}>
+        <div className="flex flex-col">
+          <span className="text-xs font-medium opacity-80">{prefixText}</span>
+          <span>{campusText}</span>
+        </div>
+      </Pill>
     </>
   );
 }

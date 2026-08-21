@@ -1,8 +1,9 @@
 "use client";
 
 import { use, useState, Suspense } from "react";
-import { getCourseStaticData, CourseStaticData } from "@/lib/coursesStaticData";
-import { Skeleton } from "@/components/ui/skeleton";
+import type { CourseStaticData } from "@/lib/coursesStaticData";
+import { getCourseStaticDataClient } from "@/lib/coursesUnifiedClient";
+import { Skeleton } from "@/components/ui/Skeleton";
 import Review from "./Review";
 import { CourseReview } from "@/types/types";
 
@@ -51,6 +52,7 @@ function ReviewContent({
       status={status}
       editable={editable}
       hideLike={hideLike}
+      markdownLoaded={false}
     />
   );
 }
@@ -66,7 +68,7 @@ export function ReviewWithCourse({
   editable?: boolean;
   hideLike?: boolean;
 }) {
-  const [coursePromise] = useState(() => getCourseStaticData(review.course_sigle));
+  const [coursePromise] = useState(() => getCourseStaticDataClient(review.course_sigle));
 
   return (
     <Suspense fallback={<ReviewSkeleton />}>

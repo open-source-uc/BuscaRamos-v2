@@ -1,7 +1,11 @@
 import { defineCloudflareConfig, type OpenNextConfig } from "@opennextjs/cloudflare";
+import staticAssetsIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/static-assets-incremental-cache";
 
 const config: OpenNextConfig = {
-  ...defineCloudflareConfig(),
+  ...defineCloudflareConfig({
+    incrementalCache: staticAssetsIncrementalCache,
+    enableCacheInterception: true,
+  }),
   buildCommand: "pnpm run build:cf",
 };
 

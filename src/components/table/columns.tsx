@@ -1,10 +1,10 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Pill } from "@/components/ui/pill";
-import { Button } from "../ui/button";
-import { SwapVertIcon } from "../icons/icons";
-import { Sentiment } from "../icons/sentiment";
+import { Pill } from "@/components/ui/Pill";
+import { Button } from "../ui/Button";
+import { SwapVertIcon } from "../icons/Icons";
+import { Sentiment } from "../icons/Sentiment";
 import { calculateSentiment, calculatePositivePercentage } from "@/lib/courseStats";
 import TableCourseCampuses from "./TableCourseCampuses";
 import { CourseScore } from "@/types/types";
@@ -115,12 +115,15 @@ export const columns: ColumnDef<CourseScore>[] = [
     },
     cell: ({ row }) => {
       const area = row.original.area;
+
       if (
         Array.isArray(area) &&
         area.length > 0 &&
         area.some((a) => a && String(a).trim() !== "")
       ) {
         const validAreas = area.filter((a) => a && String(a).trim() !== "");
+        if (validAreas.length > 6) return <Pill variant="pink">Interárea</Pill>;
+
         return <Pill variant="pink">{validAreas.join(", ")}</Pill>;
       }
       return null;

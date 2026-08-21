@@ -4,11 +4,11 @@ import { useMemo, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { useCurrentSemester } from "@/context/semesterCtx";
 import { CourseScore } from "@/types/types";
-import { Combobox, ComboboxOption } from "./combobox";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible";
+import { Combobox, ComboboxOption } from "./Combobox";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./Collapsible";
 import { ChevronDownIcon, ChevronUpIcon } from "../icons";
-import { Switch } from "./switch";
-import { Button } from "./button";
+import { Switch } from "./Switch";
+import { Button } from "./Button";
 
 interface CourseFiltersProps {
   courses: CourseScore[];

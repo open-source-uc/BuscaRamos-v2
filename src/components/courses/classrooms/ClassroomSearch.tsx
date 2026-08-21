@@ -17,14 +17,17 @@ export function ClassroomSearch() {
   const [results, setResults] = useState<ClassroomSchedule | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [allClassroomsWithCampus, setAllClassroomsWithCampus] = useState<ClassroomOption[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isActive = true;
 
     async function loadClassrooms() {
-      const classrooms = await getAllClassroomsWithCampus();
-      if (isActive) {
-        setAllClassroomsWithCampus(classrooms);
+      try {
+        const classrooms = await getAllClassroomsWithCampus();
+        if (isActive) setAllClassroomsWithCampus(classrooms);
+      } catch {
+        if (isActive) setError("No se pudo cargar el listado de salas.");
       }
     }
 
@@ -48,11 +51,13 @@ export function ClassroomSearch() {
 
   async function handleSearch(classroomName: string, campus: Campus) {
     setLoading(true);
+    setError(null);
     try {
       const schedule = await getClassroomSchedule(campus, classroomName.trim().toUpperCase());
       setResults(schedule);
-    } catch (error) {
-      console.error("Error fetching classroom schedule:", error);
+    } catch {
+      setResults(null);
+      setError("No se pudo cargar el horario de la sala seleccionada.");
     } finally {
       setLoading(false);
     }
@@ -63,6 +68,7 @@ export function ClassroomSearch() {
     setSelectedCampus(null);
     setResults(null);
     setShowSuggestions(false);
+    setError(null);
   }
 
   function selectSuggestion(classroom: string, campus: Campus) {
@@ -76,7 +82,7 @@ export function ClassroomSearch() {
     <div className="border-border rounded-2xl border bg-accent shadow-sm">
       <div className="space-y-4 p-4 tablet:p-6">
         <div className="flex items-center gap-3">
-          <div className="bg-blue-light text-blue border-blue/20 rounded-lg border p-2 shrink-0">
+          <div className="bg-blue text-blue-foreground border-blue-border shrink-0 rounded-lg border p-2">
             <SearchIcon className="h-5 w-5 fill-current" />
           </div>
           <div>
@@ -96,6 +102,9 @@ export function ClassroomSearch() {
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
+                  setSelectedCampus(null);
+                  setResults(null);
+                  setError(null);
                   setShowSuggestions(true);
                 }}
                 onFocus={() => setShowSuggestions(true)}
@@ -131,13 +140,15 @@ export function ClassroomSearch() {
                   if (firstMatch) {
                     setSelectedCampus(firstMatch.campus);
                     handleSearch(query, firstMatch.campus);
+                  } else {
+                    setError("Selecciona una sala de la lista de sugerencias.");
                   }
                 } else {
                   handleSearch(query, selectedCampus);
                 }
               }}
               disabled={!query || loading}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
             >
               {loading ? "Cargando..." : "Buscar"}
             </button>
@@ -150,6 +161,8 @@ export function ClassroomSearch() {
             </button>
           </div>
         </label>
+
+        {error && <p className="text-red-foreground text-sm">{error}</p>}
 
         {results && selectedCampus && (
           <div className="text-muted-foreground text-xs">

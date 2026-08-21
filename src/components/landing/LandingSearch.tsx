@@ -1,0 +1,169 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { Pill } from "@/components/ui/Pill";
+import { Button } from "@/components/ui/Button";
+import { Search } from "@/components/search/SearchInput";
+import {
+  BuildingIcon,
+  AreaIcon,
+  HourglassIcon,
+  ResourcesIcon,
+  ThumbUpIcon,
+  CalendarIcon,
+} from "@/components/icons/Icons";
+import { ROUTES } from "@/lib/routes";
+import { Users } from "lucide-react";
+
+export default function LandingSearch() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      window.location.href = `${ROUTES.CATALOG}?search=${encodeURIComponent(searchTerm.trim())}`;
+    } else {
+      window.location.href = ROUTES.CATALOG;
+    }
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  const floatingPills = [
+    {
+      icon: BuildingIcon,
+      text: "Facultades",
+      variant: "blue" as const,
+      position: "top-0 left-0",
+      delay: "0s",
+    },
+    {
+      icon: AreaIcon,
+      text: "Áreas",
+      variant: "pink" as const,
+      position: "top-0 right-0",
+      delay: "0.2s",
+    },
+    {
+      icon: ThumbUpIcon,
+      text: "Reseñas",
+      variant: "purple" as const,
+      position: "top-12 left-32",
+      delay: "0.4s",
+    },
+    {
+      icon: CalendarIcon,
+      text: "Horarios",
+      variant: "green" as const,
+      position: "top-12 right-32",
+      delay: "0.6s",
+    },
+    {
+      icon: HourglassIcon,
+      text: "Créditos",
+      variant: "green" as const,
+      position: "top-24 left-8",
+      delay: "0.8s",
+    },
+    {
+      icon: ResourcesIcon,
+      text: "Recursos",
+      variant: "blue" as const,
+      position: "top-24 right-8",
+      delay: "1.2s",
+    },
+  ];
+
+  return (
+    <div className="tablet:my-12 desktop:my-16 relative mx-auto mt-24 mb-8 w-full max-w-5xl px-2">
+      {/* Floating Pills - Only visible on desktop */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {floatingPills.map((pill, index) => (
+          <div
+            key={index}
+            className={`absolute ${pill.position} desktop:block hidden animate-pulse`}
+            style={{
+              animationDelay: pill.delay,
+              animationDuration: "3s",
+            }}
+          >
+            <Pill
+              variant={pill.variant}
+              size="sm"
+              icon={pill.icon}
+              className="opacity-60 shadow-sm transition-opacity duration-300 hover:opacity-80"
+            >
+              {pill.text}
+            </Pill>
+          </div>
+        ))}
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 mx-auto max-w-2xl">
+        <div className="mb-8 text-center">
+          <h1 className="tablet:text-4xl desktop:text-5xl text-foreground tablet:mb-4 from-foreground to-muted-foreground mb-3 bg-linear-to-br bg-clip-text text-3xl leading-tight font-bold">
+            ¿Qué curso buscas?
+          </h1>
+          <p className="text-lg text-muted-foreground tablet:px-0 mx-auto max-w-xl px-4">
+            Todo lo que necesitas para elegir tus cursos en la UC.
+          </p>
+        </div>
+
+        <div className="relative">
+          <form
+            onSubmit={handleSearch}
+            className="group relative"
+            role="search"
+            aria-label="Buscar cursos"
+          >
+            <div className="relative">
+              <Search
+                onSearch={handleSearchChange}
+                placeholder="Buscar por nombre o sigla del curso..."
+                initialValue={searchTerm}
+                className="w-full shadow-md"
+                inputClassName="h-12"
+              />
+            </div>
+            <div id="search-instructions" className="sr-only">
+              Escribe el nombre o sigla del curso que buscas y presiona Enter para buscar
+            </div>
+            <button type="submit" className="sr-only">
+              Buscar cursos
+            </button>
+          </form>
+        </div>
+
+        <div
+          className="tablet:flex-row tablet:gap-4 mt-4 flex flex-col justify-center gap-3 pt-4"
+          role="group"
+          aria-label="Acciones de navegación"
+        >
+          <Button asChild className="bg-white shadow-sm" variant="outline" size="lg">
+            <Link
+              href={ROUTES.CATALOG}
+              aria-label="Ver todos los cursos disponibles en el catálogo"
+            >
+              Ver todos los cursos
+            </Link>
+          </Button>
+
+          <Button
+            className="bg-white shadow-sm"
+            variant="outline"
+            size="lg"
+            onClick={() => (window.location.href = ROUTES.CONTRIBUTORS)}
+            aria-label="Contribuye al proyecto"
+            icon={Users}
+          >
+            Contribuye al proyecto
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

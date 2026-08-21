@@ -14,11 +14,11 @@ import {
   LanguageIcon,
   StarIcon,
   AreaIcon,
-} from "@/components/icons/icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Pill } from "@/components/ui/pill";
-import { Button } from "@/components/ui/button";
-import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
+} from "@/components/icons/Icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/Collapsible";
+import { Pill } from "@/components/ui/Pill";
+import { Button } from "@/components/ui/Button";
+import { Combobox, type ComboboxOption } from "@/components/ui/Combobox";
 import { toast } from "sonner";
 import type { ScheduleMatrix, CourseSections, CourseSection, Course } from "@/types/types";
 import { createScheduleMatrix, convertCourseDataToSections } from "@/lib/scheduleMatrix";
@@ -35,7 +35,15 @@ import QuotaHistorySection, { type QuotaTimeline } from "@/components/courses/Qu
 import { sectionFitsScheduleModuleFilter } from "@/lib/scheduleModuleFilter";
 
 // Semestres válidos extraídos del tipo generado para /data/quota/{sigle}
-export const SEMESTERS = ["2026-1", "2025-2", "2025-1", "2024-3", "2024-2", "2024-1"] as const;
+export const SEMESTERS = [
+  "2026-2",
+  "2026-1",
+  "2025-2",
+  "2025-1",
+  "2024-3",
+  "2024-2",
+  "2024-1",
+] as const;
 export type ValidSemester = (typeof SEMESTERS)[number];
 
 async function fetchSemesterSections(semester: string, sigle: string): Promise<CourseSections> {
@@ -48,6 +56,7 @@ async function fetchSemesterSections(semester: string, sigle: string): Promise<C
 
 async function fetchQuotaTimeline(semester: ValidSemester, sigle: string): Promise<QuotaTimeline> {
   const { data } = await staticDataClient.GET("/data/quota/{sigle}", {
+    // @ts-expect-error: The static data API client types don't yet support query parameters, but the endpoint does accept them.
     params: { path: { sigle }, query: { semester } },
   });
   return (data?.quota ?? {}) as QuotaTimeline;
@@ -325,7 +334,7 @@ export default function SectionsCollapsible({
       {!externalSemester && (
         <div className="bg-accent border-border mb-3 flex flex-col gap-3 rounded-md border px-4 py-3 tablet:flex-row tablet:items-center tablet:justify-between tablet:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="bg-orange-light text-orange border-orange/20 shrink-0 rounded-lg border p-2">
+            <div className="bg-orange text-orange-foreground border-orange-border shrink-0 rounded-lg border p-2">
               <CalendarIcon className="h-5 w-5 fill-current" />
             </div>
             <div className="min-w-0">

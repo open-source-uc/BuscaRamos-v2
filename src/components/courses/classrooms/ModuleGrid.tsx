@@ -94,9 +94,7 @@ export default function ModuleGrid({ schedule }: Props) {
                                 className="leading-tight break-words whitespace-normal"
                                 title={String(Array.isArray(it) ? (it as unknown[]).join("-") : it)}
                               >
-                                {Array.isArray(it)
-                                  ? (it as CourseAndSection[]).join("-")
-                                  : String(it)}
+                                {Array.isArray(it) ? it.join("-") : String(it)}
                               </li>
                             ))}
                           </ul>
