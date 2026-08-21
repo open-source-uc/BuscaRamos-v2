@@ -5,12 +5,25 @@ import {
   OccupiedStatus,
   UcModule,
 } from "@/types/types";
-import rawClassroomData from "@/data/horario-por-sala.json";
 
-const classroomData = rawClassroomData as unknown as ClassroomSchedules;
+const CLASSROOM_DATA_URL = "https://public.osuc.dev/horarios_por_sala_2026-2.json";
+let classroomDataPromise: Promise<ClassroomSchedules> | null = null;
 
-async function getClassroomData(): Promise<ClassroomSchedules> {
-  return classroomData;
+function getClassroomData(): Promise<ClassroomSchedules> {
+  classroomDataPromise ??= fetch(CLASSROOM_DATA_URL, { cache: "force-cache" })
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch classroom data: HTTP ${response.status}`);
+      }
+
+      return (await response.json()) as ClassroomSchedules;
+    })
+    .catch((error) => {
+      classroomDataPromise = null;
+      throw error;
+    });
+
+  return classroomDataPromise;
 }
 
 async function getCampusData(campus: Campus) {
