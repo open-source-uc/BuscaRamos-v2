@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ClassroomsPage() {
-  const user = process.env.NODE_ENV === "development" ? true : await authenticateUser();
+  const user = await authenticateUser();
 
   if (!user) {
     redirect(`https://auth.osuc.dev?ref=${encodeURIComponent(`${BASE_URL}${ROUTES.CLASSROOMS}`)}`);
@@ -26,7 +26,7 @@ export default async function ClassroomsPage() {
           <div className="relative grid gap-7 tablet:grid-cols-[minmax(0,1fr)_14rem] tablet:items-end lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8">
             <div className="max-w-3xl">
               <h1 className="text-pretty text-4xl font-bold tracking-[-0.035em] tablet:text-5xl lg:text-6xl">
-                Encuentra una sala antes de llegar.
+                Planifica tu uso de las instalaciones universitarias.
               </h1>
               <p className="text-muted-foreground mt-4 max-w-2xl text-base leading-7 tablet:text-lg">
                 Consulta disponibilidad por campus y módulo, o revisa el horario completo de una

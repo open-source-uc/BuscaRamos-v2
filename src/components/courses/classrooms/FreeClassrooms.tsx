@@ -1,5 +1,6 @@
 "use client";
 
+import { DoorOpen, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Campus, UcModule } from "@/types/types";
 import { getAvailableCampuses, getFreeClassroomsPerModule } from "@/lib/classroomSchedule";
@@ -89,90 +90,112 @@ export default function FreeClassrooms() {
   }
 
   return (
-    <div className="border-border rounded-2xl border bg-card p-4 shadow-sm">
-      <div className="mb-3 flex items-center justify-between gap-3">
+    <div className="border-border bg-card border p-4 tablet:p-6">
+      <div className="mb-5 flex items-start justify-between gap-3 border-b border-border pb-4">
         <div>
-          <h3 className="text-base font-semibold">Salas libres</h3>
-          <p className="text-muted-foreground text-sm">
-            Selecciona campus y módulo para ver las salas libres.
-          </p>
+          <h3 className="text-base font-semibold">Disponibilidad</h3>
+          <p className="text-muted-foreground mt-1 text-sm">Selecciona campus y módulo.</p>
         </div>
-        <div className="text-sm text-muted-foreground">
-          {loading ? "Cargando..." : `${filtered.length} mostradas`}
+        <div className="bg-muted text-muted-foreground shrink-0 px-2.5 py-1 text-xs font-medium tabular-nums">
+          {loading ? "Consultando…" : hasSearched ? `${filtered.length} salas` : "Listo"}
         </div>
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-2">
-        <select
-          aria-label="Seleccionar campus"
-          value={campus ?? ""}
-          onChange={(e) => setCampus(e.target.value as Campus)}
-          disabled={loadingCampuses || campuses.length === 0}
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
-        >
-          {loadingCampuses && <option value="">Cargando campus...</option>}
-          {campuses.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <label className="grid gap-2 text-sm font-medium">
+          Campus
+          <select
+            name="campus"
+            value={campus ?? ""}
+            onChange={(e) => setCampus(e.target.value as Campus)}
+            disabled={loadingCampuses || campuses.length === 0}
+            className="border-border bg-background h-11 rounded-none border px-3 text-sm font-normal focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            {loadingCampuses && <option value="">Cargando campus…</option>}
+            {campuses.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <select
-          aria-label="Seleccionar módulo"
-          value={module}
-          onChange={(e) => setModule(e.target.value)}
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
-        >
-          {allModuleOptions.map((opt) => (
-            <option key={opt.code} value={opt.code}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+        <label className="grid gap-2 text-sm font-medium">
+          Módulo
+          <select
+            name="module"
+            value={module}
+            onChange={(e) => setModule(e.target.value)}
+            className="border-border bg-background h-11 rounded-none border px-3 text-sm font-normal focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            {allModuleOptions.map((opt) => (
+              <option key={opt.code} value={opt.code}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
-      <div className="mt-3 flex flex-col gap-2 tablet:flex-row">
+      <div className="mt-4 flex flex-col gap-2 tablet:flex-row">
         <input
-          placeholder="Filtrar aulas (ej. A1)"
+          aria-label="Filtrar salas libres"
+          autoComplete="off"
+          name="room-filter"
+          placeholder="Filtrar salas, ej. A1…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          className="border-border bg-background h-11 min-w-0 flex-1 rounded-none border px-3 text-sm placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         />
         <button
           type="button"
           onClick={() => campus && displayedFreeClassrooms(campus, module)}
           disabled={!campus || loading}
-          className="bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
+          className="bg-primary text-primary-foreground flex h-11 shrink-0 items-center justify-center gap-2 px-5 text-sm font-semibold transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loading ? "Cargando..." : "Buscar"}
+          <SearchIcon aria-hidden="true" className="h-4 w-4" />
+          {loading ? "Consultando…" : "Ver salas"}
         </button>
         <button
           type="button"
           onClick={clearSearch}
-          className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent/70"
+          className="border-border bg-background h-11 shrink-0 border px-4 text-sm font-medium transition-colors hover:bg-accent/70 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           Limpiar
         </button>
       </div>
 
-      {error && <p className="text-red-foreground mt-3 text-sm">{error}</p>}
+      {error && (
+        <p className="text-red-foreground mt-4 text-sm" aria-live="polite">
+          {error}
+        </p>
+      )}
 
-      <div className="mt-4 grid gap-2">
+      <div className="mt-5 grid gap-3" aria-busy={loading} aria-live="polite">
         {hasSearched && results.length === 0 && !loading && !error ? (
-          <div className="text-muted-foreground text-sm">
+          <div className="border-border bg-muted/40 border border-dashed p-5 text-sm text-muted-foreground">
             No hay aulas libres para el módulo seleccionado.
           </div>
         ) : results.length > 0 && filtered.length === 0 ? (
-          <div className="text-muted-foreground text-sm">
+          <div className="border-border bg-muted/40 border border-dashed p-5 text-sm text-muted-foreground">
             No hay salas que coincidan con el filtro.
           </div>
         ) : filtered.length > 0 ? (
-          <div className="grid auto-rows-fr grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid auto-rows-fr grid-cols-1 gap-2 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
             {filtered.map((room) => (
-              <div key={room} className="rounded-lg border border-border p-3 text-left text-sm">
-                <div className="font-semibold">{room}</div>
-                <div className="text-muted-foreground text-xs">Libre</div>
+              <div
+                key={room}
+                className="border-border bg-background flex min-w-0 items-center gap-3 border p-3 text-left text-sm"
+              >
+                <div className="bg-blue text-blue-foreground flex h-8 w-8 shrink-0 items-center justify-center">
+                  <DoorOpen aria-hidden="true" className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <div className="break-words font-semibold" translate="no">
+                    {room}
+                  </div>
+                  <div className="text-muted-foreground mt-1 text-xs">Disponible</div>
+                </div>
               </div>
             ))}
           </div>
