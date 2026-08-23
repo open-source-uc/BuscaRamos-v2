@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { ClassroomSearch } from "@/components/courses/classrooms/ClassroomSearch";
 import FreeClassrooms from "@/components/courses/classrooms/FreeClassrooms";
+import { authenticateUser } from "@/lib/auth/auth";
+import { BASE_URL, ROUTES } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Salas",
   description: "Consulta salas libres y revisa su ocupación por módulo.",
 };
 
-export default function ClassroomsPage() {
+export default async function ClassroomsPage() {
+  const user = await authenticateUser();
+
+  if (!user) {
+    redirect(`https://auth.osuc.dev?ref=${encodeURIComponent(`${BASE_URL}${ROUTES.CLASSROOMS}`)}`);
+  }
+
   return (
     <main className="bg-background min-h-screen">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 tablet:px-6 lg:px-8">

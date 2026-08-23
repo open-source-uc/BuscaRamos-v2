@@ -6,11 +6,11 @@ import type {
   UcModule,
 } from "@/types/types";
 
-const CLASSROOM_DATA_URL = "https://public.osuc.dev/horarios_por_sala_2026-2.json";
+const CLASSROOM_DATA_URL = "/api/classrooms";
 let classroomDataPromise: Promise<ClassroomSchedules> | null = null;
 
 function getClassroomData(): Promise<ClassroomSchedules> {
-  classroomDataPromise ??= fetch(CLASSROOM_DATA_URL, { cache: "force-cache" })
+  classroomDataPromise ??= fetch(CLASSROOM_DATA_URL, { cache: "no-store" })
     .then(async (response) => {
       if (!response.ok) {
         throw new Error(`Failed to fetch classroom data: HTTP ${response.status}`);
