@@ -9,11 +9,23 @@ import type {
 const CLASSROOM_DATA_URL = "/api/classrooms";
 let classroomDataPromise: Promise<ClassroomSchedules> | null = null;
 
+type ClassroomDownloadResponse = {
+  url: string;
+};
+
 function getClassroomData(): Promise<ClassroomSchedules> {
   classroomDataPromise ??= fetch(CLASSROOM_DATA_URL, { cache: "no-store" })
     .then(async (response) => {
       if (!response.ok) {
-        throw new Error(`Failed to fetch classroom data: HTTP ${response.status}`);
+        throw new Error(`Failed to get classroom download URL: HTTP ${response.status}`);
+      }
+
+      return (await response.json()) as ClassroomDownloadResponse;
+    })
+    .then(async ({ url }) => {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Failed to download classroom data: HTTP ${response.status}`);
       }
 
       return (await response.json()) as ClassroomSchedules;

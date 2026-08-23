@@ -9,6 +9,9 @@ declare namespace Cloudflare {
     DB: D1Database;
     ASSETS: Fetcher;
     API_SECRET: string;
+    R2_ACCESS_KEY_ID: string;
+    R2_SECRET_ACCESS_KEY: string;
+    R2_ACCOUNT_ID: string;
     STATIC_DATA_BASE_URL: string;
     CLOUDFLARE_API_TOKEN: string;
     CLOUDFLARE_ACCOUNT_ID: string;
@@ -22,7 +25,13 @@ declare namespace NodeJS {
   interface ProcessEnv extends StringifyValues<
     Pick<
       Cloudflare.Env,
-      "API_SECRET" | "STATIC_DATA_BASE_URL" | "CLOUDFLARE_API_TOKEN" | "CLOUDFLARE_ACCOUNT_ID"
+      | "API_SECRET"
+      | "R2_ACCESS_KEY_ID"
+      | "R2_SECRET_ACCESS_KEY"
+      | "R2_ACCOUNT_ID"
+      | "STATIC_DATA_BASE_URL"
+      | "CLOUDFLARE_API_TOKEN"
+      | "CLOUDFLARE_ACCOUNT_ID"
     >
   > {}
 }
