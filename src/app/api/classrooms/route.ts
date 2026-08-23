@@ -13,14 +13,22 @@ export const GET = async () => {
   }
 
   const { env } = getCloudflareContext();
+  const accountId = env.R2_ACCOUNT_ID ?? process.env.CLOUDFLARE_ACCOUNT_ID;
+  const accessKeyId = env.R2_ACCESS_KEY_ID ?? process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = env.R2_SECRET_ACCESS_KEY ?? process.env.R2_SECRET_ACCESS_KEY;
+
+  if (!accountId || !accessKeyId || !secretAccessKey) {
+    return new Response("Classroom download signing is not configured", { status: 500 });
+  }
+
   const client = new AwsClient({
-    accessKeyId: env.R2_ACCESS_KEY_ID,
-    secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+    accessKeyId,
+    secretAccessKey,
     service: "s3",
     region: "auto",
   });
   const url = new URL(
-    `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${CLASSROOM_DATA_BUCKET}/${CLASSROOM_DATA_KEY}`
+    `https://${accountId}.r2.cloudflarestorage.com/${CLASSROOM_DATA_BUCKET}/${CLASSROOM_DATA_KEY}`
   );
   url.searchParams.set("X-Amz-Expires", String(SIGNED_URL_TTL_SECONDS));
   const signedRequest = await client.sign(new Request(url, { method: "GET" }), {
