@@ -6,6 +6,7 @@ export const ROUTES = {
   REVIEWS: "/reviews",
   CURRICULUM: "/curriculum",
   SCHEDULE: "/schedule",
+  CLASSROOMS: "/classrooms",
   CONTRIBUTORS: "/contributors",
   ABOUT: "https://osuc.dev/about/",
   CONDUCT: "https://osuc.dev/conduct/",
@@ -20,6 +21,7 @@ export const HEADER_LINKS = [
   { label: "Reseñas", href: ROUTES.REVIEWS },
   { label: "Mallas", href: ROUTES.CURRICULUM },
   { label: "Horario", href: ROUTES.SCHEDULE },
+  { label: "Salas", href: ROUTES.CLASSROOMS },
   { label: "Contribuidores", href: ROUTES.CONTRIBUTORS },
 ];
 
@@ -30,6 +32,7 @@ export const FOOTER_SECTIONS = [
       { label: "Inicio", href: ROUTES.HOME },
       { label: "Catálogo", href: ROUTES.CATALOG },
       { label: "Reseñas", href: ROUTES.REVIEWS },
+      { label: "Salas", href: ROUTES.CLASSROOMS },
       { label: "Contribuidores", href: ROUTES.CONTRIBUTORS },
     ],
   },

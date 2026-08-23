@@ -117,7 +117,7 @@ export const yearSchedule2026 = {
       { date: "2026-09-17", name: "Receso de docencia - Jueves", type: "custom" },
       { date: "2026-09-18", name: "Receso de docencia - Viernes", type: "custom" },
       { date: "2026-09-19", name: "Receso de docencia - Sábado", type: "custom" },
-      
+
       // [No hay evaluaciones pero si clases]
       // Semana Universitaria
       // { date: "2026-08-17", name: "Semana Universitaria - Lunes", type: "custom" },

@@ -8,6 +8,9 @@
   "compatibility_date": "2026-03-01",
   "compatibility_flags": ["nodejs_compat"],
   "main": "custom-worker.ts",
+  "vars": {
+    "R2_ACCOUNT_ID": "bbe51897ce76ff56719feb8afc70e9d5",
+  },
   "triggers": {
     // Regenera courses-score.ndjson cada 8 horas (UTC)
     "crons": ["0 */8 * * *"],

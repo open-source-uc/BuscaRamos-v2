@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${BASE_URL}/${ROUTES.SCHEDULE}`,
+      url: `${BASE_URL}${ROUTES.SCHEDULE}`,
       changeFrequency: "monthly",
       priority: 1,
     },
